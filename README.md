@@ -2,7 +2,7 @@
 
 A small event management and ticketing utility.
 
-![](/home/dragoon/Code/Coriolis/docs/images/FrontPage.png)
+![](docs/images/FrontPage.png)
 
 
 ## Development
