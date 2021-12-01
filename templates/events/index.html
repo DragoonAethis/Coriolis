@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load i18n humanize events %}
+
+{% block head_title %}{{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{% blocktranslate with name=event.name %}Tickets for {{ name }}{% endblocktranslate %}</h1>
+            <h4 class="text-muted">{{ event.date_from }} ({{ event.date_from|naturaltime }}) - {{ event.date_to.date }}</h4>
+            <h4 class="text-muted"><a href="{{ event.location_link }}">{{ event.location }}</a></h4>
+            <div class="mb-3">{% render_markdown event.description %}</div>
+
+            {% if request.user.is_authenticated %}
+                <div class="coriolis-tickets mb-4">
+                    <h2>{% translate "Your tickets" %}</h2>
+                    {% if tickets %}
+                        {% for ticket in tickets %}
+                        <div class="card mb-2 {% if ticket.is_cancelled %}card-ticket-cancelled{% endif %}">
+                            <h5 class="card-header">{{ ticket.type.name }}</h5>
+                            <div class="card-body">
+                                <h5 class="card-title"><b>{{ ticket.type.code_prefix }}{{ ticket.code|stringformat:"04d" }}</b> {{ ticket.name }}</h5>
+                                <p class="card-text">
+                                    {% translate "Status" %}: <b>{{ ticket.get_status_display }}</b><br>
+                                    {% if not ticket.is_cancelled %}
+                                        {% translate "Price" %}: <b>{{ ticket.type.price }}zł</b>
+                                    {% endif %}
+                                </p>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with ticket actions">
+                                    <a href="{% url 'ticket_details' event.slug ticket.id %}"
+                                       class="btn {% if ticket.is_cancelled %}btn-outline-secondary{% else %}btn-primary{% endif %} me-2">
+                                        {% translate "Details" %}
+                                    </a>
+                                    {% if ticket.payment_set.count == 0 and ticket.status == 'OKNP' %}
+                                        <a href="#" class="btn btn-primary me-2">{% translate "Pay Online" %}</a>
+                                    {% endif %}
+                                    {% if ticket.status == 'OKNP' %}
+                                        <a href="{% url 'ticket_cancel' event.slug ticket.id %}" class="btn btn-danger me-2">{% translate "Cancel" %}</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>{% translate "You have no tickets for this event." %}</p>
+                    {% endif %}
+
+                    {% if can_purchase_tickets %}
+                        <a class="btn btn-lg btn-primary" href="{% url 'ticket_picker' event.slug %}">{% translate "Buy a ticket" %}</a>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">{% translate "Online ticket sales for this event have ended. You can purchase a ticket on site." %}</div>
+                    {% endif %}
+                </div>
+
+                <div class="coriolis-applications">
+                    <h2>{% translate "Your applications" %}</h2>
+                    {% if applications %}
+                        {% for application in applications %}
+                        <div class="card mb-2">
+                            <h5 class="card-header">{{ application.type.name }}</h5>
+                            <div class="card-body">
+                                <h5 class="card-title"><b>{{ application.name }}</b></h5>
+                                <p class="card-text">{% translate "Status" %}: <b>{{ application.get_status_display }}</b></p>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with application actions">
+                                    <a href="{% url 'application_details' event.slug application.id %}" class="btn btn-primary me-2">{% translate "Details" %}</a>
+                                    {% if ticket.status == 'WAIT' %}
+                                        <a href="#" class="btn btn-danger me-2">{% translate "Cancel" %}</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>{% translate "You have no applications for this event." %}</p>
+                    {% endif %}
+
+                    {% if new_application_types %}
+                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        {% for type in new_application_types %}
+                            <div class="btn-group me-2" role="group">
+                                <a href="{% url 'application_form' event.slug type.id %}" class="btn btn-primary">{{ type.button_label }}</a>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning" role="alert">{% translate "Applications for this event are closed." %}</div>
+                    {% endif %}
+                </div>
+
+            {% else %}
+                <a class="btn btn-lg btn-primary" href="{% url 'account_login' %}">{% translate "Sign in to buy or manage tickets" %}</a>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}

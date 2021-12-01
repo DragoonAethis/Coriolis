@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Application details" %}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h5 class="text-muted">{% translate "Application details" %}</h5>
+            <h1>{{ application.name }}</h1>
+            <h5>{% translate "Type" %}: <b>{{ application.type }}</b></h5>
+            <h5>{% translate "Status" %}: <b>{{ application.get_status_display }}</b></h5>
+            <hr>
+            <h5>{% translate "Name" %}: <b>{{ application.name }}</b></h5>
+            <h5>{% translate "Email" %}: <b>{{ application.email }}</b></h5>
+            <h5>{% translate "Phone" %}: <b>{{ application.phone }}</b></h5>
+            <hr>
+            <h5>{% translate "Application" %}:</h5>
+            <pre>{{ application.application }}</pre>
+            <hr>
+            <h5>{% translate "Org Notes" %}:</h5>
+            <pre>{{ application.org_notes }}</pre>
+            <hr>
+            <p>{% translate "If you would like to change application details, please contact the event organizers." %}</p>
+        </div>
+    </div>
+{% endblock %}

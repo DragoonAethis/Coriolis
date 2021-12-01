@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags events %}
+
+{% block head_title %}{{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>{% blocktranslate with code=ticket.get_code %}Cancel ticket {{ code }}{% endblocktranslate %}</h1>
+    <div class="mb-2">{% translate "Are you sure you want to cancel this ticket?" %}</div>
+    {% crispy form %}
+{% endblock %}

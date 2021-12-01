@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "coriolis"
+version = "0.1.0"
+description = "Small event ticketing and management tool"
+license = "AGPL-3.0-or-later"
+authors = ["Ryszard Knop <rk@dragonic.eu>"]
+repository = "https://github.com/DragoonAethis/Coriolis"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+sentry-sdk = "^1.4.3"
+Django = "^3.2.9"
+django-allauth = "^0.46.0"
+django-environ = "^0.8.1"
+django-debug-toolbar = "^3.2.2"
+django-phonenumber-field = {extras = ["phonenumberslite"], version = "^6.0.0"}
+django-crispy-forms = "^1.13.0"
+crispy-bootstrap5 = "^0.6"
+gunicorn = "^20.1.0"
+whitenoise = {extras = ["brotli"], version = "^5.3.0"}
+psycopg2 = "^2.9.2"
+django-allauth-2fa = "^0.8"
+django-colorfield = "^0.4.5"
+Pillow = "^8.4.0"
+Markdown = "^3.3.6"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

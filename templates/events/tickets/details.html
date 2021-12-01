@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Ticket details" %}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <h5 class="text-muted">{% translate "Ticket details" %}</h5>
+            <h1 class="{% if ticket.is_cancelled %}text-muted text-decoration-line-through{% endif %}"><b>{{ ticket.type.code_prefix }}{{ ticket.code|stringformat:"04d" }}</b> {{ ticket.name }}</h1>
+            <h5>{% translate "Type" %}: <b>{{ ticket.type }}</b></h5>
+            <h5>{% translate "Status" %}: <b>{{ ticket.get_status_display }}</b></h5>
+            <h5>{% translate "Price" %}: <b>{{ ticket.type.price }}zł</b></h5>
+            <hr>
+            <h5>{% translate "Name" %}: <b>{{ ticket.name }}</b></h5>
+            <h5>{% translate "Email" %}: <b>{{ ticket.email }}</b></h5>
+            <h5>{% translate "Phone" %}: <b>{{ ticket.phone }}</b></h5>
+            <h5>{% translate "Notes" %}: <b>{{ ticket.notes }}</b></h5>
+            <hr>
+            <!-- TODO EDIT FORM -->
+            <h5>{% translate "Nickname" %}: <b>{{ ticket.nickname }}</b></h5>
+            <h5>{% translate "City" %}: <b>{{ ticket.city }}</b></h5>
+            <hr>
+            <p>{% translate "If you would like to change ticket details, please contact the event organizers." %}</p>
+        </div>
+        <div class="col-12 col-md-4">
+            {% if ticket.image %}
+            <h5>{% translate "Image" %}:</h5>
+            <div>
+                <img class="img-fluid" src="{{ ticket.image.url }}" alt="">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

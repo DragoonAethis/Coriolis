@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load events %}
+
+{% block head_title %}{% translate "Select a Ticket" %} - {{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            {% for type in types %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h4 class="card-title"><i class="bi bi-ticket-perferated-fill ticket-icon" style="color: {{ type.color }}"></i> {{ type.name }} ({{ type.price }}zł)</h4>
+                        <div class="card-text">{% render_markdown type.description %}</div>
+                        <a href="{% url 'registration_form' event.slug type.id %}" class="btn btn-primary stretched-link">{% translate "Select this ticket" %}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

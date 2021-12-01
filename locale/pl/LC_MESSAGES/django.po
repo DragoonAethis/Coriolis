@@ -1,0 +1,985 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-01 19:15+0100\n"
+"PO-Revision-Date: 2021-12-01 22:56+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Generator: Poedit 3.0\n"
+
+#: events/forms/applications.py:12 events/forms/registration.py:12
+#: templates/events/applications/application_details.html:15
+#: templates/events/tickets/details.html:16
+msgid "Name"
+msgstr "Nazwa"
+
+#: events/forms/applications.py:13
+msgid "Your first and last name, or the organization you represent."
+msgstr "Twoje imię i nazwisko, lub organizacja którą reprezentujesz."
+
+#: events/forms/applications.py:14 events/forms/registration.py:14
+msgid "E-mail Address"
+msgstr "Adres e-mail"
+
+#: events/forms/applications.py:15 events/forms/registration.py:15
+msgid "E-mail address for notifications."
+msgstr "Adres e-mail do powiadomień."
+
+#: events/forms/applications.py:16 events/forms/registration.py:16
+msgid "Phone Number"
+msgstr "Numer Telefonu"
+
+#: events/forms/applications.py:17
+msgid "Required for notifications and contact with organizers."
+msgstr "Wymagane do powiadomień i kontaktu z organizatorami."
+
+#: events/forms/applications.py:18
+msgid "Form"
+msgstr "Formularz"
+
+#: events/forms/applications.py:28
+msgid "Submit Application"
+msgstr "Wyślij Zgłoszenie"
+
+#: events/forms/registration.py:13
+msgid "Your first and last name, as shown on the identifying document."
+msgstr "Twoje imię i nazwisko, tak jak widnieje na dokumencie identyfikującym."
+
+#: events/forms/registration.py:17
+msgid ""
+"Optional, used for SMS notifications. Organizers can contact you this way as "
+"well."
+msgstr "Opcjonalny, używany do powiadomień przed/w trakcie wydarzenia."
+
+#: events/forms/registration.py:20
+msgid "Notes for Organizers"
+msgstr "Notatki dla Organizatorów"
+
+#: events/forms/registration.py:21
+msgid ""
+"Optional, add some notes for organizers who will have to read them before "
+"the ticket is ready for use on the event."
+msgstr ""
+"Opcjonalnie, dodaj notatki dla organizatorów którzy muszą je przeczytać "
+"zanim twój bilet będzie gotowy do użycia na tym wydarzeniu."
+
+#: events/forms/registration.py:24 templates/events/tickets/details.html:22
+msgid "Nickname"
+msgstr "Ksywka"
+
+#: events/forms/registration.py:25
+msgid "Optional, your nickname to be printed on your ticket."
+msgstr "Opcjonalnie, twoja ksywka do druku na twoim bilecie."
+
+#: events/forms/registration.py:26 templates/events/tickets/details.html:23
+msgid "City"
+msgstr "Miasto"
+
+#: events/forms/registration.py:27
+msgid "Optional, city to be printed on your ticket."
+msgstr "Opcjonalnie, miasto do druku na twoim bilecie."
+
+#: events/forms/registration.py:28 templates/events/tickets/details.html:29
+msgid "Image"
+msgstr "Obrazek"
+
+#: events/forms/registration.py:29
+msgid "Optional, image to be printed on your ticket."
+msgstr "Opcjonalnie, obrazek do druku na twoim bilecie."
+
+#: events/forms/registration.py:39
+msgid "Register"
+msgstr "Zarejestruj się"
+
+#: events/forms/registration.py:43
+msgid "I am sure - cancel this ticket!"
+msgstr "Tak jest - anuluj ten bilet!"
+
+#: events/forms/registration.py:53
+msgid "Cancel ticket"
+msgstr "Anuluj bilet"
+
+#: events/models.py:17 events/models.py:48 events/models.py:66
+#: events/models.py:110 events/models.py:148 events/models.py:159
+#: events/models.py:191
+msgid "event"
+msgstr "wydarzenie"
+
+#: events/models.py:18
+msgid "events"
+msgstr "wydarzenia"
+
+#: events/models.py:20 events/models.py:49 events/models.py:67
+#: events/models.py:115 events/models.py:160 events/models.py:195
+msgid "name"
+msgstr "nazwa"
+
+#: events/models.py:21
+msgid "Human-readable name for the event."
+msgstr "Nazwa wydarzenia czytelna dla człowieka."
+
+#: events/models.py:22 events/models.py:50 events/models.py:161
+msgid "slug"
+msgstr "slug"
+
+#: events/models.py:23 events/models.py:51
+msgid "Short name used in links."
+msgstr "Krótka nazwa używana w linkach."
+
+#: events/models.py:24
+msgid "location"
+msgstr "lokalizacja"
+
+#: events/models.py:25
+msgid "Physical place where the event will take place."
+msgstr "Fizyczne miejsce w którym to wydarzenie ma miejsce."
+
+#: events/models.py:26
+msgid "location link"
+msgstr "link do lokalizacji"
+
+#: events/models.py:27
+msgid "Link to Google Maps or OSM."
+msgstr "Link do Google Maps lub OSM."
+
+#: events/models.py:28
+msgid "website link"
+msgstr "link do strony"
+
+#: events/models.py:29
+msgid "Link to the main event website."
+msgstr "Link do głównej strony wydarzenia."
+
+#: events/models.py:31
+msgid "date from"
+msgstr "data od"
+
+#: events/models.py:32
+msgid "date to"
+msgstr "data do"
+
+#: events/models.py:35 events/models.py:68 events/models.py:167
+msgid "description"
+msgstr "opis"
+
+#: events/models.py:36
+msgid "Text shown on the main page. Supports Markdown."
+msgstr "Tekst wyświetlany na stronie głównej. Wspiera Markdown."
+
+#: events/models.py:37
+msgid "ticket code length"
+msgstr "długość kodu biletu"
+
+#: events/models.py:52
+msgid "hidden"
+msgstr "ukryta"
+
+#: events/models.py:53
+msgid "Whenever to hide this page in the page listing."
+msgstr "Decyduje o ukryciu strony w listingu stron."
+
+#: events/models.py:54
+msgid "content"
+msgstr "treść"
+
+#: events/models.py:55
+msgid "Page content. Supports markdown."
+msgstr "Treść strony. Wspiera Markdown."
+
+#: events/models.py:63
+msgid "ticket type"
+msgstr "typ biletu"
+
+#: events/models.py:64
+msgid "ticket types"
+msgstr "typy biletów"
+
+#: events/models.py:69
+msgid "Shown in the ticket choice screen. Supports Markdown."
+msgstr "Wyświetlane na ekranie wyboru biletu. Wspiera Markdown."
+
+#: events/models.py:70
+msgid "long description"
+msgstr "długi opis"
+
+#: events/models.py:71
+msgid "Shown on the ticket purchase form. Supports Markdown."
+msgstr "Wyświetlane na formularzu zakupu biletu. Wspiera Markdown."
+
+#: events/models.py:72
+msgid "code prefix"
+msgstr "prefiks kodu"
+
+#: events/models.py:73
+msgid "Characters in front of all the ticket codes of this type."
+msgstr "Znaki wyświetlane na początku wszystkich kodów biletów tego typu."
+
+#: events/models.py:74
+msgid "price"
+msgstr "cena"
+
+#: events/models.py:75
+msgid "color"
+msgstr "kolor"
+
+#: events/models.py:76
+msgid "Extra color shown on the ticket choice screen."
+msgstr "Dodatkowy kolor wyświetlany na ekranie wyboru biletu."
+
+#: events/models.py:78 events/models.py:163
+msgid "registration from"
+msgstr "rejestracja od"
+
+#: events/models.py:79 events/models.py:165
+msgid "registration to"
+msgstr "rejestracja do"
+
+#: events/models.py:80
+msgid "self-registration"
+msgstr "samo-rejestracja"
+
+#: events/models.py:81
+msgid "Determines if the ticket can be purchased online."
+msgstr "Decyduje czy bilet może być kupiony online."
+
+#: events/models.py:83
+msgid "max tickets"
+msgstr "maks biletów"
+
+#: events/models.py:84
+msgid "tickets remaining"
+msgstr "pozostało biletów"
+
+#: events/models.py:92 events/models.py:149
+msgid "ticket"
+msgstr "bilet"
+
+#: events/models.py:93
+msgid "tickets"
+msgstr "bilety"
+
+#: events/models.py:102 events/models.py:185
+msgid "Cancelled"
+msgstr "Anulowany"
+
+#: events/models.py:103 events/models.py:186
+msgid "Waiting for Organizers"
+msgstr "Czeka na Organizatorów"
+
+#: events/models.py:104
+msgid "Ready (payment on site)"
+msgstr "Gotowy (płatność na miejscu)"
+
+#: events/models.py:105
+msgid "Ready (paid)"
+msgstr "Gotowy (opłacony)"
+
+#: events/models.py:106
+msgid "Used"
+msgstr "Użyty"
+
+#: events/models.py:107
+msgid "Used on site"
+msgstr "Użyty na miejscu"
+
+#: events/models.py:109 events/models.py:190
+msgid "user"
+msgstr "użytkownik"
+
+#: events/models.py:111 events/models.py:192
+msgid "type"
+msgstr "typ"
+
+#: events/models.py:112 events/models.py:193
+msgid "status"
+msgstr "status"
+
+#: events/models.py:116 events/models.py:197
+msgid "email"
+msgstr "email"
+
+#: events/models.py:117 events/models.py:196
+msgid "phone"
+msgstr "telefon"
+
+#: events/models.py:118
+msgid "Optional, used for notifications before/during the event"
+msgstr "Opcjonalny, używany do powiadomień przed/w trakcie wydarzenia"
+
+#: events/models.py:119
+msgid "notes"
+msgstr "notatki"
+
+#: events/models.py:120
+msgid "Optional, notes for organizers"
+msgstr "Opcjonalne, notatki dla organizatorów"
+
+#: events/models.py:122
+msgid "code"
+msgstr "kod"
+
+#: events/models.py:123
+msgid "Code printed on the ticket. Required for pickup on site."
+msgstr "Kod wydrukowany na bilecie. Wymagany do odbioru na miejscu."
+
+#: events/models.py:124
+msgid "nickname"
+msgstr "ksywka"
+
+#: events/models.py:125 events/models.py:127
+msgid "Printed on the customized ticket"
+msgstr "Drukowana na spersonalizowanym bilecie"
+
+#: events/models.py:126
+msgid "city"
+msgstr "miasto"
+
+#: events/models.py:128
+msgid "image"
+msgstr "obrazek"
+
+#: events/models.py:129
+msgid "Printed on the customized ticket, should be cropped to a square"
+msgstr ""
+"Drukowany na spersonalizowanym bilecie, powinien być przycięty do kwadratu"
+
+#: events/models.py:145
+msgid "payment"
+msgstr "płatność"
+
+#: events/models.py:146
+msgid "payments"
+msgstr "płatności"
+
+#: events/models.py:150
+msgid "backend"
+msgstr "backend"
+
+#: events/models.py:151
+msgid "data"
+msgstr "dane"
+
+#: events/models.py:156
+msgid "application type"
+msgstr "typ zgłoszenia"
+
+#: events/models.py:157
+msgid "application types"
+msgstr "typy zgłoszeń"
+
+#: events/models.py:162
+msgid "button label"
+msgstr "etykieta przycisku"
+
+#: events/models.py:164
+msgid "Date/time from which users can create these applications."
+msgstr "Data/godzina od której użytkownicy mogą tworzyć te zgłoszenia."
+
+#: events/models.py:166
+msgid "Date/time when the form for these applications closes."
+msgstr "Data/godzina gdy formularz tego zgłoszenia zamyka się."
+
+#: events/models.py:168
+msgid "Shown on the application form. Supports Markdown."
+msgstr "Pokazywane na ekranie zgłoszenia. Wspiera Markdown."
+
+#: events/models.py:169
+msgid "template"
+msgstr "szablon"
+
+#: events/models.py:170
+msgid "Default contents for the application form. Does not support formatting."
+msgstr "Domyślna zawartość formularza zgłoszenia. Nie wspiera formatowania."
+
+#: events/models.py:178 events/models.py:198
+msgid "application"
+msgstr "zgłoszenie"
+
+#: events/models.py:179
+msgid "applications"
+msgstr "zgłoszenia"
+
+#: events/models.py:187
+msgid "Approved"
+msgstr "Zatwierdzone"
+
+#: events/models.py:188
+msgid "Rejected"
+msgstr "Odrzucone"
+
+#: events/models.py:199
+msgid "org notes"
+msgstr "notatki organizatorów"
+
+#: events/views/applications.py:36
+msgid "This application cannot be submitted for this event!"
+msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
+
+#: events/views/applications.py:42
+msgid "This application is not yet open. Come back later."
+msgstr ""
+"Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
+
+#: events/views/applications.py:46
+msgid "This application submission period has ended."
+msgstr "Okres wysyłania tego zgłoszenia zakończył się."
+
+#: events/views/applications.py:77
+msgid ""
+"Your application was submitted successfully. Orgs will be in touch soon."
+msgstr ""
+"Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
+"skontaktują."
+
+#: events/views/misc.py:72
+msgid "You don't own this ticket!"
+msgstr "Nie posiadasz tego biletu!"
+
+#: events/views/misc.py:88
+msgid "You don't own this application!"
+msgstr "Nie posiadasz tego zgłoszenia!"
+
+#: events/views/misc.py:111 templates/events/index.html:52
+msgid ""
+"Online ticket sales for this event have ended. You can purchase a ticket on "
+"site."
+msgstr ""
+"Sprzedaż biletów online na to wydarzenie zakończyła się. Możesz kupić bilet "
+"na miejscu."
+
+#: events/views/registrations.py:41
+msgid "This ticket type cannot be sold for this event!"
+msgstr "Ten typ biletu nie może być sprzedany na to wydarzenie!"
+
+#: events/views/registrations.py:45
+msgid "You cannot purchase a ticket of this type online."
+msgstr "Nie możesz kupić biletu tego typu online."
+
+#: events/views/registrations.py:49
+msgid "We ran out of these tickets."
+msgstr "Ten rodzaj biletu wyprzedał się."
+
+#: events/views/registrations.py:55
+msgid "Online sales of this ticket type have not yet started."
+msgstr "Sprzedaż online biletów tego typu jeszcze się nie rozpoczęła."
+
+#: events/views/registrations.py:59
+msgid "Online sales of this ticket type have ended."
+msgstr "Sprzedaż online biletów tego typu zakończyła się."
+
+#: events/views/registrations.py:100
+msgid ""
+"MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."
+msgstr ""
+"MAKSYMALNA LICZBA KODÓW BILETÓW OSIĄGNIĘTA! Skontaktuj się z organizatorami "
+"wydarzenia ws. tej wiadomości."
+
+#: events/views/registrations.py:170
+msgid "Thank you for your registration! You can see your ticket details below."
+msgstr ""
+"Dziękujemy za rejestrację! Możesz znaleźć szczegóły swojego biletu poniżej."
+
+#: events/views/registrations.py:192
+msgid "You cannot cancel a ticket that is not yours!"
+msgstr "Nie możesz anulować biletu który nie jest twój!"
+
+#: events/views/registrations.py:196
+msgid ""
+"Cannot cancel a ticket with this status - please contact the organizers."
+msgstr ""
+"Nie możesz anulować biletu z tym statusem - skontaktuj się z organizatorami."
+
+#: events/views/registrations.py:200
+msgid "This ticket has attached payments - please contact the organizers."
+msgstr "Ten bilet ma podpięte płatności - skontaktuj się z organizatorami."
+
+#: events/views/registrations.py:219
+msgid "Ticket cancelled."
+msgstr "Bilet anulowany."
+
+#: templates/account/account_inactive.html:5
+#: templates/account/account_inactive.html:8
+msgid "Account Inactive"
+msgstr "Konto nieaktywne"
+
+#: templates/account/account_inactive.html:10
+msgid "This account is inactive."
+msgstr "To konto jest nieaktywne."
+
+#: templates/account/email.html:5 templates/account/email.html:8
+msgid "E-mail Addresses"
+msgstr "Adresy E-mail"
+
+#: templates/account/email.html:10
+msgid "The following e-mail addresses are associated with your account:"
+msgstr "Te adresy e-mail są powiązane z twoim kontem:"
+
+#: templates/account/email.html:22
+msgid "Verified"
+msgstr "Zweryfikowano"
+
+#: templates/account/email.html:24
+msgid "Unverified"
+msgstr "Niezweryfikowano"
+
+#: templates/account/email.html:26
+msgid "Primary"
+msgstr "Główny"
+
+#: templates/account/email.html:33
+msgid "Make Primary"
+msgstr "Uczyń Głównym"
+
+#: templates/account/email.html:34
+msgid "Re-send Verification"
+msgstr "Wyślij Weryfikację Ponownie"
+
+#: templates/account/email.html:35 templates/socialaccount/connections.html:35
+msgid "Remove"
+msgstr "Usuń"
+
+#: templates/account/email.html:42
+msgid "Warning:"
+msgstr "Uwaga:"
+
+#: templates/account/email.html:42
+msgid ""
+"You currently do not have any e-mail address set up. You should really add "
+"an e-mail address so you can receive notifications, reset your password, etc."
+msgstr ""
+"Aktualnie nie masz żadnych ustawionych żadnych adresów e-mail. Adres "
+"powinien zostać dodany aby otrzymywać powiadomienia, resetować hasło, itd."
+
+#: templates/account/email.html:47
+msgid "Add E-mail Address"
+msgstr "Dodaj Adres E-mail"
+
+#: templates/account/email.html:52
+msgid "Add E-mail"
+msgstr "Dodaj E-mail"
+
+#: templates/account/email.html:62
+msgid "Do you really want to remove the selected e-mail address?"
+msgstr ""
+
+#: templates/account/email_confirm.html:6
+#: templates/account/email_confirm.html:10
+msgid "Confirm E-mail Address"
+msgstr ""
+
+#: templates/account/email_confirm.html:16
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
+"address for user %(user_display)s."
+msgstr ""
+
+#: templates/account/email_confirm.html:20
+msgid "Confirm"
+msgstr ""
+
+#: templates/account/email_confirm.html:27
+#, python-format
+msgid ""
+"This e-mail confirmation link expired or is invalid. Please <a href="
+"\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+msgstr ""
+
+#: templates/account/login.html:7
+msgid "Sign In"
+msgstr "Zaloguj się"
+
+#: templates/account/login.html:12 templates/account/login.html:20
+#: templates/base.html:62
+msgid "Sign in"
+msgstr "Zaloguj się"
+
+#: templates/account/login.html:21 templates/account/password_change.html:14
+msgid "Forgot Password?"
+msgstr "Zapomniałeś hasła?"
+
+#: templates/account/login.html:22
+msgid "Sign up"
+msgstr "Zarejestruj się"
+
+#: templates/account/login.html:27
+#, python-format
+msgid ""
+"Please sign in with one\n"
+"        of your existing third party accounts. Or, <a href=\"%(signup_url)s"
+"\">sign up</a>\n"
+"        for a %(site_name)s account and sign in below:"
+msgstr ""
+
+#: templates/account/login.html:36
+msgid "or"
+msgstr "lub"
+
+#: templates/account/logout.html:5 templates/account/logout.html:8
+#: templates/account/logout.html:17
+msgid "Sign Out"
+msgstr "Wyloguj się"
+
+#: templates/account/logout.html:10
+msgid "Are you sure you want to sign out?"
+msgstr "Czy na pewno chcesz się wylogować?"
+
+#: templates/account/password_change.html:5
+#: templates/account/password_change.html:8
+#: templates/account/password_change.html:13
+#: templates/account/password_reset_from_key.html:4
+#: templates/account/password_reset_from_key.html:7
+#: templates/account/password_reset_from_key_done.html:4
+#: templates/account/password_reset_from_key_done.html:7
+msgid "Change Password"
+msgstr "Zmień Hasło"
+
+#: templates/account/password_reset.html:5
+#: templates/account/password_reset.html:9
+#: templates/account/password_reset_done.html:6
+#: templates/account/password_reset_done.html:9
+msgid "Password Reset"
+msgstr "Reset Hasła"
+
+#: templates/account/password_reset.html:14
+msgid ""
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
+msgstr ""
+
+#: templates/account/password_reset.html:19
+msgid "Reset My Password"
+msgstr ""
+
+#: templates/account/password_reset.html:22
+msgid "Please contact us if you have any trouble resetting your password."
+msgstr ""
+
+#: templates/account/password_reset_done.html:15
+msgid ""
+"We have sent you an e-mail. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:7
+msgid "Bad Token"
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:11
+#, python-format
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:17
+msgid "change password"
+msgstr ""
+
+#: templates/account/password_reset_from_key.html:20
+#: templates/account/password_reset_from_key_done.html:8
+msgid "Your password is now changed."
+msgstr ""
+
+#: templates/account/password_set.html:5 templates/account/password_set.html:8
+#: templates/account/password_set.html:13
+msgid "Set Password"
+msgstr ""
+
+#: templates/account/signup.html:5 templates/socialaccount/signup.html:5
+msgid "Signup"
+msgstr "Rejestracja"
+
+#: templates/account/signup.html:10 templates/account/signup.html:20
+#: templates/socialaccount/signup.html:8 templates/socialaccount/signup.html:19
+msgid "Sign Up"
+msgstr "Zarejestruj się"
+
+#: templates/account/signup.html:12
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr "Masz już konto? <a href=\"%(login_url)s\">Zaloguj się</a>."
+
+#: templates/account/signup_closed.html:5
+#: templates/account/signup_closed.html:8
+msgid "Sign Up Closed"
+msgstr "Rejestracja Zamknięta"
+
+#: templates/account/signup_closed.html:10
+msgid "We are sorry, but the sign up is currently closed."
+msgstr "Przepraszamy, lecz rejestracja jest aktualnie zamknięta."
+
+#: templates/account/verification_sent.html:5
+#: templates/account/verification_sent.html:8
+#: templates/account/verified_email_required.html:5
+#: templates/account/verified_email_required.html:8
+msgid "Verify Your E-mail Address"
+msgstr ""
+
+#: templates/account/verification_sent.html:10
+msgid ""
+"We have sent an e-mail to you for verification. Follow the link provided to "
+"finalize the signup process. Please contact us if you do not receive it "
+"within a few minutes."
+msgstr ""
+
+#: templates/account/verified_email_required.html:12
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your e-mail address. "
+msgstr ""
+
+#: templates/account/verified_email_required.html:16
+msgid ""
+"We have sent an e-mail to you for\n"
+"verification. Please click on the link inside this e-mail. Please\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: templates/account/verified_email_required.html:20
+#, python-format
+msgid ""
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
+msgstr ""
+
+#: templates/base.html:30
+msgid "Event pages"
+msgstr "Strony wydarzeń"
+
+#: templates/base.html:44
+#, python-format
+msgid "Logged in as %(email)s"
+msgstr "Zalogowano jako %(email)s"
+
+#: templates/base.html:48
+msgid "Main event website"
+msgstr "Główna strona wydarzenia"
+
+#: templates/base.html:51
+msgid "Security"
+msgstr "Zabezpieczenia"
+
+#: templates/base.html:52
+msgid "Change password"
+msgstr "Zmień hasło"
+
+#: templates/base.html:53
+msgid "E-mail accounts"
+msgstr "Konta e-mail"
+
+#: templates/base.html:54
+msgid "Social accounts"
+msgstr "Konta społecznościowe"
+
+#: templates/base.html:55
+msgid "Configure 2FA"
+msgstr "Skonfiguruj 2FA"
+
+#: templates/base.html:57
+msgid "Sign out"
+msgstr "Wyloguj się"
+
+#: templates/events/applications/application_details.html:4
+#: templates/events/applications/application_details.html:10
+msgid "Application details"
+msgstr "Szczegóły zgłoszenia"
+
+#: templates/events/applications/application_details.html:12
+#: templates/events/tickets/details.html:12
+msgid "Type"
+msgstr "Typ"
+
+#: templates/events/applications/application_details.html:13
+#: templates/events/index.html:25 templates/events/index.html:64
+#: templates/events/tickets/details.html:13
+msgid "Status"
+msgstr "Status"
+
+#: templates/events/applications/application_details.html:16
+#: templates/events/tickets/details.html:17
+msgid "Email"
+msgstr "Email"
+
+#: templates/events/applications/application_details.html:17
+#: templates/events/tickets/details.html:18
+msgid "Phone"
+msgstr "Telefon"
+
+#: templates/events/applications/application_details.html:19
+msgid "Application"
+msgstr "Zgłoszenie"
+
+#: templates/events/applications/application_details.html:22
+msgid "Org Notes"
+msgstr "Notatki Organizatorów"
+
+#: templates/events/applications/application_details.html:25
+msgid ""
+"If you would like to change application details, please contact the event "
+"organizers."
+msgstr ""
+"Jeśli chcesz zmienić szczegóły zgłoszenia, skontaktuj się z organizatorami "
+"wydarzenia."
+
+#: templates/events/applications/application_form.html:3
+msgid "Applications"
+msgstr "Zgłoszenia"
+
+#: templates/events/event_picker.html:4 templates/events/event_picker.html:9
+msgid "Select an Event"
+msgstr "Wybierz Wydarzenie"
+
+#: templates/events/index.html:10
+#, python-format
+msgid "Tickets for %(name)s"
+msgstr "Bilety na %(name)s"
+
+#: templates/events/index.html:17
+msgid "Your tickets"
+msgstr "Twoje bilety"
+
+#: templates/events/index.html:27 templates/events/tickets/details.html:14
+msgid "Price"
+msgstr "Cena"
+
+#: templates/events/index.html:33 templates/events/index.html:66
+msgid "Details"
+msgstr "Szczegóły"
+
+#: templates/events/index.html:36
+msgid "Pay Online"
+msgstr "Zapłać Online"
+
+#: templates/events/index.html:39 templates/events/index.html:68
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: templates/events/index.html:46
+msgid "You have no tickets for this event."
+msgstr "Nie masz żadnych biletów na to wydarzenie."
+
+#: templates/events/index.html:50
+msgid "Buy a ticket"
+msgstr "Kup bilet"
+
+#: templates/events/index.html:57
+msgid "Your applications"
+msgstr "Twoje zgłoszenia"
+
+#: templates/events/index.html:75
+msgid "You have no applications for this event."
+msgstr "Nie masz żadnych zgłoszeń na to wydarzenie."
+
+#: templates/events/index.html:87
+msgid "Applications for this event are closed."
+msgstr "Zgłoszenia na to wydarzenie zostały zakończone."
+
+#: templates/events/index.html:92
+msgid "Sign in to buy or manage tickets"
+msgstr "Zaloguj się aby kupić lub zarządzać biletami"
+
+#: templates/events/tickets/cancel.html:8
+#, python-format
+msgid "Cancel ticket %(code)s"
+msgstr "Anuluj bilet %(code)s"
+
+#: templates/events/tickets/cancel.html:9
+msgid "Are you sure you want to cancel this ticket?"
+msgstr "Czy na pewno chcesz anulować ten bilet?"
+
+#: templates/events/tickets/details.html:4
+#: templates/events/tickets/details.html:10
+msgid "Ticket details"
+msgstr "Szczegóły biletu"
+
+#: templates/events/tickets/details.html:19
+msgid "Notes"
+msgstr "Notatki"
+
+#: templates/events/tickets/details.html:25
+msgid ""
+"If you would like to change ticket details, please contact the event "
+"organizers."
+msgstr ""
+"Jeśli chcesz zmienić szczegóły biletu, skontaktuj się z organizatorami "
+"wydarzenia."
+
+#: templates/events/tickets/picker.html:5
+msgid "Select a Ticket"
+msgstr "Wybierz Bilet"
+
+#: templates/events/tickets/picker.html:16
+msgid "Select this ticket"
+msgstr "Wybierz ten Bilet"
+
+#: templates/socialaccount/authentication_error.html:5
+#: templates/socialaccount/authentication_error.html:8
+msgid "Social Network Login Failure"
+msgstr "Błąd Logowania Kontem Społecznościowym"
+
+#: templates/socialaccount/authentication_error.html:10
+msgid ""
+"An error occurred while attempting to login via your social network account."
+msgstr ""
+"Wystąpił nieznany problem przy próbie logowania poprzez twoje konto "
+"społecznościowe."
+
+#: templates/socialaccount/connections.html:5
+#: templates/socialaccount/connections.html:8
+msgid "Account Connections"
+msgstr ""
+
+#: templates/socialaccount/connections.html:11
+msgid ""
+"You can sign in to your account using any of the following third party "
+"accounts:"
+msgstr ""
+
+#: templates/socialaccount/connections.html:43
+msgid ""
+"You currently have no social network accounts connected to this account."
+msgstr ""
+
+#: templates/socialaccount/connections.html:46
+msgid "Add a 3rd Party Account"
+msgstr ""
+
+#: templates/socialaccount/login_cancelled.html:5
+#: templates/socialaccount/login_cancelled.html:9
+msgid "Login Cancelled"
+msgstr "Logowanie Anulowane"
+
+#: templates/socialaccount/login_cancelled.html:13
+#, python-format
+msgid ""
+"You decided to cancel logging in to our site using one of your existing "
+"accounts. If this was a mistake, please proceed to <a href=\"%(login_url)s"
+"\">sign in</a>."
+msgstr ""
+
+#: templates/socialaccount/signup.html:10
+#, python-format
+msgid ""
+"You are about to use your %(provider_name)s account to login to\n"
+"%(site_name)s. As a final step, please complete the following form:"
+msgstr ""
+
+#~ msgid "Your first and last name."
+#~ msgstr "Twoje imię i nazwisko."

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load events %}
+{% load crispy_forms_tags %}
+{% block head_title %}{{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ event.name }}: {{ type.name }}</h1>
+    <div>{% render_markdown type.long_description %}</div>
+    {% crispy form %}
+{% endblock %}

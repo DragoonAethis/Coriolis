@@ -1,0 +1,32 @@
+
+#div_id_remember {
+    /* Fix for the auto login form styling */
+    margin-bottom: 0 !important;
+}
+
+.brand-link {
+    font-size: 1.7rem;
+    text-decoration: none;
+}
+
+.ticket-icon {
+    vertical-align: -.04em;
+    margin-right: .25rem;
+}
+
+.card-ticket-cancelled > .card-header,
+.card-ticket-cancelled > .card-body .card-title {
+    text-decoration: line-through;
+    color: #6c757d !important;
+    --bs-text-opacity: 1;
+}
+
+.environment-development, .environment-staging {
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.10),
+        rgba(0, 0, 0, 0.10) 10px,
+        rgba(0, 0, 0, 0.15) 10px,
+        rgba(0, 0, 0, 0.15) 20px
+    ), #ffd9d9;
+}

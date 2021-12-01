@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block head_title %}{% translate "Select an Event" %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{% translate "Select an Event" %}</h1>
+            <ul>
+                {% for event in events %}
+                    <li><a href="{% url 'event_index' event.slug %}">{{ event.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
