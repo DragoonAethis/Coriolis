@@ -1,7 +1,4 @@
-{% load i18n %}
-{% load static %}
-{% load account %}
-{% load events %}
+{% load i18n static account events %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -85,8 +82,13 @@
     <footer class="border-top py-3 mt-3">
         <div class="container-lg text-center">
             <div class="mb-2">
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'admin:index' %}" class="btn btn-lg btn-warning">
+                        <i class="bi bi-wrench me-1"></i> Admin
+                    </a>
+                {% endif %}
                 <a href="mailto:kontakt@remcon.pl" class="btn btn-lg btn-outline-primary">
-                    <i class="bi bi-envelope"></i> Skontaktuj się z organizatorami
+                    <i class="bi bi-envelope me-1"></i> {% translate "Contact Organizers" %}
                 </a>
             </div>
             <div>

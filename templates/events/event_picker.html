@@ -6,12 +6,24 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h1>{% translate "Select an Event" %}</h1>
-            <ul>
-                {% for event in events %}
-                    <li><a href="{% url 'event_index' event.slug %}">{{ event.name }}</a></li>
-                {% endfor %}
-            </ul>
+            {% if events %}
+                <h1>{% translate "Select an Event" %}</h1>
+                <ul>
+                    {% for event in events %}
+                        <li><a href="{% url 'event_index' event.slug %}">{{ event.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h1>{% translate "No events available!" %}</h1>
+                <p>{% translate "No events are currently available. Check back later." %}</p>
+                {% if request.user.is_superuser %}
+                    <p>
+                        <a class="btn btn-lg btn-warning" href="{% url 'admin:events_event_add' %}">
+                            <i class="bi bi-plus-circle-fill"></i> {% translate "Define New in Admin" %}
+                        </a>
+                    </p>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
