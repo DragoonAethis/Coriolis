@@ -186,7 +186,7 @@ class CancelRegistrationView(FormView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, slug=self.kwargs['slug'])
-        self.ticket = get_object_or_404(Ticket, event=self.event, id=self.kwargs['id'])
+        self.ticket = get_object_or_404(Ticket, event=self.event, id=self.kwargs['ticket_id'])
 
         if self.request.user.id != self.ticket.user_id:
             messages.error(self.request, _("You cannot cancel a ticket that is not yours!"))

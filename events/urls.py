@@ -10,11 +10,12 @@ urlpatterns = [
 
     path('event/<slug:slug>/ticket/new/', views.ticket_picker, name='ticket_picker'),
     path('event/<slug:slug>/ticket/new/<int:id>', views.RegistrationView.as_view(), name='registration_form'),
-    path('event/<slug:slug>/ticket/view/<int:id>', views.ticket_details, name='ticket_details'),
-    path('event/<slug:slug>/ticket/cancel/<int:id>', views.CancelRegistrationView.as_view(), name='ticket_cancel'),
+    path('event/<slug:slug>/ticket/view/<uuid:ticket_id>', views.ticket_details, name='ticket_details'),
+    path('event/<slug:slug>/ticket/cancel/<uuid:ticket_id>',
+         views.CancelRegistrationView.as_view(), name='ticket_cancel'),
 
     path('event/<slug:slug>/application/new/<int:id>', views.ApplicationView.as_view(), name='application_form'),
-    path('event/<slug:slug>/application/view/<int:id>', views.application_details, name='application_details'),
+    path('event/<slug:slug>/application/view/<uuid:app_id>', views.application_details, name='application_details'),
 
     path('', views.index, name='index'),
 ]

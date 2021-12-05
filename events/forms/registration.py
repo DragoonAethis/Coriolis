@@ -48,6 +48,6 @@ class CancelRegistrationForm(forms.Form):
         self.helper.form_action = 'post'
         self.helper.form_action = reverse('ticket_cancel', kwargs={
             "slug": event.slug,
-            "id": ticket.id
+            "ticket_id": ticket.id
         })
         self.helper.add_input(Submit('submit', _('Cancel ticket'), css_class="btn btn-lg btn-danger"))

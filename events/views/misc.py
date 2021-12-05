@@ -63,9 +63,9 @@ def event_page(request, slug, page_slug):
 
 
 @login_required
-def ticket_details(request, slug, id):
+def ticket_details(request, slug, ticket_id):
     event = get_object_or_404(Event, slug=slug)
-    ticket = get_object_or_404(Ticket, id=id)
+    ticket = get_object_or_404(Ticket, id=ticket_id)
     assert event.id == ticket.event_id
 
     if not ticket.user_id == request.user.id:
@@ -79,9 +79,9 @@ def ticket_details(request, slug, id):
 
 
 @login_required
-def application_details(request, slug, id):
+def application_details(request, slug, app_id):
     event = get_object_or_404(Event, slug=slug)
-    application = get_object_or_404(Application, id=id)
+    application = get_object_or_404(Application, id=app_id)
     assert event.id == application.event_id
 
     if not application.user_id == request.user.id:

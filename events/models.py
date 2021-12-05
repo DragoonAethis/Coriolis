@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -16,6 +18,8 @@ class Event(models.Model):
     class Meta:
         verbose_name = _("event")
         verbose_name_plural = _("events")
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.CharField(max_length=256, verbose_name=_("name"),
                             help_text=_("Human-readable name for the event."))
@@ -106,6 +110,8 @@ class Ticket(models.Model):
         USED = 'USED', _("Used")
         USED_ON_SITE = 'ONST', _("Used on site")
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"))
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     type = models.ForeignKey(TicketType, on_delete=models.RESTRICT, verbose_name=_("type"))
@@ -144,6 +150,8 @@ class Payment(models.Model):
     class Meta:
         verbose_name = _("payment")
         verbose_name_plural = _("payments")
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))
@@ -186,6 +194,8 @@ class Application(models.Model):
         WAITING = 'WAIT', _("Waiting for Organizers")
         APPROVED = 'APRV', _("Approved")
         REJECTED = 'REJD', _("Rejected")
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"))
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
