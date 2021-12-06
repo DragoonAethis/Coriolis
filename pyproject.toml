@@ -30,6 +30,8 @@ django-allauth-2fa = "^0.8"
 django-colorfield = "^0.4.5"
 Pillow = "^8.4.0"
 Markdown = "^3.3.6"
+django-payments = "^0.15.0"
+django-payments-przelewy24 = "0.1.7"
 
 [tool.poetry.dev-dependencies]
 

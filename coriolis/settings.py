@@ -15,6 +15,7 @@ import socket
 from pathlib import Path
 
 import environ
+from payments_przelewy24.config import Przelewy24Config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -98,6 +99,9 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_static',
     'allauth_2fa',
 
+    'payments',
+    'payments_przelewy24',
+
     'colorfield',
     'phonenumber_field',
     'crispy_forms',
@@ -146,6 +150,17 @@ ACCOUNT_ADAPTER = 'allauth_2fa.adapter.OTPAdapter'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+PAYMENT_CURRENCY = env.str('PAYMENT_CURRENCY', 'XXX')
+PAYMENT_USES_SSL = env.bool('PAYMENT_HTTPS', not DEBUG)  # Enforce HTTPS on production envs.
+PAYMENT_MODEL = "events.Payment"
+PAYMENT_VARIANTS = {
+    "default": ("payments.dummy.DummyProvider", {}),
+    "przelewy24": (
+        "payments_przelewy24.provider.Przelewy24Provider",
+        {"config": Przelewy24Config.from_env()},
+    ),
+}
 
 SITE_ID = 1
 ROOT_URLCONF = 'coriolis.urls'

@@ -1,4 +1,5 @@
 import uuid
+from typing import Iterable
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -7,6 +8,8 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 from colorfield.fields import ColorField
+from payments import PurchasedItem
+from payments.models import BasePayment
 
 
 class User(AbstractUser):
@@ -112,7 +115,7 @@ class Ticket(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"))
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"), null=True)
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     type = models.ForeignKey(TicketType, on_delete=models.RESTRICT, verbose_name=_("type"))
     status = models.CharField(max_length=4, verbose_name=_("status"),
@@ -146,17 +149,24 @@ class Ticket(models.Model):
         return prefix + ('0' * (self.event.ticket_code_length - len(code))) + code
 
 
-class Payment(models.Model):
+class Payment(BasePayment):
     class Meta:
         verbose_name = _("payment")
         verbose_name_plural = _("payments")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name=_("user"), null=True)
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))
-    backend = models.CharField(max_length=16, verbose_name=_("backend"))
-    data = models.JSONField(null=True, blank=True, verbose_name=_("data"))
+
+    def get_failure_url(self) -> str:
+        pass
+
+    def get_success_url(self) -> str:
+        pass
+
+    def get_purchased_items(self) -> Iterable[PurchasedItem]:
+        pass  # yield PurchasedItem(name=str, quantity=int, price=Decimal(int), currency=str)
 
 
 class ApplicationType(models.Model):
