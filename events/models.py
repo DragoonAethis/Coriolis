@@ -52,17 +52,24 @@ class Event(models.Model):
 
 
 class EventPage(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name=_("event"))
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=['event', 'slug'], name='event_pages_with_unique_slugs')]
+
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("event"),
+                              help_text=_("If not set, will be shown for all events."))
     name = models.CharField(max_length=256, verbose_name=_("name"))
     slug = models.CharField(max_length=64, verbose_name=_("slug"),
-                            help_text=_("Short name used in links."))
+                            help_text=_("Short name used in links. Event-specific pages have precedence."))
     hidden = models.BooleanField(default=False, verbose_name=_("hidden"),
                                  help_text=_("Whenever to hide this page in the page listing."))
     content = models.TextField(verbose_name=_("content"),
                                help_text=_("Page content. Supports markdown."))
 
     def __str__(self):
-        return f"{self.name} ({self.event.name})"
+        if self.event is not None:
+            return f"{self.name} ({self.event.name})"
+        else:
+            return self.name
 
 
 class TicketType(models.Model):

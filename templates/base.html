@@ -32,6 +32,12 @@
                                     <li><a class="dropdown-item" href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
                                 {% endif %}
                             {% endfor %}
+                            {% if global_event_pages %}
+                                <li><hr class="dropdown-divider"></li>
+                                {% for page in global_event_pages %}
+                                    <li><a class="dropdown-item" href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
+                                {% endfor %}
+                            {% endif %}
                         </ul>
                     </div>
                 {% endif %}

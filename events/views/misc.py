@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.http import Http404
 
 from events.models import Event, EventPage, Ticket, TicketType, Application, ApplicationType
 
@@ -54,7 +55,13 @@ def event_index(request, slug):
 
 def event_page(request, slug, page_slug):
     event = get_object_or_404(Event, slug=slug)
-    page = get_object_or_404(EventPage, event=event, slug=page_slug)
+    try:
+        page = EventPage.objects.get(event=event, slug=page_slug)
+    except EventPage.DoesNotExist:
+        try:
+            page = EventPage.objects.get(event=None, slug=page_slug)
+        except EventPage.DoesNotExist:
+            raise Http404('Page not found.')
 
     return render(request, 'events/events/page.html', context={
         'event': event,
