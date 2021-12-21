@@ -129,39 +129,7 @@ class RegistrationView(FormView):
             # Do post-processing. We need to do this after saving the
             # file once to prevent annoying issues with in-memory PIL...
             image: Image = Image.open(ticket.image.file)
-            width, height = image.size
-
-            # Crop the image to a square if it's not one already:
-            if width != height:
-                if width > height:
-                    # +-+----+-+
-                    # | |    | |
-                    # +-+----+-+
-                    side = height
-                    lx, ly = (width - side) // 2, 0
-                    rx, ry = side + lx, height
-                else:
-                    # +----+
-                    # |    |
-                    # +----+
-                    # |    |
-                    # |    |
-                    # +----+
-                    # |    |
-                    # +----+
-                    side = width
-                    lx, ly = 0, (height - side) // 2
-                    rx, ry = width, side + ly
-
-                # crop() accepts (*top_left, *bottom_right) coords of a box:
-                image = image.crop((lx, ly, rx, ry))
-                width, height = image.size
-
-            # At this point the image has correct proportions. Check if we
-            # also need to downscale it (down to 1024x1024):
-            if width > 1024 or height > 1024:
-                image = image.resize((1024, 1024), resample=Image.LANCZOS)
-                width, height = image.size
+            # TODO: Image post-processing should land here once we have reqs.
 
             # And now, save the image once again.
             with default_storage.open(ticket.image.name, 'wb') as handle:
