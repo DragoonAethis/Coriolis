@@ -13,28 +13,40 @@ admin.site.register(Payment)
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'ticket_code_length')
+    list_filter = ('active', )
+    search_fields = ('name', )
 
 
 @admin.register(EventPage)
 class EventPageAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'slug', 'hidden')
+    list_filter = ('event__name', 'hidden')
+    search_fields = ('name', 'slug')
 
 
 @admin.register(TicketType)
 class TicketTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'code_prefix', 'price', 'max_tickets', 'tickets_remaining')
+    list_filter = ('event__name', 'self_registration')
+    search_fields = ('name', )
 
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'event', 'status', 'nickname')
+    list_filter = ('event__name', 'status')
+    search_fields = ('name', 'email', 'phone', 'nickname')
 
 
 @admin.register(ApplicationType)
 class ApplicationTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'slug', 'registration_from', 'registration_to')
+    list_filter = ('event__name', )
+    search_fields = ('name', )
 
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('name', 'status', 'event', 'phone', 'email')
+    list_filter = ('event__name', 'status')
+    search_fields = ('name', 'email', 'phone')
