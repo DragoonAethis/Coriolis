@@ -58,6 +58,7 @@ vars().update(env.email('EMAIL_URL', default='consolemail://'))
 SERVER_EMAIL = env.str('SERVER_EMAIL', 'coriolis@localhost')
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
+CURRENCY = env.str('CURRENCY', 'EUR')
 TIME_ZONE = env.str('TIME_ZONE', 'Etc/UTC')
 LANGUAGE_CODE = env.str('LANGUAGE_CODE', 'en-us')
 
@@ -99,6 +100,7 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_static',
     'allauth_2fa',
 
+    'djmoney',
     'payments',
     'payments_przelewy24',
 

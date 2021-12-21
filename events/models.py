@@ -2,14 +2,16 @@ import uuid
 from typing import Iterable
 
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from phonenumber_field.modelfields import PhoneNumberField
+from djmoney.models.fields import MoneyField
 from colorfield.fields import ColorField
-from payments import PurchasedItem
 from payments.models import BasePayment
+from payments import PurchasedItem
 
 
 class User(AbstractUser):
@@ -90,7 +92,7 @@ class TicketType(models.Model):
                                         help_text=_("Shown on the ticket purchase form. Supports Markdown."))
     code_prefix = models.CharField(max_length=8, blank=True, verbose_name=_("code prefix"),
                                    help_text=_("Characters in front of all the ticket codes of this type."))
-    price = models.PositiveSmallIntegerField(verbose_name=_("price"))
+    price = MoneyField(max_digits=10, decimal_places=2, default_currency=settings.CURRENCY, verbose_name=_("price"))
     color = ColorField(default='#FF0000', verbose_name=_("color"),
                        help_text=_("Extra color shown on the ticket choice screen."))
 
