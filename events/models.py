@@ -34,6 +34,8 @@ class Event(models.Model):
                                      help_text=_("Link to Google Maps or OSM."))
     website_link = models.CharField(max_length=256, verbose_name=_("website link"),
                                     help_text=_("Link to the main event website."))
+    contact_link = models.CharField(max_length=256, verbose_name=_("contact link"),
+                                    help_text=_("Used for the big Contact Organizers button."))
 
     date_from = models.DateTimeField(verbose_name=_("date from"))
     date_to = models.DateTimeField(verbose_name=_("date to"))
@@ -41,6 +43,9 @@ class Event(models.Model):
 
     description = models.TextField(verbose_name=_("description"),
                                    help_text=_("Text shown on the main page. Supports Markdown."))
+    footer_content = models.TextField(verbose_name=_("footer content"),
+                                      help_text=_("Muted text shown in the footer. Supports Markdown."))
+
     ticket_code_length = models.PositiveSmallIntegerField(verbose_name=_("ticket code length"),
                                                           validators=[
                                                               MinValueValidator(3),
