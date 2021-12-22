@@ -5,7 +5,10 @@
 {% block brand_title %}{{ event.name }}{% endblock %}
 
 {% block content %}
-    <h1>{{ event.name }}: {{ type.name }}</h1>
+    <h1>{{ type.name }} ({{ type.price }})</h1>
     <div>{% render_markdown type.long_description %}</div>
     {% crispy form %}
+    <div class="alert alert-primary">{% blocktranslate with price=type.price %}
+        The ticket price is <b>{{ price }}</b>. You can pay on-site or online (after registration).
+    {% endblocktranslate %}</div>
 {% endblock %}
