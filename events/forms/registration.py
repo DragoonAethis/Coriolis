@@ -5,8 +5,8 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.formfields import PhoneNumberField
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
-
+from crispy_forms.layout import Layout, Fieldset, Submit, HTML
+from crispy_forms.bootstrap import FormActions
 
 class RegistrationForm(forms.Form):
     name = forms.CharField(label=_("Name"), max_length=256, required=True,
@@ -36,7 +36,26 @@ class RegistrationForm(forms.Form):
             "slug": event.slug,
             "id": type.id
         })
-        self.helper.add_input(Submit('submit', _('Register'), css_class="btn btn-lg btn-primary"))
+        self.helper.layout = Layout(
+            Fieldset(
+                _("Details"),
+                'name',
+                'email',
+                'phone',
+                'notes',
+
+                HTML("<h2>" + _("Personalization") + "</h2>"),
+                HTML('<div><p>' + _("We can print your ticket with your own nickname and image on it. "
+                                    "If you don't want a custom ticket, leave these fields empty.") + '</p></div>'),
+                HTML('<div class="alert alert-warning">' + _('Only tickets paid online will be printed.') + '</div>'),
+                'nickname',
+                'city',
+                'image'
+            ),
+            FormActions(
+                Submit('submit', _('Register'), css_class="btn btn-lg btn-primary")
+            )
+        )
 
 
 class CancelRegistrationForm(forms.Form):
