@@ -37,6 +37,7 @@ if not DEBUG and dsn:
 
     sentry_sdk.init(
         dsn=dsn,
+        environment=ENVIRONMENT,
         integrations=[DjangoIntegration()],
         send_default_pii=env.bool('SENTRY_SEND_PII', True),  # Send user details, etc?
         traces_sample_rate=env.float('SENTRY_SAMPLE_RATE', 1.0),  # Ratio of transactions to monitor for perf issues.
@@ -88,12 +89,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
 
-    # do more allauth here...
     'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.microsoft',
-    # 'allauth.socialaccount.providers.twitter',
-    # 'allauth.socialaccount.providers.discord',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.microsoft',
+    'allauth.socialaccount.providers.discord',
 
     'django_otp',
     'django_otp.plugins.otp_totp',
