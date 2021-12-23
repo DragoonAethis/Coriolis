@@ -91,7 +91,6 @@ INSTALLED_APPS = [
 
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.microsoft',
     'allauth.socialaccount.providers.discord',
 
     'django_otp',
