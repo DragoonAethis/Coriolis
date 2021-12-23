@@ -111,7 +111,7 @@ def ticket_picker(request, slug):
         .filter(self_registration=True) \
         .filter(registration_to__gte=now) \
         .filter(registration_from__lte=now) \
-        .filter(tickets_remaining__gt=0)
+        .order_by('id')
 
     if len(types) == 0:
         messages.add_message(request, messages.WARNING,

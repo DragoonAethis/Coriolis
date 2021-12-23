@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-23 21:53+0100\n"
-"PO-Revision-Date: 2021-12-23 21:54+0100\n"
+"POT-Creation-Date: 2021-12-23 22:00+0100\n"
+"PO-Revision-Date: 2021-12-23 22:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1002,14 +1002,18 @@ msgstr ""
 msgid "Select a Ticket"
 msgstr "Wybierz Bilet"
 
-#: templates/events/tickets/picker.html:19
+#: templates/events/tickets/picker.html:20
 msgid "Select this ticket"
 msgstr "Wybierz ten Bilet"
 
-#: templates/events/tickets/picker.html:21
+#: templates/events/tickets/picker.html:22
 #, python-format
 msgid "%(left)s left"
 msgstr "Zostało %(left)s"
+
+#: templates/events/tickets/picker.html:27
+msgid "Sold out :("
+msgstr "Wyprzedany :("
 
 #: templates/events/tickets/register.html:11
 #, python-format

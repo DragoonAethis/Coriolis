@@ -15,12 +15,18 @@
                             {{ type.name }} ({{ type.price }})
                         </h4>
                         <div class="card-text">{% render_markdown type.description %}</div>
-                        <a href="{% url 'registration_form' event.slug type.id %}" class="btn btn-primary stretched-link">
-                            {% translate "Select this ticket" %}
-                            {% if type.show_tickets_remaining %}
-                                <span class="badge rounded-pill bg-secondary">{% blocktranslate with left=type.tickets_remaining %}{{ left }} left{% endblocktranslate %}</span>
-                            {% endif %}
-                        </a>
+                        {% if type.tickets_remaining > 0 %}
+                            <a href="{% url 'registration_form' event.slug type.id %}" class="btn btn-primary stretched-link">
+                                {% translate "Select this ticket" %}
+                                {% if type.show_tickets_remaining %}
+                                    <span class="badge rounded-pill bg-secondary">{% blocktranslate with left=type.tickets_remaining %}{{ left }} left{% endblocktranslate %}</span>
+                                {% endif %}
+                            </a>
+                        {% else %}
+                            <button type="button" class="btn btn-outline-secondary" disabled>
+                                {% translate "Sold out :(" %}
+                            </button>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
