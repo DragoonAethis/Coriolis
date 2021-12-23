@@ -156,11 +156,14 @@ qrcode = ">=5.3"
 
 [[package]]
 name = "django-colorfield"
-version = "0.5.0"
+version = "0.6.0"
 description = "simple color field for your models with a nice color-picker in the admin-interface."
 category = "main"
 optional = false
 python-versions = "*"
+
+[package.dependencies]
+Pillow = ">=5.0"
 
 [[package]]
 name = "django-crispy-forms"
@@ -554,7 +557,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "d1beea1caaa678efb748e741c7ded4a5078bcf15af8a181cedbcc2f94697c014"
+content-hash = "905172a32e573e63269cabdd0632d5cb27d94fc2d03712f136a5663f25402f1d"
 
 [metadata.files]
 asgiref = [
@@ -719,8 +722,8 @@ django-allauth-2fa = [
     {file = "django_allauth_2fa-0.8-py3-none-any.whl", hash = "sha256:217e4d3e3205a4285160f32579041eb9938de9bb81384a741adfb40b3711f2fa"},
 ]
 django-colorfield = [
-    {file = "django-colorfield-0.5.0.tar.gz", hash = "sha256:670ef72ded093360c9781fedd33d9ead267b34481139d4ab240dfacea5cf0abf"},
-    {file = "django_colorfield-0.5.0-py3-none-any.whl", hash = "sha256:aba49684ba1fce80af15237b49ca4a504e49e525c2897db2cce5705b2fa51f3b"},
+    {file = "django-colorfield-0.6.0.tar.gz", hash = "sha256:aee0ad2d1f7cac2da205a5a0b9d2e5f2303f378d79ad846448d4c18fd262adc9"},
+    {file = "django_colorfield-0.6.0-py3-none-any.whl", hash = "sha256:af407a87d4a1958ecd334fef230ce3288d2c2b47d191270b003b911dbe276194"},
 ]
 django-crispy-forms = [
     {file = "django-crispy-forms-1.13.0.tar.gz", hash = "sha256:4dc9e5263c91c5f51766806a050ca2ec5c349d34c5cd91fcca3a1a0363b5e29e"},
