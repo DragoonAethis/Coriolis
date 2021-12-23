@@ -1,0 +1,19 @@
+[Unit]
+Description=Coriolis (on gunicorn)
+Requires=coriolis.socket
+After=network.target
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+RuntimeDirectory=gunicorn
+WorkingDirectory=/app
+ExecStart=poetry run gunicorn coriolis.wsgi --bind=unix:/run/coriolis.sock
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
