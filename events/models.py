@@ -103,6 +103,8 @@ class TicketType(models.Model):
 
     max_tickets = models.PositiveSmallIntegerField(verbose_name=_("max tickets"))
     tickets_remaining = models.PositiveSmallIntegerField(verbose_name=_("tickets remaining"))
+    show_tickets_remaining = models.BooleanField(default=True, verbose_name=_("show tickets remaining"),
+                                                 help_text=_("Display the number of tickets left publicly?"))
 
     def __str__(self):
         return f"{self.name} ({self.id})"
