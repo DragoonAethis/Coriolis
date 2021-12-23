@@ -9,6 +9,9 @@ sudo apt install -y \
   certbot python3-certbot-nginx python3-pip \
   python3.9-full python3.9-venv python3.9-dev
 
+timedatectl set-timezone Europe/Warsaw
+reboot
+
 # Poetry
 pip install poetry
 poetry config virtualenvs.in-project true
@@ -61,7 +64,7 @@ rm /etc/nginx/sites-enabled/default
 
 systemctl daemon-reload
 systemctl restart nginx
-systemctl start coriolis
+systemctl enable coriolis --now
 
 cd /app
 poetry shell

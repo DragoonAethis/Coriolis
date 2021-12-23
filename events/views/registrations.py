@@ -9,7 +9,6 @@ from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
-from django.utils.timezone import get_default_timezone
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
 
@@ -49,7 +48,7 @@ class RegistrationView(FormView):
             messages.error(self.request, _("We ran out of these tickets."))
             return False
 
-        now = datetime.datetime.now(tz=get_default_timezone())
+        now = datetime.datetime.now()
 
         if not self.type.registration_from < now:
             messages.error(self.request, _("Online sales of this ticket type have not yet started."))

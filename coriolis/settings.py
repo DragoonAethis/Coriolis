@@ -197,7 +197,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LOCALE_PATHS = [BASE_DIR / 'locale']
 USE_I18N = True
 USE_L10N = True
-USE_TZ = True
+USE_TZ = False
 
 # We're using Whitenoise - don't make this configurable.
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

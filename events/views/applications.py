@@ -4,7 +4,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
-from django.utils.timezone import get_default_timezone
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
 
@@ -36,7 +35,7 @@ class ApplicationView(FormView):
             messages.error(self.request, _("This application cannot be submitted for this event!"))
             return False
 
-        now = datetime.datetime.now(tz=get_default_timezone())
+        now = datetime.datetime.now()
 
         if not self.type.registration_from < now:
             messages.error(self.request, _("This application is not yet open. Come back later."))

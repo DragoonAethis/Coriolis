@@ -21,7 +21,7 @@ def index(request):
 def event_index(request, slug):
     event = get_object_or_404(Event, slug=slug)
 
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now()
     context = {'event': event}
 
     if request.user.is_authenticated:
@@ -104,7 +104,7 @@ def application_details(request, slug, app_id):
 @login_required
 def ticket_picker(request, slug):
     event = get_object_or_404(Event, slug=slug)
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now()
 
     types = TicketType.objects \
         .filter(event=event) \
