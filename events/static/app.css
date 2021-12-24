@@ -30,3 +30,23 @@
         rgba(0, 0, 0, 0.15) 20px
     ), #ffd9d9;
 }
+
+.socialaccount_provider.google {
+    border-color: #3979e2;
+    background-color: #4285F4;
+}
+
+.socialaccount_provider.google:hover {
+    border-color: #2e62b7;
+    background-color: #2c59a4;
+}
+
+.socialaccount_provider.discord {
+    border-color: #627bd7;
+    background-color: #7289DA;
+}
+
+.socialaccount_provider.discord:hover {
+    border-color: #415290;
+    background-color: #5668a5;
+}
