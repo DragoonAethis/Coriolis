@@ -1,0 +1,9 @@
+[Unit]
+Description=Coriolis gunicorn socket
+
+[Socket]
+ListenStream=/run/coriolis.sock
+SocketUser=www-data
+
+[Install]
+WantedBy=sockets.target

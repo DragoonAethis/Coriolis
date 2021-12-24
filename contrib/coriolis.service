@@ -9,7 +9,7 @@ User=www-data
 Group=www-data
 RuntimeDirectory=gunicorn
 WorkingDirectory=/app
-ExecStart=poetry run gunicorn coriolis.wsgi --bind=unix:/run/coriolis.sock
+ExecStart=poetry run gunicorn coriolis.wsgi
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5

@@ -55,6 +55,7 @@ chown -R www-data:www-data /app
 certbot run -d example.com --nginx --agree-tos -m owo@whats.this
 
 # Files
+cp contrib/coriolis.socket /etc/systemd/system/coriolis.socket
 cp contrib/coriolis.service /etc/systemd/system/coriolis.service
 cp contrib/coriolis.nginx.conf /etc/nginx/sites-available/coriolis
 nano /etc/nginx/sites-available/coriolis  # s/example.com/your.domain/d
@@ -63,8 +64,8 @@ ln -s /etc/nginx/sites-available/coriolis /etc/nginx/sites-enabled/coriolis
 rm /etc/nginx/sites-enabled/default
 
 systemctl daemon-reload
+systemctl enable coriolis.socket --now
 systemctl restart nginx
-systemctl enable coriolis --now
 
 cd /app
 poetry shell

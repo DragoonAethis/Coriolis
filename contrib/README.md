@@ -1,1 +1,5 @@
-This is where I would put my working Ansible/Docker configs... IF I HAD ANY.
+# Deployment Toys
+
+- Configure system with instructions from `deploy-ubuntu.sh`
+- `coriolis.nginx.conf`: nginx reverse proxy configuration
+- `coriolis.{service,socket}`: systemd units (put in `/etc/systemd/system`)
