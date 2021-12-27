@@ -9,6 +9,9 @@ from django.contrib import messages
 from django.conf import settings
 from django.http import Http404
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
+
 from payments import RedirectNeeded, PaymentStatus
 from payments_przelewy24.api import Przelewy24API
 
@@ -185,6 +188,8 @@ def ticket_payment(request, slug, ticket_id):
 
     try:
         form = payment.get_form(data=request.POST or None)
+        form.helper = FormHelper()
+        form.helper.add_input(Submit('submit', _('Continue Payment'), css_class="btn btn-lg btn-primary"))
     except RedirectNeeded as redirect_to:
         return redirect(str(redirect_to))
 

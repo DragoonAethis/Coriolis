@@ -59,6 +59,8 @@ class Przelewy24Provider(BasicProvider):
 
     def get_form(self, payment, data=None):
         form = super().get_form(payment, data)
+        form.action = self.get_action(payment)
+        form.method = self._method
         return form
 
     def get_hidden_fields(self, payment):

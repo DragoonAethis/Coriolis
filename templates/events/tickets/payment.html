@@ -5,11 +5,11 @@
 {% block brand_title %}{{ event.name }}{% endblock %}
 
 {% block content %}
-    <h1>Payment for {{ ticket }}</h1>
-    <form action="{{ form.action }}" method="{{ form.method }}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <p><input type="submit" value="Proceed" /></p>
-    </form>
-    {# crispy form #}
+    <h1>{% blocktranslate with code=ticket.get_code %}Payment for ticket {{ code }}{% endblocktranslate %}</h1>
+    <ul>
+        <li>{% translate "Ticket price" %}: <b>{{ ticket.type.price }}</b></li>
+        <li>{% translate "Notifications will be sent to" %}: {{ request.user.email }}</li>
+    </ul>
+    {% crispy form %}
+
 {% endblock %}
