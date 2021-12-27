@@ -43,6 +43,23 @@ if not DEBUG and dsn:
         traces_sample_rate=env.float('SENTRY_SAMPLE_RATE', 1.0),  # Ratio of transactions to monitor for perf issues.
     )
 
+# Database: https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+DATABASES = {'default': env.db()}
+
+# Email: https://docs.djangoproject.com/en/3.2/ref/settings/#email-backend
+EMAIL_BACKEND = env.str('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = env.str('EMAIL_HOST', 'localhost')
+EMAIL_PORT = env.int('EMAIL_PORT', 25)
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = env.bool('ENV_USE_TLS', False)
+
+SERVER_EMAIL = env.str('SERVER_EMAIL', 'coriolis@localhost')
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
+
+MEDIA_ROOT = env.str('MEDIA_ROOT', BASE_DIR / 'media')
+MEDIA_URL = env.str('MEDIA_URL', '/media/')
+
 hosts = env.str('ALLOWED_HOSTS', None)
 if hosts:
     ALLOWED_HOSTS = [host.strip() for host in hosts.split(',')]
@@ -51,20 +68,23 @@ phone_region = env.str('PHONENUMBER_REGION', None)
 if phone_region:
     PHONENUMBER_DEFAULT_REGION = phone_region
 
-# Database: https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-DATABASES = {'default': env.db()}
-
-# Email: https://django-environ.readthedocs.io/en/latest/tips.html#email-settings
-vars().update(env.email('EMAIL_URL', default='consolemail://'))
-SERVER_EMAIL = env.str('SERVER_EMAIL', 'coriolis@localhost')
-DEFAULT_FROM_EMAIL = SERVER_EMAIL
-
 CURRENCY = env.str('CURRENCY', 'EUR')
 TIME_ZONE = env.str('TIME_ZONE', 'Etc/UTC')
 LANGUAGE_CODE = env.str('LANGUAGE_CODE', 'en-us')
 
-MEDIA_ROOT = env.str('MEDIA_ROOT', BASE_DIR / 'media')
-MEDIA_URL = env.str('MEDIA_URL', '/media/')
+PAYMENT_HOST = env.str('PAYMENT_HOST', 'localhost:8000')
+PAYMENT_USES_SSL = env.bool('PAYMENT_HTTPS', not DEBUG)  # Enforce HTTPS on production envs.
+PAYMENT_MODEL = "events.Payment"
+PAYMENT_VARIANTS = {
+    "default": ("payments.dummy.DummyProvider", {}),
+    "przelewy24": (
+        "payments_przelewy24.provider.Przelewy24Provider",
+        {"config": Przelewy24Config.from_env()},
+    ),
+}
+
+PAYMENT_MAX_ATTEMPTS = 3
+PAYMENT_PAY_ONLINE_VARIANT = env.str('PAYMENT_PAY_ONLINE_VARIANT', 'default')
 
 # --- STUFF BELOW THIS POINT SHOULD NOT BE CONFIGURABLE PER ENVIRONMENT. ---
 
@@ -152,17 +172,6 @@ SOCIALACCOUNT_LOGIN_ON_GET = True
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-
-PAYMENT_CURRENCY = env.str('PAYMENT_CURRENCY', 'XXX')
-PAYMENT_USES_SSL = env.bool('PAYMENT_HTTPS', not DEBUG)  # Enforce HTTPS on production envs.
-PAYMENT_MODEL = "events.Payment"
-PAYMENT_VARIANTS = {
-    "default": ("payments.dummy.DummyProvider", {}),
-    "przelewy24": (
-        "payments_przelewy24.provider.Przelewy24Provider",
-        {"config": Przelewy24Config.from_env()},
-    ),
-}
 
 SITE_ID = 1
 ROOT_URLCONF = 'coriolis.urls'
