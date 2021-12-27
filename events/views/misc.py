@@ -3,7 +3,7 @@ from typing import Tuple
 
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib import messages
 from django.conf import settings
 from django.http import Http404
@@ -134,13 +134,19 @@ def ticket_payment(request, slug, ticket_id):
         messages.error(request, _("You cannot pay for this ticket online."))
         return redirect('event_index', event.slug)
 
-    if ticket.payment_set.count() > settings.PAYMENT_MAX_ATTEMPTS:
+    if ticket.payment_set.count() >= settings.PAYMENT_MAX_ATTEMPTS:
         messages.error(request, _("This ticket has too many payments in progress. Please contact the organizers."))
         return redirect('event_index', event.slug)
 
     payment = None
+    can_restore_payment_in_progress = True
+    try:
+        can_resume = int(request.GET.get('resume', '1'))
+        can_restore_payment_in_progress = bool(can_resume)
+    except ValueError:
+        pass
+
     for existing_payment in ticket.payment_set.all():
-        # Can we restore any payment in progress?
         if existing_payment.status == PaymentStatus.CONFIRMED:
             # Forgot to update the status? Uh, okay...
             ticket.status = Ticket.TicketStatus.READY_PAID
@@ -148,8 +154,17 @@ def ticket_payment(request, slug, ticket_id):
 
             messages.success(request, _("This ticket was already paid for. Thank you!"))
             return redirect('event_index', event.slug)
-        elif existing_payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT):
+
+        # Can we restore any payment in progress?
+        if (payment is None
+            and can_restore_payment_in_progress
+            and existing_payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT)
+        ):
             payment = existing_payment
+            resuming_message = _("Resuming an existing payment in progress. Problems?")
+            no_resuming_link_label = _("Start a new payment.")
+            no_resuming_link = reverse('ticket_payment', args=[event.slug, ticket.id]) + '?resume=0'
+            messages.info(request, f'{resuming_message} <a href="{no_resuming_link}">{no_resuming_link_label}</a>')
 
     if payment is None:  # Let's make a new one:
         payment = Payment(
@@ -179,6 +194,26 @@ def ticket_payment(request, slug, ticket_id):
     })
 
 
+def request_przelewy24_transaction_info(request, payment):
+    # P24 sends us a notification after a successful payment. Unfortunately,
+    # failures or rejections get radio silence - let's ask P24 what's up with
+    # a given payment and update the status accordingly.
+
+    p24_config = settings.PAYMENT_VARIANTS['przelewy24'][1]['config']
+    p24_api = Przelewy24API(p24_config)
+    response = p24_api.get_by_session_id(session_id=str(payment.id))
+    if 'data' not in response or 'status' not in response['data']:
+        return
+
+    status = response['data']['status']
+    if status == 0:
+        messages.warning(request, _("We did not receive a payment notification from Przelewy24. "
+                                    "Try again later or contact organizers about this issue."))
+    elif status == 3:
+        payment.status = PaymentStatus.REFUNDED
+        payment.save()
+
+
 @login_required
 def ticket_payment_finalize(request, slug, ticket_id, payment_id):
     event, ticket = get_event_and_ticket(slug, ticket_id)
@@ -186,14 +221,8 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
     assert payment.ticket_id == ticket.id
 
     # TODO: REMOVE AWFUL HACK FOR PRZELEWY24
-    # P24 sends us a notification after a successful payment. Unfortunately,
-    # failures or rejections get radio silence - let's ask P24 what's up with
-    # a given payment and update the status accordingly.
     if payment.variant == 'przelewy24' and payment.status == PaymentStatus.WAITING:
-        p24_config = settings.PAYMENT_VARIANTS['przelewy24'][1]['config']
-        p24_api = Przelewy24API(p24_config)
-        response = p24_api.get_by_session_id(session_id=str(payment.id))
-        print(response)  # i dunno lol
+        request_przelewy24_transaction_info(request, payment)
 
     if payment.status == PaymentStatus.CONFIRMED:
         messages.success(request, _("Payment successful - thank you!"))
