@@ -160,6 +160,7 @@ def ticket_payment(request, slug, ticket_id):
             total=ticket.type.price.amount,
             currency=ticket.type.price.currency,
         )
+        payment.save()
 
     try:
         form = payment.get_form(data=request.POST or None)
