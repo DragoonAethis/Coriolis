@@ -176,6 +176,12 @@ class Payment(BasePayment):
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))
 
+    def __str__(self):
+        if self.transaction_id is not None:
+            return f"{self.variant} ({self.transaction_id}, {self.id}"
+        else:
+            return f"{self.variant} ({self.id})"
+
     def get_finalize_url(self) -> str:
         prefix = "https://" if settings.PAYMENT_USES_SSL else "http://"
         path = reverse('ticket_payment_finalize', args=[self.event.slug, self.ticket.id, self.id])
