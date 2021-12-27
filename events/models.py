@@ -176,11 +176,16 @@ class Payment(BasePayment):
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))
 
+    def get_finalize_url(self) -> str:
+        prefix = "https://" if settings.PAYMENT_USES_SSL else "http://"
+        path = reverse('ticket_payment_finalize', args=[self.event.slug, self.ticket.id, self.id])
+        return prefix + settings.PAYMENT_HOST + path
+
     def get_failure_url(self) -> str:
-        return reverse('ticket_payment_finalize', args=[self.event.slug, self.ticket.id, self.id])
+        return self.get_finalize_url()
 
     def get_success_url(self) -> str:
-        return reverse('ticket_payment_finalize', args=[self.event.slug, self.ticket.id, self.id])
+        return self.get_finalize_url()
 
     def get_purchased_items(self) -> Iterable[PurchasedItem]:
         yield PurchasedItem(
