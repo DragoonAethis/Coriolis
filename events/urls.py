@@ -15,6 +15,10 @@ urlpatterns = [
     path('event/<slug:slug>/ticket/<uuid:ticket_id>/cancel',
          views.CancelRegistrationView.as_view(), name='ticket_cancel'),
 
+    path('event/<slug:slug>/ticket/<uuid:ticket_id>/pay', views.ticket_payment, name='ticket_payment'),
+    path('event/<slug:slug>/ticket/<uuid:ticket_id>/pay/<uuid:payment_id>',
+         views.ticket_payment_finalize, name='ticket_payment_finalize'),
+
     path('event/<slug:slug>/application/new/<int:id>', views.ApplicationView.as_view(), name='application_form'),
     path('event/<slug:slug>/application/<uuid:app_id>', views.application_details, name='application_details'),
 

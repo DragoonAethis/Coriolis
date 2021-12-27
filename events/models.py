@@ -3,6 +3,7 @@ from typing import Iterable
 
 from django.db import models
 from django.conf import settings
+from django.shortcuts import reverse
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -176,13 +177,18 @@ class Payment(BasePayment):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))
 
     def get_failure_url(self) -> str:
-        pass
+        return reverse('ticket_payment_finalize', args=[self.event.slug, self.ticket.id, self.id])
 
     def get_success_url(self) -> str:
-        pass
+        return reverse('ticket_payment_finalize', args=[self.event.slug, self.ticket.id, self.id])
 
     def get_purchased_items(self) -> Iterable[PurchasedItem]:
-        pass  # yield PurchasedItem(name=str, quantity=int, price=Decimal(int), currency=str)
+        yield PurchasedItem(
+            name=f"{self.ticket.code}: {self.ticket.name} ({self.ticket.type.name, self.event.name})",
+            sku=self.ticket.type.name,
+            quantity=1,
+            price=self.ticket.type.price.amount,
+            currency=self.ticket.type.price.currency)
 
 
 class ApplicationType(models.Model):

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load i18n events crispy_forms_tags %}
+
+{% block head_title %}{{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>Payment for {{ ticket }}</h1>
+    <form action="{{ form.action }}" method="{{ form.method }}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="submit" value="Proceed" /></p>
+    </form>
+    {# crispy form #}
+{% endblock %}

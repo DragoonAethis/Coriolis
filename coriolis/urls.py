@@ -30,5 +30,7 @@ urlpatterns = [
     path('accounts/', include('allauth_2fa.urls')),
     path('accounts/', include('allauth.urls')),
 
+    path('payments/', include('payments.urls')),
+
     path('', include('events.urls')),
 ]
