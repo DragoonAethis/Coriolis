@@ -192,7 +192,7 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
     if payment.variant == 'przelewy24' and payment.status == PaymentStatus.WAITING:
         p24_config = settings.PAYMENT_VARIANTS['przelewy24'][1]['config']
         p24_api = Przelewy24API(p24_config)
-        response = p24_api.get_by_session_id(session_id=payment.id)
+        response = p24_api.get_by_session_id(session_id=str(payment.id))
         print(response)  # i dunno lol
 
     if payment.status == PaymentStatus.CONFIRMED:
