@@ -13,8 +13,8 @@ from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
+from django.conf import settings
 
-import settings
 from events.forms import RegistrationForm, CancelRegistrationForm
 from events.models import Event, TicketType, Ticket
 
