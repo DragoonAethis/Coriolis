@@ -1,0 +1,9 @@
+{% load i18n %}
+{% blocktranslate with event=event.name %}Your application for {{ event }} has a new status.{% endblocktranslate %}
+
+{% translate "Your application details" %}:
+- {% translate "Application name" %}: {{ application.name }}
+- {% translate "Status" %}: {{ application.get_status_display }}
+- {% translate "Org notes" %}: {{ application.org_notes }}
+
+{% translate "If you have any questions or issues, feel free to reply to this email." %}

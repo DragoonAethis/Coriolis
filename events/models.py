@@ -1,10 +1,12 @@
 import uuid
-from typing import Iterable
+from typing import Iterable, Optional
 
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
+from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractUser
+from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -154,6 +156,13 @@ class Ticket(models.Model):
     image = models.ImageField(blank=True, verbose_name=_("image"),
                               help_text=_("Printed on the customized ticket, should be cropped to a square"))
 
+    # Non-database fields:
+    _original_status: Optional[str] = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._original_status = self.status
+
     def __str__(self):
         return f"{self.code}: {self.name} ({self.id})"
 
@@ -164,6 +173,23 @@ class Ticket(models.Model):
         prefix = self.type.code_prefix if self.type is not None else ""
         code = str(self.code)
         return prefix + ('0' * (self.event.ticket_code_length - len(code))) + code
+
+    def save(self, *args, **kwargs):
+        new_ticket = self.id is None
+        super().save(*args, **kwargs)
+        if new_ticket or self._original_status == self.status:
+            return
+
+        # Notify about the status change:
+        send_mail(
+            f"{self.event.name}: {_('Ticket')} {self.get_code()} ({_('new status')})",
+            render_to_string("events/emails/ticket_changed.html", {
+                'event': self.event,
+                'ticket': self,
+            }),
+            settings.SERVER_EMAIL,
+            [self.email]
+        )
 
 
 class Payment(BasePayment):
@@ -251,5 +277,29 @@ class Application(models.Model):
     application = models.TextField(verbose_name=_("application"))
     org_notes = models.TextField(verbose_name=_("org notes"))
 
+    # Non-database fields:
+    _original_status: Optional[str] = None
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._original_status = self.status
+
     def __str__(self):
         return f"{self.name} ({self.status}, {self.id})"
+
+    def save(self, *args, **kwargs):
+        new_app = self.id is None
+        super().save(*args, **kwargs)
+        if new_app or self._original_status == self.status:
+            return
+
+        # Notify about the status change:
+        send_mail(
+            f"{self.event.name}: {_('Application')} '{self.name}' ({_('new status')})",
+            render_to_string("events/emails/application_changed.html", {
+                'event': self.event,
+                'application': self,
+            }),
+            settings.SERVER_EMAIL,
+            [self.email]
+        )

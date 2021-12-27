@@ -4,14 +4,17 @@ import random
 import uuid
 
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail, EmailMessage
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
+from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
 
+import settings
 from events.forms import RegistrationForm, CancelRegistrationForm
 from events.models import Event, TicketType, Ticket
 
@@ -81,13 +84,6 @@ class RegistrationView(FormView):
                         nickname=form.cleaned_data['nickname'],
                         city=form.cleaned_data['city'])
 
-        notes = (form.cleaned_data.get('notes') or "").strip()
-        ticket.notes = notes
-
-        if len(notes) > 0:
-            # TODO: Send e-mail to orgs about a new application (reply-to: email above)
-            ticket.status = Ticket.TicketStatus.WAITING
-
         # Now for the nasty part: Get ALL the ticket numbers we already
         # have in the database and generate a new one that does not
         # conflict with any existing ones.
@@ -118,6 +114,17 @@ class RegistrationView(FormView):
 
         ticket.code = selected_code
 
+        ticket.notes = (form.cleaned_data.get('notes') or "").strip()
+        if len(ticket.notes) > 0:
+            ticket.status = Ticket.TicketStatus.WAITING
+            EmailMessage(
+                f"{_('Notes for ticket')}: {ticket.get_code()}",
+                _("A new ticket was registered with the following notes: ") + ticket.notes,
+                settings.SERVER_EMAIL,
+                [settings.SERVER_EMAIL],
+                reply_to=[ticket.email]
+            ).send(fail_silently=True)
+
         if 'image' in self.request.FILES:
             from PIL import Image
 
@@ -136,6 +143,17 @@ class RegistrationView(FormView):
 
         messages.success(self.request, _("Thank you for your registration! You can see your ticket details below."))
         ticket.save()
+
+        send_mail(
+            f"{self.event.name}: {_('Ticket')} {ticket.get_code()}",
+            render_to_string("events/emails/thank_you.html", {
+                'event': self.event,
+                'ticket': ticket,
+                'is_waiting': ticket.status == Ticket.TicketStatus.WAITING
+            }),
+            settings.SERVER_EMAIL,
+            [ticket.email]
+        )
 
         self.type.tickets_remaining -= 1
         self.type.save()

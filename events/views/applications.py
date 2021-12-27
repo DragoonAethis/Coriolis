@@ -1,11 +1,14 @@
 import datetime
 
+from django.core.mail import send_mail
 from django.contrib import messages
+from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
+from django.conf import settings
 
 from events.forms import ApplicationForm
 from events.models import Event, ApplicationType, Application
@@ -71,7 +74,15 @@ class ApplicationView(FormView):
                                   application=form.cleaned_data['application'])
         application.save()
 
-        # TODO: Send e-mail to orgs about a new application (reply-to: email above)
+        send_mail(
+            f"{self.event.name}: {_('Application')} '{application.name}'",
+            render_to_string("events/emails/new_application.html", {
+                'event': self.event,
+                'application': application,
+            }),
+            settings.SERVER_EMAIL,
+            [settings.SERVER_EMAIL, application.email]
+        )
 
         messages.success(self.request, _("Your application was submitted successfully. Orgs will be in touch soon."))
         return redirect('event_index', self.event.slug)
