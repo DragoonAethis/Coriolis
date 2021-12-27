@@ -82,6 +82,7 @@ class RegistrationView(FormView):
                         email=form.cleaned_data['email'],
                         phone=form.cleaned_data['phone'],
                         nickname=form.cleaned_data['nickname'],
+                        notes=form.cleaned_data.get('notes'),
                         city=form.cleaned_data['city'])
 
         # Now for the nasty part: Get ALL the ticket numbers we already
@@ -114,9 +115,9 @@ class RegistrationView(FormView):
 
         ticket.code = selected_code
 
-        ticket.notes = (form.cleaned_data.get('notes') or "").strip()
-        if len(ticket.notes) > 0:
+        if ticket.notes is not None and len(ticket.notes) > 0:
             ticket.status = Ticket.TicketStatus.WAITING
+            ticket._original_status = Ticket.TicketStatus.WAITING
             EmailMessage(
                 f"{_('Notes for ticket')}: {ticket.get_code()}",
                 _("A new ticket was registered with the following notes: ") + ticket.notes,
