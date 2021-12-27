@@ -29,6 +29,23 @@
                     {% translate "If you would like to change ticket details, please contact the event organizers." %}
                 {% endif %}
             </p>
+            <hr>
+            <div class="text-muted">
+                <a class="ticket-nerd-details" id="ticket_nerd_details_link" href="#">
+                    <span id="ticket_nerd_details_toggle">[+]</span> {% translate "Details for nerds" %}
+                </a>
+            </div>
+            <div class="invisible ticket-nerd-details" id="ticket_nerd_details_contents">
+                <ul>
+                    <li>Ticket ID: {{ ticket.id }}</li>
+                    <li>Belongs to: {{ ticket.user }}</li>
+                    {% for payment in ticket.payment_set.all %}
+                        <li>Payment {{ payment.id }} ({{ payment.variant }}): {{ payment.status }}</li>
+                    {% empty %}
+                        <li>No payments.</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         <div class="col-12 col-md-4">
             {% if ticket.image %}

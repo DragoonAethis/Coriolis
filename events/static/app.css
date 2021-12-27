@@ -14,6 +14,12 @@
     margin-right: .25rem;
 }
 
+.ticket-nerd-details {
+    color: #6c757d !important;
+    font-family: var(--bs-font-monospace);
+    text-decoration: none;
+}
+
 .card-ticket-cancelled > .card-header,
 .card-ticket-cancelled > .card-body .card-title {
     text-decoration: line-through;
