@@ -155,6 +155,9 @@ def ticket_payment(request, slug, ticket_id):
             user=request.user,
             event=event,
             ticket=ticket,
+            billing_email=request.user.email,
+            billing_country_code=settings.PAYMENT_ISO_COUNTRY,
+
             variant=settings.PAYMENT_PAY_ONLINE_VARIANT,
             description=f"{ticket.code}: {ticket.name} ({ticket.type.name, ticket.event.name})",
             total=ticket.type.price.amount,
