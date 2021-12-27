@@ -195,7 +195,7 @@ class Payment(BasePayment):
 
     def get_purchased_items(self) -> Iterable[PurchasedItem]:
         yield PurchasedItem(
-            name=f"{self.ticket.code}: {self.ticket.name} ({self.ticket.type.name, self.event.name})",
+            name=f"{self.ticket.code}: {self.ticket.name} ({self.ticket.type.name}, {self.event.name})",
             sku=self.ticket.type.name,
             quantity=1,
             price=self.ticket.type.price.amount,

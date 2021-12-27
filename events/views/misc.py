@@ -159,7 +159,7 @@ def ticket_payment(request, slug, ticket_id):
             billing_country_code=settings.PAYMENT_ISO_COUNTRY,
 
             variant=settings.PAYMENT_PAY_ONLINE_VARIANT,
-            description=f"{ticket.code}: {ticket.name} ({ticket.type.name, ticket.event.name})",
+            description=f"{ticket.code}: {ticket.name} ({ticket.type.name}, {ticket.event.name})",
             total=ticket.type.price.amount,
             currency=ticket.type.price.currency.code,
         )
