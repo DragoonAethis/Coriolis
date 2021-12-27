@@ -9,6 +9,7 @@ from django.conf import settings
 from django.http import Http404
 
 from payments import get_payment_model, RedirectNeeded, PaymentStatus
+from payments_przelewy24.api import Przelewy24API
 
 from events.models import Event, EventPage, Ticket, TicketType, Application, ApplicationType, Payment
 
@@ -183,6 +184,16 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
     event, ticket = get_event_and_ticket(slug, ticket_id)
     payment = get_object_or_404(Payment, id=payment_id)
     assert payment.ticket_id == ticket.id
+
+    # TODO: REMOVE AWFUL HACK FOR PRZELEWY24
+    # P24 sends us a notification after a successful payment. Unfortunately,
+    # failures or rejections get radio silence - let's ask P24 what's up with
+    # a given payment and update the status accordingly.
+    if payment.variant == 'przelewy24' and payment.status == PaymentStatus.WAITING:
+        p24_config = settings.PAYMENT_VARIANTS['przelewy24'][1]['config']
+        p24_api = Przelewy24API(p24_config)
+        response = p24_api.get_by_session_id(session_id=payment.id)
+        print(response)  # i dunno lol
 
     if payment.status == PaymentStatus.CONFIRMED:
         messages.success(request, _("Payment successful - thank you!"))

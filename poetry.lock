@@ -250,17 +250,6 @@ sofort = ["xmltodict (>=0.9.2)"]
 stripe = ["stripe (>=2.6.0)"]
 
 [[package]]
-name = "django-payments-przelewy24"
-version = "0.1.7"
-description = "Your project description goes here"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-django-payments = ">=0.12.0"
-
-[[package]]
 name = "django-phonenumber-field"
 version = "6.0.0"
 description = "An international phone number field for django models."
@@ -343,7 +332,7 @@ signedtoken = ["cryptography (>=3.0.0,<4)", "pyjwt (>=2.0.0,<3)"]
 
 [[package]]
 name = "phonenumberslite"
-version = "8.12.39"
+version = "8.12.40"
 description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
 category = "main"
 optional = false
@@ -557,7 +546,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "905172a32e573e63269cabdd0632d5cb27d94fc2d03712f136a5663f25402f1d"
+content-hash = "ea7b864757f0b937c42394aaf371b9430a747a65bcad12f25b7e067c4e3e5510"
 
 [metadata.files]
 asgiref = [
@@ -749,10 +738,6 @@ django-payments = [
     {file = "django-payments-0.15.0.tar.gz", hash = "sha256:9094efa67fb8bc2bf979470bd040ac9aaecee19999efabe90e978e641b1a74d9"},
     {file = "django_payments-0.15.0-py3-none-any.whl", hash = "sha256:23d081a732ba89eaf701fd0c05a9f1a2d141a129598869140994cfa4b6b2f5a7"},
 ]
-django-payments-przelewy24 = [
-    {file = "django-payments-przelewy24-0.1.7.tar.gz", hash = "sha256:6e8ec1289d50a7df524a7aed9170ea47f136b4d085d6184d596a2ca10e78a458"},
-    {file = "django_payments_przelewy24-0.1.7-py2.py3-none-any.whl", hash = "sha256:bdb0670070193515b98564efa42d44885e184a16a4bfa93072889d1beac4a68d"},
-]
 django-phonenumber-field = [
     {file = "django-phonenumber-field-6.0.0.tar.gz", hash = "sha256:9695d3beda772c503ad4e04a4f7012a8227e9e3e4fd0ea4ffb07c43245bf4a8d"},
     {file = "django_phonenumber_field-6.0.0-py3-none-any.whl", hash = "sha256:bbb9cb2e6fc53c476de40428e1354c313a040e8b2fb69ea8ead4ba41a60f926a"},
@@ -778,8 +763,8 @@ oauthlib = [
     {file = "oauthlib-3.1.1.tar.gz", hash = "sha256:8f0215fcc533dd8dd1bee6f4c412d4f0cd7297307d43ac61666389e3bc3198a3"},
 ]
 phonenumberslite = [
-    {file = "phonenumberslite-8.12.39-py2.py3-none-any.whl", hash = "sha256:1001fd304ccf5ec7f926fd039ef07eefffa9880573698baede00a3becb8de6ad"},
-    {file = "phonenumberslite-8.12.39.tar.gz", hash = "sha256:5b77990b6832675fa3a2e60a05e738af0bf96908352a8ee90b4d4ec964a03977"},
+    {file = "phonenumberslite-8.12.40-py2.py3-none-any.whl", hash = "sha256:e6fe6cad1091f8928e34a98570cade4758f4cf4e70e9e32ff7eca517ce98e273"},
+    {file = "phonenumberslite-8.12.40.tar.gz", hash = "sha256:153885eefec397058c8ce91fb987f55545b2cfa945f22a904584ddf162aa82b1"},
 ]
 pillow = [
     {file = "Pillow-8.4.0-cp310-cp310-macosx_10_10_universal2.whl", hash = "sha256:81f8d5c81e483a9442d72d182e1fb6dcb9723f289a57e8030811bac9ea3fef8d"},

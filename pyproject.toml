@@ -31,8 +31,10 @@ django-colorfield = "^0.6.0"
 Pillow = "^8.4.0"
 Markdown = "^3.3.6"
 django-payments = "^0.15.0"
-django-payments-przelewy24 = "0.1.7"
 django-money = "^2.1"
+
+# Commented out until fixes are upstreamed:
+#django-payments-przelewy24 = "0.1.7"
 
 [tool.poetry.dev-dependencies]
 
