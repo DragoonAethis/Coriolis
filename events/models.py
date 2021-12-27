@@ -4,7 +4,7 @@ from typing import Iterable, Optional
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.contrib.auth.models import AbstractUser
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
@@ -41,6 +41,8 @@ class Event(models.Model):
                                     help_text=_("Link to the main event website."))
     contact_link = models.CharField(max_length=256, verbose_name=_("contact link"),
                                     help_text=_("Used for the big Contact Organizers button."))
+    org_mail = models.CharField(max_length=256, verbose_name=_("org mail"),
+                                help_text=_("Used as the Reply To address for e-mail notifications."))
 
     date_from = models.DateTimeField(verbose_name=_("date from"))
     date_to = models.DateTimeField(verbose_name=_("date to"))
@@ -181,15 +183,16 @@ class Ticket(models.Model):
             return
 
         # Notify about the status change:
-        send_mail(
+        EmailMessage(
             f"{self.event.name}: {_('Ticket')} {self.get_code()} ({_('new status')})",
             render_to_string("events/emails/ticket_changed.html", {
                 'event': self.event,
                 'ticket': self,
             }),
             settings.SERVER_EMAIL,
-            [self.email]
-        )
+            [self.email],
+            reply_to=[self.event.org_mail]
+        ).send()
 
 
 class Payment(BasePayment):
@@ -294,12 +297,13 @@ class Application(models.Model):
             return
 
         # Notify about the status change:
-        send_mail(
+        EmailMessage(
             f"{self.event.name}: {_('Application')} '{self.name}' ({_('new status')})",
             render_to_string("events/emails/application_changed.html", {
                 'event': self.event,
                 'application': self,
             }),
             settings.SERVER_EMAIL,
-            [self.email]
-        )
+            [self.email],
+            reply_to=[self.event.org_mail]
+        ).send()

@@ -4,7 +4,7 @@ import random
 import uuid
 
 from django.contrib import messages
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import EmailMessage
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
 from django.contrib.auth.decorators import login_required
@@ -121,7 +121,7 @@ class RegistrationView(FormView):
                 f"{_('Notes for ticket')}: {ticket.get_code()}",
                 _("A new ticket was registered with the following notes: ") + ticket.notes,
                 settings.SERVER_EMAIL,
-                [settings.SERVER_EMAIL],
+                [ticket.event.org_mail],
                 reply_to=[ticket.email]
             ).send(fail_silently=True)
 
@@ -144,7 +144,7 @@ class RegistrationView(FormView):
         messages.success(self.request, _("Thank you for your registration! You can see your ticket details below."))
         ticket.save()
 
-        send_mail(
+        EmailMessage(
             f"{self.event.name}: {_('Ticket')} {ticket.get_code()}",
             render_to_string("events/emails/thank_you.html", {
                 'event': self.event,
@@ -152,8 +152,9 @@ class RegistrationView(FormView):
                 'is_waiting': ticket.status == Ticket.TicketStatus.WAITING
             }),
             settings.SERVER_EMAIL,
-            [ticket.email]
-        )
+            [ticket.email],
+            reply_to=[ticket.event.org_mail]
+        ).send(fail_silently=True)
 
         self.type.tickets_remaining -= 1
         self.type.save()

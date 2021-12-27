@@ -1,6 +1,6 @@
 import datetime
 
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
@@ -74,15 +74,15 @@ class ApplicationView(FormView):
                                   application=form.cleaned_data['application'])
         application.save()
 
-        send_mail(
+        EmailMessage(
             f"{self.event.name}: {_('Application')} '{application.name}'",
             render_to_string("events/emails/new_application.html", {
                 'event': self.event,
                 'application': application,
             }),
             settings.SERVER_EMAIL,
-            [settings.SERVER_EMAIL, application.email]
-        )
+            [self.event.org_mail, application.email]
+        ).send()
 
         messages.success(self.request, _("Your application was submitted successfully. Orgs will be in touch soon."))
         return redirect('event_index', self.event.slug)
