@@ -189,6 +189,8 @@ def ticket_payment(request, slug, ticket_id):
     try:
         form = payment.get_form(data=request.POST or None)
         form.helper = FormHelper()
+        form.helper.form_action = form.action
+        form.helper.form_method = form.method
         form.helper.add_input(Submit('submit', _('Continue Payment'), css_class="btn btn-lg btn-primary"))
     except RedirectNeeded as redirect_to:
         return redirect(str(redirect_to))
