@@ -203,5 +203,9 @@ class CancelRegistrationView(FormView):
         self.ticket.status = Ticket.TicketStatus.CANCELLED
         self.ticket.save()
 
+        type = TicketType.objects.get(id=self.ticket.type_id)
+        type.tickets_remaining += 1
+        type.save()
+
         messages.info(self.request, _("Ticket cancelled."))
         return redirect('event_index', self.event.slug)
