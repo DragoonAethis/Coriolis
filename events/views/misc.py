@@ -1,14 +1,15 @@
 import datetime
 from typing import Tuple
 
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.conf import settings
 from django.http import Http404
 
-from payments import get_payment_model, RedirectNeeded, PaymentStatus
+from payments import RedirectNeeded, PaymentStatus
 from payments_przelewy24.api import Przelewy24API
 
 from events.models import Event, EventPage, Ticket, TicketType, Application, ApplicationType, Payment
@@ -164,7 +165,8 @@ def ticket_payment(request, slug, ticket_id):
             resuming_message = _("Resuming an existing payment in progress. Problems?")
             no_resuming_link_label = _("Start a new payment.")
             no_resuming_link = reverse('ticket_payment', args=[event.slug, ticket.id]) + '?resume=0'
-            messages.info(request, f'{resuming_message} <a href="{no_resuming_link}">{no_resuming_link_label}</a>')
+            msg = mark_safe(f'{resuming_message} <a href="{no_resuming_link}">{no_resuming_link_label}</a>')
+            messages.info(request, msg)
 
     if payment is None:  # Let's make a new one:
         payment = Payment(
