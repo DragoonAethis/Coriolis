@@ -131,16 +131,11 @@ class RegistrationView(FormView):
 
             file: UploadedFile = form.cleaned_data['image']
             path = f'ticketavatars/{uuid.uuid4()}.png'
-            ticket.image = default_storage.save(path, file)
-
-            # Do post-processing. We need to do this after saving the
-            # file once to prevent annoying issues with in-memory PIL...
-            image: Image = Image.open(ticket.image.file)
-            # TODO: Image post-processing should land here once we have reqs.
-
-            # And now, save the image once again.
-            with default_storage.open(ticket.image.name, 'wb') as handle:
+            image: Image = Image.open(file)
+            with default_storage.open(path, 'wb') as handle:
                 image.save(handle, 'png')
+
+            ticket.image = path
 
         messages.success(self.request, _("Thank you for your registration! You can see your ticket details below."))
         ticket.save()
