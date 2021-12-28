@@ -4,6 +4,13 @@
     margin-bottom: 0 !important;
 }
 
+.application-content {
+    display: inline;
+    word-wrap: normal;
+    white-space: pre-wrap;
+    font-family: var(--bs-font-sans-serif);
+}
+
 .brand-link {
     font-size: 1.7rem;
     text-decoration: none;
