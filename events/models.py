@@ -249,7 +249,8 @@ class ApplicationType(models.Model):
     description = models.TextField(verbose_name=_("description"),
                                    help_text=_("Shown on the application form. Supports Markdown."))
     template = models.TextField(verbose_name=_("template"),
-                                help_text=_("Default contents for the application form. Does not support formatting."))
+                                help_text=_("Template for dynamic application form fields. Docs: ") +
+                                          "https://github.com/DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms")
 
     def __str__(self):
         return f"{self.name} ({self.id})"

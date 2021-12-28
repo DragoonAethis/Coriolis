@@ -1,5 +1,9 @@
+import logging
 import datetime
+from typing import List, Dict, Optional
 
+from django import forms
+from django.forms.widgets import Textarea, TextInput
 from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -17,8 +21,6 @@ from events.models import Event, ApplicationType, Application
 class ApplicationView(FormView):
     event: Event
     type: ApplicationType
-
-    form_class = ApplicationForm
     template_name = 'events/applications/application_form.html'
 
     @method_decorator(login_required)
@@ -50,18 +52,47 @@ class ApplicationView(FormView):
 
         return True
 
-    def get_initial(self):
-        return {'application': self.type.template}
+    def get_dynamic_fields(self, template: str) -> List[Dict[str, Optional[str]]]:
+        dynamic_fields = []
+        for line in template.splitlines():
+            line = line.strip()
+            if len(line) == 0 or line.startswith('#'):
+                continue
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs.update({"event": self.event, "type": self.type})
-        return kwargs
+            parts = line.split('|')
+            if len(parts) < 2:
+                logging.warning(f"Invalid parts definition: {parts}")
+                continue
+
+            dynamic_fields.append({
+                'key': parts[0],
+                'label': parts[1],
+                'help_text': None if len(parts) == 2 else parts[2]
+            })
+
+        return dynamic_fields
+
+    def get_form(self, form_class=None):
+        form = ApplicationForm(event=self.event, type=self.type, **self.get_form_kwargs())
+        form.dynamic_fields = self.get_dynamic_fields(self.type.template)
+
+        for field in form.dynamic_fields:
+            form.fields[field['key']] = forms.CharField(label=field['label'], required=True,
+                                                        help_text=field['help_text'])
+
+        form.fields['notes'] = forms.CharField(label=_("Notes"), required=False, widget=Textarea,
+                                               help_text=_("Optional extra notes - add anything you want!"))
+
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({'event': self.event, 'type': self.type})
         return context
+
+    def form_invalid(self, form):
+        form.is_valid()
+        print('oh no')
 
     def form_valid(self, form):
         application = Application(user=self.request.user,
@@ -70,8 +101,14 @@ class ApplicationView(FormView):
                                   status=Application.ApplicationStatus.WAITING,
                                   name=form.cleaned_data['name'],
                                   email=form.cleaned_data['email'],
-                                  phone=form.cleaned_data['phone'],
-                                  application=form.cleaned_data['application'])
+                                  phone=form.cleaned_data['phone'])
+
+        dynamic_answers = [(field['label'], form.cleaned_data[field['key']])
+                           for field in form.dynamic_fields]
+
+        dynamic_answers.append((_("Notes"), form.cleaned_data['notes']))
+        application.application = "\n".join([f"- {name}: {value}" for name, value in dynamic_answers])
+
         application.save()
 
         EmailMessage(
