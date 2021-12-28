@@ -1,7 +1,7 @@
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
-from django.forms.widgets import Textarea
+from django.forms.widgets import Textarea, TextInput
 from django.urls import reverse
 
 from crispy_forms.helper import FormHelper
@@ -9,9 +9,10 @@ from crispy_forms.layout import Submit
 
 
 class ApplicationForm(forms.Form):
-    name = forms.CharField(label=_("Name"), max_length=256, required=True,
-                           help_text=_("Your first and last name, or the organization you represent."))
-    email = forms.EmailField(label=_("E-mail Address"), required=True,
+    name = forms.CharField(label=_("First and last name/organization name"), max_length=256, required=True,
+                           help_text=_("Your first and last name as shown on the identifying document, "
+                                       "or the organization you represent."))
+    email = forms.EmailField(label=_("E-mail Address"), required=True, widget=TextInput(),
                              help_text=_("E-mail address for notifications."))
     phone = PhoneNumberField(label=_("Phone Number"), required=True,
                              help_text=_("Required for notifications and contact with organizers."))

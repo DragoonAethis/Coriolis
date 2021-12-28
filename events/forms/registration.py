@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import Textarea
+from django.forms import Textarea, TextInput
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.formfields import PhoneNumberField
@@ -9,9 +9,9 @@ from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 from crispy_forms.bootstrap import FormActions
 
 class RegistrationForm(forms.Form):
-    name = forms.CharField(label=_("Name"), max_length=256, required=True,
+    name = forms.CharField(label=_("First and last name"), max_length=256, required=True,
                            help_text=_("Your first and last name, as shown on the identifying document."))
-    email = forms.EmailField(label=_("E-mail Address"), required=True,
+    email = forms.EmailField(label=_("E-mail Address"), required=True, widget=TextInput(),
                              help_text=_("E-mail address for notifications."))
     phone = PhoneNumberField(label=_("Phone Number"), required=False,
                              help_text=_("Optional, used for SMS notifications. "
