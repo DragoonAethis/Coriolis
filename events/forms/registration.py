@@ -8,6 +8,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, HTML
 from crispy_forms.bootstrap import FormActions
 
+
 class RegistrationForm(forms.Form):
     name = forms.CharField(label=_("First and last name"), max_length=256, required=True,
                            help_text=_("Your first and last name, as shown on the identifying document."))
@@ -17,9 +18,15 @@ class RegistrationForm(forms.Form):
                              help_text=_("Optional, used for SMS notifications. "
                                          "Organizers can contact you this way as well."))
 
+    age_gate = forms.BooleanField(label=_("I am at least 18 years old"), required=False,
+                                  help_text=_("If not, you must take extra documents listed above to the event."))
+    regulations = forms.BooleanField(label=_("I accept the event regulations"), required=True,
+                                     help_text=_("Regulations are listed above."))
+
     notes = forms.CharField(label=_("Notes for Organizers"), required=False, widget=Textarea,
                             help_text=_("Optional, add some notes for organizers who will have to "
-                                        "read them before the ticket is ready for use on the event."))
+                                        "read them before the ticket is ready for use on the event. "
+                                        "Online payments will be available after approval."))
 
     nickname = forms.CharField(label=_("Nickname"), max_length=256, required=False,
                                help_text=_("Optional, your nickname to be printed on your ticket."))
@@ -42,6 +49,8 @@ class RegistrationForm(forms.Form):
                 'name',
                 'email',
                 'phone',
+                'age_gate',
+                'regulations',
                 'notes',
 
                 HTML("<h2>" + _("Personalization") + "</h2>"),

@@ -146,6 +146,8 @@ class Ticket(models.Model):
     email = models.EmailField(verbose_name=_("email"), blank=True)
     phone = PhoneNumberField(blank=True, verbose_name=_("phone"),
                              help_text=_("Optional, used for notifications before/during the event"))
+    age_gate = models.BooleanField(verbose_name=_("age gate"),
+                                   help_text=_("Is the attendee of age?"))
     notes = models.TextField(blank=True, verbose_name=_("notes"),
                              help_text=_("Optional, notes for organizers"))
 

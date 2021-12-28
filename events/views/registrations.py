@@ -81,6 +81,7 @@ class RegistrationView(FormView):
                         name=form.cleaned_data['name'],
                         email=form.cleaned_data['email'],
                         phone=form.cleaned_data['phone'],
+                        age_gate=form.cleaned_data['age_gate'],
                         nickname=form.cleaned_data['nickname'],
                         notes=form.cleaned_data.get('notes'),
                         city=form.cleaned_data['city'])

@@ -16,6 +16,8 @@ class ApplicationForm(forms.Form):
                              help_text=_("E-mail address for notifications."))
     phone = PhoneNumberField(label=_("Phone Number"), required=True,
                              help_text=_("Required for notifications and contact with organizers."))
+    age_gate = forms.BooleanField(label=_("I am at least 16 years old"), required=True,
+                                  help_text=_("We cannot legally accept help from younger people."))
     application = forms.CharField(label=_("Form"), required=True, widget=Textarea)
 
     def __init__(self, *args, event, type, **kwargs):
