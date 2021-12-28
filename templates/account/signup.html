@@ -1,6 +1,6 @@
 {% extends "account/base.html" %}
 
-{% load i18n crispy_forms_tags %}
+{% load i18n crispy_forms_filters events %}
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
@@ -13,7 +13,7 @@
 
         <form class="d-grid gap-1" class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
           {% csrf_token %}
-          {{ form|crispy }}
+          {{ form|allauth_autocomplete|crispy }}
           {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
           {% endif %}
