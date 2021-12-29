@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-28 22:42+0100\n"
-"PO-Revision-Date: 2021-12-28 22:42+0100\n"
+"POT-Creation-Date: 2021-12-29 01:06+0100\n"
+"PO-Revision-Date: 2021-12-29 01:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -53,12 +53,11 @@ msgid "I am at least 16 years old"
 msgstr "Mam przynajmniej 16 lat"
 
 #: events/forms/applications.py:20
-msgid "We cannot legally accept help from younger people."
-msgstr "Nie możemy legalnie przyjąć pomocy od młodszych osób."
-
-#: events/forms/applications.py:21
-msgid "Form"
-msgstr "Formularz"
+msgid ""
+"We cannot legally accept help or organization proposals from younger people."
+msgstr ""
+"Nie możemy legalnie przyjąć pomocy any propozycji organizacji od młodszych "
+"osób."
 
 #: events/forms/applications.py:31
 msgid "Submit Application"
@@ -169,7 +168,7 @@ msgstr "Anuluj bilet"
 
 #: events/models.py:27 events/models.py:70 events/models.py:92
 #: events/models.py:140 events/models.py:207 events/models.py:241
-#: events/models.py:275
+#: events/models.py:276
 msgid "event"
 msgstr "wydarzenie"
 
@@ -178,7 +177,7 @@ msgid "events"
 msgstr "wydarzenia"
 
 #: events/models.py:32 events/models.py:72 events/models.py:93
-#: events/models.py:145 events/models.py:242 events/models.py:279
+#: events/models.py:145 events/models.py:242 events/models.py:280
 msgid "name"
 msgstr "nazwa"
 
@@ -368,11 +367,11 @@ msgstr "bilet"
 msgid "tickets"
 msgstr "bilety"
 
-#: events/models.py:130 events/models.py:267
+#: events/models.py:130 events/models.py:268
 msgid "Cancelled"
 msgstr "Anulowany"
 
-#: events/models.py:131 events/models.py:268
+#: events/models.py:131 events/models.py:269
 msgid "Waiting for Organizers"
 msgstr "Czeka na Organizatorów"
 
@@ -392,23 +391,23 @@ msgstr "Użyty"
 msgid "Used on site"
 msgstr "Użyty na miejscu"
 
-#: events/models.py:139 events/models.py:206 events/models.py:274
+#: events/models.py:139 events/models.py:206 events/models.py:275
 msgid "user"
 msgstr "użytkownik"
 
-#: events/models.py:141 events/models.py:276
+#: events/models.py:141 events/models.py:277
 msgid "type"
 msgstr "typ"
 
-#: events/models.py:142 events/models.py:277
+#: events/models.py:142 events/models.py:278
 msgid "status"
 msgstr "status"
 
-#: events/models.py:146 events/models.py:281
+#: events/models.py:146 events/models.py:282
 msgid "email"
 msgstr "email"
 
-#: events/models.py:147 events/models.py:280
+#: events/models.py:147 events/models.py:281
 msgid "phone"
 msgstr "telefon"
 
@@ -498,43 +497,53 @@ msgid "template"
 msgstr "szablon"
 
 #: events/models.py:252
-msgid "Default contents for the application form. Does not support formatting."
-msgstr "Domyślna zawartość formularza zgłoszenia. Nie wspiera formatowania."
+msgid "Template for dynamic application form fields. Docs: "
+msgstr "Szablon dla dynamicznych pól formularzy w zgłoszeniach. Dokumentacja: "
 
-#: events/models.py:260 events/models.py:282
+#: events/models.py:261 events/models.py:283
 msgid "application"
 msgstr "zgłoszenie"
 
-#: events/models.py:261
+#: events/models.py:262
 msgid "applications"
 msgstr "zgłoszenia"
 
-#: events/models.py:269
+#: events/models.py:270
 msgid "Approved"
 msgstr "Zatwierdzone"
 
-#: events/models.py:270
+#: events/models.py:271
 msgid "Rejected"
 msgstr "Odrzucone"
 
-#: events/models.py:283
+#: events/models.py:284
 msgid "org notes"
 msgstr "notatki organizatorów"
 
-#: events/views/applications.py:38
+#: events/views/applications.py:40
 msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
-#: events/views/applications.py:44
+#: events/views/applications.py:46
 msgid "This application is not yet open. Come back later."
 msgstr ""
 "Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
 
-#: events/views/applications.py:48
+#: events/views/applications.py:50
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:87
+#: events/views/applications.py:108 events/views/applications.py:134
+#: templates/events/emails/ticket_changed.html:7
+#: templates/events/tickets/details.html:19
+msgid "Notes"
+msgstr "Notatki"
+
+#: events/views/applications.py:109
+msgid "Optional extra notes - add anything you want!"
+msgstr "Opcjonalne dodatkowe notatki - wpisz cokolwiek co chcesz!"
+
+#: events/views/applications.py:149
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
@@ -763,20 +772,20 @@ msgstr ""
 msgid "Sign In"
 msgstr "Zaloguj się"
 
-#: templates/account/login.html:9 templates/account/login.html:17
+#: templates/account/login.html:9 templates/account/login.html:22
 #: templates/base.html:65
 msgid "Sign in"
 msgstr "Zaloguj się"
 
-#: templates/account/login.html:21 templates/account/password_change.html:14
+#: templates/account/login.html:26 templates/account/password_change.html:14
 msgid "Forgot Password?"
 msgstr "Nie pamiętasz hasła?"
 
-#: templates/account/login.html:24
+#: templates/account/login.html:29
 msgid "Sign up"
 msgstr "Zarejestruj się"
 
-#: templates/account/login.html:33
+#: templates/account/login.html:38
 msgid "You can sign in with one of the external accounts as well:"
 msgstr "Możesz zalogować się też jednym z zewnętrznych kont poniżej:"
 
@@ -1097,11 +1106,6 @@ msgstr "Jeszcze raz, dziękujemy, i do zobaczenia wkrótce!"
 msgid "Your ticket for %(event)s has a new status."
 msgstr "Twój bilet na %(event)s ma nowy status."
 
-#: templates/events/emails/ticket_changed.html:7
-#: templates/events/tickets/details.html:19
-msgid "Notes"
-msgstr "Notatki"
-
 #: templates/events/event_picker.html:4 templates/events/event_picker.html:10
 msgid "Select an Event"
 msgstr "Wybierz Wydarzenie"
@@ -1298,6 +1302,13 @@ msgid ""
 msgstr ""
 "Zaraz użyjesz konta %(provider_name)s aby zalogować się na stronę\n"
 "%(site_name)s. Uzupełnij poniższy formularz:"
+
+#~ msgid "Form"
+#~ msgstr "Formularz"
+
+#~ msgid ""
+#~ "Default contents for the application form. Does not support formatting."
+#~ msgstr "Domyślna zawartość formularza zgłoszenia. Nie wspiera formatowania."
 
 #~ msgid "or"
 #~ msgstr "lub"
