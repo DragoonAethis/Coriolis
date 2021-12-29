@@ -87,6 +87,10 @@ class ApplicationView(FormView):
         form.dynamic_fields = self.get_dynamic_fields(self.type.template)
 
         for field in form.dynamic_fields:
+            if field['key'] in form.fields:
+                logging.warning(f"Key already found in form, ignoring: {field['key']}")
+                continue
+
             extras: dict = field['extras']
             help = extras.get('help', None)
             required = bool(int(extras.get('required', '1')))
