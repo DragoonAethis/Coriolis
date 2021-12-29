@@ -1,7 +1,7 @@
 from django import forms
 from phonenumber_field.formfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
-from django.forms.widgets import Textarea, TextInput
+from django.forms.widgets import TextInput
 from django.urls import reverse
 
 from crispy_forms.helper import FormHelper
