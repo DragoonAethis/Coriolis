@@ -1,9 +1,9 @@
 import logging
 import datetime
-from typing import List, Dict, Optional
+from typing import List, Dict, Union, Optional
 
 from django import forms
-from django.forms.widgets import Textarea, TextInput
+from django.forms.widgets import Textarea
 from django.core.mail import EmailMessage
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -52,7 +52,7 @@ class ApplicationView(FormView):
 
         return True
 
-    def get_dynamic_fields(self, template: str) -> List[Dict[str, Optional[str]]]:
+    def get_dynamic_fields(self, template: str) -> List[Dict[str, Optional[Union[str, dict]]]]:
         dynamic_fields = []
         for line in template.splitlines():
             line = line.strip()
@@ -60,14 +60,24 @@ class ApplicationView(FormView):
                 continue
 
             parts = line.split('|')
-            if len(parts) < 2:
+            if len(parts) < 3:
                 logging.warning(f"Invalid parts definition: {parts}")
                 continue
 
+            extras = {}
+            extra_parts = [] if len(parts) == 3 else parts[3:]
+            for extra_part in extra_parts:
+                key, _, value = extra_part.partition(':')
+                if len(key) == 0 or len(value) == 0:
+                    continue
+
+                extras[key] = value
+
             dynamic_fields.append({
                 'key': parts[0],
-                'label': parts[1],
-                'help_text': None if len(parts) == 2 else parts[2]
+                'type': parts[1],
+                'label': parts[2],
+                'extras': extras
             })
 
         return dynamic_fields
@@ -77,8 +87,23 @@ class ApplicationView(FormView):
         form.dynamic_fields = self.get_dynamic_fields(self.type.template)
 
         for field in form.dynamic_fields:
-            form.fields[field['key']] = forms.CharField(label=field['label'], required=True,
-                                                        help_text=field['help_text'])
+            extras: dict = field['extras']
+            help = extras.get('help', None)
+            required = bool(int(extras.get('required', '1')))
+
+            if field['type'] == 'text':
+                dynafield = forms.CharField(label=field['label'], required=required, help_text=help)
+            elif field['type'] == 'choices':
+                if 'choices' not in extras:
+                    raise Exception("Invalid choice field format - missing choices")
+
+                choices = [(x.strip(), x.strip()) for x in extras['choices'].split(';')]
+                dynafield = forms.ChoiceField(label=field['label'], required=required, help_text=help,
+                                              choices=choices)
+            else:
+                raise Exception(f"Invalid field type: {field['type']}")
+
+            form.fields[field['key']] = dynafield
 
         form.fields['notes'] = forms.CharField(label=_("Notes"), required=False, widget=Textarea,
                                                help_text=_("Optional extra notes - add anything you want!"))
