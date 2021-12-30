@@ -125,6 +125,9 @@ class RegistrationView(FormView):
                 [ticket.event.org_mail],
                 reply_to=[ticket.email]
             ).send(fail_silently=True)
+        elif self.type.must_pay_online:
+            ticket.status = Ticket.TicketStatus.WAITING_FOR_PAYMENT
+            ticket._original_status = Ticket.TicketStatus.WAITING_FOR_PAYMENT
 
         if 'image' in self.request.FILES:
             from PIL import Image
@@ -137,7 +140,7 @@ class RegistrationView(FormView):
 
             ticket.image = path
 
-        messages.success(self.request, _("Thank you for your registration! You can see your ticket details below."))
+
         ticket.save()
 
         EmailMessage(
@@ -154,6 +157,16 @@ class RegistrationView(FormView):
 
         self.type.tickets_remaining -= 1
         self.type.save()
+
+        if ticket.status == Ticket.TicketStatus.WAITING_FOR_PAYMENT:
+            messages.success(self.request, _("Thank you for your registration! You must pay for the selected ticket "
+                                             "type online. Do so now, or click Pay Online later from your tickets."))
+            return redirect('ticket_payment', self.event.slug, ticket.id)
+        elif ticket.status == Ticket.TicketStatus.WAITING:
+            messages.success(self.request, _("Thank you for your registration! You will receive an e-mail when "
+                                             "organizers read and acknowledge your ticket notes."))
+        elif ticket.status == Ticket.TicketStatus.READY_PAY_ON_SITE:
+            messages.success(self.request, _("Thank you for your registration! You can see your ticket details below."))
 
         return redirect('event_index', self.event.slug)
 
@@ -174,7 +187,7 @@ class CancelRegistrationView(FormView):
             messages.error(self.request, _("You cannot cancel a ticket that is not yours!"))
             return redirect('event_index', self.event.slug)
 
-        if self.ticket.status != Ticket.TicketStatus.READY_PAY_ON_SITE:
+        if self.ticket.status not in (Ticket.TicketStatus.READY_PAY_ON_SITE, Ticket.TicketStatus.WAITING_FOR_PAYMENT):
             messages.error(self.request, _("Cannot cancel a ticket with this status - please contact the organizers."))
             return redirect('event_index', self.event.slug)
 

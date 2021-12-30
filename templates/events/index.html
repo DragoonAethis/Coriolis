@@ -32,13 +32,11 @@
                                        class="btn {% if ticket.is_cancelled %}btn-outline-secondary{% else %}btn-primary{% endif %} me-2">
                                         {% translate "Details" %}
                                     </a>
-                                    {% if ticket.status == 'OKNP' %}
+                                    {% if ticket.status == 'OKNP' or ticket.status == 'WPAY' %}
                                         <a href="{% url 'ticket_payment' event.slug ticket.id %}" class="btn btn-primary me-2">{% translate "Pay Online" %}</a>
-                                    {% elif ticket.status == 'WAIT' %}
-                                        <button class="btn btn-secondary me-2" disabled>{% translate "Pay after org approval" %}</button>
-                                    {% endif %}
-                                    {% if ticket.status == 'OKNP' %}
                                         <a href="{% url 'ticket_cancel' event.slug ticket.id %}" class="btn btn-danger me-2">{% translate "Cancel" %}</a>
+                                    {% elif ticket.status == 'WAIT' %}
+                                        <button class="btn btn-secondary me-2" disabled>{% translate "Pay after approval" %}</button>
                                     {% endif %}
                                 </div>
                             </div>

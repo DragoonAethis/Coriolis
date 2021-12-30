@@ -105,6 +105,8 @@ class TicketType(models.Model):
     registration_to = models.DateTimeField(verbose_name=_("registration to"))
     self_registration = models.BooleanField(default=True, verbose_name=_("self-registration"),
                                             help_text=_("Determines if the ticket can be purchased online."))
+    must_pay_online = models.BooleanField(default=False, verbose_name=_("must pay online"),
+                                          help_text=_("Determines if the ticket can be paid on-site or online only."))
 
     max_tickets = models.PositiveSmallIntegerField(verbose_name=_("max tickets"))
     tickets_remaining = models.PositiveSmallIntegerField(verbose_name=_("tickets remaining"))
@@ -129,6 +131,7 @@ class Ticket(models.Model):
     class TicketStatus(models.TextChoices):
         CANCELLED = 'CNCL', _("Cancelled")
         WAITING = 'WAIT', _("Waiting for Organizers")
+        WAITING_FOR_PAYMENT = 'WPAY', _("Waiting for online payment")
         READY_PAY_ON_SITE = 'OKNP', _("Ready (payment on site)")
         READY_PAID = 'OKPD', _("Ready (paid)")
         USED = 'USED', _("Used")

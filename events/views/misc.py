@@ -134,7 +134,7 @@ def ticket_payment(request, slug, ticket_id):
         messages.success(request, _("This ticket was already paid for."))
         return redirect('event_index', event.slug)
 
-    if not ticket.status == Ticket.TicketStatus.READY_PAY_ON_SITE:
+    if not ticket.status in (Ticket.TicketStatus.READY_PAY_ON_SITE, Ticket.TicketStatus.WAITING_FOR_PAYMENT):
         messages.error(request, _("You cannot pay for this ticket online."))
         return redirect('event_index', event.slug)
 
