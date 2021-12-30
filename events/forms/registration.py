@@ -30,8 +30,6 @@ class RegistrationForm(forms.Form):
 
     nickname = forms.CharField(label=_("Nickname"), max_length=256, required=False,
                                help_text=_("Optional, your nickname to be printed on your ticket."))
-    city = forms.CharField(label=_("City"), max_length=256, required=False,
-                           help_text=_("Optional, city to be printed on your ticket."))
     image = forms.ImageField(label=_("Image"), required=False,
                              help_text=_("Optional, image to be printed on your ticket."))
 

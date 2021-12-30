@@ -83,8 +83,7 @@ class RegistrationView(FormView):
                         phone=form.cleaned_data['phone'],
                         age_gate=form.cleaned_data['age_gate'],
                         nickname=form.cleaned_data['nickname'],
-                        notes=form.cleaned_data.get('notes'),
-                        city=form.cleaned_data['city'])
+                        notes=form.cleaned_data.get('notes'))
 
         # Now for the nasty part: Get ALL the ticket numbers we already
         # have in the database and generate a new one that does not

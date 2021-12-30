@@ -155,8 +155,6 @@ class Ticket(models.Model):
                                        help_text=_("Code printed on the ticket. Required for pickup on site."))
     nickname = models.CharField(max_length=256, blank=True, verbose_name=_("nickname"),
                                 help_text=_("Printed on the customized ticket"))
-    city = models.CharField(max_length=256, blank=True, verbose_name=_("city"),
-                            help_text=_("Printed on the customized ticket"))
     image = models.ImageField(blank=True, verbose_name=_("image"),
                               help_text=_("Printed on the customized ticket, should be cropped to a square"))
 
