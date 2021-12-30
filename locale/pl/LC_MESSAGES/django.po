@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 03:09+0100\n"
-"PO-Revision-Date: 2021-12-30 03:11+0100\n"
+"POT-Creation-Date: 2021-12-30 03:18+0100\n"
+"PO-Revision-Date: 2021-12-30 03:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -803,6 +803,10 @@ msgstr "Wyloguj się"
 msgid "Are you sure you want to sign out?"
 msgstr "Czy na pewno chcesz się wylogować?"
 
+#: templates/account/messages/logged_in.txt:2
+msgid "Successfully signed in."
+msgstr "Zalogowano pomyślnie."
+
 #: templates/account/password_change.html:5
 #: templates/account/password_change.html:8
 #: templates/account/password_change.html:13
@@ -971,6 +975,11 @@ msgstr "Brak kodów. Wciśnij przycisk poniżej aby je wygenerować."
 msgid "Generate backup tokens"
 msgstr "Generuj kody zapasowe"
 
+#: templates/allauth_2fa/backup_tokens.html:29
+#: templates/allauth_2fa/remove.html:14
+msgid "Disable Two-Factor"
+msgstr "Wyłącz 2FA"
+
 #: templates/allauth_2fa/remove.html:6
 msgid "Disable Two-Factor Authentication"
 msgstr "Wyłącz Uwierzytelnianie Dwuskładnikowe"
@@ -978,10 +987,6 @@ msgstr "Wyłącz Uwierzytelnianie Dwuskładnikowe"
 #: templates/allauth_2fa/remove.html:9
 msgid "Are you sure?"
 msgstr "Na pewno?"
-
-#: templates/allauth_2fa/remove.html:14
-msgid "Disable Two-Factor"
-msgstr "Wyłącz 2FA"
 
 #: templates/allauth_2fa/setup.html:7
 msgid "Setup Two-Factor Authentication"
