@@ -41,6 +41,7 @@ class RegistrationForm(forms.Form):
             "slug": event.slug,
             "id": type.id
         })
+        self.helper.attrs['novalidate'] = True
         self.helper.layout = Layout(
             Fieldset(
                 _("Details"),

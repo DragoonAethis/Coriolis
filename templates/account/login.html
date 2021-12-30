@@ -13,7 +13,7 @@
             </div>
         {% endif %}
 
-        <form class="d-grid gap-1" class="login" method="POST" action="{% url 'account_login' %}">
+        <form class="d-grid gap-1" class="login" method="POST" action="{% url 'account_login' %}" novalidate="">
             {% csrf_token %}
             {{ form | crispy }}
             {% if redirect_field_value %}

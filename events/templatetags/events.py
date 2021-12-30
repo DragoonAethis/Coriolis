@@ -28,6 +28,15 @@ def render_markdown(content: str) -> str:
     return mark_safe(markdown(content, output_format='html5'))
 
 
+@register.simple_tag
+def get_env_css_class() -> str:
+    css_class = f'environment-{settings.ENVIRONMENT}'
+    if settings.DEBUG:
+        css_class = f"{css_class} debug-enabled"
+
+    return mark_safe(css_class)
+
+
 @register.filter
 def allauth_autocomplete(form: BaseForm) -> BaseForm:
     """
@@ -41,12 +50,3 @@ def allauth_autocomplete(form: BaseForm) -> BaseForm:
         widget.attrs['autocomplete'] = 'new-password'
 
     return form
-
-
-@register.simple_tag
-def get_env_css_class() -> str:
-    css_class = f'environment-{settings.ENVIRONMENT}'
-    if settings.DEBUG:
-        css_class = f"{css_class} debug-enabled"
-
-    return mark_safe(css_class)

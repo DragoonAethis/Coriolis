@@ -37,6 +37,7 @@ class ApplicationDynaform(forms.Form):
             "slug": event.slug,
             "id": application_type.id
         })
+        self.helper.attrs['novalidate'] = True
         self.helper.add_input(Submit('submit', _('Submit Application'), css_class="btn btn-lg btn-primary"))
 
     def parse_template(self, template: str) -> dict[str, forms.Field]:
