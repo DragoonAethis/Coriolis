@@ -15,10 +15,15 @@
             <hr>
             <h5>{% translate "Name" %}: <b>{{ ticket.name }}</b></h5>
             <h5>{% translate "Email" %}: <b>{{ ticket.email }}</b></h5>
-            <h5>{% translate "Phone" %}: <b>{{ ticket.phone }}</b></h5>
+
+            {% if ticket.phone %}
+                <h5>{% translate "Phone" %}: <b>{{ ticket.phone }}</b></h5>
+            {% endif %}
+
             {% if ticket.nickname %}
                 <h5>{% translate "Nickname" %}: <b>{{ ticket.nickname }}</b></h5>
             {% endif %}
+
             <h5>{% translate "Notes" %}: <b>{{ ticket.notes }}</b></h5>
             <hr>
             <p>
