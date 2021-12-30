@@ -16,11 +16,10 @@
             <h5>{% translate "Name" %}: <b>{{ ticket.name }}</b></h5>
             <h5>{% translate "Email" %}: <b>{{ ticket.email }}</b></h5>
             <h5>{% translate "Phone" %}: <b>{{ ticket.phone }}</b></h5>
+            {% if ticket.nickname %}
+                <h5>{% translate "Nickname" %}: <b>{{ ticket.nickname }}</b></h5>
+            {% endif %}
             <h5>{% translate "Notes" %}: <b>{{ ticket.notes }}</b></h5>
-            <hr>
-            <!-- TODO EDIT FORM -->
-            <h5>{% translate "Nickname" %}: <b>{{ ticket.nickname }}</b></h5>
-            <h5>{% translate "City" %}: <b>{{ ticket.city }}</b></h5>
             <hr>
             <p>
                 {% if ticket.is_cancelled %}
