@@ -117,6 +117,8 @@ class TicketType(models.Model):
                                             help_text=_("Determines if the ticket can be purchased online."))
     must_pay_online = models.BooleanField(default=False, verbose_name=_("must pay online"),
                                           help_text=_("Determines if the ticket can be paid on-site or online only."))
+    display_order = models.IntegerField(default=0, verbose_name=_("display order"),
+                                        help_text=_("Order in which ticket types are displayed (0, 1, 2, ...)."))
 
     max_tickets = models.PositiveSmallIntegerField(verbose_name=_("max tickets"))
     tickets_remaining = models.PositiveSmallIntegerField(verbose_name=_("tickets remaining"))
