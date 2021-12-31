@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 03:18+0100\n"
-"PO-Revision-Date: 2021-12-30 03:19+0100\n"
+"POT-Creation-Date: 2021-12-31 17:16+0100\n"
+"PO-Revision-Date: 2021-12-31 17:17+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -116,7 +116,7 @@ msgstr "Ksywka"
 msgid "Optional, your nickname to be printed on your ticket."
 msgstr "Opcjonalnie, twoja ksywka do druku na twoim bilecie."
 
-#: events/forms/registration.py:33 templates/events/tickets/details.html:56
+#: events/forms/registration.py:33 templates/events/tickets/details.html:59
 msgid "Image"
 msgstr "Obrazek"
 
@@ -157,365 +157,388 @@ msgstr "Tak jest - anuluj ten bilet!"
 msgid "Cancel ticket"
 msgstr "Anuluj bilet"
 
-#: events/models.py:27 events/models.py:70 events/models.py:92
-#: events/models.py:143 events/models.py:208 events/models.py:242
-#: events/models.py:277
+#: events/models.py:30 events/models.py:73 events/models.py:95
+#: events/models.py:195 events/models.py:262 events/models.py:296
+#: events/models.py:331
 msgid "event"
 msgstr "wydarzenie"
 
-#: events/models.py:28
+#: events/models.py:31
 msgid "events"
 msgstr "wydarzenia"
 
-#: events/models.py:32 events/models.py:72 events/models.py:93
-#: events/models.py:148 events/models.py:243 events/models.py:281
+#: events/models.py:35 events/models.py:75 events/models.py:96
+#: events/models.py:200 events/models.py:297 events/models.py:335
 msgid "name"
 msgstr "nazwa"
 
-#: events/models.py:33
+#: events/models.py:36
 msgid "Human-readable name for the event."
 msgstr "Nazwa wydarzenia czytelna dla człowieka."
 
-#: events/models.py:34 events/models.py:73 events/models.py:244
+#: events/models.py:37 events/models.py:76 events/models.py:298
 msgid "slug"
 msgstr "slug"
 
-#: events/models.py:35
+#: events/models.py:38
 msgid "Short name used in links."
 msgstr "Krótka nazwa używana w linkach."
 
-#: events/models.py:36
+#: events/models.py:39
 msgid "location"
 msgstr "lokalizacja"
 
-#: events/models.py:37
+#: events/models.py:40
 msgid "Physical place where the event will take place."
 msgstr "Fizyczne miejsce w którym to wydarzenie ma miejsce."
 
-#: events/models.py:38
+#: events/models.py:41
 msgid "location link"
 msgstr "link do lokalizacji"
 
-#: events/models.py:39
+#: events/models.py:42
 msgid "Link to Google Maps or OSM."
 msgstr "Link do Google Maps lub OSM."
 
-#: events/models.py:40
+#: events/models.py:43
 msgid "website link"
 msgstr "link do strony"
 
-#: events/models.py:41
+#: events/models.py:44
 msgid "Link to the main event website."
 msgstr "Link do głównej strony wydarzenia."
 
-#: events/models.py:42
+#: events/models.py:45
 msgid "contact link"
 msgstr "link do kontaktu"
 
-#: events/models.py:43
+#: events/models.py:46
 msgid "Used for the big Contact Organizers button."
 msgstr "Używany przez duży przycisk Skontaktuj się z Organizatorami."
 
-#: events/models.py:44
+#: events/models.py:47
 msgid "org mail"
 msgstr "mail orgów"
 
-#: events/models.py:45
+#: events/models.py:48
 msgid "Used as the Reply To address for e-mail notifications."
 msgstr "Używany jako adres Reply To dla powiadomień mailowych."
 
-#: events/models.py:47
+#: events/models.py:50
 msgid "date from"
 msgstr "data od"
 
-#: events/models.py:48
+#: events/models.py:51
 msgid "date to"
 msgstr "data do"
 
-#: events/models.py:51 events/models.py:94 events/models.py:250
+#: events/models.py:54 events/models.py:97 events/models.py:304
 msgid "description"
 msgstr "opis"
 
-#: events/models.py:52
+#: events/models.py:55
 msgid "Text shown on the main page. Supports Markdown."
 msgstr "Tekst wyświetlany na stronie głównej. Wspiera Markdown."
 
-#: events/models.py:53
+#: events/models.py:56
 msgid "footer content"
 msgstr "treść stopki"
 
-#: events/models.py:54
+#: events/models.py:57
 msgid "Muted text shown in the footer. Supports Markdown."
 msgstr "Przyciemniony tekst wyświetlany w stopce. Wspiera Markdown."
 
-#: events/models.py:56
+#: events/models.py:59
 msgid "ticket code length"
 msgstr "długość kodu biletu"
 
-#: events/models.py:71
+#: events/models.py:74
 msgid "If not set, will be shown for all events."
 msgstr "Jeśli nie jest ustawione, będzie wyświetlane dla wszystkich wydarzeń."
 
-#: events/models.py:74
+#: events/models.py:77
 msgid "Short name used in links. Event-specific pages have precedence."
 msgstr ""
 "Krótka nazwa używana w linkach. Strony specyficzne dla wydarzeń mają "
 "priorytet."
 
-#: events/models.py:75
+#: events/models.py:78
 msgid "hidden"
 msgstr "ukryta"
 
-#: events/models.py:76
+#: events/models.py:79
 msgid "Whenever to hide this page in the page listing."
 msgstr "Decyduje o ukryciu strony w listingu stron."
 
-#: events/models.py:77
+#: events/models.py:80
 msgid "content"
 msgstr "treść"
 
-#: events/models.py:78
+#: events/models.py:81
 msgid "Page content. Supports markdown."
 msgstr "Treść strony. Wspiera Markdown."
 
-#: events/models.py:89
+#: events/models.py:92
 msgid "ticket type"
 msgstr "typ biletu"
 
-#: events/models.py:90
+#: events/models.py:93
 msgid "ticket types"
 msgstr "typy biletów"
 
-#: events/models.py:95
+#: events/models.py:98
 msgid "Shown in the ticket choice screen. Supports Markdown."
 msgstr "Wyświetlane na ekranie wyboru biletu. Wspiera Markdown."
 
-#: events/models.py:96
+#: events/models.py:99
 msgid "long description"
 msgstr "długi opis"
 
-#: events/models.py:97
+#: events/models.py:100
 msgid "Shown on the ticket purchase form. Supports Markdown."
 msgstr "Wyświetlane na formularzu zakupu biletu. Wspiera Markdown."
 
-#: events/models.py:98
+#: events/models.py:101
 msgid "code prefix"
 msgstr "prefiks kodu"
 
-#: events/models.py:99
+#: events/models.py:102
 msgid "Characters in front of all the ticket codes of this type."
 msgstr "Znaki wyświetlane na początku wszystkich kodów biletów tego typu."
 
-#: events/models.py:100
+#: events/models.py:103
 msgid "price"
 msgstr "cena"
 
-#: events/models.py:101
+#: events/models.py:104
 msgid "color"
 msgstr "kolor"
 
-#: events/models.py:102
+#: events/models.py:105
 msgid "Extra color shown on the ticket choice screen."
 msgstr "Dodatkowy kolor wyświetlany na ekranie wyboru biletu."
 
-#: events/models.py:104 events/models.py:246
+#: events/models.py:107
+msgid "preview image"
+msgstr "obrazek do podglądu"
+
+#: events/models.py:108
+msgid "Used for generating ticket previews."
+msgstr "Używany do generowania podglądu biletów."
+
+#: events/models.py:109
+msgid "preview box coords"
+msgstr "koordynaty podglądu"
+
+#: events/models.py:110
+msgid "Box coords for the ticket preview generator. Docs: "
+msgstr "Koordynaty prostokąta dla generatora podglądu biletów. Docsy: "
+
+#: events/models.py:114 events/models.py:300
 msgid "registration from"
 msgstr "rejestracja od"
 
-#: events/models.py:105 events/models.py:248
+#: events/models.py:115 events/models.py:302
 msgid "registration to"
 msgstr "rejestracja do"
 
-#: events/models.py:106
+#: events/models.py:116
 msgid "self-registration"
 msgstr "samo-rejestracja"
 
-#: events/models.py:107
+#: events/models.py:117
 msgid "Determines if the ticket can be purchased online."
 msgstr "Decyduje czy bilet może być kupiony online."
 
-#: events/models.py:108
+#: events/models.py:118
 msgid "must pay online"
 msgstr "musi zapłacić online"
 
-#: events/models.py:109
+#: events/models.py:119
 msgid "Determines if the ticket can be paid on-site or online only."
 msgstr "Decyduje czy bilet może być opłacony na miejscu czy tylko online."
 
-#: events/models.py:111
+#: events/models.py:121
 msgid "max tickets"
 msgstr "maks biletów"
 
-#: events/models.py:112
+#: events/models.py:122
 msgid "tickets remaining"
 msgstr "pozostało biletów"
 
-#: events/models.py:113
+#: events/models.py:123
 msgid "show tickets remaining"
 msgstr "wyświetlaj pozostałe bilety"
 
-#: events/models.py:114
+#: events/models.py:124
 msgid "Display the number of tickets left publicly?"
 msgstr "Czy wyświetlać ilość pozostałych biletów publicznie?"
 
-#: events/models.py:122 events/models.py:209
+#: events/models.py:174 events/models.py:263
 msgid "ticket"
 msgstr "bilet"
 
-#: events/models.py:123
+#: events/models.py:175
 msgid "tickets"
 msgstr "bilety"
 
-#: events/models.py:132 events/models.py:269
+#: events/models.py:184 events/models.py:323
 msgid "Cancelled"
 msgstr "Anulowany"
 
-#: events/models.py:133 events/models.py:270
+#: events/models.py:185 events/models.py:324
 msgid "Waiting for Organizers"
 msgstr "Czeka na Organizatorów"
 
-#: events/models.py:134
+#: events/models.py:186
 msgid "Waiting for online payment"
 msgstr "Czeka na płatność online"
 
-#: events/models.py:135
+#: events/models.py:187
 msgid "Ready (payment on site)"
 msgstr "Gotowy (płatność na miejscu)"
 
-#: events/models.py:136
+#: events/models.py:188
 msgid "Ready (paid)"
 msgstr "Gotowy (opłacony)"
 
-#: events/models.py:137
+#: events/models.py:189
 msgid "Used"
 msgstr "Użyty"
 
-#: events/models.py:138
+#: events/models.py:190
 msgid "Used on site"
 msgstr "Użyty na miejscu"
 
-#: events/models.py:142 events/models.py:207 events/models.py:276
+#: events/models.py:194 events/models.py:261 events/models.py:330
 msgid "user"
 msgstr "użytkownik"
 
-#: events/models.py:144 events/models.py:278
+#: events/models.py:196 events/models.py:332
 msgid "type"
 msgstr "typ"
 
-#: events/models.py:145 events/models.py:279
+#: events/models.py:197 events/models.py:333
 msgid "status"
 msgstr "status"
 
-#: events/models.py:149 events/models.py:283
+#: events/models.py:201 events/models.py:337
 msgid "email"
 msgstr "email"
 
-#: events/models.py:150 events/models.py:282
+#: events/models.py:202 events/models.py:336
 msgid "phone"
 msgstr "telefon"
 
-#: events/models.py:151
+#: events/models.py:203
 msgid "Optional, used for notifications before/during the event"
 msgstr "Opcjonalny, używany do powiadomień przed/w trakcie wydarzenia"
 
-#: events/models.py:152
+#: events/models.py:204
 msgid "age gate"
 msgstr "bramka wieku"
 
-#: events/models.py:153
+#: events/models.py:205
 msgid "Is the attendee of age?"
 msgstr "Czy uczestnik jest pełnoletni?"
 
-#: events/models.py:154
+#: events/models.py:206
 msgid "notes"
 msgstr "notatki"
 
-#: events/models.py:155
+#: events/models.py:207
 msgid "Optional, notes for organizers"
 msgstr "Opcjonalne, notatki dla organizatorów"
 
-#: events/models.py:157
+#: events/models.py:209
 msgid "code"
 msgstr "kod"
 
-#: events/models.py:158
+#: events/models.py:210
 msgid "Code printed on the ticket. Required for pickup on site."
 msgstr "Kod wydrukowany na bilecie. Wymagany do odbioru na miejscu."
 
-#: events/models.py:159
+#: events/models.py:211
 msgid "nickname"
 msgstr "ksywka"
 
-#: events/models.py:160
+#: events/models.py:212
 msgid "Printed on the customized ticket"
 msgstr "Drukowana na spersonalizowanym bilecie"
 
-#: events/models.py:161
+#: events/models.py:213
 msgid "image"
 msgstr "obrazek"
 
-#: events/models.py:162
-msgid "Printed on the customized ticket, should be cropped to a square"
-msgstr ""
-"Drukowany na spersonalizowanym bilecie, powinien być przycięty do kwadratu"
+#: events/models.py:214
+msgid "Printed on the customized ticket."
+msgstr "Drukowana na spersonalizowanym bilecie."
 
-#: events/models.py:203
+#: events/models.py:215
+msgid "preview"
+msgstr "podgląd"
+
+#: events/models.py:216
+msgid "Automatically generated preview image."
+msgstr "Automatycznie generowany obrazek podglądowy."
+
+#: events/models.py:257
 msgid "payment"
 msgstr "płatność"
 
-#: events/models.py:204
+#: events/models.py:258
 msgid "payments"
 msgstr "płatności"
 
-#: events/models.py:239
+#: events/models.py:293
 msgid "application type"
 msgstr "typ zgłoszenia"
 
-#: events/models.py:240
+#: events/models.py:294
 msgid "application types"
 msgstr "typy zgłoszeń"
 
-#: events/models.py:245
+#: events/models.py:299
 msgid "button label"
 msgstr "etykieta przycisku"
 
-#: events/models.py:247
+#: events/models.py:301
 msgid "Date/time from which users can create these applications."
 msgstr "Data/godzina od której użytkownicy mogą tworzyć te zgłoszenia."
 
-#: events/models.py:249
+#: events/models.py:303
 msgid "Date/time when the form for these applications closes."
 msgstr "Data/godzina gdy formularz tego zgłoszenia zamyka się."
 
-#: events/models.py:251
+#: events/models.py:305
 msgid "Shown on the application form. Supports Markdown."
 msgstr "Pokazywane na ekranie zgłoszenia. Wspiera Markdown."
 
-#: events/models.py:252
+#: events/models.py:306
 msgid "template"
 msgstr "szablon"
 
-#: events/models.py:253
+#: events/models.py:307
 msgid "Template for dynamic application form fields. Docs: "
 msgstr "Szablon dla dynamicznych pól formularzy w zgłoszeniach. Dokumentacja: "
 
-#: events/models.py:262 events/models.py:284
+#: events/models.py:316 events/models.py:338
 msgid "application"
 msgstr "zgłoszenie"
 
-#: events/models.py:263
+#: events/models.py:317
 msgid "applications"
 msgstr "zgłoszenia"
 
-#: events/models.py:271
+#: events/models.py:325
 msgid "Approved"
 msgstr "Zatwierdzone"
 
-#: events/models.py:272
+#: events/models.py:326
 msgid "Rejected"
 msgstr "Odrzucone"
 
-#: events/models.py:285
+#: events/models.py:339
 msgid "org notes"
 msgstr "notatki organizatorów"
 
@@ -611,38 +634,38 @@ msgstr "Płatność zwrócona."
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
-#: events/views/registrations.py:43
+#: events/views/registrations.py:44
 msgid "This ticket type cannot be sold for this event!"
 msgstr "Ten typ biletu nie może być sprzedany na to wydarzenie!"
 
-#: events/views/registrations.py:47
+#: events/views/registrations.py:48
 msgid "You cannot purchase a ticket of this type online."
 msgstr "Nie możesz kupić biletu tego typu online."
 
-#: events/views/registrations.py:51
+#: events/views/registrations.py:52
 msgid "We ran out of these tickets."
 msgstr "Ten rodzaj biletu wyprzedał się."
 
-#: events/views/registrations.py:57
+#: events/views/registrations.py:58
 msgid "Online sales of this ticket type have not yet started."
 msgstr "Sprzedaż online biletów tego typu jeszcze się nie rozpoczęła."
 
-#: events/views/registrations.py:61
+#: events/views/registrations.py:62
 msgid "Online sales of this ticket type have ended."
 msgstr "Sprzedaż online biletów tego typu zakończyła się."
 
-#: events/views/registrations.py:96
+#: events/views/registrations.py:97
 msgid ""
 "MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."
 msgstr ""
 "MAKSYMALNA LICZBA KODÓW BILETÓW OSIĄGNIĘTA! Skontaktuj się z organizatorami "
 "wydarzenia ws. tej wiadomości."
 
-#: events/views/registrations.py:123
+#: events/views/registrations.py:124
 msgid "A new ticket was registered with the following notes: "
 msgstr "Nowy bilet został zarejestrowany z następującymi notatkami: "
 
-#: events/views/registrations.py:162
+#: events/views/registrations.py:164
 msgid ""
 "Thank you for your registration! You must pay for the selected ticket type "
 "online. Do so now, or click Pay Online later from your tickets."
@@ -650,7 +673,7 @@ msgstr ""
 "Dziękujemy za rejestrację! Musisz zapłacić za wybrany typ biletu online. "
 "Zrób to teraz, lub kliknij Zapłać Online później z twoich biletów."
 
-#: events/views/registrations.py:166
+#: events/views/registrations.py:168
 msgid ""
 "Thank you for your registration! You will receive an e-mail when organizers "
 "read and acknowledge your ticket notes."
@@ -658,26 +681,26 @@ msgstr ""
 "Dziękujemy za rejestrację! Otrzymasz e-maila gdy organizatorzy przeczytają i "
 "zatwierdzą notatki w twoim bilecie."
 
-#: events/views/registrations.py:169
+#: events/views/registrations.py:171
 msgid "Thank you for your registration! You can see your ticket details below."
 msgstr ""
 "Dziękujemy za rejestrację! Możesz znaleźć szczegóły swojego biletu poniżej."
 
-#: events/views/registrations.py:187
+#: events/views/registrations.py:189
 msgid "You cannot cancel a ticket that is not yours!"
 msgstr "Nie możesz anulować biletu który nie jest twój!"
 
-#: events/views/registrations.py:191
+#: events/views/registrations.py:193
 msgid ""
 "Cannot cancel a ticket with this status - please contact the organizers."
 msgstr ""
 "Nie możesz anulować biletu z tym statusem - skontaktuj się z organizatorami."
 
-#: events/views/registrations.py:195
+#: events/views/registrations.py:197
 msgid "This ticket has attached payments - please contact the organizers."
 msgstr "Ten bilet ma podpięte płatności - skontaktuj się z organizatorami."
 
-#: events/views/registrations.py:218
+#: events/views/registrations.py:220
 msgid "Ticket cancelled."
 msgstr "Bilet anulowany."
 
@@ -1279,6 +1302,10 @@ msgstr ""
 msgid "Details for nerds"
 msgstr "Szczegóły dla nerdów"
 
+#: templates/events/tickets/details.html:56
+msgid "Ticket Preview"
+msgstr "Podgląd Biletu"
+
 #: templates/events/tickets/payment.html:8
 #, python-format
 msgid "Payment for ticket %(code)s"
@@ -1380,6 +1407,10 @@ msgid ""
 msgstr ""
 "Zaraz użyjesz konta %(provider_name)s aby zalogować się na stronę\n"
 "%(site_name)s. Uzupełnij poniższy formularz:"
+
+#~ msgid "Printed on the customized ticket, should be cropped to a square"
+#~ msgstr ""
+#~ "Drukowany na spersonalizowanym bilecie, powinien być przycięty do kwadratu"
 
 #~ msgid "I am at least 16 years old"
 #~ msgstr "Mam przynajmniej 16 lat"
