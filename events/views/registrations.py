@@ -17,6 +17,7 @@ from django.conf import settings
 
 from events.forms import RegistrationForm, CancelRegistrationForm
 from events.models import Event, TicketType, Ticket
+from events.utils import generate_ticket_preview
 
 
 class RegistrationView(FormView):
@@ -140,8 +141,9 @@ class RegistrationView(FormView):
 
             ticket.image = path
 
-
         ticket.save()
+        if ticket.image:
+            generate_ticket_preview(ticket)
 
         EmailMessage(
             f"{self.event.name}: {_('Ticket')} {ticket.get_code()}",

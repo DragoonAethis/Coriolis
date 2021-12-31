@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
 from django.core.mail import EmailMessage
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
@@ -15,6 +16,8 @@ from djmoney.models.fields import MoneyField
 from colorfield.fields import ColorField
 from payments.models import BasePayment
 from payments import PurchasedItem
+
+from .utils import get_ticket_preview_path
 
 
 class User(AbstractUser):
@@ -101,6 +104,13 @@ class TicketType(models.Model):
     color = ColorField(default='#FF0000', verbose_name=_("color"),
                        help_text=_("Extra color shown on the ticket choice screen."))
 
+    preview_image = models.ImageField(blank=True, verbose_name=_("preview image"), upload_to=get_ticket_preview_path,
+                                      help_text=_("Used for generating ticket previews."))
+    preview_box_coords = models.CharField(max_length=32, blank=True, verbose_name=_("preview box coords"),
+                                          help_text=_("Box coords for the ticket preview generator. Docs: ") +
+                                                    "https://github.com/DragoonAethis/Coriolis/wiki/Ticket-Preview-Generator",
+                                          validators=[])  # noqa
+
     registration_from = models.DateTimeField(verbose_name=_("registration from"))
     registration_to = models.DateTimeField(verbose_name=_("registration to"))
     self_registration = models.BooleanField(default=True, verbose_name=_("self-registration"),
@@ -115,6 +125,48 @@ class TicketType(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.id})"
+
+    def clean(self):
+        super().clean()
+
+        if self.preview_image is not None:
+            try:
+                self.get_preview_box_coords(fallback=False)
+            except ValueError as ex:
+                raise ValidationError(ex)
+
+    def get_preview_box_coords(self, fallback=True) -> tuple[int, int, int, int]:
+        if self.preview_image is None:
+            return 0, 0, 0, 0  # Just don't bother.
+
+        width, height = self.preview_image.width, self.preview_image.height
+        default_box_coords = (0, 0, self.preview_image.width, self.preview_image.height)
+
+        if self.preview_box_coords is None or len(self.preview_box_coords.strip()) == 0:
+            return default_box_coords
+
+        try:
+            parts = [int(part) for part in self.preview_box_coords.split(" ")]
+            if len(parts) != 4:
+                raise ValueError("Invalid number of parts.")
+
+            if any([x < 0 for x in parts]):
+                raise ValueError("All numbers in box coords must be >= 0.")
+
+            bx, by, bw, bh = parts
+            if bx not in range(0, width) or by not in range(0, height):
+                raise ValueError(f"Box start ({bx}, {by}) not within range (0..{width}, 0..{height}).")
+
+            ex, ey = bx + bw, by + bh
+            if ex not in range(0, width + 1) or ey not in range(0, height + 1):
+                raise ValueError(f"Box end ({ex}, {ey}) not within range (0..{width}, 0..{height}).")
+
+            return bx, by, bw, bh  # All good!
+        except ValueError:
+            if fallback:
+                return default_box_coords
+            else:
+                raise
 
 
 class Ticket(models.Model):
@@ -159,7 +211,9 @@ class Ticket(models.Model):
     nickname = models.CharField(max_length=256, blank=True, verbose_name=_("nickname"),
                                 help_text=_("Printed on the customized ticket"))
     image = models.ImageField(blank=True, verbose_name=_("image"),
-                              help_text=_("Printed on the customized ticket, should be cropped to a square"))
+                              help_text=_("Printed on the customized ticket."))
+    preview = models.ImageField(blank=True, verbose_name=_("preview"),
+                                help_text=_("Automatically generated preview image."))
 
     # Non-database fields:
     _original_status: Optional[str] = None

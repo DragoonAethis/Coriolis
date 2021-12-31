@@ -1,41 +1,34 @@
-from PIL import Image
+import uuid
+
+from django.core.files.storage import default_storage
+
+from PIL import Image, ImageOps
+
+import events.models
 
 
-def postprocess_image(image: Image) -> Image:
-    """Perform image cropping and rescaling into reasonable values.
-    This is a massive to do, as we don't have requirements for this yet."""
-    width, height = image.size
+def get_ticket_preview_path(instance: 'events.models.TicketType', filename):
+    """Generates a new ticket preview path within MEDIA_ROOT."""
+    return f"templates/{instance.event.slug}/{uuid.uuid4()}.png"
 
-    # Crop the image to a square if it's not one already:
-    if width != height:
-        if width > height:
-            # +-+----+-+
-            # | |    | |
-            # +-+----+-+
-            side = height
-            lx, ly = (width - side) // 2, 0
-            rx, ry = side + lx, height
-        else:
-            # +----+
-            # |    |
-            # +----+
-            # |    |
-            # |    |
-            # +----+
-            # |    |
-            # +----+
-            side = width
-            lx, ly = 0, (height - side) // 2
-            rx, ry = width, side + ly
 
-        # crop() accepts (*top_left, *bottom_right) coords of a box:
-        image = image.crop((lx, ly, rx, ry))
-        width, height = image.size
+def generate_ticket_preview(ticket: 'events.models.Ticket'):
+    """Generates an identifier preview and saves it for later use."""
+    if not ticket.image or not ticket.type.preview_image:
+        return
 
-    # At this point the image has correct proportions. Check if we
-    # also need to downscale it (down to 1024x1024):
-    if width > 1024 or height > 1024:
-        image = image.resize((1024, 1024), resample=Image.LANCZOS)
-        width, height = image.size
+    x, y, w, h = ticket.type.get_preview_box_coords()
+    user_image: Image = Image.open(ticket.image.path)
+    ticket_template: Image = Image.open(ticket.type.preview_image.path)
+    preview: Image = Image.new(ticket_template.mode, ticket_template.size)
 
-    return image
+    resized_img = ImageOps.fit(user_image, (w, h), method=Image.BICUBIC)
+    preview.paste(resized_img, box=(x, y, w, h))
+    preview = Image.alpha_composite(preview, ticket_template)
+
+    path = f'previews/{ticket.id}.png'
+    with default_storage.open(path, 'wb') as handle:
+        preview.save(handle, 'png')
+
+    ticket.preview = path
+    ticket.save()

@@ -52,11 +52,12 @@
             </div>
         </div>
         <div class="col-12 col-md-4">
-            {% if ticket.image %}
-            <h5>{% translate "Image" %}:</h5>
-            <div>
-                <img class="img-fluid" src="{{ ticket.image.url }}" alt="">
-            </div>
+            {% if ticket.preview %}
+                <h5>{% translate "Ticket Preview" %}:</h5>
+                <div><img class="img-fluid" src="{{ ticket.preview.url }}" alt="Ticket preview image"></div>
+            {% elif ticket.image %}
+                <h5>{% translate "Image" %}:</h5>
+                <div><img class="img-fluid" src="{{ ticket.image.url }}" alt="Image to be printed on the ticket"></div>
             {% endif %}
         </div>
     </div>
