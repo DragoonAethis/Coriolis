@@ -126,6 +126,11 @@ def ticket_details(request, slug, ticket_id):
 def ticket_payment(request, slug, ticket_id):
     event, ticket = get_event_and_ticket(slug, ticket_id)
 
+    if not event.payment_enabled:
+        # Nobody should get there in the first place, but...
+        messages.error(request, "Payments temporarily disabled - sorry!")
+        return redirect('event_index', event.slug)
+
     if not ticket.user_id == request.user.id:
         messages.error(request, _("You don't own this ticket!"))
         return redirect('event_index', event.slug)

@@ -1,4 +1,5 @@
 import uuid
+import datetime
 from typing import Iterable, Optional
 
 from django.db import models
@@ -49,7 +50,11 @@ class Event(models.Model):
 
     date_from = models.DateTimeField(verbose_name=_("date from"))
     date_to = models.DateTimeField(verbose_name=_("date to"))
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True, verbose_name=_("active"))
+    payment_enabled = models.BooleanField(default=True, verbose_name=_("payment enabled"),
+                                          help_text=_("Enable or disable "))
+    notice = models.TextField(blank=True, verbose_name=_("notice"),
+                              help_text=_("Notice to be shown on top of each page, if set."))
 
     description = models.TextField(verbose_name=_("description"),
                                    help_text=_("Text shown on the main page. Supports Markdown."))
@@ -229,6 +234,16 @@ class Ticket(models.Model):
 
     def is_cancelled(self) -> bool:
         return self.status == Ticket.TicketStatus.CANCELLED
+
+    def can_cancel(self) -> bool:
+        return self.status in ('OKNP', 'WPAY')
+
+    def can_pay_online(self) -> bool:
+        return (
+            self.status in ('OKNP', 'WPAY')
+            and self.event.payment_enabled
+            and datetime.datetime.now() < self.event.date_to
+        )
 
     def get_code(self) -> str:
         prefix = self.type.code_prefix if self.type is not None else ""
