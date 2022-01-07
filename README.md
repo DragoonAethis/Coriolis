@@ -2,6 +2,12 @@
 
 A small event management and ticketing utility.
 
+- Sell various ticket types with badge personalization (nickname, [avatar](https://github.com/DragoonAethis/Coriolis/wiki/Ticket-Preview-Generator))
+- Provide applications (for volunteering, stalls, etc) with [customizable forms](https://github.com/DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms)
+- Lightweight event/global pages system w/ Markdown support (for ToS, policies, etc)
+- Integrates with django-payments (currently Przelewy24, a Polish payment gateway)
+- Available in English and Polish
+
 ![](docs/images/FrontPage.png)
 
 
@@ -9,8 +15,8 @@ A small event management and ticketing utility.
 
 Requirements:
 
-- The application was primarily developed and tested on Linux, but should work on Windows/macOS too.
-- You'll need Python 3.8+ with [Poetry](https://python-poetry.org/).
+- Primarily developed and tested on Linux, but should work on Windows/macOS too.
+- You'll need Python 3.9+ with [Poetry](https://python-poetry.org/).
 - For the database, you'll need PostgreSQL 13+.
 - Optional: You might want to use [Mailhog](https://github.com/mailhog/MailHog) as a fake SMTP server.
 
@@ -30,7 +36,7 @@ You're now ready to run the development server:
 - You can either load `.env` contents as environment variables or point the `ENV_PATH` variable at it.
 - Run `ENV_PATH=path/to/your/.env ./manage.py runserver` to start the development server.
 - If you got the `ImproperlyConfigured`, this means the env vars from this file were not loaded.
-- For development/staging environments, the top bar will be tinted with slightly .
+- For non-production environments, the top bar will be tinted red.
 
 Common development tasks:
 
@@ -39,6 +45,7 @@ Common development tasks:
 - `./manage.py makemigrations` - generate database migrations after introducing changes in our models.
 - `./manage.py migrate` - apply missing migrations to your currently-running database.
 - `./manage.py collectstatic` - generate complete contents of the `static` directory (required for prod).
+- `./upgrade.sh` - pulls the current Git branch and runs common upgrade steps, then restarts the service.
 
 
 ## Production
@@ -54,3 +61,5 @@ Common development tasks:
 - Make sure your production server has HTTPS configured: https://certbot.eff.org/
 - Lock down SSH access via pubkeys only
 - Block any non-SSH/HTTP/HTTPS conns via your firewall (ufw/firewalld/iptables)
+
+Check out the `contrib` directory for some handy scripts and configs.
