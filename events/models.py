@@ -54,7 +54,7 @@ class Event(models.Model):
     payment_enabled = models.BooleanField(default=True, verbose_name=_("payment enabled"),
                                           help_text=_("Enable or disable "))
     notice = models.TextField(blank=True, verbose_name=_("notice"),
-                              help_text=_("Notice to be shown on top of each page, if set."))
+                              help_text=_("Notice to be shown below the event description, if set."))
 
     description = models.TextField(verbose_name=_("description"),
                                    help_text=_("Text shown on the main page. Supports Markdown."))
