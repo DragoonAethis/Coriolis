@@ -262,7 +262,7 @@ class Ticket(models.Model):
             render_to_string("events/emails/ticket_changed.html", {
                 'event': self.event,
                 'ticket': self,
-            }),
+            }).strip(),
             settings.SERVER_EMAIL,
             [self.email],
             reply_to=[self.event.org_mail]
@@ -377,7 +377,7 @@ class Application(models.Model):
             render_to_string("events/emails/application_changed.html", {
                 'event': self.event,
                 'application': self,
-            }),
+            }).strip(),
             settings.SERVER_EMAIL,
             [self.email],
             reply_to=[self.event.org_mail]

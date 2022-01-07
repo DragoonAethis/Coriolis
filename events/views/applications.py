@@ -84,7 +84,7 @@ class ApplicationView(FormView):
             render_to_string("events/emails/new_application.html", {
                 'event': self.event,
                 'application': application,
-            }),
+            }).strip(),
             settings.SERVER_EMAIL,
             [self.event.org_mail, application.email]
         ).send()

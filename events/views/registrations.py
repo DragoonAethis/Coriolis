@@ -151,7 +151,7 @@ class RegistrationView(FormView):
                 'event': self.event,
                 'ticket': ticket,
                 'is_waiting': ticket.status == Ticket.TicketStatus.WAITING
-            }),
+            }).strip(),
             settings.SERVER_EMAIL,
             [ticket.email],
             reply_to=[ticket.event.org_mail]
