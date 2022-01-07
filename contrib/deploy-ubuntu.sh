@@ -31,28 +31,25 @@ nano .env
 
 # sudo -u postgres psql
 CREATE DATABASE coriolis;
-CREATE USER coriolis;
+CREATE USER coriolis WITH LOGIN;
 ALTER USER coriolis WITH PASSWORD 'nice-try-m8';
 GRANT ALL ON DATABASE coriolis TO coriolis;
 
 # Pre-deployment
 poetry shell  # loads .env
-./manage.py compilemessages
-./manage.py collectstatic
 ./manage.py migrate
+./manage.py collectstatic
+./manage.py compilemessages
 exit  # the poetry shell
 
-mkdir /app/public && cd /app/public
-mkdir ../media
-
-ln -s ../static static
-ln -s ../media media
+mkdir /app/public /app/media
+ln -s /app/static /app/public/static
 
 chown -R www-data:www-data /app
 
 # BEFORE MESSING WITH NGINX, SET UP HTTPS CERTS W/ REDIRECT!
 # It's a massive pain to do this right now with configs below.
-certbot run -d example.com --nginx --agree-tos -m owo@whats.this
+certbot run -d example.com,usermedia.example.com --nginx --agree-tos -m owo@whats.this
 
 # Files
 cp contrib/coriolis.socket /etc/systemd/system/coriolis.socket
