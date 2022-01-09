@@ -68,7 +68,7 @@ class Event(models.Model):
                                                           ])
 
     def __str__(self):
-        return f"{self.name} ({self.id})"
+        return self.name
 
 
 class EventPage(models.Model):
@@ -280,8 +280,8 @@ class Payment(BasePayment):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))
 
     def __str__(self):
-        if self.transaction_id is not None:
-            return f"{self.variant} ({self.transaction_id}, {self.id}"
+        if self.transaction_id:
+            return f"{self.variant} ({self.id}, {self.transaction_id})"
         else:
             return f"{self.variant} ({self.id})"
 
