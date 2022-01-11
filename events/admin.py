@@ -35,7 +35,7 @@ class TicketTypeAdmin(admin.ModelAdmin):
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'event', 'status', 'email', 'nickname')
     list_filter = ('event__name', 'type__name', 'status')
-    search_fields = ('name', 'email', 'phone', 'nickname')
+    search_fields = ('code', 'name', 'email', 'phone', 'nickname')
 
 
 @admin.register(ApplicationType)
