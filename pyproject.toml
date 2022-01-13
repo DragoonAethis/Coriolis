@@ -16,7 +16,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.9"
 sentry-sdk = "^1.5.1"
-Django = "^3.2.9"
+Django = "^3.2.11"
 django-allauth = "^0.47.0"
 django-environ = "^0.8.1"
 django-debug-toolbar = "^3.2.4"
