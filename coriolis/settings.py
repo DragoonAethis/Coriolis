@@ -74,6 +74,7 @@ LANGUAGE_CODE = env.str('LANGUAGE_CODE', 'en-us')
 
 LOGIN_NOTICE = env.str('LOGIN_NOTICE', None)
 LOGIN_FOOTER = env.str('LOGIN_FOOTER', None)
+COOKIES_POLICY_LINK = env.str('COOKIES_POLICY_LINK', None)
 
 PAYMENT_HOST = env.str('PAYMENT_HOST', 'localhost:8000')
 PAYMENT_USES_SSL = env.bool('PAYMENT_HTTPS', not DEBUG)  # Enforce HTTPS on production envs.

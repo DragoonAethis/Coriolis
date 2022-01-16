@@ -22,3 +22,13 @@ let nerdDetailsLink = document.getElementById("ticket_nerd_details_link");
 if (nerdDetailsLink !== null) {
     nerdDetailsLink.onclick = toggleTicketNerdDetails;
 }
+
+// Show the cookie prompt:
+if (!document.cookie.split('; ').find(row => row.startsWith('cookieprompt='))) {
+    document.cookie = "cookieprompt=omnomnom; expires=Fri, 31 Dec 9999 23:59:59 GMT;";
+
+    var output = document.getElementById('cookieToast');
+    if (output !== null) {
+        bootstrap.Toast.getOrCreateInstance(output).show();
+    }
+}
