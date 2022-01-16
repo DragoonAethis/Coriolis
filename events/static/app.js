@@ -25,7 +25,7 @@ if (nerdDetailsLink !== null) {
 
 // Show the cookie prompt:
 if (!document.cookie.split('; ').find(row => row.startsWith('cookieprompt='))) {
-    document.cookie = "cookieprompt=omnomnom; expires=Fri, 31 Dec 9999 23:59:59 GMT;";
+    document.cookie = "cookieprompt=omnomnom; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/;";
 
     var output = document.getElementById('cookieToast');
     if (output !== null) {
