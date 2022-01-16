@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n events %}
+{% load i18n events humanize %}
 
 {% block head_title %}{% translate "Select a Ticket" %} - {{ event.name }}{% endblock %}
 {% block brand_title %}{{ event.name }}{% endblock %}
@@ -16,6 +16,12 @@
                         </h4>
                         <div class="card-text">{% render_markdown type.description %}</div>
                         {% if type.tickets_remaining > 0 %}
+                            <p>
+                                {% blocktranslate with date=type.registration_to|naturaltime %}
+                                    Online registration closes {{ date }}
+                                {% endblocktranslate %}
+                                ({{ type.registration_to.date }})
+                            </p>
                             <a href="{% url 'registration_form' event.slug type.id %}" class="btn btn-primary stretched-link">
                                 {% translate "Select this ticket" %}
                                 {% if type.show_tickets_remaining %}
