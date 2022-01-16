@@ -142,6 +142,9 @@ class TicketType(models.Model):
             except ValueError as ex:
                 raise ValidationError(ex)
 
+    def can_register_or_change(self):
+        return datetime.datetime.now() < self.registration_to
+
     def get_preview_box_coords(self, fallback=True) -> tuple[int, int, int, int]:
         if self.preview_image is None:
             return 0, 0, 0, 0  # Just don't bother.
@@ -243,6 +246,12 @@ class Ticket(models.Model):
             self.status in ('OKNP', 'WPAY')
             and self.event.payment_enabled
             and datetime.datetime.now() < self.event.date_to
+        )
+
+    def can_personalize(self):
+        return (
+            self.status in ('OKNP', 'WPAY', 'OKPD')
+            and self.type.can_register_or_change()
         )
 
     def get_code(self) -> str:

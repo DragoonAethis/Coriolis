@@ -1,12 +1,9 @@
 import datetime
 import math
 import random
-import uuid
 
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import UploadedFile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
@@ -14,10 +11,11 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
 from django.conf import settings
+from django.utils.html import mark_safe
 
-from events.forms import RegistrationForm, CancelRegistrationForm
+from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models import Event, TicketType, Ticket
-from events.utils import generate_ticket_preview
+from events.utils import delete_ticket_image, save_ticket_image
 
 
 class RegistrationView(FormView):
@@ -130,20 +128,10 @@ class RegistrationView(FormView):
             ticket.status = Ticket.TicketStatus.WAITING_FOR_PAYMENT
             ticket._original_status = Ticket.TicketStatus.WAITING_FOR_PAYMENT
 
-        if 'image' in self.request.FILES:
-            from PIL import Image
-
-            file: UploadedFile = form.cleaned_data['image']
-            path = f'ticketavatars/{uuid.uuid4()}.png'
-            image: Image = Image.open(file)
-            with default_storage.open(path, 'wb') as handle:
-                image.save(handle, 'png')
-
-            ticket.image = path
+        if form.cleaned_data['image']:
+            save_ticket_image(ticket, form.cleaned_data['image'])
 
         ticket.save()
-        if ticket.image:
-            generate_ticket_preview(ticket)
 
         EmailMessage(
             f"{self.event.name}: {_('Ticket')} {ticket.get_code()}",
@@ -219,3 +207,59 @@ class CancelRegistrationView(FormView):
 
         messages.info(self.request, _("Ticket cancelled."))
         return redirect('event_index', self.event.slug)
+
+
+class UpdateTicketView(FormView):
+    event: Event
+    ticket: Ticket
+
+    form_class = UpdateTicketForm
+    template_name = 'events/tickets/details.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        self.event = get_object_or_404(Event, slug=self.kwargs['slug'])
+        self.ticket = get_object_or_404(Ticket, event=self.event, id=self.kwargs['ticket_id'])
+
+        if self.request.user.id != self.ticket.user_id:
+            messages.error(self.request, _("You cannot change a ticket that is not yours!"))
+            return redirect('ticket_details', self.event.slug, self.ticket.id)
+
+        if not self.ticket.can_personalize():
+            messages.error(self.request, _("This ticket can no longer be changed."))
+            return redirect('ticket_details', self.event.slug, self.ticket.id)
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"event": self.event, "ticket": self.ticket})
+        return kwargs
+
+    def form_invalid(self, form):
+        # TODO: Reconsider this... Maybe convert the ticket details view into a FormView?
+        errors = ['<ul class="mb-0">']
+        for field, field_errors in form.errors.items():
+            for error in field_errors:
+                errors.append(f"<li><b>{form.fields[field].label}</b>: {error}</li>")
+        errors.append("</ul>")
+
+        messages.error(self.request, mark_safe("".join(errors)))
+        return redirect('ticket_details', self.event.slug, self.ticket.id)
+
+    def form_valid(self, form):
+        self.ticket.nickname = form.cleaned_data['nickname']
+
+        if not form.cleaned_data['keep_current_image']:
+            delete_ticket_image(self.ticket)
+
+            if form.cleaned_data['image']:
+                save_ticket_image(self.ticket, form.cleaned_data['image'])
+
+        self.ticket.save()
+        return redirect('ticket_details', self.event.slug, self.ticket.id)
+
+    def get(self, request, *args, **kwargs):
+        # How did you get here...?
+        messages.warning(request, _("Something went wrong - try again."))
+        return redirect('ticket_details', self.event.slug, self.ticket.id)

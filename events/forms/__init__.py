@@ -1,2 +1,2 @@
 from .applications import ApplicationDynaform
-from .registration import RegistrationForm, CancelRegistrationForm
+from .registration import RegistrationForm, CancelRegistrationForm, UpdateTicketForm

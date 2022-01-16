@@ -1,15 +1,41 @@
+import os
 import uuid
+import logging
 
 from django.core.files.storage import default_storage
+from django.core.files.uploadedfile import UploadedFile
 
 from PIL import Image, ImageOps
 
 import events.models
 
 
-def get_ticket_preview_path(instance: 'events.models.TicketType', filename):
+def get_ticket_preview_path(instance: 'events.models.TicketType', filename: str):
     """Generates a new ticket preview path within MEDIA_ROOT."""
     return f"templates/{instance.event.slug}/{uuid.uuid4()}.png"
+
+
+def delete_ticket_image(instance: 'events.models.Ticket'):
+    try:
+        os.remove(instance.image.path)
+        os.remove(instance.preview.path)
+    except:
+        logging.exception("An error occured while deleting ticket images.")
+
+    instance.image = None
+    instance.preview = None
+    instance.save()
+
+
+def save_ticket_image(instance: 'events.models.Ticket', image_file: UploadedFile):
+    image: Image = Image.open(image_file)
+
+    new_image_path = f'ticketavatars/{instance.id}.png'
+    with default_storage.open(new_image_path, 'wb') as handle:
+        image.save(handle, 'png')
+
+    instance.image = new_image_path
+    generate_ticket_preview(instance)
 
 
 def generate_ticket_preview(ticket: 'events.models.Ticket'):

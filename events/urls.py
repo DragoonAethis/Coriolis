@@ -10,6 +10,8 @@ urlpatterns = [
     path('event/<slug:slug>/ticket/new/<int:id>', views.RegistrationView.as_view(), name='registration_form'),
 
     path('event/<slug:slug>/ticket/<uuid:ticket_id>', views.ticket_details, name='ticket_details'),
+    path('event/<slug:slug>/ticket/<uuid:ticket_id>/update',
+         views.UpdateTicketView.as_view(), name='ticket_update'),
     path('event/<slug:slug>/ticket/<uuid:ticket_id>/cancel',
          views.CancelRegistrationView.as_view(), name='ticket_cancel'),
 

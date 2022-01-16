@@ -16,6 +16,7 @@ from payments import RedirectNeeded, PaymentStatus
 from payments_przelewy24.api import Przelewy24API
 
 from events.models import Event, EventPage, Ticket, TicketType, Application, ApplicationType, Payment
+from events.forms import UpdateTicketForm
 
 
 def index(request):
@@ -118,7 +119,10 @@ def ticket_details(request, slug, ticket_id):
 
     return render(request, 'events/tickets/details.html', {
         'event': event,
-        'ticket': ticket
+        'ticket': ticket,
+        'update_form': UpdateTicketForm(event=event, ticket=ticket, initial={
+            'nickname': ticket.nickname
+        })
     })
 
 
