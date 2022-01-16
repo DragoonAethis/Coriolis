@@ -17,6 +17,13 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+    <noscript>{# Can't apply bg-warning on noscript... #}
+        <div class="bg-warning">
+            <div class="container pt-2 pb-2">
+                {% translate "You don't have JavaScript enabled. Some elements on this page will not work correctly." %}
+            </div>
+        </div>
+    </noscript>
     <header class="border-bottom mb-2 {% get_env_css_class %}">
         <div class="container-lg d-flex justify-content-between flex-wrap py-3">
             <div><a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a></div>
