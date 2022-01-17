@@ -144,6 +144,9 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'events.middleware.ForceDefaultLanguageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -212,6 +215,11 @@ LOCALE_PATHS = [BASE_DIR / 'locale']
 USE_I18N = True
 USE_L10N = True
 USE_TZ = False
+
+LANGUAGES = [
+    ('pl', 'Polski'),
+    ('en', 'English')
+]
 
 # We're using Whitenoise - don't make this configurable.
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

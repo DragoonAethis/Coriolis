@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-16 20:51+0100\n"
-"PO-Revision-Date: 2022-01-16 20:56+0100\n"
+"POT-Creation-Date: 2022-01-17 20:33+0100\n"
+"PO-Revision-Date: 2022-01-17 20:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1145,7 +1145,11 @@ msgstr "Wyloguj się"
 msgid "Contact Organizers"
 msgstr "Skontaktuj się z Organizatorami"
 
-#: templates/base.html:123
+#: templates/base.html:110 templates/base.html:141 templates/base.html:148
+msgid "Language"
+msgstr "Język"
+
+#: templates/base.html:127
 #, python-format
 msgid ""
 "\n"
@@ -1161,6 +1165,15 @@ msgstr ""
 "                    Przeczytaj naszą <a href=\"%(cookies)s\">Politykę "
 "Cookies</a> aby dowiedzieć się więcej.\n"
 "                "
+
+#: templates/base.html:161 templates/events/index.html:45
+#: templates/events/index.html:74 templates/events/tickets/details.html:109
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: templates/base.html:162 templates/events/tickets/details.html:110
+msgid "Change"
+msgstr "Zmień"
 
 #: templates/events/applications/application_details.html:4
 #: templates/events/applications/application_details.html:10
@@ -1326,11 +1339,6 @@ msgstr "Zapłać Online"
 msgid "Pay after approval"
 msgstr "Zapłać po akceptacji"
 
-#: templates/events/index.html:45 templates/events/index.html:74
-#: templates/events/tickets/details.html:109
-msgid "Cancel"
-msgstr "Anuluj"
-
 #: templates/events/index.html:52
 msgid "You have no tickets for this event."
 msgstr "Nie masz żadnych biletów na to wydarzenie."
@@ -1418,10 +1426,6 @@ msgstr ""
 "                                    Zmiany mogą być wprowadzane tyle razy "
 "ile chcesz, do zamknięcia rejestracji (%(relative_date)s).\n"
 "                                "
-
-#: templates/events/tickets/details.html:110
-msgid "Change"
-msgstr "Zmień"
 
 #: templates/events/tickets/details.html:118
 #, python-format
