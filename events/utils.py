@@ -17,10 +17,16 @@ def get_ticket_preview_path(instance: 'events.models.TicketType', filename: str)
 
 def delete_ticket_image(instance: 'events.models.Ticket'):
     try:
-        os.remove(instance.image.path)
-        os.remove(instance.preview.path)
+        if instance.image:
+            os.remove(instance.image.path)
     except:
-        logging.exception("An error occured while deleting ticket images.")
+        logging.exception("An error occured while deleting the ticket image.")
+
+    try:
+        if instance.preview:
+            os.remove(instance.preview.path)
+    except:
+        logging.exception("An error occured while deleting the ticket preview.")
 
     instance.image = None
     instance.preview = None
