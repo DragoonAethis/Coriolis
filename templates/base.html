@@ -95,7 +95,7 @@
     <footer class="border-top py-3 mt-3">
         <div class="container-lg text-center">
             <div class="mb-2 gap-1">
-                {% if request.user.is_superuser %}
+                {% if request.user.is_staff %}
                     <a href="{% url 'admin:index' %}" class="btn btn-lg btn-warning">
                         <i class="bi bi-wrench me-1"></i> Admin
                     </a>
