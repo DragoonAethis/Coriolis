@@ -2,6 +2,7 @@
 set -euo pipefail
 
 git pull
+poetry install
 poetry run python manage.py migrate
 poetry run python manage.py compilemessages
 poetry run python manage.py collectstatic --no-input
