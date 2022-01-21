@@ -250,7 +250,7 @@ class Ticket(models.Model):
 
     def can_personalize(self):
         return (
-            self.status in ('OKNP', 'WPAY', 'OKPD')
+            self.status in ('OKNP', 'WPAY', 'OKPD', 'WAIT')
             and self.type.can_register_or_change()
         )
 
