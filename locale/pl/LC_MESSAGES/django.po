@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-17 20:33+0100\n"
-"PO-Revision-Date: 2022-01-17 20:33+0100\n"
+"POT-Creation-Date: 2022-01-21 23:14+0100\n"
+"PO-Revision-Date: 2022-01-21 23:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -175,8 +175,8 @@ msgid "Cancel ticket"
 msgstr "Anuluj bilet"
 
 #: events/models.py:31 events/models.py:78 events/models.py:100
-#: events/models.py:205 events/models.py:288 events/models.py:322
-#: events/models.py:357
+#: events/models.py:207 events/models.py:291 events/models.py:325
+#: events/models.py:360
 msgid "event"
 msgstr "wydarzenie"
 
@@ -185,7 +185,7 @@ msgid "events"
 msgstr "wydarzenia"
 
 #: events/models.py:36 events/models.py:80 events/models.py:101
-#: events/models.py:210 events/models.py:323 events/models.py:361
+#: events/models.py:212 events/models.py:326 events/models.py:364
 msgid "name"
 msgstr "nazwa"
 
@@ -193,7 +193,7 @@ msgstr "nazwa"
 msgid "Human-readable name for the event."
 msgstr "Nazwa wydarzenia czytelna dla człowieka."
 
-#: events/models.py:38 events/models.py:81 events/models.py:324
+#: events/models.py:38 events/models.py:81 events/models.py:327
 msgid "slug"
 msgstr "slug"
 
@@ -269,7 +269,7 @@ msgstr "ogłoszenie"
 msgid "Notice to be shown below the event description, if set."
 msgstr "Ogłoszenie wyświetlone pod opisem wydarzenia, jeśli ustawione."
 
-#: events/models.py:59 events/models.py:102 events/models.py:330
+#: events/models.py:59 events/models.py:102 events/models.py:333
 msgid "description"
 msgstr "opis"
 
@@ -371,11 +371,11 @@ msgstr "koordynaty podglądu"
 msgid "Box coords for the ticket preview generator. Docs: "
 msgstr "Koordynaty prostokąta dla generatora podglądu biletów. Docsy: "
 
-#: events/models.py:119 events/models.py:326
+#: events/models.py:119 events/models.py:329
 msgid "registration from"
 msgstr "rejestracja od"
 
-#: events/models.py:120 events/models.py:328
+#: events/models.py:120 events/models.py:331
 msgid "registration to"
 msgstr "rejestracja do"
 
@@ -396,194 +396,202 @@ msgid "Determines if the ticket can be paid on-site or online only."
 msgstr "Decyduje czy bilet może być opłacony na miejscu czy tylko online."
 
 #: events/models.py:125
+msgid "can pay online"
+msgstr "może zapłacić online"
+
+#: events/models.py:126
+msgid "Determines if online payments are allowed at all for this type."
+msgstr "Decyduje czy płatności online są w ogóle dozwolone dla tego typu."
+
+#: events/models.py:127
 msgid "display order"
 msgstr "kolejność wyświetlania"
 
-#: events/models.py:126
+#: events/models.py:128
 msgid "Order in which ticket types are displayed (0, 1, 2, ...)."
 msgstr "Kolejność w której wyświetlane są typy biletów (0, 1, 2, ...)."
 
-#: events/models.py:128
+#: events/models.py:130
 msgid "max tickets"
 msgstr "maks biletów"
 
-#: events/models.py:129
+#: events/models.py:131
 msgid "tickets remaining"
 msgstr "pozostało biletów"
 
-#: events/models.py:130
+#: events/models.py:132
 msgid "show tickets remaining"
 msgstr "wyświetlaj pozostałe bilety"
 
-#: events/models.py:131
+#: events/models.py:133
 msgid "Display the number of tickets left publicly?"
 msgstr "Czy wyświetlać ilość pozostałych biletów publicznie?"
 
-#: events/models.py:184 events/models.py:289
+#: events/models.py:186 events/models.py:292
 msgid "ticket"
 msgstr "bilet"
 
-#: events/models.py:185
+#: events/models.py:187
 msgid "tickets"
 msgstr "bilety"
 
-#: events/models.py:194 events/models.py:349
+#: events/models.py:196 events/models.py:352
 msgid "Cancelled"
 msgstr "Anulowany"
 
-#: events/models.py:195 events/models.py:350
+#: events/models.py:197 events/models.py:353
 msgid "Waiting for Organizers"
 msgstr "Czeka na Organizatorów"
 
-#: events/models.py:196
+#: events/models.py:198
 msgid "Waiting for online payment"
 msgstr "Czeka na płatność online"
 
-#: events/models.py:197
+#: events/models.py:199
 msgid "Ready (payment on site)"
 msgstr "Gotowy (płatność na miejscu)"
 
-#: events/models.py:198
+#: events/models.py:200
 msgid "Ready (paid)"
 msgstr "Gotowy (opłacony)"
 
-#: events/models.py:199
+#: events/models.py:201
 msgid "Used"
 msgstr "Użyty"
 
-#: events/models.py:200
+#: events/models.py:202
 msgid "Used on site"
 msgstr "Użyty na miejscu"
 
-#: events/models.py:204 events/models.py:287 events/models.py:356
+#: events/models.py:206 events/models.py:290 events/models.py:359
 msgid "user"
 msgstr "użytkownik"
 
-#: events/models.py:206 events/models.py:358
+#: events/models.py:208 events/models.py:361
 msgid "type"
 msgstr "typ"
 
-#: events/models.py:207 events/models.py:359
+#: events/models.py:209 events/models.py:362
 msgid "status"
 msgstr "status"
 
-#: events/models.py:211 events/models.py:363
+#: events/models.py:213 events/models.py:366
 msgid "email"
 msgstr "email"
 
-#: events/models.py:212 events/models.py:362
+#: events/models.py:214 events/models.py:365
 msgid "phone"
 msgstr "telefon"
 
-#: events/models.py:213
+#: events/models.py:215
 msgid "Optional, used for notifications before/during the event"
 msgstr "Opcjonalny, używany do powiadomień przed/w trakcie wydarzenia"
 
-#: events/models.py:214
+#: events/models.py:216
 msgid "age gate"
 msgstr "bramka wieku"
 
-#: events/models.py:215
+#: events/models.py:217
 msgid "Is the attendee of age?"
 msgstr "Czy uczestnik jest pełnoletni?"
 
-#: events/models.py:216
+#: events/models.py:218
 msgid "notes"
 msgstr "notatki"
 
-#: events/models.py:217
+#: events/models.py:219
 msgid "Optional, notes for organizers"
 msgstr "Opcjonalne, notatki dla organizatorów"
 
-#: events/models.py:219
+#: events/models.py:221
 msgid "code"
 msgstr "kod"
 
-#: events/models.py:220
+#: events/models.py:222
 msgid "Code printed on the ticket. Required for pickup on site."
 msgstr "Kod wydrukowany na bilecie. Wymagany do odbioru na miejscu."
 
-#: events/models.py:221
+#: events/models.py:223
 msgid "nickname"
 msgstr "ksywka"
 
-#: events/models.py:222
+#: events/models.py:224
 msgid "Printed on the customized ticket"
 msgstr "Drukowana na spersonalizowanym bilecie"
 
-#: events/models.py:223
+#: events/models.py:225
 msgid "image"
 msgstr "obrazek"
 
-#: events/models.py:224
+#: events/models.py:226
 msgid "Printed on the customized ticket."
 msgstr "Drukowana na spersonalizowanym bilecie."
 
-#: events/models.py:225
+#: events/models.py:227
 msgid "preview"
 msgstr "podgląd"
 
-#: events/models.py:226
+#: events/models.py:228
 msgid "Automatically generated preview image."
 msgstr "Automatycznie generowany obrazek podglądowy."
 
-#: events/models.py:283
+#: events/models.py:286
 msgid "payment"
 msgstr "płatność"
 
-#: events/models.py:284
+#: events/models.py:287
 msgid "payments"
 msgstr "płatności"
 
-#: events/models.py:319
+#: events/models.py:322
 msgid "application type"
 msgstr "typ zgłoszenia"
 
-#: events/models.py:320
+#: events/models.py:323
 msgid "application types"
 msgstr "typy zgłoszeń"
 
-#: events/models.py:325
+#: events/models.py:328
 msgid "button label"
 msgstr "etykieta przycisku"
 
-#: events/models.py:327
+#: events/models.py:330
 msgid "Date/time from which users can create these applications."
 msgstr "Data/godzina od której użytkownicy mogą tworzyć te zgłoszenia."
 
-#: events/models.py:329
+#: events/models.py:332
 msgid "Date/time when the form for these applications closes."
 msgstr "Data/godzina gdy formularz tego zgłoszenia zamyka się."
 
-#: events/models.py:331
+#: events/models.py:334
 msgid "Shown on the application form. Supports Markdown."
 msgstr "Pokazywane na ekranie zgłoszenia. Wspiera Markdown."
 
-#: events/models.py:332
+#: events/models.py:335
 msgid "template"
 msgstr "szablon"
 
-#: events/models.py:333
+#: events/models.py:336
 msgid "Template for dynamic application form fields. Docs: "
 msgstr "Szablon dla dynamicznych pól formularzy w zgłoszeniach. Dokumentacja: "
 
-#: events/models.py:342 events/models.py:364
+#: events/models.py:345 events/models.py:367
 msgid "application"
 msgstr "zgłoszenie"
 
-#: events/models.py:343
+#: events/models.py:346
 msgid "applications"
 msgstr "zgłoszenia"
 
-#: events/models.py:351
+#: events/models.py:354
 msgid "Approved"
 msgstr "Zatwierdzone"
 
-#: events/models.py:352
+#: events/models.py:355
 msgid "Rejected"
 msgstr "Odrzucone"
 
-#: events/models.py:365
+#: events/models.py:368
 msgid "org notes"
 msgstr "notatki organizatorów"
 
@@ -624,8 +632,8 @@ msgid "This ticket was already paid for."
 msgstr "Ten bilet został już opłacony."
 
 #: events/views/misc.py:147
-msgid "You cannot pay for this ticket online."
-msgstr "Nie możesz zapłacić za biletu tego typu online."
+msgid "You cannot pay online for this ticket."
+msgstr "Nie możesz zapłacić online za ten bilet."
 
 #: events/views/misc.py:151
 msgid ""

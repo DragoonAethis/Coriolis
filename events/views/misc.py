@@ -143,8 +143,8 @@ def ticket_payment(request, slug, ticket_id):
         messages.success(request, _("This ticket was already paid for."))
         return redirect('event_index', event.slug)
 
-    if not ticket.status in (Ticket.TicketStatus.READY_PAY_ON_SITE, Ticket.TicketStatus.WAITING_FOR_PAYMENT):
-        messages.error(request, _("You cannot pay for this ticket online."))
+    if not ticket.can_pay_online():
+        messages.error(request, _("You cannot pay online for this ticket."))
         return redirect('event_index', event.slug)
 
     if ticket.payment_set.count() >= settings.PAYMENT_MAX_ATTEMPTS:

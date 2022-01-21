@@ -122,6 +122,8 @@ class TicketType(models.Model):
                                             help_text=_("Determines if the ticket can be purchased online."))
     must_pay_online = models.BooleanField(default=False, verbose_name=_("must pay online"),
                                           help_text=_("Determines if the ticket can be paid on-site or online only."))
+    can_pay_online = models.BooleanField(default=True, verbose_name=_("can pay online"),
+                                         help_text=_("Determines if online payments are allowed at all for this type."))
     display_order = models.IntegerField(default=0, verbose_name=_("display order"),
                                         help_text=_("Order in which ticket types are displayed (0, 1, 2, ...)."))
 
@@ -243,9 +245,10 @@ class Ticket(models.Model):
 
     def can_pay_online(self) -> bool:
         return (
-            self.status in ('OKNP', 'WPAY')
+            datetime.datetime.now() < self.event.date_to
+            and self.status in (Ticket.TicketStatus.READY_PAY_ON_SITE, Ticket.TicketStatus.WAITING_FOR_PAYMENT)
             and self.event.payment_enabled
-            and datetime.datetime.now() < self.event.date_to
+            and self.type.can_pay_online
         )
 
     def can_personalize(self):
