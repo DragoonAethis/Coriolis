@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-21 23:14+0100\n"
-"PO-Revision-Date: 2022-01-21 23:14+0100\n"
+"PO-Revision-Date: 2022-01-21 23:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -29,8 +29,8 @@ msgid ""
 "Your first and last name as shown on the identifying document, or the "
 "organization you represent."
 msgstr ""
-"Twoje imię i nazwisko, tak jak widnieje na dokumencie identyfikującym, albo "
-"organizacja którą reprezentujesz."
+"Twoje imię i nazwisko, tak jak widnieje na dokumencie poświadczającym "
+"tożsamość, albo organizacja którą reprezentujesz."
 
 #: events/forms/applications.py:20 events/forms/registration.py:15
 msgid "E-mail Address"
@@ -68,7 +68,9 @@ msgstr "Imię i nazwisko"
 
 #: events/forms/registration.py:14
 msgid "Your first and last name, as shown on the identifying document."
-msgstr "Twoje imię i nazwisko, tak jak widnieje na dokumencie identyfikującym."
+msgstr ""
+"Twoje imię i nazwisko, tak jak widnieje na dokumencie poświadczającym "
+"tożsamość."
 
 #: events/forms/registration.py:18
 msgid ""
