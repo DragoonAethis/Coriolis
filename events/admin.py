@@ -1,5 +1,11 @@
+import csv
+import logging
+
+from django.http import HttpResponse
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.translation import gettext_lazy as _
+
 from .models import User, Event, EventPage, TicketType, ApplicationType, Ticket, Payment, Application
 
 # Ensure users go through the allauth workflow when logging into admin.
@@ -50,3 +56,38 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'status', 'event', 'phone', 'email')
     list_filter = ('event__name', 'type__name', 'status')
     search_fields = ('name', 'email', 'phone')
+    actions = ('download_as_csv', )
+
+    @admin.action(description=_("Download selected applications as CSV"))
+    def download_as_csv(self, request, queryset):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="export.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow((
+            'id', 'user', 'event', 'type', 'status',
+            'name', 'phone', 'email',
+            'application',
+            'org_notes'
+        ))
+
+        app: Application
+        for app in queryset:
+            try:
+                writer.writerow((
+                    app.id,
+                    app.user.email,
+                    app.event.name,
+                    app.type.name,
+                    app.get_status_display(),
+                    app.name,
+                    app.phone,
+                    app.email,
+                    app.application,
+                    app.org_notes
+                ))
+            except Exception as ex:
+                writer.writerow(f"Exception: {ex}")
+                logging.exception("Could not properly generate the application CSV export file")
+
+        return response
