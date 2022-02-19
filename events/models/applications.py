@@ -21,10 +21,15 @@ class ApplicationType(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("name"))
     slug = models.CharField(max_length=64, verbose_name=_("slug"))
     button_label = models.CharField(max_length=128, verbose_name=_("button label"))
+    org_email = models.EmailField(verbose_name=_("org email"), blank=True,
+                                  help_text=_("If set, mails for these applications will be sent to the "
+                                              "provided address, not the global event address."))
+
     registration_from = models.DateTimeField(verbose_name=_("registration from"),
                                              help_text=_("Date/time from which users can create these applications."))
     registration_to = models.DateTimeField(verbose_name=_("registration to"),
                                            help_text=_("Date/time when the form for these applications closes."))
+
     description = models.TextField(verbose_name=_("description"),
                                    help_text=_("Shown on the application form. Supports Markdown."))
     template = models.TextField(verbose_name=_("template"),
@@ -89,5 +94,5 @@ class Application(models.Model):
             }).strip(),
             settings.SERVER_EMAIL,
             [self.email],
-            reply_to=[self.event.org_mail]
+            reply_to=[self.type.org_email or self.event.org_mail]
         ).send()

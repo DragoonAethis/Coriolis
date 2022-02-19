@@ -86,7 +86,7 @@ class ApplicationView(FormView):
                 'application': application,
             }).strip(),
             settings.SERVER_EMAIL,
-            [self.event.org_mail, application.email]
+            [self.type.org_email or self.event.org_mail, application.email]
         ).send()
 
         messages.success(self.request, _("Your application was submitted successfully. Orgs will be in touch soon."))
