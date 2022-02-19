@@ -14,7 +14,7 @@ from django.conf import settings
 from django.utils.html import mark_safe
 
 from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
-from events.models import Event, TicketType, Ticket
+from events.models import Event, TicketType, Ticket, TicketStatus, TicketSource
 from events.utils import delete_ticket_image, save_ticket_image
 
 
@@ -76,7 +76,8 @@ class RegistrationView(FormView):
         ticket = Ticket(user=self.request.user,
                         event=self.event,
                         type=self.type,
-                        status=Ticket.TicketStatus.READY_PAY_ON_SITE,
+                        status=TicketStatus.READY_PAY_ON_SITE,
+                        source=TicketSource.ONLINE,
                         name=form.cleaned_data['name'],
                         email=form.cleaned_data['email'],
                         phone=form.cleaned_data['phone'],
@@ -115,8 +116,8 @@ class RegistrationView(FormView):
         ticket.code = selected_code
 
         if ticket.notes is not None and len(ticket.notes) > 0:
-            ticket.status = Ticket.TicketStatus.WAITING
-            ticket._original_status = Ticket.TicketStatus.WAITING
+            ticket.status = TicketStatus.WAITING
+            ticket._original_status = TicketStatus.WAITING
             EmailMessage(
                 f"{_('Notes for ticket')}: {ticket.get_code()}",
                 _("A new ticket was registered with the following notes: ") + ticket.notes,
@@ -125,8 +126,8 @@ class RegistrationView(FormView):
                 reply_to=[ticket.email]
             ).send(fail_silently=True)
         elif self.type.must_pay_online:
-            ticket.status = Ticket.TicketStatus.WAITING_FOR_PAYMENT
-            ticket._original_status = Ticket.TicketStatus.WAITING_FOR_PAYMENT
+            ticket.status = TicketStatus.WAITING_FOR_PAYMENT
+            ticket._original_status = TicketStatus.WAITING_FOR_PAYMENT
 
         if form.cleaned_data['image']:
             save_ticket_image(ticket, form.cleaned_data['image'])
@@ -138,7 +139,7 @@ class RegistrationView(FormView):
             render_to_string("events/emails/thank_you.html", {
                 'event': self.event,
                 'ticket': ticket,
-                'is_waiting': ticket.status == Ticket.TicketStatus.WAITING
+                'is_waiting': ticket.status == TicketStatus.WAITING
             }).strip(),
             settings.SERVER_EMAIL,
             [ticket.email],
@@ -148,14 +149,14 @@ class RegistrationView(FormView):
         self.type.tickets_remaining -= 1
         self.type.save()
 
-        if ticket.status == Ticket.TicketStatus.WAITING_FOR_PAYMENT:
+        if ticket.status == TicketStatus.WAITING_FOR_PAYMENT:
             messages.success(self.request, _("Thank you for your registration! You must pay for the selected ticket "
                                              "type online. Do so now, or click Pay Online later from your tickets."))
             return redirect('ticket_payment', self.event.slug, ticket.id)
-        elif ticket.status == Ticket.TicketStatus.WAITING:
+        elif ticket.status == TicketStatus.WAITING:
             messages.success(self.request, _("Thank you for your registration! You will receive an e-mail when "
                                              "organizers read and acknowledge your ticket notes."))
-        elif ticket.status == Ticket.TicketStatus.READY_PAY_ON_SITE:
+        elif ticket.status == TicketStatus.READY_PAY_ON_SITE:
             messages.success(self.request, _("Thank you for your registration! You can see your ticket details below."))
 
         return redirect('event_index', self.event.slug)
@@ -177,7 +178,7 @@ class CancelRegistrationView(FormView):
             messages.error(self.request, _("You cannot cancel a ticket that is not yours!"))
             return redirect('event_index', self.event.slug)
 
-        if self.ticket.status not in (Ticket.TicketStatus.READY_PAY_ON_SITE, Ticket.TicketStatus.WAITING_FOR_PAYMENT):
+        if self.ticket.status not in (TicketStatus.READY_PAY_ON_SITE, TicketStatus.WAITING_FOR_PAYMENT):
             messages.error(self.request, _("Cannot cancel a ticket with this status - please contact the organizers."))
             return redirect('event_index', self.event.slug)
 
@@ -198,7 +199,7 @@ class CancelRegistrationView(FormView):
         return context
 
     def form_valid(self, form):
-        self.ticket.status = Ticket.TicketStatus.CANCELLED
+        self.ticket.status = TicketStatus.CANCELLED
         self.ticket.save()
 
         type = TicketType.objects.get(id=self.ticket.type_id)

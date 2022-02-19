@@ -108,6 +108,22 @@ class TicketType(models.Model):
                 raise
 
 
+class TicketStatus(models.TextChoices):
+    CANCELLED = 'CNCL', _("Cancelled")
+    WAITING = 'WAIT', _("Waiting for Organizers")
+    WAITING_FOR_PAYMENT = 'WPAY', _("Waiting for online payment")
+    READY_PAY_ON_SITE = 'OKNP', _("Ready (payment on site)")
+    READY_PAID = 'OKPD', _("Ready (paid)")
+    USED = 'USED', _("Used")
+    USED_ON_SITE = 'ONST', _("Used on site")
+
+
+class TicketSource(models.TextChoices):
+    ADMIN = 'admin', _("Administrative")
+    ONLINE = 'online', _("Online")
+    ONSITE = 'onsite', _("On-site")
+
+
 class Ticket(models.Model):
     class Meta:
         verbose_name = _("ticket")
@@ -119,22 +135,19 @@ class Ticket(models.Model):
             models.Index(fields=['event', 'email']),
         ]
 
-    class TicketStatus(models.TextChoices):
-        CANCELLED = 'CNCL', _("Cancelled")
-        WAITING = 'WAIT', _("Waiting for Organizers")
-        WAITING_FOR_PAYMENT = 'WPAY', _("Waiting for online payment")
-        READY_PAY_ON_SITE = 'OKNP', _("Ready (payment on site)")
-        READY_PAID = 'OKPD', _("Ready (paid)")
-        USED = 'USED', _("Used")
-        USED_ON_SITE = 'ONST', _("Used on site")
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"), null=True)
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     type = models.ForeignKey(TicketType, on_delete=models.RESTRICT, verbose_name=_("type"))
+
+    paid = models.BooleanField(verbose_name=_("paid"), default=False)
     status = models.CharField(max_length=4, verbose_name=_("status"),
                               choices=TicketStatus.choices, default=TicketStatus.WAITING)
+    source = models.CharField(max_length=16, verbose_name=_("source"),
+                              choices=TicketSource.choices, default=TicketSource.ADMIN)
 
     name = models.CharField(max_length=256, blank=True, verbose_name=_("name"))
     email = models.EmailField(verbose_name=_("email"), blank=True)
@@ -165,7 +178,7 @@ class Ticket(models.Model):
         return f"{self.code}: {self.name} ({self.id})"
 
     def is_cancelled(self) -> bool:
-        return self.status == Ticket.TicketStatus.CANCELLED
+        return self.status == TicketStatus.CANCELLED
 
     def can_cancel(self) -> bool:
         return self.status in ('OKNP', 'WPAY')
@@ -173,7 +186,7 @@ class Ticket(models.Model):
     def can_pay_online(self) -> bool:
         return (
             datetime.datetime.now() < self.event.date_to
-            and self.status in (Ticket.TicketStatus.READY_PAY_ON_SITE, Ticket.TicketStatus.WAITING_FOR_PAYMENT)
+            and self.status in (TicketStatus.READY_PAY_ON_SITE, TicketStatus.WAITING_FOR_PAYMENT)
             and self.event.payment_enabled
             and self.type.can_pay_online
         )

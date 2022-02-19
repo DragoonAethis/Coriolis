@@ -11,6 +11,8 @@ class Event(models.Model):
         verbose_name_plural = _("events")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     name = models.CharField(max_length=256, verbose_name=_("name"),
                             help_text=_("Human-readable name for the event."))
@@ -53,6 +55,9 @@ class Event(models.Model):
 class EventPage(models.Model):
     class Meta:
         constraints = [models.UniqueConstraint(fields=['event', 'slug'], name='event_pages_with_unique_slugs')]
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("event"),
                               help_text=_("If not set, will be shown for all events."))

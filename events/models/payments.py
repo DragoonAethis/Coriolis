@@ -19,6 +19,9 @@ class Payment(BasePayment):
         verbose_name_plural = _("payments")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
     user = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name=_("user"), null=True)
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))

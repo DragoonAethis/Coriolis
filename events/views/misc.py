@@ -15,7 +15,7 @@ from crispy_forms.layout import Submit
 from payments import RedirectNeeded, PaymentStatus
 from payments_przelewy24.api import Przelewy24API
 
-from events.models import Event, EventPage, Ticket, TicketType, Application, ApplicationType, Payment
+from events.models import Event, EventPage, Ticket, TicketType, TicketStatus, Application, ApplicationType, Payment
 from events.forms import UpdateTicketForm
 
 
@@ -139,7 +139,7 @@ def ticket_payment(request, slug, ticket_id):
         messages.error(request, _("You don't own this ticket!"))
         return redirect('event_index', event.slug)
 
-    if ticket.status == Ticket.TicketStatus.READY_PAID:
+    if ticket.status == TicketStatus.READY_PAID:
         messages.success(request, _("This ticket was already paid for."))
         return redirect('event_index', event.slug)
 
@@ -162,7 +162,7 @@ def ticket_payment(request, slug, ticket_id):
     for existing_payment in ticket.payment_set.all():
         if existing_payment.status == PaymentStatus.CONFIRMED:
             # Forgot to update the status? Uh, okay...
-            ticket.status = Ticket.TicketStatus.READY_PAID
+            ticket.status = TicketStatus.READY_PAID
             ticket.save()
 
             messages.success(request, _("This ticket was already paid for. Thank you!"))
@@ -244,7 +244,7 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
 
     if payment.status == PaymentStatus.CONFIRMED:
         messages.success(request, _("Payment successful - thank you!"))
-        ticket.status = Ticket.TicketStatus.READY_PAID
+        ticket.status = TicketStatus.READY_PAID
     elif payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT):
         return redirect('ticket_payment', event.slug, ticket.id)
     elif payment.status == PaymentStatus.ERROR:
@@ -253,7 +253,7 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
         messages.error(request, _("Payment rejected - please try again."))
     elif payment.status == PaymentStatus.REFUNDED:
         messages.warning(request, _("Payment refunded."))
-        ticket.status = Ticket.TicketStatus.CANCELLED
+        ticket.status = TicketStatus.CANCELLED
 
     ticket.save()
     return redirect('ticket_details', event.slug, ticket.id)
