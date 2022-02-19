@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import gettext_lazy as _
 
-from .models import User, Event, EventPage, TicketType, ApplicationType, Ticket, Payment, Application
+from events.models import User, Event, EventPage, TicketType, ApplicationType, Ticket, Payment, Application
 
 # Ensure users go through the allauth workflow when logging into admin.
 admin.site.login = staff_member_required(admin.site.login, login_url='/accounts/login')
