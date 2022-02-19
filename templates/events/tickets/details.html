@@ -57,7 +57,7 @@
                 <div>
                     <a href="#">
                         <img class="img-fluid"
-                             src="{{ ticket.preview.url }}"
+                             src="{{ ticket.preview.url }}?updated={{ ticket.updated.timestamp | floatformat:"0" }}"
                              alt="Ticket preview image. Click to personalize."
                              data-bs-toggle="modal" data-bs-target="#personalizeModal">
                     </a>
@@ -67,7 +67,7 @@
                 <div>
                     <a href="#">
                         <img class="img-fluid"
-                             src="{{ ticket.image.url }}"
+                             src="{{ ticket.image.url }}?updated={{ ticket.updated.timestamp | floatformat:"0" }}"
                              alt="Image to be printed on the ticket. Click to personalize."
                              data-bs-toggle="modal" data-bs-target="#personalizeModal">
                     </a>
