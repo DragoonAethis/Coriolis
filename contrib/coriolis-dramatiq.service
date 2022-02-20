@@ -4,14 +4,16 @@ Requires=redis.service postgresql.service
 After=network.target
 
 [Service]
-Type=notify
+Type=simple
 User=www-data
 Group=www-data
 RuntimeDirectory=dramatiq
 WorkingDirectory=/app
 ExecStart=poetry run python manage.py rundramatiq
 ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
 KillMode=mixed
+Restart=on-failure
 TimeoutStopSec=5
 PrivateTmp=true
 
