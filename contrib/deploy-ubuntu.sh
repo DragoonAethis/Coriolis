@@ -7,7 +7,8 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y \
   nginx gcc gettext postgresql libpq-dev \
   certbot python3-certbot-nginx python3-pip \
-  python3.9-full python3.9-venv python3.9-dev
+  python3.9-full python3.9-venv python3.9-dev \
+  redis
 
 timedatectl set-timezone Europe/Warsaw
 reboot
@@ -35,6 +36,10 @@ CREATE USER coriolis WITH LOGIN;
 ALTER USER coriolis WITH PASSWORD 'nice-try-m8';
 GRANT ALL ON DATABASE coriolis TO coriolis;
 
+# We're also using Redis - its defaults listen on the port we want
+# for localhost only, so we don't have to mess with its config much.
+# It's also systemctl enabled out of the box - as is PostgreSQL.
+
 # Pre-deployment
 poetry shell  # loads .env
 ./manage.py migrate
@@ -54,6 +59,7 @@ certbot run -d example.com,usermedia.example.com --nginx --agree-tos -m owo@what
 # Files
 cp contrib/coriolis.socket /etc/systemd/system/coriolis.socket
 cp contrib/coriolis.service /etc/systemd/system/coriolis.service
+cp contrib/coriolis-dramatiq.service /etc/systemd/system/coriolis-dramatiq.service
 cp contrib/coriolis.nginx.conf /etc/nginx/sites-available/coriolis
 nano /etc/nginx/sites-available/coriolis  # s/example.com/your.domain/d
 
@@ -62,6 +68,7 @@ rm /etc/nginx/sites-enabled/default
 
 systemctl daemon-reload
 systemctl enable coriolis.socket --now
+systemctl enable coriolis-dramatiq.socket --now
 systemctl restart nginx
 
 cd /app

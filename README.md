@@ -18,6 +18,7 @@ Requirements:
 - Primarily developed and tested on Linux, but should work on Windows/macOS too.
 - You'll need Python 3.9+ with [Poetry](https://python-poetry.org/).
 - For the database, you'll need PostgreSQL 13+.
+- For the cache and background task queues, you'll need Redis 5.0+.
 - Optional: You might want to use [Mailhog](https://github.com/mailhog/MailHog) as a fake SMTP server.
 
 Setting up the environment:
@@ -36,6 +37,7 @@ You're now ready to run the development server:
 - You can either load `.env` contents as environment variables or point the `ENV_PATH` variable at it.
 - Run `ENV_PATH=path/to/your/.env ./manage.py runserver` to start the development server.
 - If you got the `ImproperlyConfigured`, this means the env vars from this file were not loaded.
+- Run `ENV_PATH=path/to/your/.env ./manage.py rundramatiq` to start the background task queue.
 - For non-production environments, the top bar will be tinted red.
 
 Common development tasks:
@@ -45,6 +47,7 @@ Common development tasks:
 - `./manage.py makemigrations` - generate database migrations after introducing changes in our models.
 - `./manage.py migrate` - apply missing migrations to your currently-running database.
 - `./manage.py collectstatic` - generate complete contents of the `static` directory (required for prod).
+- `./manage.py rundramatiq --reload` - runs the task queue with a code autoreloader.
 - `./upgrade.sh` - pulls the current Git branch and runs common upgrade steps, then restarts the service.
 
 

@@ -33,6 +33,8 @@ Pillow = "^9.0.0"
 Markdown = "^3.3.6"
 django-payments = "^0.15.0"
 django-money = "^2.1.1"
+dramatiq = {extras = ["watch", "redis"], version = "^1.12.3"}
+django-dramatiq = "^0.10.0"
 
 # Commented out until fixes are upstreamed:
 #django-payments-przelewy24 = "0.1.7"
