@@ -8,3 +8,4 @@ poetry run python manage.py compilemessages
 poetry run python manage.py collectstatic --no-input
 chown -R www-data:www-data .
 systemctl restart coriolis
+systemctl restart coriolis-dramatiq
