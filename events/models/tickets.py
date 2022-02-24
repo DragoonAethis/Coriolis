@@ -115,7 +115,6 @@ class TicketStatus(models.TextChoices):
     READY_PAY_ON_SITE = 'OKNP', _("Ready (payment on site)")
     READY_PAID = 'OKPD', _("Ready (paid)")
     USED = 'USED', _("Used")
-    USED_ON_SITE = 'ONST', _("Used on site")
 
 
 class TicketSource(models.TextChoices):
