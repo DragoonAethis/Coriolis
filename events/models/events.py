@@ -36,6 +36,8 @@ class Event(models.Model):
                                           help_text=_("Enable or disable "))
     emails_enabled = models.BooleanField(default=True, verbose_name=_("emails enabled"),
                                          help_text=_("Toggles emails for some status changes on this event."))
+    prometheus_key = models.CharField(max_length=256, blank=True, verbose_name=_("prometheus key"),
+                                      help_text=_("Key used as the password for the Prometheus metrics URL"))
     notice = models.TextField(blank=True, verbose_name=_("notice"),
                               help_text=_("Notice to be shown below the event description, if set."))
 

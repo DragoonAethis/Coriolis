@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('event/<slug:slug>/', views.event_index, name='event_index'),
+    path('event/<slug:slug>/prometheus/<str:key>', views.prometheus_status, name='prom_stats'),
     path('event/<slug:slug>/page/<slug:page_slug>', views.event_page, name='event_page'),
 
     path('event/<slug:slug>/ticket/new/', views.ticket_picker, name='ticket_picker'),

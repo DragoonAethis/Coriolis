@@ -1,6 +1,7 @@
 import datetime
 from typing import Tuple
 
+import django.http.response
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
@@ -16,6 +17,7 @@ from payments import RedirectNeeded, PaymentStatus
 from payments_przelewy24.api import Przelewy24API
 
 from events.models import Event, EventPage, Ticket, TicketType, TicketStatus, Application, ApplicationType, Payment
+from events.models.tickets import VaccinationProof
 from events.forms import UpdateTicketForm
 
 
@@ -77,6 +79,55 @@ def event_page(request, slug, page_slug):
         'event': event,
         'page': page
     })
+
+
+def prometheus_status(request, slug, key):
+    event = get_object_or_404(Event, slug=slug)
+    if not event.prometheus_key or key != event.prometheus_key:
+        return django.http.response.HttpResponseForbidden("yeet the ayyyys")
+
+    counters = [
+        ('tickets_ready_pay_on_site',
+         'Number of tickets registered, but not paid for.',
+         lambda x: x[0] == TicketStatus.READY_PAY_ON_SITE),
+        ('tickets_ready_paid',
+         'Number of tickets paid for before the event.',
+         lambda x: x[0] == TicketStatus.READY_PAID),
+        ('tickets_used',
+         'Number of used tickets.',
+         lambda x: x[0] == TicketStatus.USED),
+        ('vaccination_proof_none',
+         'Number of used tickets for which we have no vaccination proof.',
+         lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.NONE),
+        ('vaccination_proof_weak',
+         'Number of used tickets for which we have a weak vaccination proof.',
+         lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.WEAK),
+        ('vaccination_proof_weak',
+         'Number of used tickets for which we have a strong vaccination proof.',
+         lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.STRONG)
+    ]
+
+    data = Ticket.objects\
+        .filter(event_id=event.id)\
+        .filter(status__in=(TicketStatus.READY_PAY_ON_SITE, TicketStatus.READY_PAID, TicketStatus.USED))\
+        .values_list('status', 'vaccination_proof')
+
+    output_metrics = []
+
+    for counter in counters:
+        value = 0
+        for sample in data:
+            if counter[2](sample):
+                value += 1
+
+        output_metrics.extend([
+            f"# HELP {counter[0]} {counter[1]}",
+            f"# TYPE {counter[0]} counter",
+            f"{counter[0]} {value}"
+        ])
+
+    output_metrics.append('')
+    return django.http.response.HttpResponse("\n".join(output_metrics))
 
 
 @login_required
