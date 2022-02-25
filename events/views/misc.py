@@ -141,7 +141,7 @@ def prometheus_status(request, slug, key):
 
         output_metrics.extend([
             f"# HELP {counter[0]} {counter[1]}",
-            f"# TYPE {counter[0]} counter",
+            f"# TYPE {counter[0]} gauge",
             f"{counter[0]} {value}"
         ])
 
