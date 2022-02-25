@@ -34,6 +34,8 @@ class Event(models.Model):
     active = models.BooleanField(default=True, verbose_name=_("active"))
     payment_enabled = models.BooleanField(default=True, verbose_name=_("payment enabled"),
                                           help_text=_("Enable or disable "))
+    emails_enabled = models.BooleanField(default=True, verbose_name=_("emails enabled"),
+                                         help_text=_("Toggles emails for some status changes on this event."))
     notice = models.TextField(blank=True, verbose_name=_("notice"),
                               help_text=_("Notice to be shown below the event description, if set."))
 

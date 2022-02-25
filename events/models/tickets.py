@@ -219,13 +219,14 @@ class Ticket(models.Model):
             return
 
         # Notify about the status change:
-        EmailMessage(
-            f"{self.event.name}: {_('Ticket')} {self.get_code()} ({_('new status')})",
-            render_to_string("events/emails/ticket_changed.html", {
-                'event': self.event,
-                'ticket': self,
-            }).strip(),
-            settings.SERVER_EMAIL,
-            [self.email],
-            reply_to=[self.event.org_mail]
-        ).send()
+        if self.event.emails_enabled:
+            EmailMessage(
+                f"{self.event.name}: {_('Ticket')} {self.get_code()} ({_('new status')})",
+                render_to_string("events/emails/ticket_changed.html", {
+                    'event': self.event,
+                    'ticket': self,
+                }).strip(),
+                settings.SERVER_EMAIL,
+                [self.email],
+                reply_to=[self.event.org_mail]
+            ).send()
