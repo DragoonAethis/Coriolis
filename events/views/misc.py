@@ -16,7 +16,8 @@ from crispy_forms.layout import Submit
 from payments import RedirectNeeded, PaymentStatus
 from payments_przelewy24.api import Przelewy24API
 
-from events.models import Event, EventPage, Ticket, TicketType, TicketStatus, Application, ApplicationType, Payment
+from events.models.tickets import Ticket, TicketType, TicketStatus, TicketSource
+from events.models import Event, EventPage, Application, ApplicationType, Payment
 from events.models.tickets import VaccinationProof
 from events.forms import UpdateTicketForm
 
@@ -104,13 +105,31 @@ def prometheus_status(request, slug, key):
          lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.WEAK),
         ('vaccination_proof_strong',
          'Number of used tickets for which we have a strong vaccination proof.',
-         lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.STRONG)
+         lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.STRONG),
+        ('ticket_source_admin',
+         'Number of tickets created administratively',
+         lambda x: x[2] == TicketSource.ADMIN),
+        ('ticket_source_online',
+         'Number of tickets created online',
+         lambda x: x[2] == TicketSource.ONLINE),
+        ('ticket_source_onsite',
+         'Number of tickets created on-site',
+         lambda x: x[2] == TicketSource.ONSITE),
+        ('used_ticket_source_admin',
+         'Number of used tickets created administratively',
+         lambda x: x[0] == TicketStatus.USED and x[2] == TicketSource.ADMIN),
+        ('used_ticket_source_online',
+         'Number of used tickets created online',
+         lambda x: x[0] == TicketStatus.USED and x[2] == TicketSource.ONLINE),
+        ('used_ticket_source_onsite',
+         'Number of used tickets created on-site',
+         lambda x: x[0] == TicketStatus.USED and x[2] == TicketSource.ONSITE),
     ]
 
     data = Ticket.objects\
         .filter(event_id=event.id)\
         .filter(status__in=(TicketStatus.READY_PAY_ON_SITE, TicketStatus.READY_PAID, TicketStatus.USED))\
-        .values_list('status', 'vaccination_proof')
+        .values_list('status', 'vaccination_proof', 'source')
 
     output_metrics = []
 
