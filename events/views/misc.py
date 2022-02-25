@@ -102,7 +102,7 @@ def prometheus_status(request, slug, key):
         ('vaccination_proof_weak',
          'Number of used tickets for which we have a weak vaccination proof.',
          lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.WEAK),
-        ('vaccination_proof_weak',
+        ('vaccination_proof_strong',
          'Number of used tickets for which we have a strong vaccination proof.',
          lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.STRONG)
     ]
