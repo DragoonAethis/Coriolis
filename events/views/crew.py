@@ -184,7 +184,7 @@ class CrewExistingTicketView(FormView):
         self.ticket.save()
 
         if self.ticket.paid:
-            notify_channel.send(self.event.id, NotificationChannelSource.TICKET_USED, {
+            notify_channel.send(str(self.event.id), NotificationChannelSource.TICKET_USED, {
                 'ticket_id': str(self.ticket.id)
             })
 
