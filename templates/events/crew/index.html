@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block head_title %}{% translate "Crew Panel" %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-lg-6 offset-lg-3">
+            <h1>{% translate "Existing ticket?" %}</h1>
+            {% crispy find_form %}
+
+            <h1>{% translate "Need a new ticket?" %}</h1>
+            {% crispy form %}
+        </div>
+    </div>
+{% endblock %}

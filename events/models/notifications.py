@@ -40,5 +40,5 @@ class NotificationChannel(models.Model):
                               choices=NotificationChannelTarget.choices,
                               help_text=_("Where to send events from this channel?"))
     configuration = models.JSONField(verbose_name=_("configuration"),
-                                     help_text=_("Shown in the ticket choice screen. Supports Markdown. See docs: "
+                                     help_text=_("Channel target configuration, in JSON. See docs: "
                                                  "https://github.com/DragoonAethis/Coriolis/wiki/Notification-Channels"))  # noqa

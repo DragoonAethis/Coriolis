@@ -1,7 +1,6 @@
 import datetime
-import math
-import random
 
+from django.db.models import F
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
@@ -15,7 +14,7 @@ from django.utils.html import mark_safe
 
 from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models import Event, TicketType, Ticket, TicketStatus, TicketSource
-from events.utils import delete_ticket_image, save_ticket_image
+from events.utils import generate_ticket_code, delete_ticket_image, save_ticket_image
 
 
 class RegistrationView(FormView):
@@ -85,35 +84,11 @@ class RegistrationView(FormView):
                         nickname=form.cleaned_data['nickname'],
                         notes=form.cleaned_data.get('notes'))
 
-        # Now for the nasty part: Get ALL the ticket numbers we already
-        # have in the database and generate a new one that does not
-        # conflict with any existing ones.
-        maximum_tickets = 10 ** self.event.ticket_code_length
-        numbers = set(Ticket.objects.filter(event_id=self.event.id).values_list('code', flat=True))
-
-        if len(numbers) >= maximum_tickets:
-            # Yeah, we're not even gonna try.
-            messages.error(self.request, _("MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."))
+        try:
+            ticket.code = generate_ticket_code(self.event)
+        except ValueError as ex:
+            messages.error(self.request, str(ex))
             return redirect('event_index', self.event.slug)
-
-        # Try to generate a new code - scale the maximum number of attempts
-        # with the current ticket code count to avoid the slow path:
-        selected_code = None
-        for i in range(10 ** int(math.log10(max(10, len(numbers))))):
-            generated_code = random.randint(0, maximum_tickets - 1)
-            if generated_code not in numbers:
-                selected_code = generated_code
-                break  # We've got a unique code, good!
-
-        if selected_code is None:
-            # Okay, do it the hard way. This is VERY slow with long codes.
-            possible_numbers = set(range(maximum_tickets - 1)) - numbers
-            assert len(possible_numbers) > 0
-
-            # This 100% gets us any valid remaining ticket code.
-            selected_code = random.choice(list(possible_numbers))
-
-        ticket.code = selected_code
 
         if ticket.notes is not None and len(ticket.notes) > 0:
             ticket.status = TicketStatus.WAITING
@@ -146,7 +121,7 @@ class RegistrationView(FormView):
             reply_to=[ticket.event.org_mail]
         ).send(fail_silently=True)
 
-        self.type.tickets_remaining -= 1
+        self.type.tickets_remaining = F('tickets_remaining') - 1
         self.type.save()
 
         if ticket.status == TicketStatus.WAITING_FOR_PAYMENT:

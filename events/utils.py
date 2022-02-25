@@ -1,13 +1,43 @@
 import os
 import uuid
+import random
 import logging
 
+from django.utils.translation import gettext as _
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
 
 from PIL import Image, ImageOps
 
 import events.models
+
+
+def generate_ticket_code(event: 'events.models.Event') -> int:
+    from events.models import Ticket
+
+    # Now for the nasty part: Get ALL the ticket numbers we already
+    # have in the database and generate a new one that does not
+    # conflict with any existing ones.
+    maximum_tickets = 10 ** event.ticket_code_length
+    numbers = set(Ticket.objects.filter(event_id=event.id).values_list('code', flat=True))
+
+    if len(numbers) >= maximum_tickets:
+        # Yeah, we're not even gonna try.
+        raise ValueError(_("MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."))
+
+    # Try to generate a new code - scale the maximum number of attempts
+    # with the current ticket code count to avoid the slow path:
+    for i in range(100):
+        generated_code = random.randint(0, maximum_tickets - 1)
+        if generated_code not in numbers:
+            return generated_code  # We've got a unique code, good!
+
+    # Okay, do it the hard way. This is VERY slow with long codes.
+    possible_numbers = set(range(maximum_tickets - 1)) - numbers
+    assert len(possible_numbers) > 0
+
+    # This 100% gets us any valid remaining ticket code.
+    return random.choice(list(possible_numbers))
 
 
 def get_ticket_preview_path(instance: 'events.models.TicketType', filename: str):

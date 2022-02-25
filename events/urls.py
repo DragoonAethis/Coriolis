@@ -22,5 +22,9 @@ urlpatterns = [
     path('event/<slug:slug>/application/new/<int:id>', views.ApplicationView.as_view(), name='application_form'),
     path('event/<slug:slug>/application/<uuid:app_id>', views.application_details, name='application_details'),
 
+    path('crew/<slug:slug>/', views.CrewIndexNewView.as_view(), name='crew_index'),
+    path('crew/<slug:slug>/ticket/', views.CrewFindTicketView.as_view(), name='crew_find_ticket'),
+    path('crew/<slug:slug>/ticket/<uuid:ticket_id>', views.CrewExistingTicketView.as_view(), name='crew_existing_ticket'),
+
     path('', views.index, name='index'),
 ]

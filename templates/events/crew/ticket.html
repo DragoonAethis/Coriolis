@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block head_title %}{% translate "Crew Panel" %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-lg-6 offset-lg-3">
+            <h1>{{ ticket.get_code }}: {{ ticket.name }}</h1>
+            <p>{% translate "Confirm identity" %}:</p>
+            <ul>
+                <li>{% translate "Name" %}: {{ ticket.name }}</li>
+                <li>{% translate "Email" %}: {{ ticket.email }}</li>
+                {% if ticket.phone %}<li>{% translate "Phone" %}: {{ ticket.phone }}</li>{% endif %}
+                {% if ticket.nickname %}<li>{% translate "Nickname" %}: {{ ticket.nickname }}</li>{% endif %}
+            </ul>
+
+            <p>{% translate "Details" %}:</p>
+            <ul>
+                <li>{% translate "Status" %}: {{ ticket.get_status_display }}</li>
+                <li>{% translate "Paid" %}:
+                    {% if ticket.paid %}
+                        <b>☑️ {% translate "Yes" %}</b> - {% translate "send to ID pickup (if purchased before the deadline)" %}.
+                    {% else %}
+                        <b>{% translate "No" %}</b> - {% translate "send to payment, price" %}: <b>{{ ticket.type.price }}</b>
+                    {% endif %}</li>
+                {% if ticket.age_gate is False %}<li><b>{% translate "Attendee is not of age" %}</b> - {% translate "check the card." %}</li>{% endif %}
+                <li>{% translate "Type" %}: <b>{{ ticket.type }}</b></li>
+            </ul>
+
+            {% if horrible_error %}
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">{% translate "Error" %}</div>
+                    <div class="card-body">
+                        <h1>{{ horrible_error }}</h1>
+                    </div>
+                </div>
+
+            {% else %}
+                {% crispy form %}
+            {% endif %}
+
+            {% if other_tickets %}
+            <p><b>{% translate "This attendee has registered other tickets" %}:</b></p>
+            <ul>
+                {% for other_ticket in other_tickets %}
+                    <li><a href="{% url 'crew_existing_ticket' event.slug other_ticket.id %}">{{ other_ticket }}</a> ({{ other_ticket.get_status_display }})</li>
+                {% endfor %}
+
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

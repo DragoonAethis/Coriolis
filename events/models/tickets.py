@@ -47,6 +47,8 @@ class TicketType(models.Model):
     registration_to = models.DateTimeField(verbose_name=_("registration to"))
     self_registration = models.BooleanField(default=True, verbose_name=_("self-registration"),
                                             help_text=_("Determines if the ticket can be purchased online."))
+    on_site_registration = models.BooleanField(default=True, verbose_name=_("on-site registration"),
+                                               help_text=_("Determines if the ticket can be purchased on-site."))
     must_pay_online = models.BooleanField(default=False, verbose_name=_("must pay online"),
                                           help_text=_("Determines if the ticket can be paid on-site or online only."))
     can_pay_online = models.BooleanField(default=True, verbose_name=_("can pay online"),
@@ -123,6 +125,12 @@ class TicketSource(models.TextChoices):
     ONSITE = 'onsite', _("On-site")
 
 
+class VaccinationProof(models.TextChoices):
+    NONE = 'none', _("None")
+    WEAK = 'weak', _("Weak")
+    STRONG = 'strong', _("Strong")
+
+
 class Ticket(models.Model):
     class Meta:
         verbose_name = _("ticket")
@@ -154,6 +162,9 @@ class Ticket(models.Model):
                              help_text=_("Optional, used for notifications before/during the event"))
     age_gate = models.BooleanField(verbose_name=_("age gate"),
                                    help_text=_("Is the attendee of age?"))
+    vaccination_proof = models.CharField(max_length=16, verbose_name=_("vaccination proof"),
+                                         choices=VaccinationProof.choices, default=VaccinationProof.NONE,
+                                         help_text=_("How sure are we that a given attendee is vaccinated?"))
     notes = models.TextField(blank=True, verbose_name=_("notes"),
                              help_text=_("Optional, notes for organizers"))
 
