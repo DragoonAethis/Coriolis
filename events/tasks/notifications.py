@@ -30,7 +30,7 @@ class NotificationChannelTicketUsedPayload(NotificationChannelPayload):
             ticket.type.name
         ]
 
-        return " - ".join(parts)
+        return " - ".join([str(x) for x in parts])
 
 
 @dramatiq.actor
