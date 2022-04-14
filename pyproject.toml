@@ -16,9 +16,9 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.9"
 requests = "^2.27.1"
-sentry-sdk = "^1.5.5"
-Django = "^3.2.11"
-django-allauth = "^0.48.0"
+sentry-sdk = "^1.5.9"
+Django = "^3.2.13"
+django-allauth = "^0.50.0"
 django-environ = "^0.8.1"
 django-debug-toolbar = "^3.2.4"
 django-phonenumber-field = {extras = ["phonenumberslite"], version = "^6.1.0"}
@@ -27,13 +27,13 @@ crispy-bootstrap5 = "^0.6"
 gunicorn = "^20.1.0"
 whitenoise = {extras = ["brotli"], version = "^6.0.0"}
 psycopg2 = "^2.9.3"
-django-allauth-2fa = "^0.8"
+django-allauth-2fa = "^0.9"
 django-colorfield = "^0.6.3"
-Pillow = "^9.0.0"
+Pillow = "^9.1.0"
 Markdown = "^3.3.6"
-django-payments = "^0.15.0"
+django-payments = "^1.0.0"
 django-money = "^2.1.1"
-dramatiq = {extras = ["watch", "redis"], version = "^1.12.3"}
+dramatiq = {extras = ["watch", "redis"], version = "^1.13.0"}
 django-dramatiq = "^0.10.0"
 
 # Commented out until fixes are upstreamed:
