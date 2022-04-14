@@ -67,7 +67,7 @@ class TicketType(models.Model):
     def clean(self):
         super().clean()
 
-        if self.preview_image is not None:
+        if self.preview_image:
             try:
                 self.get_preview_box_coords(fallback=False)
             except ValueError as ex:
