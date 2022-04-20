@@ -9,13 +9,12 @@ from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
-from events.models.users import User
-from events.models.events import Event
-
 from colorfield.fields import ColorField
 from djmoney.models.fields import MoneyField
 from phonenumber_field.modelfields import PhoneNumberField
 
+from events.models.users import User
+from events.models.events import Event, EventPage, EventPageType
 from events.utils import get_ticket_preview_path
 
 
@@ -55,6 +54,13 @@ class TicketType(models.Model):
                                          help_text=_("Determines if online payments are allowed at all for this type."))
     display_order = models.IntegerField(default=0, verbose_name=_("display order"),
                                         help_text=_("Order in which ticket types are displayed (0, 1, 2, ...)."))
+
+    special_payment_page = models.ForeignKey(EventPage, on_delete=models.SET_NULL, null=True,
+                                             verbose_name=_("special payment page"),
+                                             help_text=_("If you want to use special payment instructions for this "
+                                                         "ticket type, create an Event Page with those, set its type "
+                                                         "to Ticket Payment Instructions and select it here."),
+                                             limit_choices_to={'page_type': EventPageType.TICKET_PAYMENT_INFO})
 
     max_tickets = models.PositiveSmallIntegerField(verbose_name=_("max tickets"))
     tickets_remaining = models.PositiveSmallIntegerField(verbose_name=_("tickets remaining"))

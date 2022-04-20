@@ -217,6 +217,25 @@ def ticket_payment(request, slug, ticket_id):
         messages.error(request, _("You cannot pay online for this ticket."))
         return redirect('event_index', event.slug)
 
+    if ticket.type.special_payment_page:
+        # Instead of running the standard payment flow, show the
+        # special payment info page, adding the ticket code/title.
+        content = ticket.type.special_payment_page.content
+        replacements = [
+            ('CORIOLIS_TICKET_PRICE', str(ticket.type.price)),
+            ('CORIOLIS_TICKET_NAME', ticket.name),
+            ('CORIOLIS_TICKET_CODE', ticket.get_code()),
+        ]
+
+        for token, replacement in replacements:
+            content = content.replace(token, replacement)
+
+        return render(request, 'events/tickets/special_payment_page.html', {
+            'event': event,
+            'ticket': ticket,
+            'content': content,
+        })
+
     if ticket.payment_set.count() >= settings.PAYMENT_MAX_ATTEMPTS:
         messages.error(request, _("This ticket has too many payments in progress. Please contact the organizers."))
         return redirect('event_index', event.slug)

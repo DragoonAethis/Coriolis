@@ -56,6 +56,12 @@ class Event(models.Model):
         return self.name
 
 
+class EventPageType(models.TextChoices):
+    INFO = 'info', _("Informational")
+    HIDDEN_INFO = 'hidden-info', _("Hidden Informational")
+    TICKET_PAYMENT_INFO = 'ticket-payment-info', _("Ticket Payment Instructions")
+
+
 class EventPage(models.Model):
     class Meta:
         constraints = [models.UniqueConstraint(fields=['event', 'slug'], name='event_pages_with_unique_slugs')]
@@ -68,6 +74,9 @@ class EventPage(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("name"))
     slug = models.CharField(max_length=64, verbose_name=_("slug"),
                             help_text=_("Short name used in links. Event-specific pages have precedence."))
+    page_type = models.CharField(max_length=32, verbose_name=_("page type"),
+                                 choices=EventPageType.choices, default=EventPageType.INFO,
+                                 help_text=_("What this page is going to be used for?"))
     hidden = models.BooleanField(default=False, verbose_name=_("hidden"),
                                  help_text=_("Whenever to hide this page in the page listing."))
     content = models.TextField(verbose_name=_("content"),

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n events crispy_forms_tags %}
+
+{% block head_title %}{{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>{% blocktranslate with code=ticket.get_code %}Payment for ticket {{ code }}{% endblocktranslate %}</h1>
+    {% render_markdown content %}
+{% endblock %}
