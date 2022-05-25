@@ -33,8 +33,8 @@ nano .env
 # sudo -u postgres psql
 CREATE DATABASE coriolis;
 CREATE USER coriolis WITH LOGIN;
-ALTER USER coriolis WITH PASSWORD 'nice-try-m8';
 GRANT ALL ON DATABASE coriolis TO coriolis;
+ALTER USER coriolis WITH PASSWORD 'nice-try-m8';
 
 # We're also using Redis - its defaults listen on the port we want
 # for localhost only, so we don't have to mess with its config much.
