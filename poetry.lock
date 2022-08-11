@@ -87,7 +87,7 @@ django = ">=2.2"
 django-crispy-forms = ">=1.13.0"
 
 [package.extras]
-test = ["pytest", "pytest-django"]
+test = ["pytest-django", "pytest"]
 
 [[package]]
 name = "cryptography"
@@ -132,7 +132,7 @@ dev = ["tox", "bump2version (<1)", "sphinx (<2)", "importlib-metadata (<3)", "im
 
 [[package]]
 name = "django"
-version = "3.2.14"
+version = "3.2.15"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
 category = "main"
 optional = false
@@ -144,8 +144,8 @@ pytz = "*"
 sqlparse = ">=0.2.2"
 
 [package.extras]
-argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
+argon2 = ["argon2-cffi (>=19.1.0)"]
 
 [[package]]
 name = "django-allauth"
@@ -220,7 +220,7 @@ django = ">=1.11"
 dramatiq = ">=0.18.0"
 
 [package.extras]
-dev = ["bumpversion", "flake8", "flake8-quotes", "isort", "pytest", "pytest-cov", "pytest-django", "tox", "twine"]
+dev = ["twine", "tox", "pytest-django", "pytest-cov", "pytest", "isort", "flake8-quotes", "flake8", "bumpversion"]
 
 [[package]]
 name = "django-environ"
@@ -231,9 +231,9 @@ optional = false
 python-versions = ">=3.4,<4"
 
 [package.extras]
-develop = ["coverage[toml] (>=5.0a4)", "pytest (>=4.6.11)", "furo (>=2021.8.17b43,<2021.9.0)", "sphinx (>=3.5.0)", "sphinx-notfound-page"]
-docs = ["furo (>=2021.8.17b43,<2021.9.0)", "sphinx (>=3.5.0)", "sphinx-notfound-page"]
-testing = ["coverage[toml] (>=5.0a4)", "pytest (>=4.6.11)"]
+testing = ["pytest (>=4.6.11)", "coverage[toml] (>=5.0a4)"]
+docs = ["sphinx-notfound-page", "sphinx (>=3.5.0)", "furo (>=2021.8.17b43,<2021.9.0)"]
+develop = ["sphinx-notfound-page", "sphinx (>=3.5.0)", "furo (>=2021.8.17b43,<2021.9.0)", "pytest (>=4.6.11)", "coverage[toml] (>=5.0a4)"]
 
 [[package]]
 name = "django-money"
@@ -301,8 +301,8 @@ Django = ">=2.2"
 phonenumberslite = {version = ">=7.0.2", optional = true, markers = "extra == \"phonenumberslite\""}
 
 [package.extras]
-phonenumbers = ["phonenumbers (>=7.0.2)"]
 phonenumberslite = ["phonenumberslite (>=7.0.2)"]
+phonenumbers = ["phonenumbers (>=7.0.2)"]
 
 [[package]]
 name = "dramatiq"
@@ -420,9 +420,9 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-rsa = ["cryptography (>=3.0.0)"]
+signedtoken = ["pyjwt (>=2.0.0,<3)", "cryptography (>=3.0.0)"]
 signals = ["blinker (>=1.4.0)"]
-signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
+rsa = ["cryptography (>=3.0.0)"]
 
 [[package]]
 name = "packaging"
@@ -452,8 +452,8 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-docs = ["olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-issues (>=3.0.1)", "sphinx-removed-in", "sphinx-rtd-theme (>=1.0)", "sphinxext-opengraph"]
-tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
+tests = ["pytest-timeout", "pytest-cov", "pytest", "pyroma", "packaging", "olefile", "markdown2", "defusedxml", "coverage", "check-manifest"]
+docs = ["sphinxext-opengraph", "sphinx-rtd-theme (>=1.0)", "sphinx-removed-in", "sphinx-issues (>=3.0.1)", "sphinx-copybutton", "sphinx (>=2.4)", "olefile"]
 
 [[package]]
 name = "prometheus-client"
@@ -486,7 +486,7 @@ python-versions = "*"
 babel = ">=2.8.0"
 
 [package.extras]
-tests = ["pytest (>=2.3.0)", "tox (>=1.6.0)"]
+tests = ["tox (>=1.6.0)", "pytest (>=2.3.0)"]
 
 [[package]]
 name = "pycparser"
@@ -522,7 +522,7 @@ optional = false
 python-versions = ">=3.6.8"
 
 [package.extras]
-diagrams = ["railroad-diagrams", "jinja2"]
+diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
 name = "python3-openid"
@@ -536,8 +536,8 @@ python-versions = "*"
 defusedxml = "*"
 
 [package.extras]
-mysql = ["mysql-connector-python"]
 postgresql = ["psycopg2"]
+mysql = ["mysql-connector-python"]
 
 [[package]]
 name = "pytz"
@@ -597,8 +597,8 @@ idna = {version = ">=2.5,<4", markers = "python_version >= \"3\""}
 urllib3 = ">=1.21.1,<1.27"
 
 [package.extras]
-socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
+socks = ["win-inet-pton", "PySocks (>=1.5.6,!=1.5.7)"]
 
 [[package]]
 name = "requests-oauthlib"
@@ -662,9 +662,9 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 
 [package.extras]
-brotli = ["brotlicffi (>=0.8.0)", "brotli (>=1.0.9)", "brotlipy (>=0.6.0)"]
-secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "ipaddress"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
+secure = ["ipaddress", "certifi", "idna (>=2.0.0)", "cryptography (>=1.3.4)", "pyOpenSSL (>=0.14)"]
+brotli = ["brotlipy (>=0.6.0)", "brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
 
 [[package]]
 name = "watchdog"
@@ -720,8 +720,8 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-docs = ["sphinx", "jaraco.packaging (>=9)", "rst.linker (>=1.9)"]
-testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
+testing = ["pytest-mypy (>=0.9.1)", "pytest-black (>=0.3.7)", "func-timeout", "jaraco.itertools", "pytest-enabler (>=1.0.1)", "pytest-cov", "pytest-flake8", "pytest-checkdocs (>=2.4)", "pytest (>=6)"]
+docs = ["rst.linker (>=1.9)", "jaraco.packaging (>=9)", "sphinx"]
 
 [[package]]
 name = "zope.event"
@@ -732,8 +732,8 @@ optional = false
 python-versions = "*"
 
 [package.extras]
-docs = ["sphinx"]
 test = ["zope.testrunner"]
+docs = ["sphinx"]
 
 [[package]]
 name = "zope.interface"
@@ -751,7 +751,7 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "d9ddc1bfb4dc0c4af0667df476713afa730979c72a60ba64060b619e39ae02ee"
+content-hash = "027d00aa119d02985a03debb8e308eefe1f9a8e144312e889009ae63befa9ba9"
 
 [metadata.files]
 asgiref = [
@@ -931,8 +931,8 @@ deprecated = [
     {file = "Deprecated-1.2.13.tar.gz", hash = "sha256:43ac5335da90c31c24ba028af536a91d41d53f9e6901ddb021bcc572ce44e38d"},
 ]
 django = [
-    {file = "Django-3.2.14-py3-none-any.whl", hash = "sha256:a8681e098fa60f7c33a4b628d6fcd3fe983a0939ff1301ecacac21d0b38bad56"},
-    {file = "Django-3.2.14.tar.gz", hash = "sha256:677182ba8b5b285a4e072f3ac17ceee6aff1b5ce77fd173cc5b6a2d3dc022fcf"},
+    {file = "Django-3.2.15-py3-none-any.whl", hash = "sha256:115baf5049d5cf4163e43492cdc7139c306ed6d451e7d3571fe9612903903713"},
+    {file = "Django-3.2.15.tar.gz", hash = "sha256:f71934b1a822f14a86c9ac9634053689279cd04ae69cb6ade4a59471b886582b"},
 ]
 django-allauth = [
     {file = "django-allauth-0.50.0.tar.gz", hash = "sha256:ee3a174e249771caeb1d037e64b2704dd3c56cfec44f2058fae2214b224d35e8"},
