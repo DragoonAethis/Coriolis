@@ -161,6 +161,7 @@ pyjwt = {version = ">=1.7", extras = ["crypto"]}
 python3-openid = ">=3.0.8"
 requests = "*"
 requests-oauthlib = ">=0.3.0"
+setuptools = "*"
 
 [[package]]
 name = "django-allauth-2fa"
