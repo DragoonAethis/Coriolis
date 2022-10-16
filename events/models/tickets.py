@@ -55,7 +55,7 @@ class TicketType(models.Model):
     display_order = models.IntegerField(default=0, verbose_name=_("display order"),
                                         help_text=_("Order in which ticket types are displayed (0, 1, 2, ...)."))
 
-    special_payment_page = models.ForeignKey(EventPage, on_delete=models.SET_NULL, null=True,
+    special_payment_page = models.ForeignKey(EventPage, on_delete=models.SET_NULL, null=True, blank=True,
                                              verbose_name=_("special payment page"),
                                              help_text=_("If you want to use special payment instructions for this "
                                                          "ticket type, create an Event Page with those, set its type "
