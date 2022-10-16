@@ -48,15 +48,22 @@ def event_index(request, slug):
             .filter(user=request.user) \
             .order_by('id')
 
-        purchasable_ticket_types = TicketType.objects \
+        ticket_types = TicketType.objects \
             .filter(event=event) \
             .filter(self_registration=True) \
+            .filter(tickets_remaining__gt=0)
+
+        purchasable_ticket_types = ticket_types \
             .filter(registration_to__gte=now) \
             .filter(registration_from__lte=now) \
-            .filter(tickets_remaining__gt=0) \
+            .count()
+
+        purchasable_in_future = ticket_types \
+            .filter(registration_from__gt=now) \
             .count()
 
         context['can_purchase_tickets'] = purchasable_ticket_types > 0
+        context['can_purchase_in_future'] = purchasable_in_future > 0
 
         context['new_application_types'] = ApplicationType.objects \
             .filter(event=event) \

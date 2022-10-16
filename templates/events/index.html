@@ -54,6 +54,8 @@
 
                     {% if can_purchase_tickets %}
                         <a class="btn btn-lg btn-primary" href="{% url 'ticket_picker' event.slug %}">{% translate "Buy a ticket" %}</a>
+                    {% elif can_purchase_in_future %}
+                        <div class="alert alert-warning" role="alert">{% translate "Online ticket sales for this event have not yet started." %}</div>
                     {% else %}
                         <div class="alert alert-warning" role="alert">{% translate "Online ticket sales for this event have ended. You can purchase a ticket on site." %}</div>
                     {% endif %}
