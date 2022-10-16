@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-16 19:13+0200\n"
-"PO-Revision-Date: 2022-10-16 19:18+0200\n"
+"PO-Revision-Date: 2022-10-16 20:19+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1683,7 +1683,7 @@ msgstr "Nie masz żadnych zgłoszeń na to wydarzenie."
 
 #: templates/events/index.html:93
 msgid "Applications for this event are closed."
-msgstr "Zgłoszenia na to wydarzenie zostały zakończone."
+msgstr "Zgłoszenia na to wydarzenie są zamknięte."
 
 #: templates/events/index.html:98
 msgid "Sign in to buy or manage tickets"
