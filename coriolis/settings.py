@@ -256,8 +256,7 @@ LANGUAGES = [
 
 # We're using Whitenoise - don't make this configurable.
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-# TODO: For Django 4.0 migration, this should be 'static/'
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
