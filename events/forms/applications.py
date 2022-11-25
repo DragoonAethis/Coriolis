@@ -1,6 +1,3 @@
-from typing import Optional
-
-import phonenumber_field.formfields
 from django import forms
 from django.urls import reverse
 from django.forms.widgets import TextInput, Textarea
@@ -99,6 +96,6 @@ class ApplicationDynaform(forms.Form):
 
             field_class = forms.ChoiceField
         else:
-            raise ValueError(f"Unknown field type {unknown} for line: {line}")
+            raise ValueError(f"Unknown field type {field_type} for line: {line}")
 
         return field_key, field_class(**kwargs)

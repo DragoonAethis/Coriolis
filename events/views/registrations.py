@@ -63,7 +63,7 @@ class RegistrationView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs.update({"event": self.event, "type": self.type})
+        kwargs.update({"event": self.event, "ticket_type": self.type})
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -177,9 +177,9 @@ class CancelRegistrationView(FormView):
         self.ticket.status = TicketStatus.CANCELLED
         self.ticket.save()
 
-        type = TicketType.objects.get(id=self.ticket.type_id)
-        type.tickets_remaining += 1
-        type.save()
+        ticket_type = TicketType.objects.get(id=self.ticket.type_id)
+        ticket_type.tickets_remaining += 1
+        ticket_type.save()
 
         messages.info(self.request, _("Ticket cancelled."))
         return redirect('event_index', self.event.slug)

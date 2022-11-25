@@ -33,13 +33,13 @@ class RegistrationForm(forms.Form):
     image = forms.ImageField(label=_("Image"), required=False,
                              help_text=_("Optional, image to be printed on your ticket."))
 
-    def __init__(self, *args, event, type, **kwargs):
+    def __init__(self, *args, event, ticket_type, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = 'post'
         self.helper.form_action = reverse('registration_form', kwargs={
             "slug": event.slug,
-            "id": type.id
+            "id": ticket_type.id
         })
         self.helper.attrs['novalidate'] = True
         self.helper.layout = Layout(

@@ -266,9 +266,10 @@ def ticket_payment(request, slug, ticket_id):
             return redirect('event_index', event.slug)
 
         # Can we restore any payment in progress?
-        if (payment is None
-            and can_restore_payment_in_progress
-            and existing_payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT)
+        if (
+                payment is None
+                and can_restore_payment_in_progress
+                and existing_payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT)
         ):
             payment = existing_payment
             resuming_message = _("Resuming an existing payment in progress. Problems?")
