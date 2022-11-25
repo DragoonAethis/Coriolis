@@ -243,6 +243,15 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
+# https://docs.djangoproject.com/en/4.1/topics/auth/passwords/#using-scrypt-with-django
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.ScryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
+
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 LOCALE_PATHS = [BASE_DIR / 'locale']
 USE_I18N = True
