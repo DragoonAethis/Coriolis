@@ -197,7 +197,7 @@ class Ticket(models.Model):
         return self.status == TicketStatus.CANCELLED
 
     def can_cancel(self) -> bool:
-        return self.status in ('OKNP', 'WPAY')
+        return self.status in (TicketStatus.READY_PAY_ON_SITE, TicketStatus.WAITING_FOR_PAYMENT)
 
     def can_pay_online(self) -> bool:
         return (
@@ -208,10 +208,12 @@ class Ticket(models.Model):
         )
 
     def can_personalize(self):
-        return (
-            self.status in ('OKNP', 'WPAY', 'OKPD', 'WAIT')
-            and self.type.can_register_or_change()
-        )
+        return self.status in (
+            TicketStatus.READY_PAID,
+            TicketStatus.READY_PAY_ON_SITE,
+            TicketStatus.WAITING_FOR_PAYMENT,
+            TicketStatus.WAITING
+        ) and self.type.can_register_or_change()
 
     def get_code(self) -> str:
         prefix = self.type.code_prefix if self.type is not None else ""
