@@ -12,10 +12,10 @@ function toggleTicketNerdDetails() {
     let toggle = document.getElementById("ticket_nerd_details_toggle");
 
     if (content === null) return;
-    content.classList.toggle("invisible");
+    content.classList.toggle("d-none");
 
     if (toggle === null) return;
-    toggle.textContent = content.classList.contains("invisible") ? "[+]" : "[-]";
+    toggle.textContent = content.classList.contains("d-none") ? "[+]" : "[-]";
 }
 
 let nerdDetailsLink = document.getElementById("ticket_nerd_details_link");

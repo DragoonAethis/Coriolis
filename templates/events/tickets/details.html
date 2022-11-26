@@ -39,7 +39,8 @@
                     <span id="ticket_nerd_details_toggle">[+]</span> {% translate "Details for nerds" %}
                 </a>
             </div>
-            <div class="invisible ticket-nerd-details" id="ticket_nerd_details_contents">
+            {# d-none by default - shown with app.js #}
+            <div class="ticket-nerd-details d-none" id="ticket_nerd_details_contents">
                 <ul>
                     <li>Ticket ID: {{ ticket.id }}</li>
                     <li>Belongs to: {{ ticket.user }}</li>
