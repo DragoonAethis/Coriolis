@@ -28,11 +28,6 @@ class RegistrationForm(forms.Form):
                                         "read them before the ticket is ready for use on the event. "
                                         "Online payments will be available after approval."))
 
-    nickname = forms.CharField(label=_("Nickname"), max_length=256, required=False,
-                               help_text=_("Optional, your nickname to be printed on your ticket."))
-    image = forms.ImageField(label=_("Image"), required=False,
-                             help_text=_("Optional, image to be printed on your ticket."))
-
     def __init__(self, *args, event, ticket_type, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -51,14 +46,6 @@ class RegistrationForm(forms.Form):
                 'age_gate',
                 'regulations',
                 'notes',
-
-                HTML("<h2>" + _("Personalization") + "</h2>"),
-                HTML('<div><p>' + _("We can print your ticket with your own nickname and image on it. "
-                                    "If you don't want a custom ticket, leave these fields empty.") + '</p></div>'),
-                HTML('<div class="alert alert-warning">' + _('Only tickets paid online will be printed.') + '</div>'),
-                'nickname',
-                'city',
-                'image'
             ),
             FormActions(
                 Submit('submit', _('Register'), css_class="btn btn-lg btn-primary")

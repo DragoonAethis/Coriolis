@@ -81,7 +81,6 @@ class RegistrationView(FormView):
                         email=form.cleaned_data['email'],
                         phone=form.cleaned_data['phone'],
                         age_gate=form.cleaned_data['age_gate'],
-                        nickname=form.cleaned_data['nickname'],
                         notes=form.cleaned_data.get('notes'))
 
         try:
@@ -103,9 +102,6 @@ class RegistrationView(FormView):
         elif self.type.must_pay_online:
             ticket.status = TicketStatus.WAITING_FOR_PAYMENT
             ticket._original_status = TicketStatus.WAITING_FOR_PAYMENT
-
-        if form.cleaned_data['image']:
-            save_ticket_image(ticket, form.cleaned_data['image'])
 
         ticket.save()
 
