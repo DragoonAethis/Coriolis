@@ -68,7 +68,7 @@ class Application(models.Model):
     phone = PhoneNumberField(verbose_name=_("phone"))
     email = models.EmailField(verbose_name=_("email"))
     answers = models.JSONField(verbose_name=_("answers"))
-    application = models.TextField(verbose_name=_("application"),
+    application = models.TextField(blank=True, verbose_name=_("application"),
                                    help_text=_("Legacy application answers field."))
 
     notes = models.TextField(verbose_name=_("notes"))
@@ -101,3 +101,11 @@ class Application(models.Model):
             [self.email],
             reply_to=[self.type.org_email or self.event.org_mail]
         ).send()
+
+    def get_status_class(self):
+        if self.status == Application.ApplicationStatus.APPROVED:
+            return "table-success"
+        elif self.status in (Application.ApplicationStatus.REJECTED, Application.ApplicationStatus.CANCELLED):
+            return "table-danger"
+        else:
+            return "table-warning"

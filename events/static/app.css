@@ -3,11 +3,13 @@
     margin-bottom: 0 !important;
 }
 
-.application-content {
-    display: inline;
-    word-wrap: normal;
+.pre-wrap {
     white-space: pre-wrap;
-    font-family: var(--bs-font-sans-serif);
+}
+
+.application-table tr th:first-child {
+    width: 25%;
+    max-width: 25%;
 }
 
 .btn-gaps {

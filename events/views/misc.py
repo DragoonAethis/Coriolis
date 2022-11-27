@@ -360,6 +360,8 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
 
 @login_required
 def application_details(request, slug, app_id):
+    from events.dynaforms.fields import dynaform_to_fields
+
     event = get_object_or_404(Event, slug=slug)
     application = get_object_or_404(Application, id=app_id)
     assert event.id == application.event_id
@@ -368,7 +370,18 @@ def application_details(request, slug, app_id):
         messages.error(request, _("You don't own this application!"))
         return redirect('event_index', event.slug)
 
+    pretty_answers = {}
+    if application.answers:
+        fields = dynaform_to_fields(None, application.type.template)
+        for field_name, field in fields.items():
+            answer = application.answers.get(field_name)
+            if not answer:
+                continue
+
+            pretty_answers[field.label] = answer
+
     return render(request, 'events/applications/application_details.html', {
         'event': event,
-        'application': application
+        'application': application,
+        'answers': pretty_answers,
     })

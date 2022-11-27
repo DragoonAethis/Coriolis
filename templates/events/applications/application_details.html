@@ -9,19 +9,50 @@
         <div class="col">
             <h5 class="text-muted">{% translate "Application details" %}</h5>
             <h1>{{ application.name }}</h1>
-            <h5>{% translate "Type" %}: <b>{{ application.type }}</b></h5>
-            <h5>{% translate "Status" %}: <b>{{ application.get_status_display }}</b></h5>
-            <hr>
-            <h5>{% translate "Name" %}: <b>{{ application.name }}</b></h5>
-            <h5>{% translate "Email" %}: <b>{{ application.email }}</b></h5>
-            <h5>{% translate "Phone" %}: <b>{{ application.phone }}</b></h5>
-            <hr>
-            <h5>{% translate "Application" %}:</h5>
-            <pre class="application-content">{{ application.application }}</pre>
-            <hr>
-            <h5>{% translate "Org Notes" %}:</h5>
-            <pre class="application-content">{{ application.org_notes }}</pre>
-            <hr>
+            <table class="table table-sm table-striped table-bordered table-hover application-table">
+                <tbody>
+                <tr>
+                    <th scope="row">{% translate "Type" %}</th>
+                    <td>{{ application.type }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">{% translate "Status" %}</th>
+                    <td class="{{ application.get_status_class }}">{{ application.get_status_display }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">{% translate "Email" %}</th>
+                    <td><a href="mailto:{{ application.email }}">{{ application.email }}</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">{% translate "Phone" %}</th>
+                    <td><a href="tel:{{ application.phone }}">{{ application.phone }}</a></td>
+                </tr>
+
+                {% for label, value in answers.items %}
+                    <tr>
+                        <th scope="row">{{ label }}</th>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+
+                {% if application.application %}
+                    <tr>
+                        <th scope="row">{% translate "Classic Application" %}</th>
+                        <td><div class="pre-wrap">{{ application.application }}</div></td>
+                    </tr>
+                {% endif %}
+
+                <tr>
+                    <th scope="row">{% translate "Notes" %}</th>
+                    <td><div class="pre-wrap">{{ application.notes|default:"-" }}</div></td>
+                </tr>
+                <tr>
+                    <th scope="row">{% translate "Org Notes" %}</th>
+                    <td><div class="pre-wrap">{{ application.org_notes|default:"-" }}</div></td>
+                </tr>
+                </tbody>
+            </table>
+
             <p>{% translate "If you would like to change application details, please contact the event organizers." %}</p>
         </div>
     </div>

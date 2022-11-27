@@ -70,7 +70,7 @@ class ApplicationView(FormView):
         return context
 
     def form_valid(self, form):
-        prefix = dynaform_prefix(ApplicationDynaform.ANSWERS_DYNAFORM)
+        prefix = dynaform_prefix(ApplicationDynaform.DYNAFORM_NAME)
         answers = {
             key.removeprefix(prefix): form.cleaned_data[key]
             for key, field in form.dynamic_fields.items()

@@ -98,11 +98,14 @@ def transform_choices(choices) -> list[(str, str)]:
     return [(k, v) for k, v in choices.items()]
 
 
-def dynaform_prefix(name: str) -> str:
-    return f"df__{name}__"
+def dynaform_prefix(name: Optional[str]) -> str:
+    if name:
+        return f"df__{name}__"
+    else:
+        return ""
 
 
-def dynaform_to_fields(name: str, template: str) -> dict[str, Field]:
+def dynaform_to_fields(name: Optional[str], template: str) -> dict[str, Field]:
     config = DynaformFieldConfiguration.parse_raw(template)
     prefix = dynaform_prefix(name)
     dynamic_fields = {}

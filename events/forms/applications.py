@@ -21,11 +21,11 @@ class ApplicationDynaform(forms.Form):
     phone = PhoneNumberField(label=_("Phone Number"), required=True,
                              help_text=_("Required for notifications and contact with organizers."))
 
-    ANSWERS_DYNAFORM = 'act'
+    DYNAFORM_NAME = 'act'
 
     def __init__(self, *args, event: Event, application_type: ApplicationType, template: str = None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.dynamic_fields = dynaform_to_fields(self.ANSWERS_DYNAFORM, template)
+        self.dynamic_fields = dynaform_to_fields(self.DYNAFORM_NAME, template)
 
         self.fields.update(self.dynamic_fields)
         self.fields['notes'] = forms.CharField(label=_("Notes"), required=False, widget=Textarea,
