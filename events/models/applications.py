@@ -63,10 +63,15 @@ class Application(models.Model):
     type = models.ForeignKey(ApplicationType, on_delete=models.RESTRICT, verbose_name=_("type"))
     status = models.CharField(max_length=4, verbose_name=_("status"),
                               choices=ApplicationStatus.choices, default=ApplicationStatus.WAITING)
+
     name = models.CharField(max_length=256, verbose_name=_("name"))
     phone = PhoneNumberField(verbose_name=_("phone"))
     email = models.EmailField(verbose_name=_("email"))
-    application = models.TextField(verbose_name=_("application"))
+    answers = models.JSONField(verbose_name=_("answers"))
+    application = models.TextField(verbose_name=_("application"),
+                                   help_text=_("Legacy application answers field."))
+
+    notes = models.TextField(verbose_name=_("notes"))
     org_notes = models.TextField(verbose_name=_("org notes"))
 
     # Non-database fields:

@@ -13,7 +13,7 @@ from django.conf import settings
 
 from events.forms import ApplicationDynaform
 from events.models import Event, ApplicationType, Application, Ticket
-
+from events.dynaforms.fields import dynaform_prefix
 
 class ApplicationView(FormView):
     event: Event
@@ -70,18 +70,22 @@ class ApplicationView(FormView):
         return context
 
     def form_valid(self, form):
+        prefix = dynaform_prefix(ApplicationDynaform.ANSWERS_DYNAFORM)
+        answers = {
+            key.removeprefix(prefix): form.cleaned_data[key]
+            for key, field in form.dynamic_fields.items()
+        }
+
         application = Application(user=self.request.user,
                                   event=self.event,
                                   type=self.type,
                                   status=Application.ApplicationStatus.WAITING,
                                   name=form.cleaned_data['name'],
                                   email=form.cleaned_data['email'],
-                                  phone=form.cleaned_data['phone'])
+                                  phone=form.cleaned_data['phone'],
+                                  answers=answers)
 
-        dynamic_answers = [(field.label, form.cleaned_data[key])
-                           for key, field in form.dynamic_fields.items()]
-
-        application.application = "\n".join([f"- {name}: {value}" for name, value in dynamic_answers])
+        application.application = "\n".join([f"- {name}: {value}" for name, value in answers.items()])
         application.save()
 
         EmailMessage(

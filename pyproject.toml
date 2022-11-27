@@ -35,6 +35,7 @@ django-payments = "^1.0.0"
 django-money = "^3.0.0"
 dramatiq = {extras = ["watch", "redis"], version = "^1.13.0"}
 django-dramatiq = "^0.11.2"
+pydantic = "^1.10.2"
 
 # Commented out until fixes are upstreamed:
 #django-payments-przelewy24 = "0.1.7"
