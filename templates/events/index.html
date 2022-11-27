@@ -83,14 +83,20 @@
                         <p>{% translate "You have no applications for this event." %}</p>
                     {% endif %}
 
-                    {% if new_application_types %}
+                    {% if event.applications_require_registration and tickets|length_is:0 %}
+                        <div class="alert alert-warning" role="alert">
+                            {% translate "You must register for this event before submitting an application." %}
+                        </div>
+                    {% elif new_application_types %}
                         <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with button groups">
                         {% for type in new_application_types %}
                             <a href="{% url 'application_form' event.slug type.id %}" class="btn btn-primary">{{ type.button_label }}</a>
                         {% endfor %}
                         </div>
                     {% else %}
-                        <div class="alert alert-warning" role="alert">{% translate "Applications for this event are closed." %}</div>
+                        <div class="alert alert-warning" role="alert">
+                            {% translate "Applications for this event are closed." %}
+                        </div>
                     {% endif %}
                 </div>
 

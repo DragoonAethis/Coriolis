@@ -32,10 +32,16 @@ class Event(models.Model):
     date_from = models.DateTimeField(verbose_name=_("date from"))
     date_to = models.DateTimeField(verbose_name=_("date to"))
     active = models.BooleanField(default=True, verbose_name=_("active"))
+
     payment_enabled = models.BooleanField(default=True, verbose_name=_("payment enabled"),
                                           help_text=_("Enable or disable "))
     emails_enabled = models.BooleanField(default=True, verbose_name=_("emails enabled"),
                                          help_text=_("Toggles emails for some status changes on this event."))
+    applications_require_registration = models.BooleanField(default=True,
+                                                            verbose_name=_("applications require registration"),
+                                                            help_text=_("If enabled, users must register for the "
+                                                                        "event before sending applications."))
+
     prometheus_key = models.CharField(max_length=256, blank=True, verbose_name=_("prometheus key"),
                                       help_text=_("Key used as the password for the Prometheus metrics URL"))
     notice = models.TextField(blank=True, verbose_name=_("notice"),

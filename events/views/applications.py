@@ -1,4 +1,5 @@
 import datetime
+from typing import Tuple, Optional
 
 from django.core.mail import EmailMessage
 from django.contrib import messages
@@ -11,7 +12,7 @@ from django.views.generic import FormView
 from django.conf import settings
 
 from events.forms import ApplicationDynaform
-from events.models import Event, ApplicationType, Application
+from events.models import Event, ApplicationType, Application, Ticket
 
 
 class ApplicationView(FormView):
@@ -26,29 +27,33 @@ class ApplicationView(FormView):
         self.event = get_object_or_404(Event, slug=self.kwargs['slug'])
         self.type = get_object_or_404(ApplicationType, event=self.event, id=self.kwargs['id'])
 
-        if not self.validate_application_type():
+        valid, error_msg = self.validate_application_type()
+        if not valid:
+            messages.error(self.request, error_msg)
             return redirect('event_index', self.event.slug)
 
         return super().dispatch(*args, **kwargs)
 
-    def validate_application_type(self) -> bool:
+    def validate_application_type(self) -> Tuple[bool, Optional[str]]:
         """Check whenever the current ticket type can be purchased online."""
-
         if self.type.event_id != self.event.id:
-            messages.error(self.request, _("This application cannot be submitted for this event!"))
-            return False
+            return False, _("This application cannot be submitted for this event!")
+
+        if (
+                self.event.applications_require_registration
+                and Ticket.by_event_user(self.event, self.request.user).count() < 1
+        ):
+            return False, _("You must register for this event before submitting an application.")
 
         now = datetime.datetime.now()
 
         if not self.type.registration_from < now:
-            messages.error(self.request, _("This application is not yet open. Come back later."))
-            return False
+            return False, _("This application is not yet open. Come back later.")
 
         if not now < self.type.registration_to:
-            messages.error(self.request, _("This application submission period has ended."))
-            return False
+            return False, _("This application submission period has ended.")
 
-        return True
+        return True, None
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

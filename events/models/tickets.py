@@ -207,7 +207,7 @@ class Ticket(models.Model):
             and self.type.can_pay_online
         )
 
-    def can_personalize(self):
+    def can_personalize(self) -> bool:
         return self.status in (
             TicketStatus.READY_PAID,
             TicketStatus.READY_PAY_ON_SITE,
@@ -238,3 +238,7 @@ class Ticket(models.Model):
                 [self.email],
                 reply_to=[self.event.org_mail]
             ).send()
+
+    @staticmethod
+    def by_event_user(event: Event, user: User):
+        return Ticket.objects.filter(event=event, user=user)
