@@ -35,7 +35,7 @@
                     </tr>
                 {% endfor %}
 
-                {% if application.application %}
+                {% if not application.answers and application.application %}
                     <tr>
                         <th scope="row">{% translate "Classic Application" %}</th>
                         <td><div class="pre-wrap">{{ application.application }}</div></td>
