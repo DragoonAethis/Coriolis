@@ -77,6 +77,9 @@ poetry run python manage.py compilemessages
 # Make sure we have at least one superuser:
 poetry run python manage.py createsuperuser
 
+# Make upgrades less annoying:
+git config --global --add safe.directory /app
+
 # Let nginx/gunicorn own all app files:
 sudo chown -R www-data:www-data "$INSTALL_DIR"
 
