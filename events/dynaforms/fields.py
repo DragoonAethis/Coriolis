@@ -19,11 +19,6 @@ class DynaformField(BaseModel, ABC):
     help_text: Optional[str] = None
 
 
-class ChoiceOption(BaseModel):
-    label: str
-    value: str
-
-
 class ChoiceField(DynaformField, ABC):
     choices: dict[str, str]
 
@@ -37,6 +32,12 @@ class ChoiceField(DynaformField, ABC):
 class CharField(DynaformField):
     kind: Literal['char']
     _field_class: ClassVar[Field] = fields.CharField
+
+
+class TextField(DynaformField):
+    kind: Literal['text']
+    _field_class: ClassVar[Field] = fields.CharField
+    _widget = widgets.Textarea
 
 
 class EmailField(DynaformField):
@@ -80,6 +81,7 @@ class CheckboxField(ChoiceField):
 
 DynaformFieldUnion = Annotated[Union[
     CharField,
+    TextField,
     EmailField,
     PhoneNumberField,
     BooleanField,
