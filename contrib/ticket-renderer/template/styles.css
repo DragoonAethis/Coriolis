@@ -1,0 +1,133 @@
+@font-face {
+    font-family: 'Multicolore';
+    src: url('./multicolore.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Corporate Logo Rounded';
+    src: url('./corporate-logo-rounded-bold-ver3.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    overflow: hidden;
+    color: white;
+    font-family: "Multicolore", "Corporate Logo Rounded", sans-serif;
+}
+
+.background {
+    width:1008px;
+    height:1300px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    background-image: url("background.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.t-shadow {
+    text-shadow: black 1px 0 10px;
+}
+
+.text-remcon {
+    width:882px;
+    height:103px;
+    position:absolute;
+    left:85px;
+    top:100px;
+    text-align:left;
+    font-size:120px;
+    letter-spacing:0;
+}
+.text-date {
+    width:850px;
+    height:101px;
+    position:absolute;
+    left:85px;
+    top:222px;
+    text-align:center;
+    font-size:64px;
+    letter-spacing:0;
+}
+.text-nick {
+    width:850px;
+    height:99px;
+    position:absolute;
+    left:85px;
+    top:519px;
+    text-align:center;
+    font-size:96px;
+    letter-spacing:0;
+    line-height: 100px;
+}
+
+.bottom-bar {
+    background-color:rgb(0, 95, 173);
+    width:1008px;
+    height:212px;
+    position:absolute;
+    left:0px;
+    top:1300px;
+}
+.text-code {
+    width:850px;
+    height:99px;
+    position:absolute;
+    left:40px;
+    top:1334px;
+    text-align:left;
+    font-size:64px;
+    letter-spacing:0;
+}
+.text-role {
+    width:850px;
+    height:99px;
+    position:absolute;
+    left:40px;
+    top:1400px;
+    text-align:left;
+    font-size:64px;
+    letter-spacing:0;
+}
+
+.bottom-sticker {
+    background-color:rgba(217, 217, 217, 0.2);
+    width:132px;
+    height:132px;
+    position:absolute;
+    left:836px;
+    top:1340px;
+    border-radius: 8px;
+}
+
+.bottom-logo {
+    width:132px;
+    height:120px;
+    position:absolute;
+    left:836px;
+    top:1346px;
+    background-image: url("logo.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*
+
+40px padding for the sticker
+
+1008,1512
+
+
+1417.3 - 132
+1289.2491  - x
+
+
+
+
+
+*/

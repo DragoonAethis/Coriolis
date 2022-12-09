@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ ticket_type.prefix }}{{ ticket.code }}@{{ render.variant }}</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div
+    class="background"
+    {% if render.image %}
+      style="background-image: url('{{ render.image }}') !important"
+    {% endif %}
+  ></div>
+  <span class="text-remcon t-shadow">Remcon 2023</span>
+  <span class="text-date t-shadow">Gdynia 24-26 luty</span>
+  <span class="text-nick t-shadow">{% if ticket.nickname %}{{ ticket.nickname }}{% endif %}</span>
+
+  <div
+    class="bottom-bar"
+    {% if ticket_type.color %}
+      style="background-color: {{ ticket_type.color }} !important"
+    {% endif %}
+  ></div>
+  <span class="text-code">{{ ticket.prefixed_code }}</span>
+  <span class="text-role">{{ ticket_type.short_name }}</span>
+  <div class="bottom-{% if render.variant == "back" %}sticker{% else %}logo{% endif %}"></div>
+</body>
+</html>
