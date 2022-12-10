@@ -31,7 +31,7 @@ sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y install \
   nginx certbot python3-certbot-nginx \
   postgresql libpq-dev redis \
   unattended-upgrades \
-  gcc gettext
+  docker.io gcc gettext
 
 # Installing Poetry from repos gives you 1.1 (too old).
 # Installing from pip causes it to get very confused.
