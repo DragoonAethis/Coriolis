@@ -5,17 +5,61 @@ j2 --undefined -o render.html render.html.j2 render.json
 
 chromium \
     --headless \
+    --enable-automation \
+    --enable-logging=stderr \
+    --log-level=0 \
+    --no-first-run \
+    --no-zygote \
     --no-sandbox \
+    --no-pings \
+    --disable-setuid-sandbox \
+    --single-process \
+    --no-default-browser-check \
+    --disable-sync \
     --disable-gpu \
-    --disable-gpu-rasterization \
+    --use-gl=swiftshader \
+    --disable-accelerated-video-decode \
+    --disable-accelerated-video-encode \
+    --disable-domain-reliability \
+    --disable-component-update \
+    --disable-default-apps \
+    --disable-notifications \
+    --no-service-autorun \
+    --disable-extensions \
+    --disable-component-extensions-with-background-pages \
+    --disable-features=Translate \
+    --disable-features=MediaRouter \
+    --disable-features=OptimizationHints \
+    --disable-features=InterestFeedContentSuggestions \
+    --disable-features=CalculateNativeWinOcclusion \
+    --disable-features=HeavyAdPrivacyMitigations \
+    --disable-features=DialMediaRouteProvider \
+    --disable-features=AutofillServerCommunication \
+    --disable-features=CertificateTransparencyComponentUpdater \
+    --disable-features=site-per-process \
+    --no-default-browser-check \
+    --password-store=basic \
+    --use-mock-keychain \
+    --disable-breakpad \
     --hide-scrollbars \
+    --mute-audio \
+    --metrics-recording-only \
     --window-size=1008,1512 \
-    --run-all-compositor-stages-before-draw \
-    --disable-threaded-animation \
-    --disable-threaded-scrolling \
-    --disable-checker-imaging \
-    --disable-software-rasterizer \
+    --disable-audio-input \
+    --disable-audio-output \
+    --disable-ipc-flooding-protection \
+    --disable-background-networking \
+    --disable-client-side-phishing-detection \
+    --disable-background-timer-throttling \
+    --disable-backgrounding-occluded-windows \
+    --disable-renderer-backgrounding \
+    --disable-accelerated-2d-canvas \
     --disable-dev-shm-usage \
+    --disable-hang-monitor \
+    --deterministic-mode \
+    --disable-partial-raster \
+    --allow-running-insecure-content \
     --virtual-time-budget=1000000 \
+    --force-color-profile=srgb \
     --screenshot="render.png" \
     "render.html"
