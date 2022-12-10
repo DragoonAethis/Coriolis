@@ -1,5 +1,7 @@
 import datetime
+import logging
 
+import django.db.utils
 from django.db.models import F
 from django.contrib import messages
 from django.core.mail import EmailMessage
@@ -103,7 +105,24 @@ class RegistrationView(FormView):
             ticket.status = TicketStatus.WAITING_FOR_PAYMENT
             ticket._original_status = TicketStatus.WAITING_FOR_PAYMENT
 
-        ticket.save()
+        try:
+            self.type.tickets_remaining = F('tickets_remaining') - 1
+            self.type.save()
+        except django.db.utils.IntegrityError:
+            messages.error(self.request, _("We ran out of these tickets."))
+            return redirect('event_index', self.event.slug)
+
+        try:
+            ticket.save()
+        except Exception as ex:  # noqa
+            logging.exception("Could not save a new ticket, bumping back the remaining tickets counter...")
+            self.type.tickets_remaining = F('tickets_remaining') + 1
+            self.type.save()
+
+            messages.error(self.request, _("Could not save a new ticket - please contact event support."))
+            return redirect('event_index', self.event.slug)
+
+        render_ticket_variants.send(str(ticket.id))
 
         EmailMessage(
             f"{self.event.name}: {_('Ticket')} {ticket.get_code()}",
@@ -116,9 +135,6 @@ class RegistrationView(FormView):
             [ticket.email],
             reply_to=[ticket.event.org_mail]
         ).send(fail_silently=True)
-
-        self.type.tickets_remaining = F('tickets_remaining') - 1
-        self.type.save()
 
         if ticket.status == TicketStatus.WAITING_FOR_PAYMENT:
             messages.success(self.request, _("Thank you for your registration! You must pay for the selected ticket "
