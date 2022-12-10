@@ -32,6 +32,10 @@
     text-decoration: none;
 }
 
+.ticket-render-alert p:last-child {
+    margin-bottom: 0;
+}
+
 .card-ticket-cancelled > .card-header,
 .card-ticket-cancelled > .card-body .card-title {
     text-decoration: line-through;

@@ -34,7 +34,7 @@ class NotificationChannelTicketUsedPayload(NotificationChannelPayload):
 
 
 @dramatiq.actor
-def notify_channel(event_id: Event, source: NotificationChannelSource, payload_args: dict):
+def notify_channel(event_id: int, source: NotificationChannelSource, payload_args: dict):
     payload: NotificationChannelPayload
     if source == NotificationChannelSource.TICKET_USED:
         payload = NotificationChannelTicketUsedPayload(**payload_args)

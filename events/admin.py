@@ -36,6 +36,12 @@ class EventPageAdmin(admin.ModelAdmin):
     search_fields = ('name', 'slug')
 
 
+@admin.register(TicketRenderer)
+class TicketRendererAdmin(admin.ModelAdmin):
+    list_display = ('name', )
+    search_fields = ('name', )
+
+
 @admin.register(NotificationChannel)
 class NotificationChannelAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'enabled', 'source', 'target')

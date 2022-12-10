@@ -42,6 +42,17 @@ class Event(models.Model):
                                                             help_text=_("If enabled, users must register for the "
                                                                         "event before sending applications."))
 
+    ticket_renderer = models.ForeignKey('TicketRenderer', verbose_name=_("ticket renderer"),
+                                        null=True, on_delete=models.SET_NULL,
+                                        help_text=_("System used to render the ticket images."))
+    ticket_renderer_variants = models.CharField(max_length=256, blank=True,
+                                                verbose_name=_("ticket renderer variants"),
+                                                help_text=_("Comma-separated list of ticket variants to "
+                                                            "render. The first one will be shown to users."))
+    ticket_renderer_help_text = models.TextField(blank=True, verbose_name=_("ticket renderer help text"),
+                                                 help_text=_("Text to be shown under the custom image "
+                                                             "upload field (image dimensions, notices)."))
+
     prometheus_key = models.CharField(max_length=256, blank=True, verbose_name=_("prometheus key"),
                                       help_text=_("Key used as the password for the Prometheus metrics URL"))
     notice = models.TextField(blank=True, verbose_name=_("notice"),
@@ -93,3 +104,12 @@ class EventPage(models.Model):
             return f"{self.name} ({self.event.name})"
         else:
             return self.name
+
+
+class TicketRenderer(models.Model):
+    name = models.CharField(max_length=256, verbose_name=_("name"))
+    config = models.JSONField(blank=False, help_text=_("Coriolis configuration for this renderer. "
+                                                       "See wiki/docs for more info on this."))
+
+    def __str__(self):
+        return f"{self.name} ({self.id})"

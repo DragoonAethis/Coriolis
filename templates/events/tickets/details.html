@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n humanize crispy_forms_filters %}
+{% load i18n events humanize crispy_forms_filters %}
 
 {% block head_title %}{% trans "Ticket details" %}{% endblock %}
 {% block brand_title %}{{ event.name }}{% endblock %}
@@ -103,6 +103,13 @@
                                     Changes can be made as many times as you want until registration closes ({{ relative_date }}).
                                 {% endblocktranslate %}
                             </p>
+
+                            {% if event.ticket_renderer_help_text %}
+                                <div class="alert alert-warning ticket-render-alert" role="alert">
+                                    {% render_markdown event.ticket_renderer_help_text %}
+                                </div>
+                            {% endif %}
+
                             {% csrf_token %}
                             {{ update_form | crispy }}
                         </div>

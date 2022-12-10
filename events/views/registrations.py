@@ -17,6 +17,7 @@ from django.utils.html import mark_safe
 from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models import Event, TicketType, Ticket, TicketStatus, TicketSource
 from events.utils import generate_ticket_code, delete_ticket_image, save_ticket_image
+from events.tasks.ticket_renderer import render_ticket_variants
 
 
 class RegistrationView(FormView):
@@ -245,6 +246,10 @@ class UpdateTicketView(FormView):
                 save_ticket_image(self.ticket, form.cleaned_data['image'])
 
         self.ticket.save()
+        messages.info(self.request, _("Changes were saved and your ticket is now being generated. "
+                                      "Refresh this page in a few minutes to see the preview."))
+        render_ticket_variants.send(str(self.ticket.id))
+
         return redirect('ticket_details', self.event.slug, self.ticket.id)
 
     def get(self, request, *args, **kwargs):
