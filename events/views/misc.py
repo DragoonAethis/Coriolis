@@ -1,3 +1,4 @@
+import copy
 import datetime
 from typing import Tuple
 
@@ -360,7 +361,7 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
 
 @login_required
 def application_details(request, slug, app_id):
-    from events.dynaforms.fields import dynaform_to_fields
+    from events.utils import get_dynaform_pretty_answers
 
     event = get_object_or_404(Event, slug=slug)
     application = get_object_or_404(Application, id=app_id)
@@ -372,13 +373,10 @@ def application_details(request, slug, app_id):
 
     pretty_answers = {}
     if application.answers:
-        fields = dynaform_to_fields(None, application.type.template)
-        for field_name, field in fields.items():
-            answer = application.answers.get(field_name)
-            if not answer:
-                continue
-
-            pretty_answers[field.label] = answer
+        pretty_answers = get_dynaform_pretty_answers(
+            application.answers,
+            application.type.template
+        )
 
     return render(request, 'events/applications/application_details.html', {
         'event': event,

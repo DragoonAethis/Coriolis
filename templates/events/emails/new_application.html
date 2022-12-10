@@ -1,8 +1,8 @@
 {% load i18n %}
 {% blocktranslate with event=event.name %}New application for {{ event }}:{% endblocktranslate %} {{ application.name }} ({{ application.type.name }})
-
-{{ application.application }}
-
+{% if answers %}{% for label, answer in answers.items %}
+- {{ label }}: {{ answer }}
+{% endfor %}{% endif %}
 - {% translate "Phone" %}: {{ application.phone }}
 - {% translate "Email" %}: {{ application.email }}
 

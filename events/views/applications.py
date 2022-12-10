@@ -14,6 +14,7 @@ from django.conf import settings
 from events.forms import ApplicationDynaform
 from events.models import Event, ApplicationType, Application, Ticket
 from events.dynaforms.fields import dynaform_prefix
+from events.utils import get_dynaform_pretty_answers
 
 class ApplicationView(FormView):
     event: Event
@@ -88,11 +89,19 @@ class ApplicationView(FormView):
         application.application = "\n".join([f"- {name}: {value}" for name, value in answers.items()])
         application.save()
 
+        pretty_answers = {}
+        if application.answers:
+            pretty_answers = get_dynaform_pretty_answers(
+                answers,
+                self.type.template
+            )
+
         EmailMessage(
             f"{self.event.name}: {_('Application')} '{application.name}'",
             render_to_string("events/emails/new_application.html", {
                 'event': self.event,
                 'application': application,
+                'answers': pretty_answers,
             }).strip(),
             settings.SERVER_EMAIL,
             [self.type.org_email or self.event.org_mail, application.email]
