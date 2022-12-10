@@ -1,3 +1,4 @@
+import os
 import copy
 import json
 import shutil
@@ -35,6 +36,7 @@ def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
         "-v", f"{render_path}:/render",
         "-w", "/render",
         "--network", "none",
+        "--user", f"{os.getuid()}:{os.getgid()}",
         "--security-opt", "no-new-privileges:true",
         config['image']
     ]

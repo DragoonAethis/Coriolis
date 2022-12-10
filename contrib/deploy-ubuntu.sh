@@ -33,6 +33,10 @@ sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y install \
   unattended-upgrades \
   docker.io gcc gettext
 
+# Make sure our users can call Docker:
+sudo gpasswd -a ubuntu docker
+sudo gpasswd -a www-data docker
+
 # Installing Poetry from repos gives you 1.1 (too old).
 # Installing from pip causes it to get very confused.
 # Just use the nasty install script...
@@ -102,6 +106,9 @@ cat "$INSTALL_DIR/contrib/coriolis.nginx.conf" |
 
 sudo ln -s /etc/nginx/sites-available/coriolis /etc/nginx/sites-enabled/coriolis
 sudo rm /etc/nginx/sites-enabled/default
+
+# Set up the ticket renderer container image:
+docker build -t r2023-renderer:latest /app/contrib/ticket-renderer
 
 # Start the app:
 sudo systemctl daemon-reload
