@@ -8,18 +8,21 @@ chromium \
     --enable-automation \
     --enable-logging=stderr \
     --log-level=0 \
-    --no-first-run \
+    \
     --no-zygote \
     --no-sandbox \
-    --no-pings \
     --disable-setuid-sandbox \
-    --single-process \
+    --disable-dev-shm-usage \
+    \
     --no-default-browser-check \
-    --disable-sync \
+    --no-startup-window \
+    \
+    --in-process-gpu \
     --disable-gpu \
-    --use-gl=swiftshader \
+    --disable-gpu-rasterization \
     --disable-accelerated-video-decode \
     --disable-accelerated-video-encode \
+    \
     --disable-domain-reliability \
     --disable-component-update \
     --disable-default-apps \
@@ -27,6 +30,15 @@ chromium \
     --no-service-autorun \
     --disable-extensions \
     --disable-component-extensions-with-background-pages \
+    \
+    --password-store=basic \
+    --use-mock-keychain \
+    \
+    --disable-breakpad \
+    --metrics-recording-only \
+    --disable-field-trial-config \
+    \
+    --disable-features=Vulkan \
     --disable-features=Translate \
     --disable-features=MediaRouter \
     --disable-features=OptimizationHints \
@@ -37,14 +49,15 @@ chromium \
     --disable-features=AutofillServerCommunication \
     --disable-features=CertificateTransparencyComponentUpdater \
     --disable-features=site-per-process \
-    --no-default-browser-check \
-    --password-store=basic \
-    --use-mock-keychain \
-    --disable-breakpad \
-    --hide-scrollbars \
+    \
+    --run-all-compositor-stages-before-draw \
+    --disable-threaded-animation \
+    --disable-threaded-scrolling \
+    --disable-checker-imaging \
+    --disable-software-rasterizer \
+    --disable-hang-monitor \
+    \
     --mute-audio \
-    --metrics-recording-only \
-    --window-size=1008,1512 \
     --disable-audio-input \
     --disable-audio-output \
     --disable-ipc-flooding-protection \
@@ -54,12 +67,13 @@ chromium \
     --disable-backgrounding-occluded-windows \
     --disable-renderer-backgrounding \
     --disable-accelerated-2d-canvas \
-    --disable-dev-shm-usage \
-    --disable-hang-monitor \
-    --deterministic-mode \
     --disable-partial-raster \
     --allow-running-insecure-content \
+    \
     --virtual-time-budget=1000000 \
     --force-color-profile=srgb \
+    --hide-scrollbars \
+    \
     --screenshot="render.png" \
+    --window-size=1008,1512 \
     "render.html"
