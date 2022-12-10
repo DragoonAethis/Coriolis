@@ -15,7 +15,6 @@ ExecStop=/bin/kill -s TERM $MAINPID
 KillMode=mixed
 Restart=on-failure
 TimeoutStopSec=5
-PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
