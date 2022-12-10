@@ -8,11 +8,20 @@ import tempfile
 import subprocess
 from typing import Optional
 
+from django.conf import settings
 from django.core.files.storage import default_storage
 
 import dramatiq
+from dramatiq.rate_limits import ConcurrentRateLimiter
+from dramatiq.rate_limits.backends import RedisBackend
 
 from events.models import Event, Ticket, TicketRenderer
+
+RENDERER_MUTEX = ConcurrentRateLimiter(
+    RedisBackend(),
+    "ticket-renderer-mutex",
+    limit=settings.TICKET_RENDERER_MAX_JOBS
+)
 
 
 def get_container_tool() -> Optional[str]:
@@ -73,7 +82,9 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, is_first: bo
             asset_path = os.path.join(td, user_image)
             shutil.copy(ticket.image.file.name, asset_path)
 
-        image_path = render(ticket.event.ticket_renderer, td)
+        with RENDERER_MUTEX.acquire():
+            image_path = render(ticket.event.ticket_renderer, td)
+
         if image_path is not None:
             with open(image_path, 'rb') as f:
                 wanted_path = os.path.join("previews", ticket.event.slug, requested_filename)
@@ -86,7 +97,7 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, is_first: bo
             logging.warning(f"Render failed for {requested_filename}")
 
 
-@dramatiq.actor
+@dramatiq.actor(queue_name='ticket-renderer')
 def render_ticket_variants(ticket_id: str):
     if not get_container_tool():
         logging.error("Issued a render job with no render tools available.")

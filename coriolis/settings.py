@@ -63,6 +63,8 @@ DEFAULT_FROM_EMAIL = SERVER_EMAIL
 MEDIA_ROOT = env.str('MEDIA_ROOT', BASE_DIR / 'media')
 MEDIA_URL = env.str('MEDIA_URL', '/media/')
 
+TICKET_RENDERER_MAX_JOBS = env.int('TICKET_RENDERER_MAX_JOBS', 3)
+
 hosts = env.str('ALLOWED_HOSTS', None)
 if hosts:
     ALLOWED_HOSTS = [host.strip() for host in hosts.split(',')]
