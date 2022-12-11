@@ -1,6 +1,8 @@
 FROM archlinux:base
 
-RUN pacman -Syu --noconfirm chromium python python-jinja python-j2cli python-setuptools \
+RUN pacman -Syu --noconfirm \
+      chromium mesa vulkan-swrast \
+      python python-jinja python-j2cli python-setuptools \
     && rm /var/cache/pacman/pkg/* \
     && useradd -u 1000 --user-group renderer \
     && mkdir /template

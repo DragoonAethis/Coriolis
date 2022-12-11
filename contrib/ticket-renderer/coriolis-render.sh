@@ -1,5 +1,6 @@
 #!/usr/bin/bash
-cd /render
+cd /render || exit 1
+
 cp /template/* .
 j2 --undefined -o render.html render.html.j2 render.json
 

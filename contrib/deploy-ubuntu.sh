@@ -14,8 +14,7 @@ export INSTALL_DIR="/app"
 
 # The correct system TZ is required for Coriolis timestamp
 # correctness. Check if it differs from the selected TZ:
-timedatectl show | grep "Timezone=$TIMEZONE"
-if [[ $? -ne 0 ]]; then
+if ! timedatectl show | grep "Timezone=$TIMEZONE"; then
   # Set and reboot to apply changes to cron, etc.
   sudo timedatectl set-timezone "$TIMEZONE"
   sudo reboot
@@ -25,7 +24,7 @@ fi
 sudo pro config set apt_news=false
 
 # Python 3.10 (in 22.04), PostgreSQL, psycopg2 deps.
-# Enables unatteded security upgrades as well.
+# Enables unattended security upgrades as well.
 sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y install \
   python-is-python3 python3-full python3-pip python3-dev \
   nginx certbot python3-certbot-nginx \
@@ -42,13 +41,16 @@ sudo gpasswd -a www-data docker
 # Just use the nasty install script...
 curl -sSL https://install.python-poetry.org | python3 -
 echo "export PATH=\"/home/ubuntu/.local/bin:\$PATH\"" > ~/.bashrc
+
+# Make sure we have Poetry in our PATH now:
+# shellcheck disable=SC1090
 source ~/.bashrc
 
 sudo mkdir "$INSTALL_DIR"
-sudo chown $USER:$USER "$INSTALL_DIR"
+sudo chown "$USER:$USER" "$INSTALL_DIR"
 
 git clone https://github.com/DragoonAethis/Coriolis "$INSTALL_DIR"
-cd "$INSTALL_DIR"
+cd "$INSTALL_DIR" || exit 1
 
 # Make sure all dirs required for nginx etc exist:
 mkdir -p "$INSTALL_DIR/public" "$INSTALL_DIR/media"
@@ -68,6 +70,12 @@ CREATE DATABASE coriolis;
 CREATE USER coriolis WITH LOGIN;
 GRANT ALL ON DATABASE coriolis TO coriolis;
 ALTER USER coriolis WITH PASSWORD 'nice-try-m8';
+
+# Note: You can wipe the database and start from scratch with:
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO public;
+GRANT ALL ON SCHEMA public TO coriolis;
 
 # We're also using Redis - its defaults listen on the port we want
 # for localhost only, so we don't have to mess with its config much.
@@ -90,7 +98,7 @@ sudo chown -R www-data:www-data "$INSTALL_DIR"
 # Configure HTTPS certificates and keys:
 # You need to do this once before messing with nginx below.
 # Once this is configured, the shipped configs have valid
-# rules to let certbot autorenew take the wheel.
+# rules to let certbot auto-renew take the wheel.
 sudo certbot run -d "$CORIOLIS_DOMAIN,$USERMEDIA_DOMAIN" --nginx --agree-tos -m "$CERTBOT_EMAIL"
 
 # systemd units:
@@ -99,6 +107,7 @@ sudo cp "$INSTALL_DIR/contrib/coriolis.service" "/etc/systemd/system/coriolis.se
 sudo cp "$INSTALL_DIR/contrib/coriolis-dramatiq.service" "/etc/systemd/system/coriolis-dramatiq.service"
 
 # nginx configs:
+# shellcheck disable=SC2002
 cat "$INSTALL_DIR/contrib/coriolis.nginx.conf" |
   sed "s/usermedia.example.com/$USERMEDIA_DOMAIN/g" |
   sed "s/example.com/$CORIOLIS_DOMAIN/g" |
