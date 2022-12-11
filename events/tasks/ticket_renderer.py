@@ -131,7 +131,7 @@ def render_ticket_variants(ticket_id: str):
             "age_gate": ticket.age_gate,
             "name": ticket.name,
             "email": ticket.email,
-            "phone": ticket.phone,
+            "phone": str(ticket.phone),
         },
         "ticket_type": {
             "name": ticket.type.name,
