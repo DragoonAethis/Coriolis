@@ -50,7 +50,9 @@ def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
         config['image']
     ]
 
-    proc = subprocess.run(arguments)
+    # Let the job run for up to a minute:
+    proc = subprocess.run(arguments, timeout=60)
+
     expected_image = os.path.join(render_path, "render.png")
     if proc.returncode != 0 or not os.path.exists(expected_image):
         logging.error(f"Renderer failure - code {proc.returncode} --- {proc.stdout} --- {proc.stderr}")
