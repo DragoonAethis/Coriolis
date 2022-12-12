@@ -92,7 +92,10 @@ class Application(models.Model):
 
         # Notify about the status change:
         EmailMessage(
-            f"{self.event.name}: {_('Application')} '{self.name}' ({_('new status')})",
+            _("%(event)s: Application '%(name)s' (new status)") % {
+                'event': self.event.name,
+                'name': self.name
+            },
             render_to_string("events/emails/application_changed.html", {
                 'event': self.event,
                 'application': self,

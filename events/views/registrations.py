@@ -96,7 +96,9 @@ class RegistrationView(FormView):
             ticket.status = TicketStatus.WAITING
             ticket._original_status = TicketStatus.WAITING
             EmailMessage(
-                f"{_('Notes for ticket')}: {ticket.get_code()}",
+                _("Notes for ticket: '%(code)s'") % {
+                    'code': ticket.get_code()
+                },
                 _("A new ticket was registered with the following notes: ") + ticket.notes,
                 settings.SERVER_EMAIL,
                 [ticket.event.org_mail],
@@ -126,7 +128,10 @@ class RegistrationView(FormView):
         render_ticket_variants.send(str(ticket.id))
 
         EmailMessage(
-            f"{self.event.name}: {_('Ticket')} {ticket.get_code()}",
+            _("%(event)s: Ticket '%(code)s'") % {
+                'event': self.event.name,
+                'code': ticket.get_code()
+            },
             render_to_string("events/emails/thank_you.html", {
                 'event': self.event,
                 'ticket': ticket,

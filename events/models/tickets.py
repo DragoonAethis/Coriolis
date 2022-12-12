@@ -181,7 +181,10 @@ class Ticket(models.Model):
         # Notify about the status change:
         if self.event.emails_enabled:
             EmailMessage(
-                f"{self.event.name}: {_('Ticket')} {self.get_code()} ({_('new status')})",
+                _("%(event)s: Ticket '%(code)s' (new status)") % {
+                    'event': self.event.name,
+                    'code': self.get_code()
+                },
                 render_to_string("events/emails/ticket_changed.html", {
                     'event': self.event,
                     'ticket': self,

@@ -97,7 +97,10 @@ class ApplicationView(FormView):
             )
 
         EmailMessage(
-            f"{self.event.name}: {_('Application')} '{application.name}'",
+            _("%(event)s: Application '%(name)s'") % {
+                'event': self.event.name,
+                'name': application.name
+            },
             render_to_string("events/emails/new_application.html", {
                 'event': self.event,
                 'application': application,
