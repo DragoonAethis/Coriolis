@@ -73,6 +73,9 @@ phone_region = env.str('PHONENUMBER_REGION', None)
 if phone_region:
     PHONENUMBER_DEFAULT_REGION = phone_region
 
+# Pretty-print all phone numbers:
+PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"
+
 CURRENCY = env.str('CURRENCY', 'EUR')
 TIME_ZONE = env.str('TIME_ZONE', 'Etc/UTC')
 LANGUAGE_CODE = env.str('LANGUAGE_CODE', 'en-us')
