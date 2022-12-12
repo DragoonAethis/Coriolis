@@ -19,7 +19,8 @@ class ApplicationDynaform(forms.Form):
     email = forms.EmailField(label=_("E-mail Address"), required=True, widget=TextInput(),
                              help_text=_("E-mail address for notifications."))
     phone = PhoneNumberField(label=_("Phone Number"), required=True,
-                             help_text=_("Required for notifications and contact with organizers."))
+                             help_text=_("Required for notifications and contact with organizers. "
+                                         "(Add a country prefix, like +44 for the UK.)"))
 
     DYNAFORM_NAME = 'act'
 

@@ -16,7 +16,8 @@ class RegistrationForm(forms.Form):
                              help_text=_("E-mail address for notifications."))
     phone = PhoneNumberField(label=_("Phone Number"), required=False,
                              help_text=_("Optional, used for SMS notifications. "
-                                         "Organizers can contact you this way as well."))
+                                         "Organizers can contact you this way as well. "
+                                         "(Add a country prefix, like +44 for the UK.)"))
 
     age_gate = forms.BooleanField(label=_("I am at least 18 years old"), required=False,
                                   help_text=_("If not, you must take extra documents listed above to the event."))
