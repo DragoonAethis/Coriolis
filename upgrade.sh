@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
+sudo systemctl stop coriolis
+sudo systemctl stop coriolis-dramatiq
 sudo chown -R ubuntu:ubuntu .
 git pull
 poetry install
