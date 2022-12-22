@@ -85,7 +85,7 @@
 
                     {% if event.applications_require_registration and tickets|length_is:0 %}
                         <div class="alert alert-warning" role="alert">
-                            {% translate "You must register for this event before submitting an application." %}
+                            {% translate "You must buy a ticket for this event before submitting an application." %}
                         </div>
                     {% elif new_application_types %}
                         <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with button groups">
