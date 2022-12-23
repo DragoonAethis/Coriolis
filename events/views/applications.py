@@ -84,6 +84,7 @@ class ApplicationView(FormView):
                                   name=form.cleaned_data['name'],
                                   email=form.cleaned_data['email'],
                                   phone=form.cleaned_data['phone'],
+                                  notes=form.cleaned_data['notes'],
                                   answers=answers)
 
         application.application = "\n".join([f"- {name}: {value}" for name, value in answers.items()])
