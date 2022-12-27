@@ -39,6 +39,7 @@ pydantic = "^1.10.2"
 
 # Commented out until fixes are upstreamed:
 #django-payments-przelewy24 = "0.1.7"
+django-dramatiq-email = {git = "https://github.com/DragoonAethis/django-dramatiq-email"}
 
 [tool.poetry.dev-dependencies]
 

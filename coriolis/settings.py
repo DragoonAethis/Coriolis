@@ -50,6 +50,7 @@ DATABASES = {'default': env.db()}
 REDIS_URL = env.str('REDIS_URL')
 
 # Email: https://docs.djangoproject.com/en/3.2/ref/settings/#email-backend
+DRAMATIQ_EMAIL_BACKEND = env.str('DRAMATIQ_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 EMAIL_BACKEND = env.str('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 EMAIL_HOST = env.str('EMAIL_HOST', 'localhost')
 EMAIL_PORT = env.int('EMAIL_PORT', 25)
@@ -120,6 +121,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'django_dramatiq',
+    'django_dramatiq_email',
 
     'allauth',
     'allauth.account',
