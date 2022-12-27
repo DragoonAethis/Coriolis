@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-22 21:20+0100\n"
-"PO-Revision-Date: 2022-12-22 21:21+0100\n"
+"POT-Creation-Date: 2022-12-27 19:31+0100\n"
+"PO-Revision-Date: 2022-12-27 19:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -853,22 +853,60 @@ msgstr "%(event)s: Bilet '%(code)s' (nowy status)"
 msgid "☑️ Paid"
 msgstr "☑️ Opłacony"
 
-#: events/utils.py:30
+#: events/utils.py:33
 msgid ""
 "MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."
 msgstr ""
 "MAKSYMALNA LICZBA KODÓW BILETÓW OSIĄGNIĘTA! Skontaktuj się z organizatorami "
 "wydarzenia ws. tej wiadomości."
 
-#: events/utils.py:91 templates/events/crew/ticket.html:23
+#: events/utils.py:77
+msgid ""
+"Save it as PNG in an image editor of your choice (e.g. Krita) and upload it "
+"again."
+msgstr ""
+"Zapisz go jako PNG w wybranym edytorze graficznym (np. Krita) i załaduj go "
+"ponownie."
+
+#: events/utils.py:86
+#, python-format
+msgid "Your ticket image could not be read. %(hint)s"
+msgstr "Twój obrazek biletu nie może zostać odczytany. %(hint)s"
+
+#: events/utils.py:97
+#, python-format
+msgid ""
+"Your ticket image was saved with color format %(mode)s which we cannot "
+"store. It was converted to RGB and may not look correct. %(hint)s"
+msgstr ""
+"Twój obrazek biletu został zapisany z formatem kolorów %(mode)s którego nie "
+"możemy przechować. Został on przekonwertowany na RGB i może nie wyglądać "
+"poprawnie. %(hint)s"
+
+#: events/utils.py:106
+#, python-format
+msgid ""
+"Your ticket image was saved with color format %(mode)s which we cannot store "
+"or convert automatically to RGB. %(hint)s"
+msgstr ""
+"Twój obrazek biletu został zapisany z formatem kolorów %(mode)s którego nie "
+"możemy przechować ani automatycznie przekonwertować na RGB. %(hint)s"
+
+#: events/utils.py:121
+#, python-format
+msgid "Your ticket image could not be saved for an unknown reason. %(hint)s"
+msgstr ""
+"Twój obrazek biletu nie mógł zostać zapisany z nieznanej przyczyny. %(hint)s"
+
+#: events/utils.py:141 templates/events/crew/ticket.html:23
 msgid "Yes"
 msgstr "Tak"
 
-#: events/utils.py:91 templates/events/crew/ticket.html:25
+#: events/utils.py:141 templates/events/crew/ticket.html:25
 msgid "No"
 msgstr "Nie"
 
-#: events/utils.py:102
+#: events/utils.py:152
 msgid "Unknown field"
 msgstr "Nieznane pole"
 
@@ -889,12 +927,12 @@ msgstr ""
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:100
+#: events/views/applications.py:101
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:113
+#: events/views/applications.py:114
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""

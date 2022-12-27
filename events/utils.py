@@ -6,12 +6,15 @@ import logging
 
 from typing import Optional
 
-from django.forms.fields import Field, ChoiceField
+from django.contrib import messages
+from django.http.request import HttpRequest
 from django.utils.translation import gettext as _
+from django.forms.fields import Field, ChoiceField
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
 
-from PIL import Image, ImageOps
+from PIL import Image
+from sentry_sdk import capture_exception
 
 import events.models
 
@@ -23,7 +26,7 @@ def generate_ticket_code(event: 'events.models.Event') -> int:
     # have in the database and generate a new one that does not
     # conflict with any existing ones.
     maximum_tickets = 10 ** event.ticket_code_length
-    numbers = set(Ticket.objects.filter(event_id=event.id).values_list('code', flat=True))
+    numbers = set(Ticket.objects.filter(event_id=event.id).values_list("code", flat=True))
 
     if len(numbers) >= maximum_tickets:
         # Yeah, we're not even gonna try.
@@ -67,12 +70,59 @@ def delete_ticket_image(instance: 'events.models.Ticket'):
     instance.save()
 
 
-def save_ticket_image(instance: 'events.models.Ticket', image_file: UploadedFile):
-    image: Image = Image.open(image_file)
+def save_ticket_image(request: HttpRequest, instance: 'events.models.Ticket', image_file: UploadedFile):
+    """Rewrites the uploaded image into a PNG file to prevent saving
+    untrusted content on the server. Converts its color space if needed."""
 
-    new_image_path = f'ticketavatars/{instance.id}.png'
-    with default_storage.open(new_image_path, 'wb') as handle:
-        image.save(handle, 'png')
+    hint = _("Save it as PNG in an image editor of your "
+             "choice (e.g. Krita) and upload it again.")
+
+    try:
+        image: Image = Image.open(image_file)
+    except Exception as e:
+        capture_exception(e)
+        messages.error(
+            request,
+            _("Your ticket image could not be read. %(hint)s") % {"hint": hint}
+        )
+        return
+
+    if image.mode not in ("1", "L", "LA", "I", "P", "RGB", "RGBA"):
+        old_mode = image.mode
+        try:
+            image = image.convert("RGB")
+            messages.warning(
+                request,
+                _(
+                    "Your ticket image was saved with color format %(mode)s which we "
+                    "cannot store. It was converted to RGB and may not look correct. %(hint)s"
+                ) % {"mode": old_mode, "hint": hint}
+            )
+        except Exception as e:
+            capture_exception(e)
+            messages.error(
+                request,
+                _(
+                    "Your ticket image was saved with color format %(mode)s which we "
+                    "cannot store or convert automatically to RGB. %(hint)s"
+                ) % {"mode": old_mode, "hint": hint}
+            )
+            return
+
+    try:
+        new_image_path = f"ticketavatars/{instance.id}.png"
+        with default_storage.open(new_image_path, "wb") as handle:
+            image.save(handle, "png")
+    except Exception as e:
+        capture_exception(e)
+        messages.error(
+            request,
+            _(
+                "Your ticket image could not be saved for an "
+                "unknown reason. %(hint)s"
+            ) % {"hint": hint}
+        )
+        return
 
     instance.image = new_image_path
     instance.save()

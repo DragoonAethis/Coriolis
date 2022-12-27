@@ -248,7 +248,7 @@ class UpdateTicketView(FormView):
             delete_ticket_image(self.ticket)
 
             if form.cleaned_data['image']:
-                save_ticket_image(self.ticket, form.cleaned_data['image'])
+                save_ticket_image(self.request, self.ticket, form.cleaned_data['image'])
 
         self.ticket.save()
         messages.info(self.request, _("Changes were saved and your ticket is now being generated. "
