@@ -111,7 +111,9 @@ if DEBUG:
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # Instead of 'django.contrib.admin' we use:
+    'coriolis.apps.CoriolisAdminConfig',
+
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

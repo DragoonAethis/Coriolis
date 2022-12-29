@@ -58,6 +58,7 @@ class TicketTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
+    readonly_fields = ('created', 'updated')
     list_display = ('__str__', 'event', 'status', 'email', 'nickname')
     list_filter = ('event__name', 'type__name', 'status')
     search_fields = ('code', 'name', 'email', 'phone', 'nickname')
