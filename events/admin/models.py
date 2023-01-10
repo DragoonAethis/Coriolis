@@ -59,7 +59,7 @@ class TicketTypeAdmin(admin.ModelAdmin):
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
     readonly_fields = ('created', 'updated')
-    list_display = ('__str__', 'event', 'status', 'email', 'nickname')
+    list_display = ('__str__', 'event', 'status', 'email', 'nickname', 'created')
     list_filter = ('event__name', 'type__name', 'status')
     search_fields = ('code', 'name', 'email', 'phone', 'nickname')
 
@@ -73,7 +73,7 @@ class ApplicationTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'status', 'event', 'phone', 'email')
+    list_display = ('name', 'type', 'status', 'event', 'phone', 'email', 'created')
     list_filter = ('event__name', 'type__name', 'status')
     search_fields = ('name', 'email', 'phone')
     actions = ('download_as_csv', )
