@@ -98,13 +98,13 @@ class ApplicationAdmin(admin.ModelAdmin):
         ws = workbook.add_worksheet()
 
         attr_cols = [
-            (_("ID"), lambda a: a.id),
+            (_("ID"), lambda a: str(a.id)),
             (_("User"), lambda a: a.user.email),
             (_("Event"), lambda a: a.event.name),
             (_("Type"), lambda a: a.type.name),
             (_("Status"), lambda a: a.get_status_display()),
             (_("Name"), lambda a: a.name),
-            (_("Phone"), lambda a: a.phone),
+            (_("Phone"), lambda a: str(a.phone)),
             (_("Email"), lambda a: a.email),
             (_("Notes"), lambda a: a.notes),
             (_("Org Notes"), lambda a: a.org_notes),
