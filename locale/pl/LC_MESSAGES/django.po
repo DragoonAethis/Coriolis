@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-27 19:31+0100\n"
-"PO-Revision-Date: 2022-12-27 19:34+0100\n"
+"POT-Creation-Date: 2023-01-15 00:25+0100\n"
+"PO-Revision-Date: 2023-01-15 00:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -20,9 +20,72 @@ msgstr ""
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: events/admin.py:80
-msgid "Download selected applications as CSV"
-msgstr "Pobierz wybrane zgłoszenia jako CSV"
+#: events/admin/models.py:97
+msgid "Download selected applications as XLSX"
+msgstr "Pobierz wybrane zgłoszenia jako XLSX"
+
+#: events/admin/models.py:104
+msgid "ID"
+msgstr "ID"
+
+#: events/admin/models.py:105
+msgid "User"
+msgstr "Użytkownik"
+
+#: events/admin/models.py:106
+msgid "Event"
+msgstr "Wydarzenie"
+
+#: events/admin/models.py:107
+#: templates/events/applications/application_details.html:15
+#: templates/events/crew/ticket.html:28
+#: templates/events/emails/thank_you.html:7
+#: templates/events/tickets/details.html:12
+msgid "Type"
+msgstr "Typ"
+
+#: events/admin/models.py:108
+#: templates/events/applications/application_details.html:19
+#: templates/events/crew/ticket.html:20
+#: templates/events/emails/application_changed.html:6
+#: templates/events/emails/ticket_changed.html:6 templates/events/index.html:28
+#: templates/events/index.html:72 templates/events/tickets/details.html:13
+msgid "Status"
+msgstr "Status"
+
+#: events/admin/models.py:109 templates/events/crew/list.html:14
+#: templates/events/crew/ticket.html:12
+#: templates/events/tickets/details.html:16
+msgid "Name"
+msgstr "Nazwa"
+
+#: events/admin/models.py:110
+#: templates/events/applications/application_details.html:27
+#: templates/events/crew/list.html:16 templates/events/crew/ticket.html:14
+#: templates/events/emails/new_application.html:6
+#: templates/events/tickets/details.html:20
+msgid "Phone"
+msgstr "Telefon"
+
+#: events/admin/models.py:111
+#: templates/events/applications/application_details.html:23
+#: templates/events/crew/list.html:15 templates/events/crew/ticket.html:13
+#: templates/events/emails/new_application.html:7
+#: templates/events/tickets/details.html:17
+msgid "Email"
+msgstr "Email"
+
+#: events/admin/models.py:112 events/forms/applications.py:32
+#: templates/events/applications/application_details.html:46
+#: templates/events/emails/ticket_changed.html:7
+#: templates/events/tickets/details.html:27
+msgid "Notes"
+msgstr "Notatki"
+
+#: events/admin/models.py:113
+#: templates/events/applications/application_details.html:50
+msgid "Org Notes"
+msgstr "Notatki Organizatorów"
 
 #: events/forms/applications.py:16
 msgid "First and last name/organization name"
@@ -55,13 +118,6 @@ msgid ""
 msgstr ""
 "Wymagane do powiadomień i kontaktu z organizatorami. (Dodaj prefiks krajowy, "
 "taki jak +48 dla Polski.)"
-
-#: events/forms/applications.py:32
-#: templates/events/applications/application_details.html:46
-#: templates/events/emails/ticket_changed.html:7
-#: templates/events/tickets/details.html:27
-msgid "Notes"
-msgstr "Notatki"
 
 #: events/forms/applications.py:33
 msgid "Optional extra notes - add anything you want!"
@@ -1577,42 +1633,9 @@ msgstr "Zmień"
 msgid "Application details"
 msgstr "Szczegóły zgłoszenia"
 
-#: templates/events/applications/application_details.html:15
-#: templates/events/crew/ticket.html:28
-#: templates/events/emails/thank_you.html:7
-#: templates/events/tickets/details.html:12
-msgid "Type"
-msgstr "Typ"
-
-#: templates/events/applications/application_details.html:19
-#: templates/events/crew/ticket.html:20
-#: templates/events/emails/application_changed.html:6
-#: templates/events/emails/ticket_changed.html:6 templates/events/index.html:28
-#: templates/events/index.html:72 templates/events/tickets/details.html:13
-msgid "Status"
-msgstr "Status"
-
-#: templates/events/applications/application_details.html:23
-#: templates/events/crew/list.html:15 templates/events/crew/ticket.html:13
-#: templates/events/emails/new_application.html:7
-#: templates/events/tickets/details.html:17
-msgid "Email"
-msgstr "Email"
-
-#: templates/events/applications/application_details.html:27
-#: templates/events/crew/list.html:16 templates/events/crew/ticket.html:14
-#: templates/events/emails/new_application.html:6
-#: templates/events/tickets/details.html:20
-msgid "Phone"
-msgstr "Telefon"
-
 #: templates/events/applications/application_details.html:40
 msgid "Classic Application"
 msgstr "Klasyczne Zgłoszenie"
-
-#: templates/events/applications/application_details.html:50
-msgid "Org Notes"
-msgstr "Notatki Organizatorów"
 
 #: templates/events/applications/application_details.html:56
 msgid ""
@@ -1637,11 +1660,6 @@ msgstr "Potrzeba nowego biletu?"
 #: templates/events/crew/list.html:13
 msgid "Code"
 msgstr "Kod"
-
-#: templates/events/crew/list.html:14 templates/events/crew/ticket.html:12
-#: templates/events/tickets/details.html:16
-msgid "Name"
-msgstr "Nazwa"
 
 #: templates/events/crew/ticket.html:10
 msgid "Confirm identity"

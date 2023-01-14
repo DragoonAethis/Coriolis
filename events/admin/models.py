@@ -1,10 +1,14 @@
-import csv
-import logging
+import io
+import decimal
+import datetime
+from pprint import pformat
 
-from django.http import HttpResponse
+from django.http import FileResponse
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import gettext_lazy as _
+
+import xlsxwriter
 
 from events.models import *
 
@@ -76,38 +80,80 @@ class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('name', 'type', 'status', 'event', 'phone', 'email', 'created')
     list_filter = ('event__name', 'type__name', 'status')
     search_fields = ('name', 'email', 'phone')
-    actions = ('download_as_csv', )
+    actions = ('download_as_xlsx', )
 
-    @admin.action(description=_("Download selected applications as CSV"))
-    def download_as_csv(self, request, queryset):
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="export.csv"'
+    XLSX_SAFE_TYPES = (
+        bool, str, int, float,
+        decimal.Decimal,
+        datetime.date,
+        datetime.time,
+        datetime.datetime,
+        datetime.timedelta,
+    )
 
-        writer = csv.writer(response)
-        writer.writerow((
-            'id', 'user', 'event', 'type', 'status',
-            'name', 'phone', 'email',
-            'application',
-            'org_notes'
-        ))
+    @admin.action(description=_("Download selected applications as XLSX"))
+    def download_as_xlsx(self, request, queryset):
+        buffer = io.BytesIO()
+        workbook = xlsxwriter.Workbook(buffer, {'in_memory': True})
+        ws = workbook.add_worksheet()
+
+        attr_cols = [
+            (_("ID"), lambda a: a.id),
+            (_("User"), lambda a: a.user.email),
+            (_("Event"), lambda a: a.event.name),
+            (_("Type"), lambda a: a.type.name),
+            (_("Status"), lambda a: a.get_status_display()),
+            (_("Name"), lambda a: a.name),
+            (_("Phone"), lambda a: a.phone),
+            (_("Email"), lambda a: a.email),
+            (_("Notes"), lambda a: a.notes),
+            (_("Org Notes"), lambda a: a.org_notes),
+        ]
+
+        cur_row = 1  # 0 is for headers
+        col_shift = len(attr_cols)
+        found_cols = []
 
         app: Application
         for app in queryset:
-            try:
-                writer.writerow((
-                    app.id,
-                    app.user.email,
-                    app.event.name,
-                    app.type.name,
-                    app.get_status_display(),
-                    app.name,
-                    app.phone,
-                    app.email,
-                    app.application,
-                    app.org_notes
-                ))
-            except Exception as ex:
-                writer.writerow(f"Exception: {ex}")
-                logging.exception("Could not properly generate the application CSV export file")
+            # Common data:
+            for col, (label, expr) in enumerate(attr_cols):
+                ws.write(cur_row, col, self.xlsx_safe_value(expr(app)))
 
-        return response
+            # Application data:
+            for key, value in app.answers.items():
+                try:
+                    col = col_shift + found_cols.index(key)
+                except ValueError:
+                    found_cols.append(key)
+                    col = col_shift + len(found_cols) - 1
+
+                try:
+                    error = ws.write(cur_row, col, self.xlsx_safe_value(value))
+                    if error:
+                        ws.write(cur_row, col, f"ERROR: {error}")
+                except:  # noqa
+                    ws.write(cur_row, col, "UNKNOWN ERROR!")
+
+            cur_row += 1
+
+        # Headers:
+        for col, (label, expr) in enumerate(attr_cols):
+            ws.write(0, col, str(label))
+
+        for col, label in enumerate(found_cols):
+            ws.write(0, col + col_shift, label)
+
+        workbook.close()
+        buffer.seek(0)
+
+        return FileResponse(buffer, as_attachment=True, filename="export.xlsx", headers={
+            "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        })
+
+    @staticmethod
+    def xlsx_safe_value(value):
+        if type(value) in ApplicationAdmin.XLSX_SAFE_TYPES:
+            return value
+
+        return pformat(value)
