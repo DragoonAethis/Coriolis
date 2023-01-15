@@ -261,6 +261,18 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
 
+TICKET_PURCHASE_RATE_LIMIT_CACHE_NAME = "coriolis-ticket-purchase-rate-limits"
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': REDIS_URL,
+    },
+    TICKET_PURCHASE_RATE_LIMIT_CACHE_NAME: {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': REDIS_URL,
+    }
+}
+
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 LOCALE_PATHS = [BASE_DIR / 'locale']
 USE_I18N = True

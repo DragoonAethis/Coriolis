@@ -56,6 +56,15 @@ class TicketType(models.Model):
                                                          "to Ticket Payment Instructions and select it here."),
                                              limit_choices_to={'page_type': EventPageType.TICKET_PAYMENT_INFO})
 
+    purchase_rate_limit_secs = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("purchase rate limit seconds"),
+        help_text=_("Determines if users have to wait between purchases of this "
+                    "ticket type. Useful for sale fairness of high-demand tickets. "
+                    "Set to 0 to disable this feature, or the number of seconds to "
+                    "make users wait after purchasing.")
+    )
+
     max_tickets = models.PositiveSmallIntegerField(verbose_name=_("max tickets"))
     tickets_remaining = models.PositiveSmallIntegerField(verbose_name=_("tickets remaining"))
     show_tickets_remaining = models.BooleanField(default=True, verbose_name=_("show tickets remaining"),

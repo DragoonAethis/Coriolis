@@ -41,6 +41,7 @@ pydantic = "^1.10.2"
 #django-payments-przelewy24 = "0.1.7"
 django-dramatiq-email = {git = "https://github.com/DragoonAethis/django-dramatiq-email"}
 xlsxwriter = "^3.0.7"
+django-ipware = "^4.0.2"
 
 [tool.poetry.dev-dependencies]
 

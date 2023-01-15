@@ -3,9 +3,11 @@ import os
 import uuid
 import random
 import logging
+import hashlib
 
 from typing import Optional
 
+from django.conf import settings
 from django.contrib import messages
 from django.http.request import HttpRequest
 from django.utils.translation import gettext as _
@@ -14,6 +16,7 @@ from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
 
 from PIL import Image
+from ipware import get_client_ip
 from sentry_sdk import capture_exception
 
 import events.models
@@ -45,6 +48,26 @@ def generate_ticket_code(event: 'events.models.Event') -> int:
 
     # This 100% gets us any valid remaining ticket code.
     return random.choice(list(possible_numbers))
+
+
+def get_ticket_purchase_rate_limit_keys(
+        request: HttpRequest,
+        ticket_type: 'events.models.TicketType'
+) -> list[str]:
+    """Returns a list of keys to be stored in Redis that remember the
+    date after which a given user is allowed to purchase a ticket of a
+    given type once again. Used for the purchase rate limit impl."""
+    if request.user is None:
+        raise ValueError("Cannot generate rate limit keys for anon users!")
+
+    prefix = f"{settings.TICKET_PURCHASE_RATE_LIMIT_CACHE_NAME}.e_{ticket_type.event_id}.tt_{ticket_type.id}"
+    keys = [f"{prefix}.u_{request.user.id}"]
+
+    client_ip, is_routable = get_client_ip(request)
+    if is_routable or True:
+        keys.append(f"{prefix}.i_{hashlib.md5(bytes(client_ip, encoding='utf-8')).hexdigest()}")
+
+    return keys
 
 
 def get_ticket_preview_path(instance: 'events.models.TicketType', filename: str):

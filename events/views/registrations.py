@@ -1,10 +1,12 @@
-import datetime
 import logging
+from datetime import datetime, timedelta
 
 import django.db.utils
 from django.db.models import F
 from django.contrib import messages
+from django.core.cache import caches
 from django.core.mail import EmailMessage
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
@@ -16,8 +18,13 @@ from django.utils.html import mark_safe
 
 from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models import Event, TicketType, Ticket, TicketStatus, TicketSource
-from events.utils import generate_ticket_code, delete_ticket_image, save_ticket_image
 from events.tasks.ticket_renderer import render_ticket_variants
+from events.utils import (
+    get_ticket_purchase_rate_limit_keys,
+    generate_ticket_code,
+    delete_ticket_image,
+    save_ticket_image,
+)
 
 
 class RegistrationView(FormView):
@@ -52,7 +59,7 @@ class RegistrationView(FormView):
             messages.error(self.request, _("We ran out of these tickets."))
             return False
 
-        now = datetime.datetime.now()
+        now = datetime.now()
 
         if not self.type.registration_from < now:
             messages.error(self.request, _("Online sales of this ticket type have not yet started."))
@@ -61,6 +68,27 @@ class RegistrationView(FormView):
         if not now < self.type.registration_to:
             messages.error(self.request, _("Online sales of this ticket type have ended."))
             return False
+
+        if self.type.purchase_rate_limit_secs > 0:
+            rate_limit_keys = get_ticket_purchase_rate_limit_keys(self.request, self.type)
+            rate_limit_cache = caches[settings.TICKET_PURCHASE_RATE_LIMIT_CACHE_NAME]
+
+            rate_limits_hit = [
+                gate_date
+                for gate_date in [rate_limit_cache.get(key) for key in rate_limit_keys]
+                if gate_date is not None and now < gate_date
+            ]
+
+            if any(rate_limits_hit):
+                deadline = max(rate_limits_hit)
+                messages.error(
+                    self.request,
+                    _("Slow down! You can purchase another ticket of this type %(in_how_long)s.") % {
+                        'in_how_long': naturaltime(deadline)
+                    }
+                )
+
+                return False
 
         return True
 
@@ -141,6 +169,15 @@ class RegistrationView(FormView):
             [ticket.email],
             reply_to=[ticket.event.org_mail]
         ).send(fail_silently=True)
+
+        # Keep track of the rate limits for high-demand tickets:
+        if self.type.purchase_rate_limit_secs > 0:
+            rate_limit_keys = get_ticket_purchase_rate_limit_keys(self.request, self.type)
+            rate_limit_cache = caches[settings.TICKET_PURCHASE_RATE_LIMIT_CACHE_NAME]
+            deadline = datetime.now() + timedelta(seconds=self.type.purchase_rate_limit_secs)
+
+            for key in rate_limit_keys:
+                rate_limit_cache.set(key, deadline, timeout=self.type.purchase_rate_limit_secs)
 
         if ticket.status == TicketStatus.WAITING_FOR_PAYMENT:
             messages.success(self.request, _("Thank you for your registration! You must pay for the selected ticket "
