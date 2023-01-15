@@ -57,6 +57,20 @@ class RegistrationForm(forms.Form):
 class UpdateTicketForm(forms.Form):
     nickname = forms.CharField(label=_("Nickname"), max_length=64, required=False,
                                help_text=_("Optional, your nickname to be printed on your ticket."))
+    shirt_size = forms.TypedChoiceField(
+        label=_("Shirt Size"), required=True,
+        help_text=_("Sizes: wearer's height/chest."),
+        choices=[
+            ('S',   'S (168/93cm)'),
+            ('M',   'M (176/99cm)'),
+            ('L',   'L (182/106cm)'),
+            ('XL',  'XL (185/113cm)'),
+            ('2XL', '2XL (188/120cm)'),
+            ('3XL', '3XL (188/128cm)'),
+            ('4XL', '4XL (190/137cm)'),
+            ('5XL', '5XL (big boi)'),
+        ]
+    )
     image = forms.ImageField(label=_("Image"), required=False,
                              help_text=_("Optional, image to be printed on your ticket."))
     keep_current_image = forms.BooleanField(label=_("Keep Current Image"), required=False,
@@ -65,6 +79,10 @@ class UpdateTicketForm(forms.Form):
 
     def __init__(self, *args, event, ticket, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if not ticket.type.can_specify_shirt_size:
+            del self.fields['shirt_size']
+
         self.helper = FormHelper()
         self.helper.form_action = 'post'
         self.helper.form_action = reverse('ticket_update', kwargs={

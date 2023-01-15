@@ -287,6 +287,9 @@ class UpdateTicketView(FormView):
             if form.cleaned_data['image']:
                 save_ticket_image(self.request, self.ticket, form.cleaned_data['image'])
 
+        if shirt_size := form.cleaned_data.get('shirt_size'):
+            self.ticket.shirt_size = shirt_size
+
         self.ticket.save()
         messages.info(self.request, _("Changes were saved and your ticket is now being generated. "
                                       "Refresh this page in a few minutes to see the preview."))

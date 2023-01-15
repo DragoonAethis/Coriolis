@@ -199,7 +199,8 @@ def ticket_details(request, slug, ticket_id):
         'event': event,
         'ticket': ticket,
         'update_form': UpdateTicketForm(event=event, ticket=ticket, initial={
-            'nickname': ticket.nickname
+            'nickname': ticket.nickname,
+            'shirt_size': ticket.shirt_size,
         })
     })
 

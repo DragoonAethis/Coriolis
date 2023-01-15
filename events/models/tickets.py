@@ -35,11 +35,14 @@ class TicketType(models.Model):
                        help_text=_("Extra color shown on the ticket choice screen."))
     short_name = models.CharField(max_length=128, blank=True, verbose_name=_("short name"),
                                   help_text=_("Usually used for ticket rendering."))
+    can_specify_shirt_size = models.BooleanField(default=False, verbose_name=_("can specify shirt size"),
+                                                 help_text=_("Determines if a shirt size can be personalized."))
 
     registration_from = models.DateTimeField(verbose_name=_("registration from"))
     registration_to = models.DateTimeField(verbose_name=_("registration to"))
     self_registration = models.BooleanField(default=True, verbose_name=_("self-registration"),
                                             help_text=_("Determines if the ticket can be purchased online."))
+
     on_site_registration = models.BooleanField(default=True, verbose_name=_("on-site registration"),
                                                help_text=_("Determines if the ticket can be purchased on-site."))
     must_pay_online = models.BooleanField(default=False, verbose_name=_("must pay online"),
@@ -139,6 +142,8 @@ class Ticket(models.Model):
                                        help_text=_("Code printed on the ticket. Required for pickup on site."))
     nickname = models.CharField(max_length=256, blank=True, verbose_name=_("nickname"),
                                 help_text=_("Printed on the customized ticket"))
+    shirt_size = models.CharField(max_length=4, blank=True, verbose_name=_("shirt size"),
+                                  help_text=_("Shirt size chosen by the attendee."))
     image = models.ImageField(blank=True, verbose_name=_("image"),
                               help_text=_("Printed on the customized ticket."))
     preview = models.ImageField(blank=True, verbose_name=_("preview"),
