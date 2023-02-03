@@ -3,6 +3,7 @@ import datetime
 from typing import Optional
 
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.exceptions import ValidationError
@@ -158,6 +159,10 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"{self.code}: {self.name} ({self.id})"
+
+    def get_absolute_url(self):
+        url = reverse('ticket_details', kwargs={'slug': self.event.slug, 'ticket_id': self.id})
+        return url
 
     def is_cancelled(self) -> bool:
         return self.status == TicketStatus.CANCELLED

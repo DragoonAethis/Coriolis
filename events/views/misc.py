@@ -192,8 +192,11 @@ def ticket_details(request, slug, ticket_id):
     event, ticket = get_event_and_ticket(slug, ticket_id)
 
     if not ticket.user_id == request.user.id:
-        messages.error(request, _("You don't own this ticket!"))
-        return redirect('event_index', event.slug)
+        if request.user.is_staff and request.user.has_perm("events.view_ticket"):
+            messages.warning(request, _("This ticket is not yours!"))
+        else:
+            messages.error(request, _("You don't own this ticket!"))
+            return redirect('event_index', event.slug)
 
     return render(request, 'events/tickets/details.html', {
         'event': event,
