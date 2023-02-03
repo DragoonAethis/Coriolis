@@ -5,6 +5,7 @@ from pprint import pformat
 
 from django.http import FileResponse
 from django.contrib import admin
+from django.forms import ModelForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import gettext_lazy as _
 
@@ -60,12 +61,39 @@ class TicketTypeAdmin(admin.ModelAdmin):
     search_fields = ('name', )
 
 
+class TicketAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance.event_id:
+            self.fields['type'].queryset = TicketType.objects.filter(event_id=self.instance.event_id)
+
+
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
+    form = TicketAdminForm
     readonly_fields = ('created', 'updated')
     list_display = ('__str__', 'event', 'status', 'email', 'nickname', 'created')
     list_filter = ('event__name', 'type__name', 'status')
     search_fields = ('code', 'name', 'email', 'phone', 'nickname')
+
+    def get_fields(self, request, obj=None):
+        fields = list(super().get_fields(request, obj))
+
+        if obj is not None:
+            # Put the read-only event after the user again:
+            fields.insert(fields.index('user') + 1, fields.pop(fields.index('event')))
+
+        return fields
+
+    def get_readonly_fields(self, request, obj=None):
+        fields = ['created', 'updated']
+
+        if obj is not None:
+            # Prevent ticket reassignment across events:
+            fields.append('event')
+
+        return fields
 
 
 @admin.register(ApplicationType)
