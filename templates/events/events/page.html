@@ -5,8 +5,8 @@
 {% block brand_title %}{{ event.name }}{% endblock %}
 
 {% block content %}
-    <h1>{{ page.name }}</h1>
+    <h1>{{ event_page.name }}</h1>
     <div>
-        {% render_markdown page.content %}
+        {% render_markdown event_page.content %}
     </div>
 {% endblock %}

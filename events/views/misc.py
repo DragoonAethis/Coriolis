@@ -86,7 +86,7 @@ def event_page(request, slug, page_slug):
 
     return render(request, 'events/events/page.html', context={
         'event': event,
-        'page': page
+        'event_page': page
     })
 
 
