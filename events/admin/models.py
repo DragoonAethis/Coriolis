@@ -123,7 +123,10 @@ class ApplicationAdmin(admin.ModelAdmin):
     @admin.action(description=_("Download selected applications as XLSX"))
     def download_as_xlsx(self, request, queryset):
         buffer = io.BytesIO()
-        workbook = xlsxwriter.Workbook(buffer, {'in_memory': True})
+        workbook = xlsxwriter.Workbook(buffer, {
+            'in_memory': True,
+            'strings_to_urls': False,
+        })
         ws = workbook.add_worksheet()
 
         attr_cols = [
