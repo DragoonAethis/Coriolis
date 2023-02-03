@@ -59,6 +59,7 @@ class TicketTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'code_prefix', 'price', 'max_tickets', 'tickets_remaining')
     list_filter = ('event__name', 'self_registration')
     search_fields = ('name', )
+    save_as = True
 
 
 class TicketAdminForm(ModelForm):
