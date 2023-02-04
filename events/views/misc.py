@@ -42,6 +42,7 @@ def event_index(request, slug):
         context['tickets'] = Ticket.objects \
             .filter(event=event) \
             .filter(user=request.user) \
+            .filter(source__in=(TicketSource.ONLINE, TicketSource.ADMIN)) \
             .order_by('id')
 
         context['applications'] = Application.objects \
