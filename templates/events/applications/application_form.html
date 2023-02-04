@@ -5,7 +5,7 @@
 {% block brand_title %}{{ event.name }}{% endblock %}
 
 {% block content %}
-    <h1>{{ event.name }}: {{ type.name }}</h1>
-    <div>{% render_markdown type.description %}</div>
+    <h1>{{ event.name }}: {{ application_type.name }}</h1>
+    <div>{% render_markdown application_type.description %}</div>
     {% crispy form %}
 {% endblock %}

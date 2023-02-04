@@ -135,6 +135,10 @@
                         <a href="{% url 'admin:events_tickettype_change' ticket.type_id %}" class="btn btn-warning">
                             <i class="bi bi-ticket-perforated me-1"></i> {% translate "Ticket Type" %}
                         </a>
+                    {% elif ticket_type and perms.events.view_tickettype %}
+                        <a href="{% url 'admin:events_tickettype_change' ticket_type.id %}" class="btn btn-warning">
+                            <i class="bi bi-ticket-perforated me-1"></i> {% translate "Ticket Type" %}
+                        </a>
                     {% endif %}
 
                     {% if application and perms.events.view_application %}
@@ -145,6 +149,10 @@
                             <i class="bi bi-file-earmark-ruled-fill me-1"></i> {% translate "Application" %}
                         </a>
                         <a href="{% url 'admin:events_applicationtype_change' application.type_id %}" class="btn btn-warning">
+                            <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
+                        </a>
+                    {% elif application_type and perms.events.view_applicationtype %}
+                        <a href="{% url 'admin:events_applicationtype_change' application_type.id %}" class="btn btn-warning">
                             <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
                         </a>
                     {% endif %}

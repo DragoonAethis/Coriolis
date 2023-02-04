@@ -99,7 +99,7 @@ class RegistrationView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({'event': self.event, 'type': self.type})
+        context.update({'event': self.event, 'ticket_type': self.type})
         return context
 
     def form_valid(self, form):
