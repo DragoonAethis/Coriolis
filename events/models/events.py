@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -72,6 +73,9 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('event_index', kwargs={'slug': self.slug})
+
 
 class EventPageType(models.TextChoices):
     INFO = 'info', _("Informational")
@@ -106,6 +110,9 @@ class EventPage(models.Model):
             return f"{self.name} ({self.event.name})"
         else:
             return self.name
+
+    def get_absolute_url(self):
+        return reverse('event_page', kwargs={'slug': self.event.slug, 'page_slug': self.slug})
 
 
 class TicketRenderer(models.Model):

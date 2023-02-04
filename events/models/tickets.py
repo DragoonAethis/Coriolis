@@ -80,6 +80,9 @@ class TicketType(models.Model):
     def __repr__(self):
         return f"{self.name} ({self.event.name}, {self.id})"
 
+    def get_absolute_url(self):
+        return reverse('registration_form', kwargs={'slug': self.event.slug, 'id': self.id})
+
     def can_register_or_change(self):
         return datetime.datetime.now() < self.registration_to
 
@@ -167,8 +170,7 @@ class Ticket(models.Model):
         return f"{str(self)} ({self.id})"
 
     def get_absolute_url(self):
-        url = reverse('ticket_details', kwargs={'slug': self.event.slug, 'ticket_id': self.id})
-        return url
+        return reverse('ticket_details', kwargs={'slug': self.event.slug, 'ticket_id': self.id})
 
     def is_cancelled(self) -> bool:
         return self.status == TicketStatus.CANCELLED

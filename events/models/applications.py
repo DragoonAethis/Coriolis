@@ -4,6 +4,7 @@ from typing import Optional
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db import models
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -38,6 +39,9 @@ class ApplicationType(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.id})"
+
+    def get_absolute_url(self):
+        return reverse('application_form', kwargs={'slug': self.event.slug, 'id': self.id})
 
 
 class Application(models.Model):
@@ -83,6 +87,9 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.status}, {self.id})"
+
+    def get_absolute_url(self):
+        return reverse('application_details', kwargs={'slug': self.event.slug, 'app_id': self.id})
 
     def save(self, *args, **kwargs):
         new_app = self.id is None
