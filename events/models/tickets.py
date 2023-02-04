@@ -75,7 +75,10 @@ class TicketType(models.Model):
                                                  help_text=_("Display the number of tickets left publicly?"))
 
     def __str__(self):
-        return f"{self.name} ({self.id})"
+        return f"{self.name} ({self.event.name})"
+
+    def __repr__(self):
+        return f"{self.name} ({self.event.name}, {self.id})"
 
     def can_register_or_change(self):
         return datetime.datetime.now() < self.registration_to
@@ -114,8 +117,8 @@ class Ticket(models.Model):
         ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"), null=True)
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
@@ -158,7 +161,10 @@ class Ticket(models.Model):
         self._original_status = self.status
 
     def __str__(self):
-        return f"{self.code}: {self.name} ({self.id})"
+        return f"{self.get_code()}: {self.name}"
+
+    def __repr__(self):
+        return f"{str(self)} ({self.id})"
 
     def get_absolute_url(self):
         url = reverse('ticket_details', kwargs={'slug': self.event.slug, 'ticket_id': self.id})

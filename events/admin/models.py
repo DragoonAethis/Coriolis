@@ -8,6 +8,8 @@ from django.contrib import admin
 from django.forms import ModelForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.translation import gettext_lazy as _
+from django.utils.safestring import mark_safe
+from django.urls import reverse
 
 import xlsxwriter
 
@@ -15,9 +17,6 @@ from events.models import *
 
 # Ensure users go through the allauth workflow when logging into admin.
 admin.site.login = staff_member_required(admin.site.login, login_url='/accounts/login')
-
-# No special handling for these two.
-admin.site.register(Payment)
 
 
 @admin.register(User)
@@ -37,7 +36,7 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(EventPage)
 class EventPageAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'slug', 'hidden')
-    list_filter = ('event__name', 'hidden')
+    list_filter = ('event', 'page_type', 'hidden')
     search_fields = ('name', 'slug')
 
 
@@ -50,14 +49,14 @@ class TicketRendererAdmin(admin.ModelAdmin):
 @admin.register(NotificationChannel)
 class NotificationChannelAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'enabled', 'source', 'target')
-    list_filter = ('event__name', 'source', 'target')
+    list_filter = ('event', 'source', 'target')
     search_fields = ('name', )
 
 
 @admin.register(TicketType)
 class TicketTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'event', 'code_prefix', 'price', 'max_tickets', 'tickets_remaining')
-    list_filter = ('event__name', 'self_registration')
+    list_display = ('name', 'event', 'code_prefix', 'price', 'max_tickets', 'tickets_remaining', 'self_registration', 'on_site_registration')
+    list_filter = ('event', 'self_registration')
     search_fields = ('name', )
     save_as = True
 
@@ -74,8 +73,8 @@ class TicketAdminForm(ModelForm):
 class TicketAdmin(admin.ModelAdmin):
     form = TicketAdminForm
     readonly_fields = ('created', 'updated')
-    list_display = ('__str__', 'event', 'status', 'email', 'nickname', 'created')
-    list_filter = ('event__name', 'type__name', 'status')
+    list_display = ('__str__', 'event', 'type_link', 'status', 'email', 'nickname', 'created')
+    list_filter = ('event', 'type', 'status', 'source', 'created')
     search_fields = ('code', 'name', 'email', 'phone', 'nickname')
 
     def get_fields(self, request, obj=None):
@@ -96,18 +95,39 @@ class TicketAdmin(admin.ModelAdmin):
 
         return fields
 
+    def type_link(self, obj):
+        return mark_safe('<a href="{}">{}</a>'.format(
+            reverse("admin:events_tickettype_change", args=(obj.type_id,)),
+            obj.type.name
+        ))
+    type_link.short_description = _("type")
+
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'transaction_id', 'total', 'status', 'event', 'ticket_link')
+    list_filter = ('event', 'status')
+
+    def ticket_link(self, obj):
+        return mark_safe('<a href="{}">{}: {}</a>'.format(
+            reverse("admin:events_ticket_change", args=(obj.ticket.id,)),
+            obj.ticket.get_code(),
+            obj.ticket.name
+        ))
+    ticket_link.short_description = _("ticket")
+
 
 @admin.register(ApplicationType)
 class ApplicationTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'event', 'slug', 'registration_from', 'registration_to')
-    list_filter = ('event__name', )
+    list_filter = ('event', )
     search_fields = ('name', )
 
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type', 'status', 'event', 'phone', 'email', 'created')
-    list_filter = ('event__name', 'type__name', 'status')
+    list_display = ('name', 'event', 'type_link', 'status', 'phone', 'email', 'created')
+    list_filter = ('event', 'type', 'status')
     search_fields = ('name', 'email', 'phone')
     actions = ('download_as_xlsx', )
 
@@ -119,6 +139,13 @@ class ApplicationAdmin(admin.ModelAdmin):
         datetime.datetime,
         datetime.timedelta,
     )
+
+    def type_link(self, obj):
+        return mark_safe('<a href="{}">{}</a>'.format(
+            reverse("admin:events_applicationtype_change", args=(obj.type_id,)),
+            obj.type.name
+        ))
+    type_link.short_description = _("type")
 
     @admin.action(description=_("Download selected applications as XLSX"))
     def download_as_xlsx(self, request, queryset):

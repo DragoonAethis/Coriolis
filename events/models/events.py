@@ -11,8 +11,8 @@ class Event(models.Model):
         verbose_name_plural = _("events")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
 
     name = models.CharField(max_length=256, verbose_name=_("name"),
                             help_text=_("Human-readable name for the event."))
@@ -81,10 +81,12 @@ class EventPageType(models.TextChoices):
 
 class EventPage(models.Model):
     class Meta:
+        verbose_name = _("event page")
+        verbose_name_plural = _("event pages")
         constraints = [models.UniqueConstraint(fields=['event', 'slug'], name='event_pages_with_unique_slugs')]
 
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True, verbose_name=_("event"),
                               help_text=_("If not set, will be shown for all events."))
@@ -107,6 +109,10 @@ class EventPage(models.Model):
 
 
 class TicketRenderer(models.Model):
+    class Meta:
+        verbose_name = _("ticket renderer")
+        verbose_name_plural = _("ticket renderers")
+
     name = models.CharField(max_length=256, verbose_name=_("name"))
     config = models.JSONField(blank=False, help_text=_("Coriolis configuration for this renderer. "
                                                        "See wiki/docs for more info on this."))

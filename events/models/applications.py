@@ -55,8 +55,8 @@ class Application(models.Model):
         REJECTED = 'REJD', _("Rejected")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"))
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
