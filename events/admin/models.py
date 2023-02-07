@@ -21,7 +21,7 @@ admin.site.login = staff_member_required(admin.site.login, login_url='/accounts/
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('email', 'is_staff', 'is_superuser')
+    list_display = ('email', 'last_login', 'date_joined', 'is_staff', 'is_superuser')
     list_filter = ('is_staff', )
     search_fields = ('email', )
 

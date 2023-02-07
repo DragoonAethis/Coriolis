@@ -139,6 +139,9 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_static',
     'allauth_2fa',
 
+    'hijack',
+    'hijack.contrib.admin',
+
     'djmoney',
     'payments',
     'payments_przelewy24',
@@ -174,6 +177,8 @@ MIDDLEWARE = [
 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'hijack.middleware.HijackUserMiddleware',
 ]
 
 DRAMATIQ_BROKER = {
