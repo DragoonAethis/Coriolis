@@ -85,6 +85,8 @@ LOGIN_NOTICE = env.str('LOGIN_NOTICE', None)
 LOGIN_FOOTER = env.str('LOGIN_FOOTER', None)
 COOKIES_POLICY_LINK = env.str('COOKIES_POLICY_LINK', None)
 
+CUSTOM_PASSWORD_LIST = env.str('CUSTOM_PASSWORD_LIST', None)
+
 PAYMENT_HOST = env.str('PAYMENT_HOST', 'localhost:8000')
 PAYMENT_USES_SSL = env.bool('PAYMENT_HTTPS', not DEBUG)  # Enforce HTTPS on production envs.
 PAYMENT_MODEL = "events.Payment"
@@ -244,12 +246,19 @@ TEMPLATES = [
     },
 ]
 
+COMMON_PASSWORD_VALIDATOR_OPTIONS = {}
+if CUSTOM_PASSWORD_LIST:
+    COMMON_PASSWORD_VALIDATOR_OPTIONS['password_list_path'] = CUSTOM_PASSWORD_LIST
+
 # Password validation: https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'OPTIONS': COMMON_PASSWORD_VALIDATOR_OPTIONS,
+    },
 ]
 
 # https://docs.djangoproject.com/en/4.1/topics/auth/passwords/#using-scrypt-with-django
