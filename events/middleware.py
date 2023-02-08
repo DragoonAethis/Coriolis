@@ -6,6 +6,7 @@ class RequireSuperuser2FAMiddleware(BaseRequire2FAMiddleware):
     def require_2fa(self, request):
         return (
             (request.user.is_superuser or request.user.is_staff)
+            and not request.user.exempt_from_2fa
             and not settings.DEBUG
         )
 

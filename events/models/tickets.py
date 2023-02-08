@@ -6,7 +6,6 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.core.mail import EmailMessage
-from django.core.exceptions import ValidationError
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
