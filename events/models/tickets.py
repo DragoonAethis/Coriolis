@@ -35,6 +35,9 @@ class TicketType(models.Model):
                        help_text=_("Extra color shown on the ticket choice screen."))
     short_name = models.CharField(max_length=128, blank=True, verbose_name=_("short name"),
                                   help_text=_("Usually used for ticket rendering."))
+
+    can_personalize = models.BooleanField(default=True, verbose_name=_("can personalize"),
+                                          help_text=_("Determines if a ticket can be personalized at all."))
     can_specify_shirt_size = models.BooleanField(default=False, verbose_name=_("can specify shirt size"),
                                                  help_text=_("Determines if a shirt size can be personalized."))
 
@@ -191,7 +194,7 @@ class Ticket(models.Model):
             TicketStatus.READY_PAY_ON_SITE,
             TicketStatus.WAITING_FOR_PAYMENT,
             TicketStatus.WAITING
-        ) and self.type.can_register_or_change()
+        ) and self.type.can_register_or_change() and self.type.can_personalize
 
     def get_code(self) -> str:
         prefix = self.type.code_prefix if self.type is not None else ""

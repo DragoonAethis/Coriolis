@@ -153,7 +153,8 @@ class RegistrationView(FormView):
             messages.error(self.request, _("Could not save a new ticket - please contact event support."))
             return redirect('event_index', self.event.slug)
 
-        render_ticket_variants.send(str(ticket.id))
+        if ticket.type.can_personalize:
+            render_ticket_variants.send(str(ticket.id))
 
         EmailMessage(
             _("%(event)s: Ticket '%(code)s'") % {
@@ -254,6 +255,10 @@ class UpdateTicketView(FormView):
 
         if self.request.user.id != self.ticket.user_id:
             messages.error(self.request, _("You cannot change a ticket that is not yours!"))
+            return redirect('ticket_details', self.event.slug, self.ticket.id)
+
+        if not self.ticket.type.can_personalize:
+            messages.error(self.request, _("This ticket type cannot be personalized."))
             return redirect('ticket_details', self.event.slug, self.ticket.id)
 
         if not self.ticket.can_personalize():
