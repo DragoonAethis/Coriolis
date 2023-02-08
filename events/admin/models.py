@@ -65,7 +65,7 @@ class TicketAdminForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        if self.instance.event_id:
+        if self.instance.event_id and 'type' in self.fields:
             self.fields['type'].queryset = TicketType.objects.filter(event_id=self.instance.event_id)
 
 
