@@ -235,7 +235,7 @@ def ticket_payment(request, slug, ticket_id):
         # special payment info page, adding the ticket code/title.
         content = ticket.type.special_payment_page.content
         replacements = [
-            ('CORIOLIS_TICKET_PRICE', str(ticket.type.price)),
+            ('CORIOLIS_TICKET_PRICE', str(ticket.get_price())),
             ('CORIOLIS_TICKET_NAME', ticket.name),
             ('CORIOLIS_TICKET_CODE', ticket.get_code()),
         ]
@@ -294,8 +294,8 @@ def ticket_payment(request, slug, ticket_id):
 
             variant=settings.PAYMENT_PAY_ONLINE_VARIANT,
             description=f"{ticket.code}: {ticket.name} ({ticket.type.name}, {ticket.event.name})",
-            total=ticket.type.price.amount,
-            currency=ticket.type.price.currency.code,
+            total=ticket.get_price().amount,
+            currency=ticket.get_price().currency.code,
         )
         payment.save()
 

@@ -22,7 +22,7 @@
                     {% if ticket.paid %}
                         <b>☑️ {% translate "Yes" %}</b> - {% translate "send to ID pickup (if purchased before the deadline)" %}.
                     {% else %}
-                        <b>{% translate "No" %}</b> - {% translate "send to payment, price" %}: <b>{{ ticket.type.price }}</b>
+                        <b>❌ {% translate "No" %}</b> - {% translate "send to payment, price" %}: <b>{{ ticket.get_price }}</b>
                     {% endif %}</li>
                 {% if ticket.age_gate is False %}<li><b>{% translate "Attendee is not of age" %}</b> - {% translate "check the card." %}</li>{% endif %}
                 <li>{% translate "Type" %}: <b>{{ ticket.type }}</b></li>

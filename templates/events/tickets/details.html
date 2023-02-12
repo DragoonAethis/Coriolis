@@ -11,7 +11,7 @@
             <h1 class="{% if ticket.is_cancelled %}text-muted text-decoration-line-through{% endif %}"><b>{{ ticket.type.code_prefix }}{{ ticket.code|stringformat:"04d" }}</b> {{ ticket.name }}</h1>
             <h5>{% translate "Type" %}: <b>{{ ticket.type.name }}</b></h5>
             <h5>{% translate "Status" %}: <b>{{ ticket.get_status_display }}</b></h5>
-            <h5 class="{% if ticket.is_cancelled %}text-decoration-line-through{% endif %}">{% translate "Price" %}: <b>{{ ticket.type.price }}</b></h5>
+            <h5 class="{% if ticket.is_cancelled %}text-decoration-line-through{% endif %}">{% translate "Price" %}: <b>{{ ticket.get_price }}</b></h5>
             <hr>
             <h5>{% translate "Name" %}: <b>{{ ticket.name }}</b></h5>
             <h5>{% translate "Email" %}: <b>{{ ticket.email }}</b></h5>

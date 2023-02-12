@@ -13,6 +13,8 @@ from colorfield.fields import ColorField
 from djmoney.models.fields import MoneyField
 from phonenumber_field.modelfields import PhoneNumberField
 
+from djmoney.money import Money
+
 from events.models.users import User
 from events.models.events import Event, EventPage, EventPageType
 
@@ -30,7 +32,8 @@ class TicketType(models.Model):
                                         help_text=_("Shown on the ticket purchase form. Supports Markdown."))
     code_prefix = models.CharField(max_length=8, blank=True, verbose_name=_("code prefix"),
                                    help_text=_("Characters in front of all the ticket codes of this type."))
-    price = MoneyField(max_digits=10, decimal_places=2, default_currency=settings.CURRENCY, verbose_name=_("price"))
+    price = MoneyField(max_digits=10, decimal_places=2, verbose_name=_("price"),
+                       default=Money(0, settings.CURRENCY), default_currency=settings.CURRENCY)
     color = ColorField(default='#FF0000', verbose_name=_("color"),
                        help_text=_("Extra color shown on the ticket choice screen."))
     short_name = models.CharField(max_length=128, blank=True, verbose_name=_("short name"),
@@ -130,6 +133,11 @@ class Ticket(models.Model):
     type = models.ForeignKey(TicketType, on_delete=models.RESTRICT, verbose_name=_("type"))
 
     paid = models.BooleanField(verbose_name=_("paid"), default=False)
+    override_price = models.BooleanField(verbose_name=_("override price"), default=False,
+                                         help_text=_("Ignore the ticket type price and use the value set here."))
+    price = MoneyField(max_digits=10, decimal_places=2, verbose_name=_("price"),
+                       default=Money(0, settings.CURRENCY), default_currency=settings.CURRENCY)
+
     status = models.CharField(max_length=4, verbose_name=_("status"),
                               choices=TicketStatus.choices, default=TicketStatus.WAITING)
     source = models.CharField(max_length=16, verbose_name=_("source"),
@@ -173,6 +181,12 @@ class Ticket(models.Model):
 
     def get_absolute_url(self):
         return reverse('ticket_details', kwargs={'slug': self.event.slug, 'ticket_id': self.id})
+
+    def get_price(self):
+        if self.override_price:
+            return self.price
+
+        return self.type.price
 
     def is_cancelled(self) -> bool:
         return self.status == TicketStatus.CANCELLED

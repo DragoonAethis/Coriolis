@@ -25,7 +25,7 @@ class NotificationChannelTicketUsedPayload(NotificationChannelPayload):
 
         parts = [
             f"**{ticket.get_code()}**",
-            _('☑️ Paid') if ticket.paid else str(ticket.type.price),
+            _('☑️ Paid') if ticket.paid else str(ticket.get_price()),
             ticket.get_source_display(),
             ticket.type.name
         ]

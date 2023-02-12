@@ -27,7 +27,7 @@
                                 <p class="card-text">
                                     {% translate "Status" %}: <b>{{ ticket.get_status_display }}</b><br>
                                     {% if not ticket.is_cancelled %}
-                                        {% translate "Price" %}: <b>{{ ticket.type.price }}</b>
+                                        {% translate "Price" %}: <b>{{ ticket.get_price }}</b>
                                     {% endif %}
                                 </p>
                                 <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with ticket actions">

@@ -48,5 +48,5 @@ class Payment(BasePayment):
             name=f"{self.ticket.code}: {self.ticket.name} ({self.ticket.type.name}, {self.event.name})",
             sku=self.ticket.type.name,
             quantity=1,
-            price=self.ticket.type.price.amount,
-            currency=self.ticket.type.price.currency)
+            price=self.ticket.get_price().amount,
+            currency=self.ticket.get_price().currency)

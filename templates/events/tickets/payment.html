@@ -7,7 +7,7 @@
 {% block content %}
     <h1>{% blocktranslate with code=ticket.get_code %}Payment for ticket {{ code }}{% endblocktranslate %}</h1>
     <ul>
-        <li>{% translate "Ticket price" %}: <b>{{ ticket.type.price }}</b></li>
+        <li>{% translate "Ticket price" %}: <b>{{ ticket.get_price }}</b></li>
         <li>{% translate "Notifications will be sent to" %}: {{ request.user.email }}</li>
     </ul>
     {% crispy form %}
