@@ -7,7 +7,7 @@
 <body>
   <div
     class="background"
-    {% if render.image %}
+    {% if render.image and render.variant != "back" %}
       style="background-image: url('{{ render.image }}') !important"
     {% endif %}
   ></div>
