@@ -61,7 +61,7 @@ def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
     return expected_image
 
 
-def render_ticket_variant(data: dict, ticket: Ticket, variant: str, is_first: bool):
+def render_ticket_variant(data: dict, ticket: Ticket, variant: str, save_preview: bool):
     render_data = copy.deepcopy(data)
     requested_filename = f"{ticket.id}.{variant}.png"
     logging.info(f"Rendering ticket: {requested_filename}")
@@ -92,7 +92,7 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, is_first: bo
                 wanted_path = os.path.join("previews", ticket.event.slug, requested_filename)
                 actual_path = default_storage.save(wanted_path, f)
 
-            if is_first:
+            if save_preview:
                 ticket.preview = actual_path
                 ticket.save()
         else:
@@ -100,7 +100,14 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, is_first: bo
 
 
 @dramatiq.actor(queue_name='ticket-renderer')
-def render_ticket_variants(ticket_id: str):
+def render_ticket_variants(ticket_id: str, variants: Optional[list[str]] = None, save_preview: bool = True):
+    """
+    Generates multiple preview variants for a given ticket ID.
+
+    ticket_id - ticket to generate the previews for.
+    variants - a list of variants to generate (defaults to all known for the event)
+    save_preview - whether to save the first generated preview to the ticket
+    """
     if not get_container_tool():
         logging.error("Issued a render job with no render tools available.")
 
@@ -116,13 +123,14 @@ def render_ticket_variants(ticket_id: str):
                       f"but event {event.name} is not configured for it.")
         return
 
-    variants = []
-    for v in event.ticket_renderer_variants.split(","):
-        v = v.strip()
-        if not v or v in variants:
-            continue
+    if variants is None:
+        variants = []
+        for v in event.ticket_renderer_variants.split(","):
+            v = v.strip()
+            if not v or v in variants:
+                continue
 
-        variants.append(v)
+            variants.append(v)
 
     render_metadata = {
         "render": {},  # To be filled by the variant renderer.
@@ -146,9 +154,8 @@ def render_ticket_variants(ticket_id: str):
         }
     }
 
-    is_first = True
     for variant in variants:
-        render_ticket_variant(render_metadata, ticket, variant, is_first)
-        is_first = False
+        render_ticket_variant(render_metadata, ticket, variant, save_preview)
+        save_preview = False  # Save it just for the first generated one
 
     logging.info(f"Render finished for ticket: {ticket_id}")
