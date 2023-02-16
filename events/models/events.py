@@ -56,8 +56,12 @@ class Event(models.Model):
 
     prometheus_key = models.CharField(max_length=256, blank=True, verbose_name=_("prometheus key"),
                                       help_text=_("Key used as the password for the Prometheus metrics URL"))
+
     notice = models.TextField(blank=True, verbose_name=_("notice"),
                               help_text=_("Notice to be shown below the event description, if set."))
+    sale_closed_notice = models.TextField(blank=True, verbose_name=_("sale closed notice"),
+                                          help_text=_("Notice to be shown instead of the default one when "
+                                                      "the ticket sales are closed. May contain HTML."))
 
     description = models.TextField(verbose_name=_("description"),
                                    help_text=_("Text shown on the main page. Supports Markdown."))

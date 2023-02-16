@@ -57,7 +57,13 @@
                     {% elif can_purchase_in_future %}
                         <div class="alert alert-warning" role="alert">{% translate "Online ticket sales for this event have not yet started." %}</div>
                     {% else %}
-                        <div class="alert alert-warning" role="alert">{% translate "Online ticket sales for this event have ended. You can purchase a ticket on site." %}</div>
+                        <div class="alert alert-warning" role="alert">
+                            {% if event.sale_closed_notice %}
+                                {{ event.sale_closed_notice|safe }}
+                            {% else %}
+                                {% translate "Online ticket sales for this event have ended. You can purchase a ticket on site." %}
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
 

@@ -171,8 +171,8 @@ def ticket_picker(request, slug):
         .order_by('display_order', 'id')
 
     if len(types) == 0:
-        messages.add_message(request, messages.WARNING,
-                             _("Online ticket sales for this event have ended. You can purchase a ticket on site."))
+        msg = event.sale_closed_notice or _("Online ticket sales for this event have ended. You can purchase a ticket on site.")
+        messages.add_message(request, messages.WARNING, mark_safe(msg))
         return redirect('event_index', event.slug)
 
     return render(request, 'events/tickets/picker.html', {
