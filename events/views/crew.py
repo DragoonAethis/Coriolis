@@ -48,6 +48,10 @@ class CrewIndexNewView(FormView):
         type_id = form.cleaned_data['ticket_type']
         ticket_type = TicketType.objects.get(id=int(type_id))
 
+        if ticket_type.tickets_remaining <= 0:
+            messages.error(self.request, _("We ran out of these tickets."))
+            return redirect('crew_index', self.event.slug)
+
         t = Ticket(user=self.request.user,
                    event=self.event,
                    type=ticket_type,
@@ -55,8 +59,7 @@ class CrewIndexNewView(FormView):
                    status=TicketStatus.USED,
                    source=TicketSource.ONSITE,
                    age_gate=form.cleaned_data['age_gate'],
-                   code=generate_ticket_code(self.event),
-                   vaccination_proof=form.cleaned_data['vaccination_proof'])
+                   code=generate_ticket_code(self.event))
 
         t.save()
 
@@ -179,7 +182,6 @@ class CrewExistingTicketView(FormView):
         return kwargs
 
     def form_valid(self, form):
-        self.ticket.vaccination_proof = form.cleaned_data['vaccination_proof']
         self.ticket.status = TicketStatus.USED
         self.ticket.save()
 

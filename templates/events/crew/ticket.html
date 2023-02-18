@@ -7,47 +7,100 @@
     <div class="row">
         <div class="col-12 col-lg-6 offset-lg-3">
             <h1>{{ ticket.get_code }}: {{ ticket.name }}</h1>
-            <p>{% translate "Confirm identity" %}:</p>
-            <ul>
-                <li>{% translate "Name" %}: {{ ticket.name }}</li>
-                <li>{% translate "Email" %}: {{ ticket.email }}</li>
-                {% if ticket.phone %}<li>{% translate "Phone" %}: {{ ticket.phone }}</li>{% endif %}
-                {% if ticket.nickname %}<li>{% translate "Nickname" %}: {{ ticket.nickname }}</li>{% endif %}
-            </ul>
 
-            <p>{% translate "Details" %}:</p>
-            <ul>
-                <li>{% translate "Status" %}: {{ ticket.get_status_display }}</li>
-                <li>{% translate "Paid" %}:
+            <div class="card mb-2 text-bg-warning">
+              <div class="card-header">
+                {% translate "Confirm identity" %}:
+              </div>
+              <div class="card-body">
+                <ul class="mb-0">
+                    <li>{% translate "Name" %}: {{ ticket.name }}</li>
+                    <li>{% translate "Email" %}: {{ ticket.email }}</li>
+                    {% if ticket.phone %}<li>{% translate "Phone" %}: {{ ticket.phone }}</li>{% endif %}
+                    {% if ticket.nickname %}<li>{% translate "Nickname" %}: {{ ticket.nickname }}</li>{% endif %}
+                </ul>
+              </div>
+            </div>
+
+            <div class="card mb-2 {% if ticket.paid %}text-bg-success{% else %}text-bg-warning{% endif %}">
+              <div class="card-header">
+                {% translate "Paid" %}:
+              </div>
+              <div class="card-body">
+                <h4 class="mb-0">
+
                     {% if ticket.paid %}
                         <b>☑️ {% translate "Yes" %}</b> - {% translate "send to ID pickup (if purchased before the deadline)" %}.
                     {% else %}
                         <b>❌ {% translate "No" %}</b> - {% translate "send to payment, price" %}: <b>{{ ticket.get_price }}</b>
-                    {% endif %}</li>
-                {% if ticket.age_gate is False %}<li><b>{% translate "Attendee is not of age" %}</b> - {% translate "check the card." %}</li>{% endif %}
-                <li>{% translate "Type" %}: <b>{{ ticket.type }}</b></li>
-            </ul>
+                    {% endif %}
+                </h4>
+              </div>
+            </div>
+
+            {% if ticket.age_gate is False %}
+              <div class="card mb-2 text-bg-warning">
+                <div class="card-body">
+                    <h4 class="mb-0">
+                        {% translate "Attendee is not of age" %} - {% translate "check the card." %}
+                    </h4>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if ticket.notes %}
+              <div class="card mb-2 text-bg-warning">
+                <div class="card-header">
+                  {% translate "Notes" %}:
+                </div>
+                <div class="card-body">
+                    <pre class="mb-0">{{ ticket.notes }}</pre>
+                </div>
+              </div>
+            {% endif %}
+
+            <hr>
+
+            <div class="card mb-2">
+              <div class="card-header">
+                {% translate "Details" %}:
+              </div>
+              <div class="card-body">
+                <ul class="mb-0">
+                    <li>{% translate "Type" %}: <b>{{ ticket.type }}</b></li>
+                    <li>{% translate "Status" %}: <b>{{ ticket.get_status_display }}</b></li>
+                    <li>{% translate "Created" %}: <b>{{ ticket.created }}</b></li>
+                    <li>{% translate "Updated" %}: <b>{{ ticket.updated }}</b></li>
+                </ul>
+              </div>
+            </div>
 
             {% if horrible_error %}
                 <div class="card text-white bg-danger mb-3">
-                    <div class="card-header">{% translate "Error" %}</div>
+                    <div class="card-header">{% translate "Error" %}:</div>
                     <div class="card-body">
                         <h1>{{ horrible_error }}</h1>
                     </div>
                 </div>
-
             {% else %}
                 {% crispy form %}
             {% endif %}
 
             {% if other_tickets %}
-            <p><b>{% translate "This attendee has registered other tickets" %}:</b></p>
-            <ul>
-                {% for other_ticket in other_tickets %}
-                    <li><a href="{% url 'crew_existing_ticket' event.slug other_ticket.id %}">{{ other_ticket }}</a> ({{ other_ticket.get_status_display }})</li>
-                {% endfor %}
+                <hr>
 
-            </ul>
+                <div class="card mb-2">
+                  <div class="card-header">
+                    {% translate "This attendee has registered other tickets" %}:
+                  </div>
+                  <div class="card-body">
+                    <ul class="mb-0">
+                        {% for other_ticket in other_tickets %}
+                            <li><a href="{% url 'crew_existing_ticket' event.slug other_ticket.id %}">{{ other_ticket }}</a> ({{ other_ticket.get_status_display }})</li>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
             {% endif %}
         </div>
     </div>

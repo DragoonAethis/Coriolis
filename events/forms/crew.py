@@ -31,27 +31,21 @@ class CrewFindTicketForm(forms.Form):
 class CrewNewTicketForm(forms.Form):
     ticket_type = forms.ChoiceField(label=_("Ticket type", choices=[]))
     age_gate = forms.BooleanField(label=_("Is attendee of age?"), required=False)
-    check_temperature = forms.BooleanField(label=_("Check the temperature"), required=True)
-    vaccination_proof = forms.ChoiceField(label=_("Check the Vaccination Proof"),
-                                          choices=VaccinationProof.choices,
-                                          widget=forms.RadioSelect)
 
     def __init__(self, *args, event: Event, types: list[TicketType], **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ticket_type'].choices = [(str(t.id), t.name) for t in types]
+        self.fields['ticket_type'].choices = [
+            (str(t.id), f"{t.name} ({t.tickets_remaining}/{t.max_tickets})")
+            for t in types
+        ]
 
         self.helper = FormHelper()
         self.helper.form_action = 'post'
         self.helper.form_action = reverse('crew_index', kwargs={"slug": event.slug})
-        self.helper.add_input(Submit('submit', _('Use'), css_class="btn btn-lg btn-primary"))
+        self.helper.add_input(Submit('submit', _('Create'), css_class="btn btn-lg btn-primary w-100"))
 
 
 class CrewUseTicketForm(forms.Form):
-    check_temperature = forms.BooleanField(label=_("Check the temperature"), required=True)
-    vaccination_proof = forms.ChoiceField(label=_("Check the Vaccination Proof"),
-                                          choices=VaccinationProof.choices,
-                                          widget=forms.RadioSelect)
-
     def __init__(self, *args, event: Event, ticket: Ticket, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -61,4 +55,4 @@ class CrewUseTicketForm(forms.Form):
             "slug": event.slug,
             "ticket_id": ticket.id
         })
-        self.helper.add_input(Submit('submit', _('Use'), css_class="btn btn-lg btn-primary"))
+        self.helper.add_input(Submit('submit', _('Use'), css_class="btn btn-lg btn-primary w-100"))
