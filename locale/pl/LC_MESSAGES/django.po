@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-18 16:46+0100\n"
-"PO-Revision-Date: 2023-02-18 16:47+0100\n"
+"POT-Creation-Date: 2023-02-23 21:26+0100\n"
+"PO-Revision-Date: 2023-02-23 21:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -160,11 +160,11 @@ msgstr "Typ biletu"
 msgid "Is attendee of age?"
 msgstr "Czy uczestnik jest pełnoletni?"
 
-#: events/forms/crew.py:42
+#: events/forms/crew.py:45
 msgid "Create"
 msgstr "Utwórz"
 
-#: events/forms/crew.py:55
+#: events/forms/crew.py:58
 msgid "Use"
 msgstr "Użyj"
 
@@ -286,14 +286,14 @@ msgstr "typy zgłoszeń"
 
 #: events/models/applications.py:21 events/models/applications.py:66
 #: events/models/events.py:11 events/models/events.py:99
-#: events/models/notifications.py:31 events/models/payments.py:26
+#: events/models/notifications.py:35 events/models/payments.py:26
 #: events/models/tickets.py:27 events/models/tickets.py:132
 msgid "event"
 msgstr "wydarzenie"
 
 #: events/models/applications.py:22 events/models/applications.py:71
 #: events/models/events.py:18 events/models/events.py:101
-#: events/models/events.py:127 events/models/notifications.py:32
+#: events/models/events.py:127 events/models/notifications.py:36
 #: events/models/tickets.py:28 events/models/tickets.py:146
 msgid "name"
 msgstr "nazwa"
@@ -659,55 +659,59 @@ msgstr ""
 "Konfiguracja Coriolisa dla tego renderera. Zajrzyj do wiki/dokumentacji po "
 "więcej informacji."
 
-#: events/models/notifications.py:19
+#: events/models/notifications.py:22
 msgid "Ticket Used"
 msgstr "Bilet Użyty"
 
-#: events/models/notifications.py:23
+#: events/models/notifications.py:26
 msgid "Discord Webhook"
 msgstr "Webhook Discorda"
 
-#: events/models/notifications.py:28
+#: events/models/notifications.py:27
+msgid "Telegram Message"
+msgstr "Wiadomość na Telegramie"
+
+#: events/models/notifications.py:32
 msgid "notification channel"
 msgstr "kanał notyfikacji"
 
-#: events/models/notifications.py:29
+#: events/models/notifications.py:33
 msgid "notification channels"
 msgstr "kanały notyfikacji"
 
-#: events/models/notifications.py:33
+#: events/models/notifications.py:37
 msgid "A custom label for this channel - not used anywhere."
 msgstr "Własna etykieta dla tego kanału - nie jest nigdzie używana."
 
-#: events/models/notifications.py:34
+#: events/models/notifications.py:38
 msgid "enabled"
 msgstr "włączony"
 
-#: events/models/notifications.py:35
+#: events/models/notifications.py:39
 msgid "Enable or disable this channel."
 msgstr "Włącz lub wyłącz ten kanał."
 
-#: events/models/notifications.py:36 events/models/tickets.py:143
+#: events/models/notifications.py:40 events/models/tickets.py:143
 msgid "source"
 msgstr "źródło"
 
-#: events/models/notifications.py:38
+#: events/models/notifications.py:42
 msgid "Which events to send to this channel?"
 msgstr "Które wydarzenia wysyłać do tego kanału?"
 
-#: events/models/notifications.py:39
+#: events/models/notifications.py:43
 msgid "target"
 msgstr "cel"
 
-#: events/models/notifications.py:41
+#: events/models/notifications.py:45
 msgid "Where to send events from this channel?"
 msgstr "Gdzie wysyłać wydarzenia tego kanału?"
 
-#: events/models/notifications.py:42
+#: events/models/notifications.py:46
 msgid "configuration"
 msgstr "konfiguracjia"
 
-#: events/models/notifications.py:43
+#: events/models/notifications.py:47
 msgid ""
 "Channel target configuration, in JSON. See docs: https://github.com/"
 "DragoonAethis/Coriolis/wiki/Notification-Channels"
@@ -1009,10 +1013,6 @@ msgstr ""
 "Jeśli zaznaczone, ten użytkownik nie musi włączać 2FA nawet jeśli zwykle "
 "polityki bezpieczeństwa wymuszają to."
 
-#: events/tasks/notifications.py:28
-msgid "☑️ Paid"
-msgstr "☑️ Opłacony"
-
 #: events/utils.py:36
 msgid ""
 "MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."
@@ -1099,43 +1099,48 @@ msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/crew.py:54
+#: events/views/crew.py:52 events/views/registrations.py:59
+#: events/views/registrations.py:143
+msgid "We ran out of these tickets."
+msgstr "Ten rodzaj biletu wyprzedał się."
+
+#: events/views/crew.py:58
 msgid "Generated Ticket"
 msgstr "Wygenerowany Bilet"
 
-#: events/views/crew.py:65
+#: events/views/crew.py:69
 msgid "Success - ticket created: "
 msgstr "Sukces - bilet utworzony: "
 
-#: events/views/crew.py:102
+#: events/views/crew.py:106
 msgid "Ticket with the provided code does not exist - searching..."
 msgstr "Bilet z podanym kodem nie istnieje - szukam..."
 
-#: events/views/crew.py:111
+#: events/views/crew.py:115
 msgid "No tickets found."
 msgstr "Nie znaleziono żadnych biletów."
 
-#: events/views/crew.py:115
+#: events/views/crew.py:119
 msgid "Found a single ticket."
 msgstr "Znaleziono jeden bilet."
 
-#: events/views/crew.py:124
+#: events/views/crew.py:128
 msgid "Ticket with the provided code does not exist."
 msgstr "Bilet z podanym kodem nie istnieje."
 
-#: events/views/crew.py:143
+#: events/views/crew.py:147
 msgid "This ticket is not valid for this event!"
 msgstr "Ten bilet nie jest ważny dla tego wydarzenia!"
 
-#: events/views/crew.py:147
+#: events/views/crew.py:151
 msgid "This ticket has already been used."
 msgstr "Ten bilet został już użyty."
 
-#: events/views/crew.py:149
+#: events/views/crew.py:153
 msgid "This ticket has been cancelled."
 msgstr "Ten bilet został anulowany."
 
-#: events/views/crew.py:151
+#: events/views/crew.py:155
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
@@ -1222,10 +1227,6 @@ msgstr "Ten typ biletu nie może być sprzedany na to wydarzenie!"
 #: events/views/registrations.py:55
 msgid "You cannot purchase a ticket of this type online."
 msgstr "Nie możesz kupić biletu tego typu online."
-
-#: events/views/registrations.py:59 events/views/registrations.py:143
-msgid "We ran out of these tickets."
-msgstr "Ten rodzaj biletu wyprzedał się."
 
 #: events/views/registrations.py:65
 msgid "Online sales of this ticket type have not yet started."
@@ -2175,6 +2176,9 @@ msgid ""
 msgstr ""
 "Zaraz użyjesz konta %(provider_name)s aby zalogować się na stronę\n"
 "%(site_name)s. Uzupełnij poniższy formularz:"
+
+#~ msgid "☑️ Paid"
+#~ msgstr "☑️ Opłacony"
 
 #~ msgid "Check the temperature"
 #~ msgstr "Sprawdź temperaturę"

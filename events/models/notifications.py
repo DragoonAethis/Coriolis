@@ -11,7 +11,10 @@ class NotificationChannelPayload(ABC):
     """Stores a payload and provides data rendering methods for various
     notification channel sources. This class must be overridden per source."""
 
-    def get_markdown(self) -> Optional[str]:
+    def get_discord_text(self) -> Optional[str]:
+        return None
+
+    def get_telegram_text(self) -> Optional[str]:
         return None
 
 
@@ -21,6 +24,7 @@ class NotificationChannelSource(models.TextChoices):
 
 class NotificationChannelTarget(models.TextChoices):
     DISCORD_WEBHOOK = 'discord-webhook', _("Discord Webhook")
+    TELEGRAM_MESSAGE = 'telegram-message', _("Telegram Message")
 
 
 class NotificationChannel(models.Model):
