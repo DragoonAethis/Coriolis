@@ -13,4 +13,13 @@
             {% crispy form %}
         </div>
     </div>
+
+    <script>
+        addEventListener("DOMContentLoaded", (event) => {
+            var ticketPicker = document.getElementById('id_query');
+            if (ticketPicker) {
+                ticketPicker.focus();
+            }
+        });
+    </script>
 {% endblock %}
