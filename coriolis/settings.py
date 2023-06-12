@@ -60,7 +60,8 @@ EMAIL_HOST = env.str('EMAIL_HOST', 'localhost')
 EMAIL_PORT = env.int('EMAIL_PORT', 25)
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', '')
-EMAIL_USE_TLS = env.bool('ENV_USE_TLS', False)
+EMAIL_USE_SSL = env.bool('EMAIL_USE_SSL', False)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', False)
 
 SERVER_EMAIL = env.str('SERVER_EMAIL', 'coriolis@localhost')
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
