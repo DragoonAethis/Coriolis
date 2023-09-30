@@ -31,7 +31,7 @@ def get_container_tool() -> Optional[str]:
 def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
     config = renderer.config
     if "image" not in config:
-        raise ValueError("Container image name not found in the ticket " f"renderer configuration: {renderer}")
+        raise ValueError(f"Container image name not found in the ticket renderer configuration: {renderer}")
 
     arguments = [
         # fmt: off
@@ -116,9 +116,7 @@ def render_ticket_variants(ticket_id: str, variants: Optional[list[str]] = None,
         return
 
     if not event.ticket_renderer or not event.ticket_renderer_variants:
-        logging.error(
-            f"Issued a render job on ticket ID {ticket_id}, " f"but event {event.name} is not configured for it."
-        )
+        logging.error(f"Issued a render job on ticket ID {ticket_id}, but event {event.name} is not configured for it.")
         return
 
     if variants is None:

@@ -17,7 +17,7 @@ class ApplicationDynaform(forms.Form):
         max_length=256,
         required=True,
         help_text=_(
-            "Your first and last name as shown on the identifying document, " "or the organization you represent."
+            "Your first and last name as shown on the identifying document, or the organization you represent."
         ),
     )
     email = forms.EmailField(
@@ -30,7 +30,7 @@ class ApplicationDynaform(forms.Form):
         label=_("Phone Number"),
         required=True,
         help_text=_(
-            "Required for notifications and contact with organizers. " "(Add a country prefix, like +44 for the UK.)"
+            "Required for notifications and contact with organizers. (Add a country prefix, like +44 for the UK.)"
         ),
     )
 

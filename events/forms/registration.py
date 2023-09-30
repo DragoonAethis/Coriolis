@@ -106,7 +106,7 @@ class UpdateTicketForm(forms.Form):
     keep_current_image = forms.BooleanField(
         label=_("Keep Current Image"),
         required=False,
-        help_text=_("If checked, the image currently uploaded " "on your ticket will not be changed."),
+        help_text=_("If checked, the image currently uploaded on your ticket will not be changed."),
     )
 
     def __init__(self, *args, event, ticket, **kwargs):

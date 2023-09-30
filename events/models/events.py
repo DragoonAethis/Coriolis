@@ -64,7 +64,7 @@ class Event(models.Model):
     applications_require_registration = models.BooleanField(
         default=True,
         verbose_name=_("applications require registration"),
-        help_text=_("If enabled, users must register for the " "event before sending applications."),
+        help_text=_("If enabled, users must register for the event before sending applications."),
     )
 
     ticket_renderer = models.ForeignKey(
@@ -78,12 +78,12 @@ class Event(models.Model):
         max_length=256,
         blank=True,
         verbose_name=_("ticket renderer variants"),
-        help_text=_("Comma-separated list of ticket variants to " "render. The first one will be shown to users."),
+        help_text=_("Comma-separated list of ticket variants to render. The first one will be shown to users."),
     )
     ticket_renderer_help_text = models.TextField(
         blank=True,
         verbose_name=_("ticket renderer help text"),
-        help_text=_("Text to be shown under the custom image " "upload field (image dimensions, notices)."),
+        help_text=_("Text to be shown under the custom image upload field (image dimensions, notices)."),
     )
 
     prometheus_key = models.CharField(
@@ -102,7 +102,7 @@ class Event(models.Model):
         blank=True,
         verbose_name=_("sale closed notice"),
         help_text=_(
-            "Notice to be shown instead of the default one when " "the ticket sales are closed. May contain HTML."
+            "Notice to be shown instead of the default one when the ticket sales are closed. May contain HTML."
         ),
     )
 
@@ -188,7 +188,7 @@ class TicketRenderer(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("name"))
     config = models.JSONField(
         blank=False,
-        help_text=_("Coriolis configuration for this renderer. " "See wiki/docs for more info on this."),
+        help_text=_("Coriolis configuration for this renderer. See wiki/docs for more info on this."),
     )
 
     def __str__(self):

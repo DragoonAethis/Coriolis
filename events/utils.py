@@ -94,7 +94,7 @@ def save_ticket_image(request: HttpRequest, instance: "events.models.Ticket", im
     """Rewrites the uploaded image into a PNG file to prevent saving
     untrusted content on the server. Converts its color space if needed."""
 
-    hint = _("Save it as PNG in an image editor of your " "choice (e.g. Krita) and upload it again.")
+    hint = _("Save it as PNG in an image editor of your choice (e.g. Krita) and upload it again.")
 
     try:
         image: Image = Image.open(image_file)
@@ -135,7 +135,7 @@ def save_ticket_image(request: HttpRequest, instance: "events.models.Ticket", im
         capture_exception(e)
         messages.error(
             request,
-            _("Your ticket image could not be saved for an " "unknown reason. %(hint)s") % {"hint": hint},
+            _("Your ticket image could not be saved for an unknown reason. %(hint)s") % {"hint": hint},
         )
         return
 
