@@ -119,6 +119,7 @@ class TicketAdmin(admin.ModelAdmin):
 
         return fields
 
+    @admin.display(description=_("type"))
     def type_link(self, obj):
         return mark_safe(
             '<a href="{}">{}</a>'.format(
@@ -127,14 +128,13 @@ class TicketAdmin(admin.ModelAdmin):
             )
         )
 
-    type_link.short_description = _("type")
-
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ("id", "transaction_id", "total", "status", "event", "ticket_link")
     list_filter = ("event", "status")
 
+    @admin.display(description=_("ticket"))
     def ticket_link(self, obj):
         return mark_safe(
             '<a href="{}">{}: {}</a>'.format(
@@ -143,8 +143,6 @@ class PaymentAdmin(admin.ModelAdmin):
                 obj.ticket.name,
             )
         )
-
-    ticket_link.short_description = _("ticket")
 
 
 @admin.register(ApplicationType)
@@ -173,6 +171,7 @@ class ApplicationAdmin(admin.ModelAdmin):
         datetime.timedelta,
     )
 
+    @admin.display(description=_("type"))
     def type_link(self, obj):
         return mark_safe(
             '<a href="{}">{}</a>'.format(
@@ -180,8 +179,6 @@ class ApplicationAdmin(admin.ModelAdmin):
                 obj.type.name,
             )
         )
-
-    type_link.short_description = _("type")
 
     @admin.action(description=_("Download selected applications as XLSX"))
     def download_as_xlsx(self, request, queryset):

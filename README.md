@@ -58,7 +58,7 @@ Common development tasks:
 - Get credentials for a proper production SMTP server to send mails from.
 - Set up the virtualenv with `...in-project true`, `poetry install`, `poetry shell`.
 - Run `./manage.py` commands: `collectstatic`, `migrate` and `createsuperuser`.
-- Deploy Django with Gunicorn: https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/gunicorn/
+- Deploy Django with Gunicorn: https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/gunicorn/
 - Run a reverse proxy with Nginx: https://docs.gunicorn.org/en/latest/deploy.html
 - Set up a 2nd domain for user uploads (MEDIA_URL) and expose the MEDIA_ROOT contents there.
 - Make sure your production server has HTTPS configured: https://certbot.eff.org/
