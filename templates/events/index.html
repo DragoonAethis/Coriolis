@@ -89,7 +89,7 @@
                         <p>{% translate "You have no applications for this event." %}</p>
                     {% endif %}
 
-                    {% if event.applications_require_registration and tickets|length_is:0 %}
+                    {% if event.applications_require_registration and tickets|length == 0 %}
                         <div class="alert alert-warning" role="alert">
                             {% translate "You must buy a ticket for this event before submitting an application." %}
                         </div>
