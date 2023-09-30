@@ -17,15 +17,11 @@ from dramatiq.rate_limits.backends import RedisBackend
 
 from events.models import Event, Ticket, TicketRenderer
 
-RENDERER_MUTEX = ConcurrentRateLimiter(
-    RedisBackend(),
-    "ticket-renderer-mutex",
-    limit=settings.TICKET_RENDERER_MAX_JOBS
-)
+RENDERER_MUTEX = ConcurrentRateLimiter(RedisBackend(), "ticket-renderer-mutex", limit=settings.TICKET_RENDERER_MAX_JOBS)
 
 
 def get_container_tool() -> Optional[str]:
-    for tool in ('podman', 'docker'):
+    for tool in ("podman", "docker"):
         if tool_path := shutil.which(tool):
             return tool_path
 
@@ -35,10 +31,10 @@ def get_container_tool() -> Optional[str]:
 def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
     config = renderer.config
     if "image" not in config:
-        raise ValueError("Container image name not found in the ticket "
-                         f"renderer configuration: {renderer}")
+        raise ValueError("Container image name not found in the ticket " f"renderer configuration: {renderer}")
 
     arguments = [
+        # fmt: off
         get_container_tool(),
         "run", "-i", "--rm",
         "--pull", "never",
@@ -47,7 +43,8 @@ def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
         "--network", "none",
         "--user", f"{os.getuid()}:{os.getgid()}",
         "--security-opt", "no-new-privileges:true",
-        config['image']
+        config["image"],
+        # fmt: on
     ]
 
     # Let the job run for up to a minute:
@@ -77,7 +74,7 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, save_preview
 
     with tempfile.TemporaryDirectory() as td:
         render_json = os.path.join(td, "render.json")
-        with open(render_json, 'w') as f:
+        with open(render_json, "w") as f:
             json.dump(render_data, f)
 
         if user_image:
@@ -88,7 +85,7 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, save_preview
             image_path = render(ticket.event.ticket_renderer, td)
 
         if image_path is not None:
-            with open(image_path, 'rb') as f:
+            with open(image_path, "rb") as f:
                 wanted_path = os.path.join("previews", ticket.event.slug, requested_filename)
                 actual_path = default_storage.save(wanted_path, f)
 
@@ -99,7 +96,7 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, save_preview
             logging.warning(f"Render failed for {requested_filename}")
 
 
-@dramatiq.actor(queue_name='ticket-renderer')
+@dramatiq.actor(queue_name="ticket-renderer")
 def render_ticket_variants(ticket_id: str, variants: Optional[list[str]] = None, save_preview: bool = True):
     """
     Generates multiple preview variants for a given ticket ID.
@@ -112,15 +109,16 @@ def render_ticket_variants(ticket_id: str, variants: Optional[list[str]] = None,
         logging.error("Issued a render job with no render tools available.")
 
     try:
-        ticket: Ticket = Ticket.objects.prefetch_related('user', 'event', 'type').get(id=ticket_id)
+        ticket: Ticket = Ticket.objects.prefetch_related("user", "event", "type").get(id=ticket_id)
         event: Event = ticket.event
     except Ticket.DoesNotExist:
         logging.error(f"Issued a render job for missing ticket: {ticket_id}")
         return
 
     if not event.ticket_renderer or not event.ticket_renderer_variants:
-        logging.error(f"Issued a render job on ticket ID {ticket_id}, "
-                      f"but event {event.name} is not configured for it.")
+        logging.error(
+            f"Issued a render job on ticket ID {ticket_id}, " f"but event {event.name} is not configured for it."
+        )
         return
 
     if variants is None:
@@ -149,9 +147,7 @@ def render_ticket_variants(ticket_id: str, variants: Optional[list[str]] = None,
             "short_name": ticket.type.short_name or ticket.type.name,
             "code_prefix": ticket.type.code_prefix,
         },
-        "event": {
-            "name": ticket.event.name
-        }
+        "event": {"name": ticket.event.name},
     }
 
     for variant in variants:

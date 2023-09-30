@@ -8,7 +8,11 @@ import requests
 import dramatiq
 
 from events.models import Event, Ticket, NotificationChannel
-from events.models.notifications import NotificationChannelSource, NotificationChannelTarget, NotificationChannelPayload
+from events.models.notifications import (
+    NotificationChannelSource,
+    NotificationChannelTarget,
+    NotificationChannelPayload,
+)
 
 TELEGRAM_BOT_ENDPOINT = "https://api.telegram.org/bot{token}/{method}"
 
@@ -16,6 +20,7 @@ TELEGRAM_BOT_ENDPOINT = "https://api.telegram.org/bot{token}/{method}"
 @dataclass
 class NotificationChannelTicketUsedPayload(NotificationChannelPayload):
     """Used to notify that a pre-purchased ticket has been used at the entry gate."""
+
     ticket_id: str
 
     def get_ticket(self):
@@ -61,39 +66,42 @@ def notify_channel(event_id: int, source: NotificationChannelSource, payload_arg
 
         if channel.target == NotificationChannelTarget.DISCORD_WEBHOOK:
             if not (content := payload.get_discord_text()):
-                logging.warning(f'Tried to notify Discord with a payload that does not return Markdown: {payload=}')
+                logging.warning(f"Tried to notify Discord with a payload that does not return Markdown: {payload=}")
                 continue
 
-            discord_webhook_url = channel.configuration.get('url')
+            discord_webhook_url = channel.configuration.get("url")
             if discord_webhook_url is None:
-                logging.warning(f'Tried to notify Discord without a webhook URL on channel: {channel=}')
+                logging.warning(f"Tried to notify Discord without a webhook URL on channel: {channel=}")
                 continue
 
-            r = requests.post(discord_webhook_url, json={'content': content})
+            r = requests.post(discord_webhook_url, json={"content": content})
             if not r.ok:
                 logging.warning(f"Discord request returned {r.status_code}: {r.text}")
 
         elif channel.target == NotificationChannelTarget.TELEGRAM_MESSAGE:
             if not (content := payload.get_telegram_text()):
-                logging.warning(f'Tried to notify Telegram with a payload that does not return Markdown: {payload=}')
+                logging.warning(f"Tried to notify Telegram with a payload that does not return Markdown: {payload=}")
                 continue
 
-            token = channel.configuration.get('token')
-            chat_id = channel.configuration.get('chat_id')
+            token = channel.configuration.get("token")
+            chat_id = channel.configuration.get("chat_id")
             if not token or not chat_id:
                 logging.warning(f"Tried to notify Telegram with invalid configuration (missing token or chat_id).")
                 continue
 
             url = TELEGRAM_BOT_ENDPOINT.format(token=token, method="sendMessage")
-            r = requests.post(url, json={
-                "chat_id": chat_id,
-                "text": content,
-                "parse_mode": "MarkdownV2",
-                "disable_notification": True,
-            })
-            
+            r = requests.post(
+                url,
+                json={
+                    "chat_id": chat_id,
+                    "text": content,
+                    "parse_mode": "MarkdownV2",
+                    "disable_notification": True,
+                },
+            )
+
             if not r.ok:
                 logging.warning(f"Telegram request returned {r.status_code}: {r.text}")
 
         else:
-            logging.error(f'Unknown notification target on channel: {channel=}')
+            logging.error(f"Unknown notification target on channel: {channel=}")

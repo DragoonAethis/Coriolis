@@ -22,13 +22,13 @@ from sentry_sdk import capture_exception
 import events.models
 
 
-def generate_ticket_code(event: 'events.models.Event') -> int:
+def generate_ticket_code(event: "events.models.Event") -> int:
     from events.models import Ticket
 
     # Now for the nasty part: Get ALL the ticket numbers we already
     # have in the database and generate a new one that does not
     # conflict with any existing ones.
-    maximum_tickets = 10 ** event.ticket_code_length
+    maximum_tickets = 10**event.ticket_code_length
     numbers = set(Ticket.objects.filter(event_id=event.id).values_list("code", flat=True))
 
     if len(numbers) >= maximum_tickets:
@@ -50,10 +50,7 @@ def generate_ticket_code(event: 'events.models.Event') -> int:
     return random.choice(list(possible_numbers))
 
 
-def get_ticket_purchase_rate_limit_keys(
-        request: HttpRequest,
-        ticket_type: 'events.models.TicketType'
-) -> list[str]:
+def get_ticket_purchase_rate_limit_keys(request: HttpRequest, ticket_type: "events.models.TicketType") -> list[str]:
     """Returns a list of keys to be stored in Redis that remember the
     date after which a given user is allowed to purchase a ticket of a
     given type once again. Used for the purchase rate limit impl."""
@@ -70,12 +67,12 @@ def get_ticket_purchase_rate_limit_keys(
     return keys
 
 
-def get_ticket_preview_path(instance: 'events.models.TicketType', filename: str):
+def get_ticket_preview_path(instance: "events.models.TicketType", filename: str):
     """Generates a new ticket preview path within MEDIA_ROOT."""
     return f"templates/{instance.event.slug}/{uuid.uuid4()}.png"
 
 
-def delete_ticket_image(instance: 'events.models.Ticket'):
+def delete_ticket_image(instance: "events.models.Ticket"):
     try:
         if instance.image:
             os.remove(instance.image.path)
@@ -93,21 +90,17 @@ def delete_ticket_image(instance: 'events.models.Ticket'):
     instance.save()
 
 
-def save_ticket_image(request: HttpRequest, instance: 'events.models.Ticket', image_file: UploadedFile):
+def save_ticket_image(request: HttpRequest, instance: "events.models.Ticket", image_file: UploadedFile):
     """Rewrites the uploaded image into a PNG file to prevent saving
     untrusted content on the server. Converts its color space if needed."""
 
-    hint = _("Save it as PNG in an image editor of your "
-             "choice (e.g. Krita) and upload it again.")
+    hint = _("Save it as PNG in an image editor of your " "choice (e.g. Krita) and upload it again.")
 
     try:
         image: Image = Image.open(image_file)
     except Exception as e:
         capture_exception(e)
-        messages.error(
-            request,
-            _("Your ticket image could not be read. %(hint)s") % {"hint": hint}
-        )
+        messages.error(request, _("Your ticket image could not be read. %(hint)s") % {"hint": hint})
         return
 
     if image.mode not in ("1", "L", "LA", "I", "P", "RGB", "RGBA"):
@@ -119,7 +112,8 @@ def save_ticket_image(request: HttpRequest, instance: 'events.models.Ticket', im
                 _(
                     "Your ticket image was saved with color format %(mode)s which we "
                     "cannot store. It was converted to RGB and may not look correct. %(hint)s"
-                ) % {"mode": old_mode, "hint": hint}
+                )
+                % {"mode": old_mode, "hint": hint},
             )
         except Exception as e:
             capture_exception(e)
@@ -128,7 +122,8 @@ def save_ticket_image(request: HttpRequest, instance: 'events.models.Ticket', im
                 _(
                     "Your ticket image was saved with color format %(mode)s which we "
                     "cannot store or convert automatically to RGB. %(hint)s"
-                ) % {"mode": old_mode, "hint": hint}
+                )
+                % {"mode": old_mode, "hint": hint},
             )
             return
 
@@ -140,10 +135,7 @@ def save_ticket_image(request: HttpRequest, instance: 'events.models.Ticket', im
         capture_exception(e)
         messages.error(
             request,
-            _(
-                "Your ticket image could not be saved for an "
-                "unknown reason. %(hint)s"
-            ) % {"hint": hint}
+            _("Your ticket image could not be saved for an " "unknown reason. %(hint)s") % {"hint": hint},
         )
         return
 

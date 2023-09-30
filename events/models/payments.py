@@ -34,7 +34,7 @@ class Payment(BasePayment):
 
     def get_finalize_url(self) -> str:
         prefix = "https://" if settings.PAYMENT_USES_SSL else "http://"  # noqa
-        path = reverse('ticket_payment_finalize', args=[self.event.slug, self.ticket.id, self.id])
+        path = reverse("ticket_payment_finalize", args=[self.event.slug, self.ticket.id, self.id])
         return prefix + settings.PAYMENT_HOST + path
 
     def get_failure_url(self) -> str:
@@ -49,4 +49,5 @@ class Payment(BasePayment):
             sku=self.ticket.type.name,
             quantity=1,
             price=self.ticket.get_price().amount,
-            currency=self.ticket.get_price().currency)
+            currency=self.ticket.get_price().currency,
+        )

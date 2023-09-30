@@ -26,17 +26,13 @@ def trigger_error(request):
 
 
 urlpatterns = [
-    path('__debug__/', include(debug_toolbar.urls)),
-    path('sentry-debug/', trigger_error),
-    path('admin/', admin.site.urls),
-
-    path('accounts/', include('allauth_2fa.urls')),
-    path('accounts/', include('allauth.urls')),
-    path('hijack/', include('hijack.urls')),
-
-    path('payments/', include('payments.urls')),
-
-    path('i18n/', include('django.conf.urls.i18n')),
-
-    path('', include('events.urls')),
+    path("__debug__/", include(debug_toolbar.urls)),
+    path("sentry-debug/", trigger_error),
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth_2fa.urls")),
+    path("accounts/", include("allauth.urls")),
+    path("hijack/", include("hijack.urls")),
+    path("payments/", include("payments.urls")),
+    path("i18n/", include("django.conf.urls.i18n")),
+    path("", include("events.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

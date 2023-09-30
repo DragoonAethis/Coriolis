@@ -17,10 +17,10 @@ class DynaformField(BaseModel, ABC):
     _widget: ClassVar[Widget] = None
 
     label: str
-    label_type: str = 'text'
+    label_type: str = "text"
 
     help_text: Optional[str] = None
-    help_text_type: str = 'text'
+    help_text_type: str = "text"
 
     required: bool = True
 
@@ -28,74 +28,77 @@ class DynaformField(BaseModel, ABC):
 class ChoiceField(DynaformField, ABC):
     choices: dict[str, str]
 
-    @validator('choices')
+    @validator("choices")
     def must_have_any_choices(cls, v):
         if len(v) == 0:
-            raise ValueError('must have any choices')
+            raise ValueError("must have any choices")
         return v
 
 
 class CharField(DynaformField):
-    kind: Literal['char']
+    kind: Literal["char"]
     _field_class: ClassVar[Field] = fields.CharField
 
 
 class TextField(DynaformField):
-    kind: Literal['text']
+    kind: Literal["text"]
     _field_class: ClassVar[Field] = fields.CharField
     _widget = widgets.Textarea
 
 
 class EmailField(DynaformField):
-    kind: Literal['email']
+    kind: Literal["email"]
     _field_class: ClassVar[Field] = fields.EmailField
 
 
 class PhoneNumberField(DynaformField):
-    kind: Literal['phone']
+    kind: Literal["phone"]
     _field_class: ClassVar[Field] = pnfields.PhoneNumberField
 
 
 class BooleanField(DynaformField):
-    kind: Literal['checkbox']
+    kind: Literal["checkbox"]
     _field_class: ClassVar[Field] = fields.BooleanField
 
 
 class SelectField(ChoiceField):
-    kind: Literal['select']
+    kind: Literal["select"]
     _field_class: ClassVar[Field] = fields.ChoiceField
     _widget: ClassVar[Widget] = widgets.Select
 
 
 class MultiSelectField(ChoiceField):
-    kind: Literal['multiselect']
+    kind: Literal["multiselect"]
     _field_class: ClassVar[Field] = fields.MultipleChoiceField
     _widget: ClassVar[Widget] = widgets.SelectMultiple
 
 
 class RadioField(ChoiceField):
-    kind: Literal['radio']
+    kind: Literal["radio"]
     _field_class: ClassVar[Field] = fields.ChoiceField
     _widget: ClassVar[Widget] = widgets.RadioSelect
 
 
 class CheckboxField(ChoiceField):
-    kind: Literal['multicheckbox']
+    kind: Literal["multicheckbox"]
     _field_class: ClassVar[Field] = fields.MultipleChoiceField
     _widget: ClassVar[Widget] = widgets.CheckboxSelectMultiple
 
 
-DynaformFieldUnion = Annotated[Union[
-    CharField,
-    TextField,
-    EmailField,
-    PhoneNumberField,
-    BooleanField,
-    SelectField,
-    MultiSelectField,
-    RadioField,
-    CheckboxField,
-], PydanticField(discriminator='kind')]
+DynaformFieldUnion = Annotated[
+    Union[
+        CharField,
+        TextField,
+        EmailField,
+        PhoneNumberField,
+        BooleanField,
+        SelectField,
+        MultiSelectField,
+        RadioField,
+        CheckboxField,
+    ],
+    PydanticField(discriminator="kind"),
+]
 
 
 class DynaformFieldConfiguration(BaseModel):
@@ -123,12 +126,12 @@ def parse_text_type_transform(config: dict, text_key: str, type_key: str) -> Non
     if not (text := config.get(text_key)):
         return
 
-    if text_type == 'text':
+    if text_type == "text":
         pass
-    elif text_type == 'html':
+    elif text_type == "html":
         text = mark_safe(text)
-    elif text_type == 'markdown':
-        rendered = markdown.markdown(text, output_format='html5')
+    elif text_type == "markdown":
+        rendered = markdown.markdown(text, output_format="html5")
 
         # A quick and somwhat hacky way to strip the wrapping
         # <p> element, but only if there's a single <p> in the text.
@@ -153,17 +156,17 @@ def dynaform_to_fields(name: Optional[str], template: str) -> dict[str, Field]:
     for field_name, field_config in config.fields.items():
         config_args = field_config.dict()
 
-        if 'kind' in config_args:
-            del config_args['kind']
+        if "kind" in config_args:
+            del config_args["kind"]
 
         if field_config._widget is not None:
-            config_args['widget'] = field_config._widget
+            config_args["widget"] = field_config._widget
 
-        if 'choices' in config_args:
-            config_args['choices'] = transform_choices(config_args['choices'])
+        if "choices" in config_args:
+            config_args["choices"] = transform_choices(config_args["choices"])
 
-        parse_text_type_transform(config_args, 'label', 'label_type')
-        parse_text_type_transform(config_args, 'help_text', 'help_text_type')
+        parse_text_type_transform(config_args, "label", "label_type")
+        parse_text_type_transform(config_args, "help_text", "help_text_type")
 
         dynamic_fields[prefix + field_name] = field_config._field_class(**config_args)
 

@@ -19,12 +19,12 @@ class NotificationChannelPayload(ABC):
 
 
 class NotificationChannelSource(models.TextChoices):
-    TICKET_USED = 'ticket-used', _("Ticket Used")
+    TICKET_USED = "ticket-used", _("Ticket Used")
 
 
 class NotificationChannelTarget(models.TextChoices):
-    DISCORD_WEBHOOK = 'discord-webhook', _("Discord Webhook")
-    TELEGRAM_MESSAGE = 'telegram-message', _("Telegram Message")
+    DISCORD_WEBHOOK = "discord-webhook", _("Discord Webhook")
+    TELEGRAM_MESSAGE = "telegram-message", _("Telegram Message")
 
 
 class NotificationChannel(models.Model):
@@ -33,16 +33,32 @@ class NotificationChannel(models.Model):
         verbose_name_plural = _("notification channels")
 
     event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name=_("event"))
-    name = models.CharField(max_length=256, verbose_name=_("name"),
-                            help_text=_("A custom label for this channel - not used anywhere."))
-    enabled = models.BooleanField(default=True, verbose_name=_("enabled"),
-                                  help_text=_("Enable or disable this channel."))
-    source = models.CharField(max_length=32, verbose_name=_("source"),
-                              choices=NotificationChannelSource.choices,
-                              help_text=_("Which events to send to this channel?"))
-    target = models.CharField(max_length=16, verbose_name=_("target"),
-                              choices=NotificationChannelTarget.choices,
-                              help_text=_("Where to send events from this channel?"))
-    configuration = models.JSONField(verbose_name=_("configuration"),
-                                     help_text=_("Channel target configuration, in JSON. See docs: "
-                                                 "https://github.com/DragoonAethis/Coriolis/wiki/Notification-Channels"))  # noqa
+    name = models.CharField(
+        max_length=256,
+        verbose_name=_("name"),
+        help_text=_("A custom label for this channel - not used anywhere."),
+    )
+    enabled = models.BooleanField(
+        default=True,
+        verbose_name=_("enabled"),
+        help_text=_("Enable or disable this channel."),
+    )
+    source = models.CharField(
+        max_length=32,
+        verbose_name=_("source"),
+        choices=NotificationChannelSource.choices,
+        help_text=_("Which events to send to this channel?"),
+    )
+    target = models.CharField(
+        max_length=16,
+        verbose_name=_("target"),
+        choices=NotificationChannelTarget.choices,
+        help_text=_("Where to send events from this channel?"),
+    )
+    configuration = models.JSONField(
+        verbose_name=_("configuration"),
+        help_text=_(
+            "Channel target configuration, in JSON. See docs: "
+            "https://github.com/DragoonAethis/Coriolis/wiki/Notification-Channels"
+        ),
+    )  # noqa
