@@ -1,15 +1,15 @@
 from typing import Optional
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
+from django.db.models import Q, F
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
-from django.contrib import messages
-from django.db.models import Q, F
 
-from events.models import Event, Ticket, TicketType, TicketStatus, TicketSource
 from events.forms.crew import CrewNewTicketForm, CrewFindTicketForm, CrewUseTicketForm
+from events.models import Event, Ticket, TicketType, TicketStatus, TicketSource
 from events.models.notifications import NotificationChannelSource
 from events.tasks.notifications import notify_channel
 from events.utils import generate_ticket_code
@@ -155,10 +155,7 @@ class CrewExistingTicketView(FormView):
             self.horrible_error = _("This ticket has already been used.")
         elif self.ticket.status == TicketStatus.CANCELLED:
             self.horrible_error = _("This ticket has been cancelled.")
-        elif self.ticket.status not in (
-            TicketStatus.READY_PAY_ON_SITE,
-            TicketStatus.READY_PAID,
-        ):
+        elif self.ticket.status != TicketStatus.READY:
             self.horrible_error = _("This ticket has an invalid status: ") + self.ticket.get_status_display()
 
         return super().dispatch(*args, **kwargs)

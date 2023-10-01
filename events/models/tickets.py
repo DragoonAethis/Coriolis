@@ -1,22 +1,20 @@
-import uuid
 import datetime
+import uuid
 from typing import Optional
 
-from django.db import models
-from django.urls import reverse
+from colorfield.fields import ColorField
 from django.conf import settings
 from django.core.mail import EmailMessage
+from django.db import models
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
-from colorfield.fields import ColorField
 from djmoney.models.fields import MoneyField
+from djmoney.money import Money
 from phonenumber_field.modelfields import PhoneNumberField
 
-from djmoney.money import Money
-
-from events.models.users import User
 from events.models.events import Event, EventPage, EventPageType
+from events.models.users import User
 
 
 class TicketType(models.Model):
@@ -149,8 +147,7 @@ class TicketStatus(models.TextChoices):
     CANCELLED = "CNCL", _("Cancelled")
     WAITING = "WAIT", _("Waiting for Organizers")
     WAITING_FOR_PAYMENT = "WPAY", _("Waiting for online payment")
-    READY_PAY_ON_SITE = "OKNP", _("Ready (payment on site)")
-    READY_PAID = "OKPD", _("Ready (paid)")
+    READY = "OKNP", _("Ready")
     USED = "USED", _("Used")
 
 
@@ -286,15 +283,16 @@ class Ticket(models.Model):
         return self.status == TicketStatus.CANCELLED
 
     def can_cancel(self) -> bool:
-        return self.status in (
-            TicketStatus.READY_PAY_ON_SITE,
+        return not self.paid and self.status in (
+            TicketStatus.READY,
             TicketStatus.WAITING_FOR_PAYMENT,
         )
 
     def can_pay_online(self) -> bool:
         return (
             datetime.datetime.now() < self.event.date_to
-            and self.status in (TicketStatus.READY_PAY_ON_SITE, TicketStatus.WAITING_FOR_PAYMENT)
+            and not self.paid
+            and self.status in (TicketStatus.READY, TicketStatus.WAITING_FOR_PAYMENT)
             and self.event.payment_enabled
             and self.type.can_pay_online
         )
@@ -303,8 +301,7 @@ class Ticket(models.Model):
         return (
             self.status
             in (
-                TicketStatus.READY_PAID,
-                TicketStatus.READY_PAY_ON_SITE,
+                TicketStatus.READY,
                 TicketStatus.WAITING_FOR_PAYMENT,
                 TicketStatus.WAITING,
             )

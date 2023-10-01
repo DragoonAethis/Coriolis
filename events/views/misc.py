@@ -1,26 +1,23 @@
-import copy
 import datetime
 from typing import Tuple
 
 import django.http.response
-from django.shortcuts import render, redirect, get_object_or_404, reverse
-from django.contrib.auth.decorators import login_required
-from django.utils.translation import gettext as _
-from django.utils.safestring import mark_safe
-from django.contrib import messages
-from django.conf import settings
-from django.http import Http404
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext as _
 from payments import RedirectNeeded, PaymentStatus
-from payments_przelewy24.api import Przelewy24API
 
-from events.models.tickets import Ticket, TicketType, TicketStatus, TicketSource
-from events.models import Event, EventPage, Application, ApplicationType, Payment
-from events.models.tickets import VaccinationProof
 from events.forms import UpdateTicketForm
+from events.models import Event, EventPage, Application, ApplicationType, Payment
+from events.models.tickets import Ticket, TicketType, TicketStatus, TicketSource
+from events.models.tickets import VaccinationProof
+from payments_przelewy24.api import Przelewy24API
 
 
 def index(request):
@@ -105,14 +102,14 @@ def prometheus_status(request, slug, key):
 
     counters = [
         (
-            "tickets_ready_pay_on_site",
-            "Number of tickets registered, but not paid for.",
-            lambda x: x[0] == TicketStatus.READY_PAY_ON_SITE,
+            "tickets_ready",
+            "Number of tickets registered and ready for use.",
+            lambda x: x[0] == TicketStatus.READY,
         ),
         (
             "tickets_ready_paid",
             "Number of tickets paid for before the event.",
-            lambda x: x[0] == TicketStatus.READY_PAID,
+            lambda x: x[3],
         ),
         (
             "tickets_used",
@@ -170,12 +167,11 @@ def prometheus_status(request, slug, key):
         Ticket.objects.filter(event_id=event.id)
         .filter(
             status__in=(
-                TicketStatus.READY_PAY_ON_SITE,
-                TicketStatus.READY_PAID,
+                TicketStatus.READY,
                 TicketStatus.USED,
             )
         )
-        .values_list("status", "vaccination_proof", "source")
+        .values_list("status", "vaccination_proof", "source", "paid")
     )
 
     output_metrics = []
@@ -277,7 +273,7 @@ def ticket_payment(request, slug, ticket_id):
         messages.error(request, _("You don't own this ticket!"))
         return redirect("event_index", event.slug)
 
-    if ticket.status == TicketStatus.READY_PAID:
+    if ticket.paid:
         messages.success(request, _("This ticket was already paid for."))
         return redirect("event_index", event.slug)
 
@@ -326,7 +322,7 @@ def ticket_payment(request, slug, ticket_id):
     for existing_payment in ticket.payment_set.all():
         if existing_payment.status == PaymentStatus.CONFIRMED:
             # Forgot to update the status? Uh, okay...
-            ticket.status = TicketStatus.READY_PAID
+            ticket.status = TicketStatus.READY
             ticket.paid = True
             ticket.save()
 
@@ -418,7 +414,7 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
 
     if payment.status == PaymentStatus.CONFIRMED:
         messages.success(request, _("Payment successful - thank you!"))
-        ticket.status = TicketStatus.READY_PAID
+        ticket.status = TicketStatus.READY
         ticket.paid = True
     elif payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT):
         return redirect("ticket_payment", event.slug, ticket.id)

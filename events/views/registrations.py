@@ -2,19 +2,19 @@ import logging
 from datetime import datetime, timedelta
 
 import django.db.utils
-from django.db.models import F
+from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.core.cache import caches
 from django.core.mail import EmailMessage
-from django.contrib.humanize.templatetags.humanize import naturaltime
-from django.contrib.auth.decorators import login_required
+from django.db.models import F
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
+from django.utils.html import mark_safe
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
-from django.conf import settings
-from django.utils.html import mark_safe
 
 from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models import Event, TicketType, Ticket, TicketStatus, TicketSource
@@ -109,7 +109,7 @@ class RegistrationView(FormView):
             user=self.request.user,
             event=self.event,
             type=self.type,
-            status=TicketStatus.READY_PAY_ON_SITE,
+            status=TicketStatus.READY,
             source=TicketSource.ONLINE,
             name=form.cleaned_data["name"],
             email=form.cleaned_data["email"],
@@ -202,7 +202,7 @@ class RegistrationView(FormView):
                     "organizers read and acknowledge your ticket notes."
                 ),
             )
-        elif ticket.status == TicketStatus.READY_PAY_ON_SITE:
+        elif ticket.status == TicketStatus.READY:
             messages.success(
                 self.request,
                 _("Thank you for your registration! You can see your ticket details below."),
@@ -228,12 +228,19 @@ class CancelRegistrationView(FormView):
             return redirect("event_index", self.event.slug)
 
         if self.ticket.status not in (
-            TicketStatus.READY_PAY_ON_SITE,
+            TicketStatus.READY,
             TicketStatus.WAITING_FOR_PAYMENT,
         ):
             messages.error(
                 self.request,
                 _("Cannot cancel a ticket with this status - please contact the organizers."),
+            )
+            return redirect("event_index", self.event.slug)
+
+        if self.ticket.paid:
+            messages.error(
+                self.request,
+                _("Cannot cancel a ticket that was already paid for - please contact the organizers."),
             )
             return redirect("event_index", self.event.slug)
 
