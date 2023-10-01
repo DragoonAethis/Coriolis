@@ -1,10 +1,10 @@
 from abc import ABC
-from typing import Literal, Optional, Union, ClassVar, Annotated
+from typing import Literal, Optional, Union, Annotated
 
 import markdown
+from django.forms import fields, widgets
 from django.forms.fields import Field
 from django.forms.widgets import Widget
-from django.forms import fields, widgets
 from django.utils.safestring import mark_safe
 from phonenumber_field import formfields as pnfields
 from pydantic import field_validator, BaseModel, Field as PydanticField
@@ -12,8 +12,8 @@ from pydantic import field_validator, BaseModel, Field as PydanticField
 
 class DynaformField(BaseModel, ABC):
     kind: Literal[None]
-    _field_class: ClassVar[Field] = None
-    _widget: ClassVar[Widget] = None
+    _field_class: type[Field] = None
+    _widget: type[Widget] = None
 
     label: str
     label_type: str = "text"
@@ -37,52 +37,52 @@ class ChoiceField(DynaformField, ABC):
 
 class CharField(DynaformField):
     kind: Literal["char"]
-    _field_class: ClassVar[Field] = fields.CharField
+    _field_class: type[Field] = fields.CharField
 
 
 class TextField(DynaformField):
     kind: Literal["text"]
-    _field_class: ClassVar[Field] = fields.CharField
+    _field_class: type[Field] = fields.CharField
     _widget = widgets.Textarea
 
 
 class EmailField(DynaformField):
     kind: Literal["email"]
-    _field_class: ClassVar[Field] = fields.EmailField
+    _field_class: type[Field] = fields.EmailField
 
 
 class PhoneNumberField(DynaformField):
     kind: Literal["phone"]
-    _field_class: ClassVar[Field] = pnfields.PhoneNumberField
+    _field_class: type[Field] = pnfields.PhoneNumberField
 
 
 class BooleanField(DynaformField):
     kind: Literal["checkbox"]
-    _field_class: ClassVar[Field] = fields.BooleanField
+    _field_class: type[Field] = fields.BooleanField
 
 
 class SelectField(ChoiceField):
     kind: Literal["select"]
-    _field_class: ClassVar[Field] = fields.ChoiceField
-    _widget: ClassVar[Widget] = widgets.Select
+    _field_class: type[Field] = fields.ChoiceField
+    _widget: type[Widget] = widgets.Select
 
 
 class MultiSelectField(ChoiceField):
     kind: Literal["multiselect"]
-    _field_class: ClassVar[Field] = fields.MultipleChoiceField
-    _widget: ClassVar[Widget] = widgets.SelectMultiple
+    _field_class: type[Field] = fields.MultipleChoiceField
+    _widget: type[Widget] = widgets.SelectMultiple
 
 
 class RadioField(ChoiceField):
     kind: Literal["radio"]
-    _field_class: ClassVar[Field] = fields.ChoiceField
-    _widget: ClassVar[Widget] = widgets.RadioSelect
+    _field_class: type[Field] = fields.ChoiceField
+    _widget: type[Widget] = widgets.RadioSelect
 
 
 class CheckboxField(ChoiceField):
     kind: Literal["multicheckbox"]
-    _field_class: ClassVar[Field] = fields.MultipleChoiceField
-    _widget: ClassVar[Widget] = widgets.CheckboxSelectMultiple
+    _field_class: type[Field] = fields.MultipleChoiceField
+    _widget: type[Widget] = widgets.CheckboxSelectMultiple
 
 
 DynaformFieldUnion = Annotated[
