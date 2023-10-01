@@ -39,7 +39,7 @@ dramatiq = { extras = ["watch", "redis"], version = "^1.14.2" }
 django-dramatiq = "^0.11.5"
 django-hijack = "^3.4.1"
 pydantic = "^1.10.13"
-xlsxwriter = "^3.1.5"
+xlsxwriter = "^3.1.6"
 django-ipware = "^5.0.0"
 django-dramatiq-email = "^1.4.1"
 
