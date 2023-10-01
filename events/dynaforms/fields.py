@@ -7,8 +7,7 @@ from django.forms.widgets import Widget
 from django.forms import fields, widgets
 from django.utils.safestring import mark_safe
 from phonenumber_field import formfields as pnfields
-
-from pydantic import validator, BaseModel, Field as PydanticField
+from pydantic import field_validator, BaseModel, Field as PydanticField
 
 
 class DynaformField(BaseModel, ABC):
@@ -28,7 +27,8 @@ class DynaformField(BaseModel, ABC):
 class ChoiceField(DynaformField, ABC):
     choices: dict[str, str]
 
-    @validator("choices")
+    @field_validator("choices")
+    @classmethod
     def must_have_any_choices(cls, v):
         if len(v) == 0:
             raise ValueError("must have any choices")
@@ -148,7 +148,7 @@ def parse_text_type_transform(config: dict, text_key: str, type_key: str) -> Non
 
 
 def dynaform_to_fields(name: Optional[str], template: str) -> dict[str, Field]:
-    config = DynaformFieldConfiguration.parse_raw(template)
+    config = DynaformFieldConfiguration.model_validate_json(template)
     prefix = dynaform_prefix(name)
     dynamic_fields = {}
 
