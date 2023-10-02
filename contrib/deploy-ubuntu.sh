@@ -105,6 +105,7 @@ sudo certbot run -d "$CORIOLIS_DOMAIN,$USERMEDIA_DOMAIN" --nginx --agree-tos -m 
 sudo cp "$INSTALL_DIR/contrib/coriolis.socket" "/etc/systemd/system/coriolis.socket"
 sudo cp "$INSTALL_DIR/contrib/coriolis.service" "/etc/systemd/system/coriolis.service"
 sudo cp "$INSTALL_DIR/contrib/coriolis-dramatiq.service" "/etc/systemd/system/coriolis-dramatiq.service"
+sudo cp "$INSTALL_DIR/contrib/coriolis-crontab.service" "/etc/systemd/system/coriolis-crontab.service"
 
 # nginx configs:
 # shellcheck disable=SC2002
@@ -123,6 +124,7 @@ docker build -t r2023-renderer:latest /app/contrib/ticket-renderer
 sudo systemctl daemon-reload
 sudo systemctl enable coriolis.socket --now
 sudo systemctl enable coriolis-dramatiq.service --now
+sudo systemctl enable coriolis-crontab.service --now
 sudo systemctl restart nginx
 
 # And off we go!

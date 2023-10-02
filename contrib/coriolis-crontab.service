@@ -1,0 +1,20 @@
+[Unit]
+Description=Coriolis (Dramatiq Crontab)
+Requires=redis.service postgresql.service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+RuntimeDirectory=dramatiq
+WorkingDirectory=/app
+ExecStart=/usr/bin/bash -c "source /app/.venv/bin/activate && python manage.py crontab --no-heartbeat"
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+KillMode=mixed
+Restart=on-failure
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target

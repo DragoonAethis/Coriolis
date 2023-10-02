@@ -35,13 +35,14 @@ Pillow = "^10.0.1"
 Markdown = "^3.4.4"
 django-payments = "^2.0.0"
 django-money = "3.2.0"
-dramatiq = { extras = ["watch", "redis"], version = "^1.14.2" }
-django-dramatiq = "^0.11.5"
 django-hijack = "^3.4.1"
 pydantic = "^2.4.2"
 xlsxwriter = "^3.1.6"
 django-ipware = "^5.0.0"
+dramatiq = { extras = ["watch", "redis"], version = "^1.14.2" }
+django-dramatiq = "^0.11.5"
 django-dramatiq-email = "^1.4.1"
+dramatiq-crontab = {extras = ["redis", "sentry"], version = "^1.0.3"}
 
 # Commented out until fixes are upstreamed:
 #django-payments-przelewy24 = "0.1.7"

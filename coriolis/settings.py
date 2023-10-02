@@ -134,6 +134,7 @@ INSTALLED_APPS = [
 
     "django_dramatiq",
     "django_dramatiq_email",
+    "dramatiq_crontab",
 
     "allauth",
     "allauth.account",
@@ -211,6 +212,8 @@ DRAMATIQ_RESULT_BACKEND = {
     "BACKEND_OPTIONS": {"url": REDIS_URL, "namespace": "coriolis-dramatiq-results"},
     "MIDDLEWARE_OPTIONS": {"result_ttl": 60000},
 }
+
+DRAMATIQ_CRONTAB = {"REDIS_URL": REDIS_URL}
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
