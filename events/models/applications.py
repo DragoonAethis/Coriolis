@@ -4,13 +4,13 @@ from typing import Optional
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db import models
-from django.urls import reverse
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from events.models.users import User
 from events.models.events import Event
+from events.models.users import User
 
 
 class ApplicationType(models.Model):
@@ -93,8 +93,21 @@ class Application(models.Model):
         help_text=_("Legacy application answers field."),
     )
 
-    notes = models.TextField(verbose_name=_("notes"))
-    org_notes = models.TextField(verbose_name=_("org notes"))
+    notes = models.TextField(
+        blank=True,
+        verbose_name=_("notes"),
+        help_text=_("User notes, visible to users/orgs"),
+    )
+    org_notes = models.TextField(
+        blank=True,
+        verbose_name=_("org notes"),
+        help_text=_("Org notes, visible to users/orgs"),
+    )
+    private_notes = models.TextField(
+        blank=True,
+        verbose_name=_("private notes"),
+        help_text=_("Private org notes, visible only in the admin panel"),
+    )
 
     # Non-database fields:
     _original_status: Optional[str] = None

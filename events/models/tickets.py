@@ -224,7 +224,12 @@ class Ticket(models.Model):
     notes = models.TextField(
         blank=True,
         verbose_name=_("notes"),
-        help_text=_("Optional, notes for organizers"),
+        help_text=_("Public notes, visible to users/orgs"),
+    )
+    private_notes = models.TextField(
+        blank=True,
+        verbose_name=_("private notes"),
+        help_text=_("Private org notes, visible only in the admin panel"),
     )
 
     code = models.PositiveIntegerField(
