@@ -4,6 +4,7 @@ from typing import Optional
 
 from colorfield.fields import ColorField
 from django.conf import settings
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.core.mail import EmailMessage
 from django.db import models
 from django.template.loader import render_to_string
@@ -296,6 +297,19 @@ class Ticket(models.Model):
     def get_absolute_url(self):
         return reverse("ticket_details", kwargs={"slug": self.event.slug, "ticket_id": self.id})
 
+    def get_status_deadline_display(self):
+        if self.status_deadline > datetime.datetime.now():
+            timestamp = naturaltime(self.status_deadline)
+        else:
+            timestamp = _("soon")
+
+        if self.status == TicketStatus.WAITING_FOR_PAYMENT:
+            template = _("if unpaid, ticket will be cancelled %(timestamp)s")
+        else:
+            template = _("status will change %(timestamp)s")
+
+        return template % {"timestamp": timestamp}
+
     def get_price(self):
         if self.override_price:
             return self.price
@@ -304,6 +318,9 @@ class Ticket(models.Model):
 
     def is_cancelled(self) -> bool:
         return self.status == TicketStatus.CANCELLED
+
+    def is_waiting_for_payment(self) -> bool:
+        return self.status == TicketStatus.WAITING_FOR_PAYMENT
 
     def can_cancel(self) -> bool:
         return not self.paid and self.status in (
