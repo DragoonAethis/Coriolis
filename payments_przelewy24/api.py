@@ -34,6 +34,7 @@ class TransactionDTO:
     language: str
     urlReturn: str
     urlStatus: str
+    encoding: str
     sign: str
     # cart: List[ItemDTO]
 
@@ -58,6 +59,7 @@ class TransactionDTO:
             language=transaction.language,
             urlReturn=success_url,
             urlStatus=status_url,
+            encoding="UTF-8",
             sign=sign,
         )
 
