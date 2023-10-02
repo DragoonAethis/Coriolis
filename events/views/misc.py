@@ -1,7 +1,6 @@
 import datetime
 from typing import Tuple
 
-import django.http.response
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.conf import settings
@@ -16,7 +15,6 @@ from payments import RedirectNeeded, PaymentStatus
 from events.forms import UpdateTicketForm
 from events.models import Event, EventPage, Application, ApplicationType, Payment
 from events.models.tickets import Ticket, TicketType, TicketStatus, TicketSource
-from events.models.tickets import VaccinationProof
 from payments_przelewy24.api import Przelewy24API
 
 
@@ -93,105 +91,6 @@ def event_page(request, slug, page_slug):
             raise Http404("Page not found.")
 
     return render(request, "events/events/page.html", context={"event": event, "event_page": page})
-
-
-def prometheus_status(request, slug, key):
-    event = get_object_or_404(Event, slug=slug)
-    if not event.prometheus_key or key != event.prometheus_key:
-        return django.http.response.HttpResponseForbidden("yeet the ayyyys")
-
-    counters = [
-        (
-            "tickets_ready",
-            "Number of tickets registered and ready for use.",
-            lambda x: x[0] == TicketStatus.READY,
-        ),
-        (
-            "tickets_ready_paid",
-            "Number of tickets paid for before the event.",
-            lambda x: x[3],
-        ),
-        (
-            "tickets_used",
-            "Number of used tickets.",
-            lambda x: x[0] == TicketStatus.USED,
-        ),
-        (
-            "vaccination_proof_none",
-            "Number of used tickets for which we have no vaccination proof.",
-            lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.NONE,
-        ),
-        (
-            "vaccination_proof_weak",
-            "Number of used tickets for which we have a weak vaccination proof.",
-            lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.WEAK,
-        ),
-        (
-            "vaccination_proof_strong",
-            "Number of used tickets for which we have a strong vaccination proof.",
-            lambda x: x[0] == TicketStatus.USED and x[1] == VaccinationProof.STRONG,
-        ),
-        (
-            "ticket_source_admin",
-            "Number of tickets created administratively",
-            lambda x: x[2] == TicketSource.ADMIN,
-        ),
-        (
-            "ticket_source_online",
-            "Number of tickets created online",
-            lambda x: x[2] == TicketSource.ONLINE,
-        ),
-        (
-            "ticket_source_onsite",
-            "Number of tickets created on-site",
-            lambda x: x[2] == TicketSource.ONSITE,
-        ),
-        (
-            "used_ticket_source_admin",
-            "Number of used tickets created administratively",
-            lambda x: x[0] == TicketStatus.USED and x[2] == TicketSource.ADMIN,
-        ),
-        (
-            "used_ticket_source_online",
-            "Number of used tickets created online",
-            lambda x: x[0] == TicketStatus.USED and x[2] == TicketSource.ONLINE,
-        ),
-        (
-            "used_ticket_source_onsite",
-            "Number of used tickets created on-site",
-            lambda x: x[0] == TicketStatus.USED and x[2] == TicketSource.ONSITE,
-        ),
-    ]
-
-    data = (
-        Ticket.objects.filter(event_id=event.id)
-        .filter(
-            status__in=(
-                TicketStatus.READY,
-                TicketStatus.USED,
-            )
-        )
-        .values_list("status", "vaccination_proof", "source", "paid")
-    )
-
-    output_metrics = []
-
-    for counter in counters:
-        value = 0
-        for sample in data:
-            if counter[2](sample):
-                value += 1
-
-        output_metrics.extend(
-            [
-                f"# HELP {counter[0]} {counter[1]}",
-                f"# TYPE {counter[0]} gauge",
-                f"{counter[0]} {value}",
-            ]
-        )
-
-    output_metrics.append("")
-    return django.http.response.HttpResponse("\n".join(output_metrics))
 
 
 @login_required
