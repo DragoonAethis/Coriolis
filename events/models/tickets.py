@@ -181,6 +181,7 @@ class Ticket(models.Model):
         max_digits=10,
         decimal_places=2,
         verbose_name=_("contributed value"),
+        help_text=_("Collected ticket value to count in the exported metrics."),
         default=Money(0, settings.CURRENCY),
         default_currency=settings.CURRENCY,
     )
