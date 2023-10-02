@@ -16,9 +16,9 @@ from django.utils.html import mark_safe
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
 
+from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models.events import Event
 from events.models.tickets import Ticket, TicketType, OnlinePaymentPolicy, TicketStatus, TicketSource
-from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.tasks.ticket_renderer import render_ticket_variants
 from events.utils import (
     get_ticket_purchase_rate_limit_keys,
@@ -138,6 +138,9 @@ class RegistrationView(FormView):
         elif self.type.online_payment_policy == OnlinePaymentPolicy.REQUIRED:
             ticket.status = TicketStatus.WAITING_FOR_PAYMENT
             ticket._original_status = TicketStatus.WAITING_FOR_PAYMENT
+
+            if self.type.online_payment_window > 0:
+                ticket.status_deadline = datetime.now() + timedelta(minutes=self.type.online_payment_window)
 
         try:
             self.type.tickets_remaining = F("tickets_remaining") - 1

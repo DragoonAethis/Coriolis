@@ -223,6 +223,7 @@ def ticket_payment(request, slug, ticket_id):
             # Forgot to update the status? Uh, okay...
             ticket.contributed_value = existing_payment.captured_amount
             ticket.status = TicketStatus.READY
+            ticket.status_deadline = None
             ticket.paid = True
             ticket.save()
 
@@ -316,6 +317,7 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
         messages.success(request, _("Payment successful - thank you!"))
         ticket.contributed_value = payment.captured_amount
         ticket.status = TicketStatus.READY
+        ticket.status_deadline = None
         ticket.paid = True
     elif payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT):
         return redirect("ticket_payment", event.slug, ticket.id)

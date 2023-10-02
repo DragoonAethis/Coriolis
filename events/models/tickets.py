@@ -92,6 +92,16 @@ class TicketType(models.Model):
         choices=OnlinePaymentPolicy.choices,
         default=OnlinePaymentPolicy.ENABLED,
     )
+    online_payment_window = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("online payment window"),
+        help_text=_(
+            "If online payment is required, how many minutes "
+            "should we wait for a valid payment? A ticket is "
+            "cancelled automatically when time's up. Setting "
+            "this to zero disables automatic cancellation."
+        ),
+    )
     display_order = models.IntegerField(
         default=0,
         verbose_name=_("display order"),
@@ -206,6 +216,17 @@ class Ticket(models.Model):
         choices=TicketStatus.choices,
         default=TicketStatus.WAITING,
     )
+    status_deadline = models.DateTimeField(
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_("status deadline"),
+        help_text=_(
+            "Date/time until which the current status is valid. The system "
+            "will automatically update the ticket after this date as needed."
+        ),
+    )
+
     source = models.CharField(
         max_length=16,
         verbose_name=_("source"),
