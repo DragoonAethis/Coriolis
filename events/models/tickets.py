@@ -157,12 +157,6 @@ class TicketSource(models.TextChoices):
     ONSITE = "onsite", _("On-site")
 
 
-class VaccinationProof(models.TextChoices):
-    NONE = "none", _("None")
-    WEAK = "weak", _("Weak")
-    STRONG = "strong", _("Strong")
-
-
 class Ticket(models.Model):
     class Meta:
         verbose_name = _("ticket")
@@ -225,13 +219,6 @@ class Ticket(models.Model):
         help_text=_("Optional, used for notifications before/during the event"),
     )
     age_gate = models.BooleanField(verbose_name=_("age gate"), help_text=_("Is the attendee of age?"))
-    vaccination_proof = models.CharField(
-        max_length=16,
-        verbose_name=_("vaccination proof"),
-        choices=VaccinationProof.choices,
-        default=VaccinationProof.NONE,
-        help_text=_("How sure are we that a given attendee is vaccinated?"),
-    )
     notes = models.TextField(
         blank=True,
         verbose_name=_("notes"),

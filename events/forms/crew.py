@@ -7,7 +7,6 @@ from crispy_forms.layout import Submit, Layout
 from crispy_forms.bootstrap import FieldWithButtons
 
 from events.models import Event, Ticket, TicketType
-from events.models.tickets import VaccinationProof
 
 
 class CrewFindTicketForm(forms.Form):
