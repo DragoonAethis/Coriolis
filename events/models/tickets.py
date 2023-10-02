@@ -183,6 +183,14 @@ class Ticket(models.Model):
     type = models.ForeignKey(TicketType, on_delete=models.RESTRICT, verbose_name=_("type"))
 
     paid = models.BooleanField(verbose_name=_("paid"), default=False)
+    contributed_value = MoneyField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name=_("contributed value"),
+        default=Money(0, settings.CURRENCY),
+        default_currency=settings.CURRENCY,
+    )
+
     override_price = models.BooleanField(
         verbose_name=_("override price"),
         default=False,

@@ -322,6 +322,7 @@ def ticket_payment(request, slug, ticket_id):
     for existing_payment in ticket.payment_set.all():
         if existing_payment.status == PaymentStatus.CONFIRMED:
             # Forgot to update the status? Uh, okay...
+            ticket.contributed_value = existing_payment.captured_amount
             ticket.status = TicketStatus.READY
             ticket.paid = True
             ticket.save()
@@ -414,6 +415,7 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
 
     if payment.status == PaymentStatus.CONFIRMED:
         messages.success(request, _("Payment successful - thank you!"))
+        ticket.contributed_value = payment.captured_amount
         ticket.status = TicketStatus.READY
         ticket.paid = True
     elif payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT):
