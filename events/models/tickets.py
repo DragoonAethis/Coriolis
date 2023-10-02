@@ -17,6 +17,12 @@ from events.models.events import Event, EventPage, EventPageType
 from events.models.users import User
 
 
+class OnlinePaymentPolicy(models.IntegerChoices):
+    DISABLED = 0, _("Disabled")
+    ENABLED = 1, _("Enabled")
+    REQUIRED = 2, _("Required")
+
+
 class TicketType(models.Model):
     class Meta:
         verbose_name = _("ticket type")
@@ -81,15 +87,10 @@ class TicketType(models.Model):
         verbose_name=_("on-site registration"),
         help_text=_("Determines if the ticket can be purchased on-site."),
     )
-    must_pay_online = models.BooleanField(
-        default=False,
-        verbose_name=_("must pay online"),
-        help_text=_("Determines if the ticket can be paid on-site or online only."),
-    )
-    can_pay_online = models.BooleanField(
-        default=True,
-        verbose_name=_("can pay online"),
-        help_text=_("Determines if online payments are allowed at all for this type."),
+    online_payment_policy = models.IntegerField(
+        verbose_name=_("online payment policy"),
+        choices=OnlinePaymentPolicy.choices,
+        default=OnlinePaymentPolicy.ENABLED,
     )
     display_order = models.IntegerField(
         default=0,
@@ -290,7 +291,7 @@ class Ticket(models.Model):
             and not self.paid
             and self.status in (TicketStatus.READY, TicketStatus.WAITING_FOR_PAYMENT)
             and self.event.payment_enabled
-            and self.type.can_pay_online
+            and self.type.online_payment_policy != OnlinePaymentPolicy.DISABLED
         )
 
     def can_personalize(self) -> bool:

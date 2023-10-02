@@ -10,10 +10,14 @@
     {% crispy form %}
     <div class="alert alert-primary">
         <span>{% blocktranslate with price=ticket_type.price %}The ticket price is <b>{{ price }}</b>.{% endblocktranslate %}</span>
-        {% if ticket_type.must_pay_online %}
-            <span>{% translate "You must pay for this ticket type online." %}</span>
-        {% else %}
-            <span>{% translate "You can pay on-site or online (after registration)." %}</span>
-        {% endif %}
+        <span>
+            {% if ticket_type.online_payment_policy == 2 %}
+                {% translate "You must pay for this ticket online." %}
+            {% elif ticket_type.online_payment_policy == 1 %}
+                {% translate "You can pay for this ticket on-site or online (after registration)." %}
+            {% elif ticket_type.online_payment_policy == 0 %}
+                {% translate "You must pay for this ticket on-site." %}
+            {% endif %}
+        </span>
     </div>
 {% endblock %}
