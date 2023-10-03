@@ -46,6 +46,11 @@ class TextField(DynaformField):
     _widget = widgets.Textarea
 
 
+class URLField(DynaformField):
+    kind: Literal["url"]
+    _field_class: type[Field] = fields.URLField
+
+
 class EmailField(DynaformField):
     kind: Literal["email"]
     _field_class: type[Field] = fields.EmailField
@@ -89,6 +94,7 @@ DynaformFieldUnion = Annotated[
     Union[
         CharField,
         TextField,
+        URLField,
         EmailField,
         PhoneNumberField,
         BooleanField,
