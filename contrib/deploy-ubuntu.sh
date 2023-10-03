@@ -17,7 +17,6 @@ export INSTALL_DIR="/app"
 if ! timedatectl show | grep "Timezone=$TIMEZONE"; then
   # Set and reboot to apply changes to cron, etc.
   sudo timedatectl set-timezone "$TIMEZONE"
-  sudo reboot
 fi
 
 # Less spam:
@@ -33,14 +32,14 @@ sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y install \
   docker.io gcc gettext
 
 # Make sure our users can call Docker:
-sudo gpasswd -a ubuntu docker
+sudo gpasswd -a $USER docker
 sudo gpasswd -a www-data docker
 
 # Installing Poetry from repos gives you 1.1 (too old).
 # Installing from pip causes it to get very confused.
 # Just use the nasty install script...
 curl -sSL https://install.python-poetry.org | python3 -
-echo "export PATH=\"/home/ubuntu/.local/bin:\$PATH\"" > ~/.bashrc
+echo "export PATH=\"/home/$USER/.local/bin:\$PATH\"" > ~/.bashrc
 
 # Make sure we have Poetry in our PATH now:
 # shellcheck disable=SC1090
