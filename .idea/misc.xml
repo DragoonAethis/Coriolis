@@ -4,7 +4,7 @@
     <option name="enabledOnReformat" value="true" />
     <option name="enabledOnSave" value="true" />
     <option name="pathToExecutable" value="/usr/bin/black" />
-    <option name="sdkUUID" value="5d59a465-3a83-480c-a78e-381651062aec" />
+    <option name="sdkName" value="Poetry (Coriolis)" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (Coriolis)" project-jdk-type="Python SDK" />
   <component name="PythonCompatibilityInspectionAdvertiser">
