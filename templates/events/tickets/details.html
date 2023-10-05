@@ -8,10 +8,12 @@
     <div class="row">
         <div class="col-12 col-md-8">
             <h5 class="text-muted">{% translate "Ticket details" %}</h5>
-            <h1 class="{% if ticket.is_cancelled %}text-muted text-decoration-line-through{% endif %}"><b>{{ ticket.type.code_prefix }}{{ ticket.code|stringformat:"04d" }}</b> {{ ticket.name }}</h1>
+            <h1 class="{% if ticket.is_cancelled %}text-muted text-decoration-line-through{% endif %}"><b>
+                {{ ticket.type.code_prefix }}{{ ticket.code|stringformat:"04d" }}</b> {{ ticket.name }}</h1>
             <h5>{% translate "Type" %}: <b>{{ ticket.type.name }}</b></h5>
             <h5>{% translate "Status" %}: <b>{{ ticket.get_status_display }}</b></h5>
-            <h5 class="{% if ticket.is_cancelled %}text-decoration-line-through{% endif %}">{% translate "Price" %}: <b>{{ ticket.get_price }}</b></h5>
+            <h5 class="{% if ticket.is_cancelled %}text-decoration-line-through{% endif %}">{% translate "Price" %}:
+                <b>{{ ticket.get_price }}</b></h5>
             <hr>
             <h5>{% translate "Name" %}: <b>{{ ticket.name }}</b></h5>
             <h5>{% translate "Email" %}: <b>{{ ticket.email }}</b></h5>
@@ -79,9 +81,11 @@
 
             <div class="d-grid gap-2 mt-2">
                 {% if ticket.can_personalize %}
-                    <button class="btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#personalizeModal">{% translate "Change nickname/image" %}</button>
+                    <button class="btn btn-lg btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#personalizeModal">{% translate "Change nickname/image" %}</button>
                 {% else %}
-                    <button class="btn btn-lg btn-outline-primary" disabled>{% translate "Cannot change ticket" %}</button>
+                    <button class="btn btn-lg btn-outline-primary"
+                            disabled>{% translate "Cannot change ticket" %}</button>
                 {% endif %}
             </div>
         </div>
@@ -95,12 +99,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 {% if ticket.can_personalize %}
-                    <form action="{% url 'ticket_update' event.slug ticket.id %}" method="post" enctype="multipart/form-data" novalidate>
+                    <form action="{% url 'ticket_update' event.slug ticket.id %}" method="post"
+                          enctype="multipart/form-data" novalidate>
                         <div class="modal-body">
                             <p>
                                 {% blocktranslate with relative_date=ticket.type.registration_to|naturaltime %}
                                     You can change the nickname or image to be printed on your ticket here.
-                                    Changes can be made as many times as you want until registration closes ({{ relative_date }}).
+                                    Changes can be made as many times as you want until registration closes (
+                                    {{ relative_date }}).
                                 {% endblocktranslate %}
                             </p>
 
@@ -114,7 +120,8 @@
                             {{ update_form | crispy }}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                            <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">{% translate "Cancel" %}</button>
                             <button type="submit" class="btn btn-primary">{% translate "Change" %}</button>
                         </div>
                     </form>
@@ -131,7 +138,8 @@
                         <p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Close" %}</button>
+                        <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">{% translate "Close" %}</button>
                     </div>
                 {% endif %}
             </div>

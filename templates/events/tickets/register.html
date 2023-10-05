@@ -9,7 +9,8 @@
     <div>{% render_markdown ticket_type.long_description %}</div>
     {% crispy form %}
     <div class="alert alert-primary">
-        <span>{% blocktranslate with price=ticket_type.price %}The ticket price is <b>{{ price }}</b>.{% endblocktranslate %}</span>
+        <span>{% blocktranslate with price=ticket_type.price %}The ticket price is <b>{{ price }}</b>
+            .{% endblocktranslate %}</span>
         <span>
             {% if ticket_type.online_payment_policy == 2 %}
                 {% translate "You must pay for this ticket online." %}

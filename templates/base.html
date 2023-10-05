@@ -17,83 +17,102 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <noscript>{# Can't apply bg-warning on noscript... #}
-        <div class="bg-warning">
-            <div class="container pt-2 pb-2">
-                {% translate "You don't have JavaScript enabled. Some elements on this page will not work correctly." %}
-            </div>
+<noscript>{# Can't apply bg-warning on noscript... #}
+    <div class="bg-warning">
+        <div class="container pt-2 pb-2">
+            {% translate "You don't have JavaScript enabled. Some elements on this page will not work correctly." %}
         </div>
-    </noscript>
-    <header class="border-bottom mb-2 {% get_env_css_class %}">
-        <div class="container-lg d-flex justify-content-between flex-wrap py-3">
-            <div><a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a></div>
-            <div class="d-flex btn-gaps flex-wrap">
-                {% if request.user.is_staff and event %}
-                    <div class="dropdown">
-                        <a href="{% url 'crew_index' event.slug %}" class="btn btn-success">
-                            <i class="bi bi-wrench me-1"></i> {% translate "Crew Panel" %}
-                        </a>
-                    </div>
-                {% endif %}
-                {% if event and event.eventpage_set.select_related.all %}
-                    <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="pagesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% translate 'Event pages' %}
-                        </button>
-                        <ul class="dropdown-menu shadow" aria-labelledby="pagesDropdown">
-                            {% for page in event.eventpage_set.select_related.all %}
-                                {% if not page.hidden %}
-                                    <li><a class="dropdown-item" href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
-                                {% endif %}
+    </div>
+</noscript>
+<header class="border-bottom mb-2 {% get_env_css_class %}">
+    <div class="container-lg d-flex justify-content-between flex-wrap py-3">
+        <div><a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a></div>
+        <div class="d-flex btn-gaps flex-wrap">
+            {% if request.user.is_staff and event %}
+                <div class="dropdown">
+                    <a href="{% url 'crew_index' event.slug %}" class="btn btn-success">
+                        <i class="bi bi-wrench me-1"></i> {% translate "Crew Panel" %}
+                    </a>
+                </div>
+            {% endif %}
+            {% if event and event.eventpage_set.select_related.all %}
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="pagesDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        {% translate 'Event pages' %}
+                    </button>
+                    <ul class="dropdown-menu shadow" aria-labelledby="pagesDropdown">
+                        {% for page in event.eventpage_set.select_related.all %}
+                            {% if not page.hidden %}
+                                <li><a class="dropdown-item"
+                                       href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if global_event_pages %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            {% for page in global_event_pages %}
+                                <li><a class="dropdown-item"
+                                       href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
                             {% endfor %}
-                            {% if global_event_pages %}
-                                <li><hr class="dropdown-divider"></li>
-                                {% for page in global_event_pages %}
-                                    <li><a class="dropdown-item" href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
-                                {% endfor %}
-                            {% endif %}
-                        </ul>
-                    </div>
-                {% endif %}
-                {% if request.user.is_authenticated %}
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% blocktranslate with email=request.user.email %}Logged in as {{ email }}{% endblocktranslate %}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-sm-end shadow" aria-labelledby="userDropdown">
-                            {% if event %}
-                                <li><a class="dropdown-item" href="{{ event.website_link }}" target="_blank">{% translate 'Main event website' %} <i class="bi bi-box-arrow-right ms-1"></i></a></li>
-                                <li><hr class="dropdown-divider"></li>
-                            {% endif %}
-                            <li><h6 class="dropdown-header">{% translate 'Security' %}</h6></li>
-                            <li><a class="dropdown-item" href="{% url 'account_change_password' %}">{% translate 'Change password' %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'account_email' %}">{% translate 'E-mail accounts' %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'socialaccount_connections' %}">{% translate 'Social accounts' %}</a></li>
-                            <li><a class="dropdown-item" href="{% url 'two-factor-setup' %}">{% translate 'Configure 2FA' %}</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a></li>
-                        </ul>
-                    </div>
-                {% else %}
-                    <div class="ms-2">
-                        <a href="{% url 'account_login' %}" class="btn btn-primary ">{% translate "Sign in" %}</a>
-                    </div>
-                {% endif %}
-            </div>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        {% blocktranslate with email=request.user.email %}Logged in as
+                            {{ email }}{% endblocktranslate %}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-sm-end shadow" aria-labelledby="userDropdown">
+                        {% if event %}
+                            <li><a class="dropdown-item" href="{{ event.website_link }}"
+                                   target="_blank">{% translate 'Main event website' %} <i
+                                    class="bi bi-box-arrow-right ms-1"></i></a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                        {% endif %}
+                        <li><h6 class="dropdown-header">{% translate 'Security' %}</h6></li>
+                        <li><a class="dropdown-item"
+                               href="{% url 'account_change_password' %}">{% translate 'Change password' %}</a></li>
+                        <li><a class="dropdown-item"
+                               href="{% url 'account_email' %}">{% translate 'E-mail accounts' %}</a></li>
+                        <li><a class="dropdown-item"
+                               href="{% url 'socialaccount_connections' %}">{% translate 'Social accounts' %}</a></li>
+                        <li><a class="dropdown-item"
+                               href="{% url 'two-factor-setup' %}">{% translate 'Configure 2FA' %}</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
+                        </li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="ms-2">
+                    <a href="{% url 'account_login' %}" class="btn btn-primary ">{% translate "Sign in" %}</a>
+                </div>
+            {% endif %}
         </div>
-    </header>
+    </div>
+</header>
 
-    {% block body %}
+{% block body %}
     <section class="container-lg">
         {% if messages %}
-        <div class="mb-2">
-            {% for message in messages %}
-            <div class="alert alert-{% level_to_bootstrap_css_class message.level %} alert-dismissible show" role="alert">
-                {{message}}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="mb-2">
+                {% for message in messages %}
+                    <div class="alert alert-{% level_to_bootstrap_css_class message.level %} alert-dismissible show"
+                         role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
         {% endif %}
 
         {% block content %}{% endblock %}
@@ -107,7 +126,8 @@
                         <i class="bi bi-envelope"></i> {% translate "Contact Organizers" %}
                     </a>
                 {% endif %}
-                <a href="#" class="btn btn-lg btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changeLanguageModal">
+                <a href="#" class="btn btn-lg btn-outline-primary" data-bs-toggle="modal"
+                   data-bs-target="#changeLanguageModal">
                     {# Keep the first block untranslated here: #}
                     <i class="bi bi-translate"></i> Language/{% translate "Language" %}
                 </a>
@@ -148,11 +168,13 @@
                         <a href="{% url 'admin:events_application_change' application.id %}" class="btn btn-warning">
                             <i class="bi bi-file-earmark-ruled-fill me-1"></i> {% translate "Application" %}
                         </a>
-                        <a href="{% url 'admin:events_applicationtype_change' application.type_id %}" class="btn btn-warning">
+                        <a href="{% url 'admin:events_applicationtype_change' application.type_id %}"
+                           class="btn btn-warning">
                             <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
                         </a>
                     {% elif application_type and perms.events.view_applicationtype %}
-                        <a href="{% url 'admin:events_applicationtype_change' application_type.id %}" class="btn btn-warning">
+                        <a href="{% url 'admin:events_applicationtype_change' application_type.id %}"
+                           class="btn btn-warning">
                             <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
                         </a>
                     {% endif %}
@@ -176,20 +198,22 @@
     </footer>
 
     {% if cookies_link %}
-    <div id="cookieToast" class="toast position-absolute bottom-0 end-0 m-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
-        <div class="d-flex">
-            <div class="toast-body">
-                {% blocktranslate with cookies=cookies_link %}
-                    We use cookies to deliver basic functionality on this site.
-                    Read our <a href="{{ cookies }}">Cookies Policy</a> to learn more.
-                {% endblocktranslate %}
+        <div id="cookieToast" class="toast position-absolute bottom-0 end-0 m-2" role="alert" aria-live="assertive"
+             aria-atomic="true" data-bs-autohide="false">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {% blocktranslate with cookies=cookies_link %}
+                        We use cookies to deliver basic functionality on this site.
+                        Read our <a href="{{ cookies }}">Cookies Policy</a> to learn more.
+                    {% endblocktranslate %}
+                </div>
+                <button type="button" class="btn-close me-2 mt-2" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close me-2 mt-2" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-    </div>
     {% endif %}
 
-    <div class="modal" id="changeLanguageModal" tabindex="-1" aria-labelledby="changeLanguageModalLabel" aria-hidden="true">
+    <div class="modal" id="changeLanguageModal" tabindex="-1" aria-labelledby="changeLanguageModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -206,14 +230,16 @@
                             {% get_available_languages as LANGUAGES %}
                             {% get_language_info_list for LANGUAGES as languages %}
                             {% for language in languages %}
-                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
+                                        selected{% endif %}>
                                     {{ language.name_local }} ({{ language.code }})
                                 </option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel/{% translate "Cancel" %}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel/{% translate "Cancel" %}</button>
                         <button type="submit" class="btn btn-primary">Change/{% translate "Change" %}</button>
                     </div>
                 </form>
@@ -223,7 +249,7 @@
 
     <script src="{% static 'bootstrap/5.3.2/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'app.js' %}"></script>
-    {% endblock %}
-    {% block extra_body %}{% endblock %}
+{% endblock %}
+{% block extra_body %}{% endblock %}
 </body>
 </html>

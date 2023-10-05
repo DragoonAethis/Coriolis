@@ -4,44 +4,46 @@
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <h1>{% trans "Sign in" %}</h1>
-        {% if login_notice %}
-            <div class="alert alert-primary" role="alert">
-                {{ login_notice|safe }}
-            </div>
-        {% endif %}
-
-        <form class="d-grid gap-1" class="login" method="POST" action="{% url 'account_login' %}" novalidate="">
-            {% csrf_token %}
-            {{ form | crispy }}
-            {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1>{% trans "Sign in" %}</h1>
+            {% if login_notice %}
+                <div class="alert alert-primary" role="alert">
+                    {{ login_notice|safe }}
+                </div>
             {% endif %}
-            <button class="btn btn-primary" type="submit">{% trans "Sign in" %}</button>
-            <div class="col">
-                <div class="row">
-                    <div class="col-6 d-grid pe-1">
-                        <a class="btn btn-secondary" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-                    </div>
-                    <div class="col-6 d-grid ps-1">
-                        <a class="btn btn-secondary" href="{{ signup_url }}">{% trans "Sign up" %}</a>
+
+            <form class="d-grid gap-1" class="login" method="POST" action="{% url 'account_login' %}" novalidate="">
+                {% csrf_token %}
+                {{ form | crispy }}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <button class="btn btn-primary" type="submit">{% trans "Sign in" %}</button>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-6 d-grid pe-1">
+                            <a class="btn btn-secondary"
+                               href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                        </div>
+                        <div class="col-6 d-grid ps-1">
+                            <a class="btn btn-secondary" href="{{ signup_url }}">{% trans "Sign up" %}</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        {% get_providers as socialaccount_providers %}
-        {% if socialaccount_providers %}
-            <div class="d-grid gap-1 mt-3">
-                <p>{% translate "You can sign in with one of the external accounts as well:" %}</p>
-                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-            </div>
-        {% endif %}
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
+                <div class="d-grid gap-1 mt-3">
+                    <p>{% translate "You can sign in with one of the external accounts as well:" %}</p>
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                </div>
+            {% endif %}
 
-        {% if login_footer %}<footer class="mt-3 text-center">{{ login_footer|safe }}</footer>{% endif %}
+            {% if login_footer %}
+                <footer class="mt-3 text-center">{{ login_footer|safe }}</footer>{% endif %}
+        </div>
     </div>
-</div>
 
 {% endblock %}

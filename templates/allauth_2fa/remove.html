@@ -2,17 +2,17 @@
 {% load i18n crispy_forms_tags %}
 
 {% block content %}
-<h1>
-    {% trans "Disable Two-Factor Authentication" %}
-</h1>
+    <h1>
+        {% trans "Disable Two-Factor Authentication" %}
+    </h1>
 
-<p>{% trans "Are you sure?" %}</p>
+    <p>{% trans "Are you sure?" %}</p>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.otp_token|as_crispy_field }}
-    <button class="btn btn-danger" type="submit">
-        {% trans 'Disable Two-Factor' %}
-    </button>
-</form>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.otp_token|as_crispy_field }}
+        <button class="btn btn-danger" type="submit">
+            {% trans 'Disable Two-Factor' %}
+        </button>
+    </form>
 {% endblock %}

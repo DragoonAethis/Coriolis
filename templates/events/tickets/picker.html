@@ -22,10 +22,12 @@
                                 {% endblocktranslate %}
                                 ({{ type.registration_to.date }})
                             </p>
-                            <a href="{% url 'registration_form' event.slug type.id %}" class="btn btn-primary stretched-link">
+                            <a href="{% url 'registration_form' event.slug type.id %}"
+                               class="btn btn-primary stretched-link">
                                 {% translate "Select this ticket" %}
                                 {% if type.show_tickets_remaining %}
-                                    <span class="badge rounded-pill bg-secondary">{% blocktranslate with left=type.tickets_remaining %}{{ left }} left{% endblocktranslate %}</span>
+                                    <span class="badge rounded-pill bg-secondary">{% blocktranslate with left=type.tickets_remaining %}
+                                        {{ left }} left{% endblocktranslate %}</span>
                                 {% endif %}
                             </a>
                         {% else %}

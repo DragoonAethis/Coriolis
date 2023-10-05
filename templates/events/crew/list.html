@@ -9,24 +9,24 @@
             {% crispy form %}
             <table class="table table-striped table-bordered table-sm table-hover">
                 <thead>
-                    <tr class="table-light">
-                        <th scope="col" class="sticky-top">{% translate "Code" %}</th>
-                        <th scope="col" class="sticky-top">{% translate "Name" %}</th>
-                        <th scope="col" class="sticky-top bg-light">{% translate "Email" %}</th>
-                        <th scope="col" class="sticky-top bg-light">{% translate "Phone" %}</th>
-                        <th scope="col" class="sticky-top bg-light">{% translate "Nickname" %}</th>
-                    </tr>
+                <tr class="table-light">
+                    <th scope="col" class="sticky-top">{% translate "Code" %}</th>
+                    <th scope="col" class="sticky-top">{% translate "Name" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Email" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Phone" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Nickname" %}</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for ticket in tickets %}
-                        <tr>
-                            <th scope="row">{{ ticket.get_code }}</th>
-                            <td><a href="{% url 'crew_existing_ticket' event.slug ticket.id %}">{{ ticket.name }}</a></td>
-                            <td>{{ ticket.email }}</td>
-                            <td>{{ ticket.phone }}</td>
-                            <td>{{ ticket.nickname }}</td>
-                        </tr>
-                    {% endfor %}
+                {% for ticket in tickets %}
+                    <tr>
+                        <th scope="row">{{ ticket.get_code }}</th>
+                        <td><a href="{% url 'crew_existing_ticket' event.slug ticket.id %}">{{ ticket.name }}</a></td>
+                        <td>{{ ticket.email }}</td>
+                        <td>{{ ticket.phone }}</td>
+                        <td>{{ ticket.nickname }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

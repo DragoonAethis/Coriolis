@@ -38,17 +38,23 @@
                 {% if not application.answers and application.application %}
                     <tr>
                         <th scope="row">{% translate "Classic Application" %}</th>
-                        <td><div class="pre-wrap">{{ application.application }}</div></td>
+                        <td>
+                            <div class="pre-wrap">{{ application.application }}</div>
+                        </td>
                     </tr>
                 {% endif %}
 
                 <tr>
                     <th scope="row">{% translate "Notes" %}</th>
-                    <td><div class="pre-wrap">{{ application.notes|default:"-" }}</div></td>
+                    <td>
+                        <div class="pre-wrap">{{ application.notes|default:"-" }}</div>
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row">{% translate "Org Notes" %}</th>
-                    <td><div class="pre-wrap">{{ application.org_notes|default:"-" }}</div></td>
+                    <td>
+                        <div class="pre-wrap">{{ application.org_notes|default:"-" }}</div>
+                    </td>
                 </tr>
                 </tbody>
             </table>
