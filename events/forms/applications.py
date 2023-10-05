@@ -1,14 +1,13 @@
-from django import forms
-from django.urls import reverse
-from django.forms.widgets import TextInput, Textarea
-from django.utils.translation import gettext_lazy as _
-
-from phonenumber_field.formfields import PhoneNumberField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+from django import forms
+from django.forms.widgets import TextInput, Textarea
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+from phonenumber_field.formfields import PhoneNumberField
 
+from events.dynaforms.fields import Dynaform
 from events.models import Event, ApplicationType
-from events.dynaforms.fields import dynaform_to_fields
 
 
 class ApplicationDynaform(forms.Form):
@@ -38,7 +37,8 @@ class ApplicationDynaform(forms.Form):
 
     def __init__(self, *args, event: Event, application_type: ApplicationType, template: str = None, **kwargs):
         super().__init__(*args, **kwargs)
-        self.dynamic_fields = dynaform_to_fields(self.DYNAFORM_NAME, template)
+        self.dynaform = Dynaform.build(ApplicationDynaform.DYNAFORM_NAME, template)
+        self.dynamic_fields = self.dynaform.get_fields()
 
         self.fields.update(self.dynamic_fields)
         self.fields["notes"] = forms.CharField(

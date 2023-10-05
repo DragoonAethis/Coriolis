@@ -1,20 +1,19 @@
 import datetime
 from typing import Tuple, Optional
 
-from django.core.mail import EmailMessage
+from django.conf import settings
 from django.contrib import messages
-from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
-from django.conf import settings
 
+from events.dynaforms.utils import get_pretty_answers
 from events.forms import ApplicationDynaform
 from events.models import Event, ApplicationType, Application, Ticket
-from events.dynaforms.fields import dynaform_prefix
-from events.utils import get_dynaform_pretty_answers
 
 
 class ApplicationView(FormView):
@@ -73,9 +72,11 @@ class ApplicationView(FormView):
         context.update({"event": self.event, "application_type": self.type})
         return context
 
-    def form_valid(self, form):
-        prefix = dynaform_prefix(ApplicationDynaform.DYNAFORM_NAME)
-        answers = {key.removeprefix(prefix): form.cleaned_data[key] for key, field in form.dynamic_fields.items()}
+    def form_valid(self, form: ApplicationDynaform):
+        prefixed_answers = {key: form.cleaned_data[key] for key in form.dynamic_fields.keys()}
+
+        prefix = form.dynaform.get_prefix()
+        answers = {key.removeprefix(prefix): data for key, data in prefixed_answers.items()}
 
         application = Application(
             user=self.request.user,
@@ -94,7 +95,7 @@ class ApplicationView(FormView):
 
         pretty_answers = {}
         if application.answers:
-            pretty_answers = get_dynaform_pretty_answers(answers, self.type.template)
+            pretty_answers = get_pretty_answers(prefixed_answers, form.dynamic_fields)
 
         EmailMessage(
             _("%(event)s: Application '%(name)s'") % {"event": self.event.name, "name": application.name},

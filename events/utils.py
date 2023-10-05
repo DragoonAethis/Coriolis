@@ -1,21 +1,16 @@
-import copy
-import os
-import uuid
-import random
-import logging
 import hashlib
-
-from typing import Optional
-
-from django.conf import settings
-from django.contrib import messages
-from django.http.request import HttpRequest
-from django.utils.translation import gettext as _
-from django.forms.fields import Field, ChoiceField
-from django.core.files.storage import default_storage
-from django.core.files.uploadedfile import UploadedFile
+import logging
+import os
+import random
+import uuid
 
 from PIL import Image
+from django.conf import settings
+from django.contrib import messages
+from django.core.files.storage import default_storage
+from django.core.files.uploadedfile import UploadedFile
+from django.http.request import HttpRequest
+from django.utils.translation import gettext as _
 from ipware import get_client_ip
 from sentry_sdk import capture_exception
 
@@ -141,47 +136,3 @@ def save_ticket_image(request: HttpRequest, instance: "events.models.Ticket", im
 
     instance.image = new_image_path
     instance.save()
-
-
-def get_pretty_answer_value(answer: object, field: Optional[Field]) -> str:
-    mapper = {}
-
-    if isinstance(field, ChoiceField):
-        mapper = {k: v for k, v in field.choices}
-
-    if isinstance(answer, list):
-        remapped = [mapper.get(x) or x for x in answer]
-        return ", ".join(remapped)
-    elif isinstance(answer, bool):
-        return _("Yes") if answer else _("No")
-    else:
-        return mapper.get(answer) or answer
-
-
-def get_dynaform_pretty_answers(answers: dict, template: str) -> dict[str, str]:
-    from events.dynaforms.fields import dynaform_to_fields
-
-    pretty_answers = {}
-    answers = copy.deepcopy(answers)
-    fields = dynaform_to_fields(None, template)
-    unknown_label = _("Unknown field")
-
-    # All the known fields first:
-    for field_name, field in fields.items():
-        if field_name not in answers:
-            # Answers without fields added later?
-            answer = "-"
-        else:
-            # We don't want to revisit this one below
-            answer = answers.get(field_name)
-            del answers[field_name]
-
-        answer = get_pretty_answer_value(answer, field).strip() or "-"
-        pretty_answers[field.label] = answer
-
-    # Leftovers we don't have in fields:
-    for key, value in answers.items():
-        label = f"{unknown_label} ({key})"
-        pretty_answers[label] = get_pretty_answer_value(value, None)
-
-    return pretty_answers
