@@ -4,7 +4,7 @@ set -euxo pipefail
 sudo systemctl stop coriolis
 sudo systemctl stop coriolis-crontab
 sudo systemctl stop coriolis-dramatiq
-sudo chown -R ubuntu:ubuntu .
+sudo chown -R $USER:$USER .
 git pull
 poetry install
 poetry run python manage.py migrate
