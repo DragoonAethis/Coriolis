@@ -1,4 +1,5 @@
 from django.dispatch import receiver
+from djmoney.money import Money
 from payments import PaymentStatus
 from payments.signals import status_changed
 
@@ -14,7 +15,10 @@ def handle_payment_status_change(sender: type, **kwargs):
     ticket: Ticket = payment.ticket
 
     if payment.status == PaymentStatus.CONFIRMED:
-        ticket.contributed_value += payment.captured_amount
+        ticket.contributed_value += Money(
+            payment.captured_amount, payment.currency or ticket.contributed_value.currency
+        )
+
         ticket.status = TicketStatus.READY
         ticket.status_deadline = None
         ticket.paid = True
