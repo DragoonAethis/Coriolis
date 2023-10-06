@@ -15,7 +15,6 @@ from payments import RedirectNeeded, PaymentStatus
 from events.forms import UpdateTicketForm
 from events.models import Event, EventPage, Application, ApplicationType, Payment
 from events.models.tickets import Ticket, TicketType, TicketStatus
-from payments_przelewy24.api import Przelewy24API
 
 
 def index(request):
@@ -213,7 +212,9 @@ def ticket_payment(request, slug, ticket_id):
         return redirect("event_index", event.slug)
 
     payment = None
+    resuming_payment_in_progress = False
     can_restore_payment_in_progress = True
+
     try:
         can_resume = int(request.GET.get("resume", "1"))
         can_restore_payment_in_progress = bool(can_resume)
@@ -222,13 +223,6 @@ def ticket_payment(request, slug, ticket_id):
 
     for existing_payment in ticket.payment_set.all():
         if existing_payment.status == PaymentStatus.CONFIRMED:
-            # Forgot to update the status? Uh, okay...
-            ticket.contributed_value = existing_payment.captured_amount
-            ticket.status = TicketStatus.READY
-            ticket.status_deadline = None
-            ticket.paid = True
-            ticket.save()
-
             messages.success(request, _("This ticket was already paid for. Thank you!"))
             return redirect("event_index", event.slug)
 
@@ -238,12 +232,10 @@ def ticket_payment(request, slug, ticket_id):
             and can_restore_payment_in_progress
             and existing_payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT)
         ):
+            # If multiple payments are eligible for resuming,
+            # just use the last one on the list.
             payment = existing_payment
-            resuming_message = _("Resuming an existing payment in progress. Problems?")
-            no_resuming_link_label = _("Start a new payment.")
-            no_resuming_link = reverse("ticket_payment", args=[event.slug, ticket.id]) + "?resume=0"
-            msg = mark_safe(f'{resuming_message} <a href="{no_resuming_link}">{no_resuming_link_label}</a>')
-            messages.info(request, msg)
+            resuming_payment_in_progress = True
 
     if payment is None:  # Let's make a new one:
         payment = Payment(
@@ -268,6 +260,13 @@ def ticket_payment(request, slug, ticket_id):
     except RedirectNeeded as redirect_to:
         return redirect(str(redirect_to))
 
+    if resuming_payment_in_progress:
+        resuming_message = _("Resuming an existing payment in progress. Problems?")
+        no_resuming_link_label = _("Start a new payment.")
+        no_resuming_link = reverse("ticket_payment", args=[event.slug, ticket.id]) + "?resume=0"
+        msg = mark_safe(f'{resuming_message} <a href="{no_resuming_link}">{no_resuming_link_label}</a>')
+        messages.info(request, msg)
+
     return render(
         request,
         "events/tickets/payment.html",
@@ -280,47 +279,16 @@ def ticket_payment(request, slug, ticket_id):
     )
 
 
-def request_przelewy24_transaction_info(request, payment):
-    # P24 sends us a notification after a successful payment. Unfortunately,
-    # failures or rejections get radio silence - let's ask P24 what's up with
-    # a given payment and update the status accordingly.
-
-    p24_config = settings.PAYMENT_VARIANTS["przelewy24"][1]["config"]
-    p24_api = Przelewy24API(p24_config)
-    response = p24_api.get_by_session_id(session_id=str(payment.id))
-    if "data" not in response or "status" not in response["data"]:
-        return
-
-    status = response["data"]["status"]
-    if status == 0:
-        messages.warning(
-            request,
-            _(
-                "We did not receive a payment notification from Przelewy24. "
-                "Try again later or contact organizers about this issue."
-            ),
-        )
-    elif status == 3:
-        payment.status = PaymentStatus.REFUNDED
-        payment.save()
-
-
 @login_required
 def ticket_payment_finalize(request, slug, ticket_id, payment_id):
     event, ticket = get_event_and_ticket(slug, ticket_id)
     payment = get_object_or_404(Payment, id=payment_id)
     assert payment.ticket_id == ticket.id
 
-    # TODO: REMOVE AWFUL HACK FOR PRZELEWY24
-    if payment.variant == "przelewy24" and payment.status == PaymentStatus.WAITING:
-        request_przelewy24_transaction_info(request, payment)
-
-    if payment.status == PaymentStatus.CONFIRMED:
+    if payment.status == PaymentStatus.WAITING:
+        messages.warning(request, _("Still waiting for the payment confirmation - please try again in a few minutes."))
+    elif payment.status == PaymentStatus.CONFIRMED:
         messages.success(request, _("Payment successful - thank you!"))
-        ticket.contributed_value = payment.captured_amount
-        ticket.status = TicketStatus.READY
-        ticket.status_deadline = None
-        ticket.paid = True
     elif payment.status in (PaymentStatus.WAITING, PaymentStatus.INPUT):
         return redirect("ticket_payment", event.slug, ticket.id)
     elif payment.status == PaymentStatus.ERROR:
@@ -330,8 +298,8 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
     elif payment.status == PaymentStatus.REFUNDED:
         messages.warning(request, _("Payment refunded."))
         ticket.status = TicketStatus.CANCELLED
+        ticket.save()
 
-    ticket.save()
     return redirect("ticket_details", event.slug, ticket.id)
 
 

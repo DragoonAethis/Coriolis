@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 
-from django.conf import settings
 from django.apps import AppConfig
+from django.conf import settings
 
 
 class EventsConfig(AppConfig):
@@ -10,7 +10,10 @@ class EventsConfig(AppConfig):
     name = "events"
 
     def ready(self):
+        from .signals.handlers import connect_signals
+
         super().ready()
+        connect_signals()
 
         # Make sure all target media dirs are present when we need them:
         for path in ["ticketavatars", "templates", "previews"]:
