@@ -41,8 +41,12 @@ class ApplicationView(FormView):
             return False, _("This application cannot be submitted for this event!")
 
         if (
-            self.event.applications_require_registration
-            and Ticket.by_event_user(self.event, self.request.user).count() < 1
+            self.type.requires_valid_ticket
+            and Ticket.objects.filter(event=self.event, user=self.request.user)
+            .valid_statuses_only()
+            .not_onsite()
+            .count()
+            < 1
         ):
             return False, _("You must register for this event before submitting an application.")
 

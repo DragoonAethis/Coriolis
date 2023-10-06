@@ -7,6 +7,7 @@ from django.conf import settings
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from django.core.mail import EmailMessage
 from django.db import models
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -169,6 +170,14 @@ class TicketSource(models.TextChoices):
     ONSITE = "onsite", _("On-site")
 
 
+class TicketQuerySet(models.QuerySet):
+    def valid_statuses_only(self):
+        return self.filter(status__in=(TicketStatus.READY, TicketStatus.USED))
+
+    def not_onsite(self):
+        return self.filter(~Q(source=TicketSource.ONSITE))
+
+
 class Ticket(models.Model):
     class Meta:
         verbose_name = _("ticket")
@@ -179,6 +188,8 @@ class Ticket(models.Model):
             models.Index(fields=["event", "name"]),
             models.Index(fields=["event", "email"]),
         ]
+
+    objects = TicketQuerySet.as_manager()
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
@@ -375,7 +386,3 @@ class Ticket(models.Model):
                 [self.email],
                 reply_to=[self.event.org_mail],
             ).send()
-
-    @staticmethod
-    def by_event_user(event: Event, user: User):
-        return Ticket.objects.filter(event=event, user=user)

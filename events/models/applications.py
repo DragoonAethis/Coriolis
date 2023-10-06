@@ -39,6 +39,11 @@ class ApplicationType(models.Model):
         verbose_name=_("registration to"),
         help_text=_("Date/time when the form for these applications closes."),
     )
+    requires_valid_ticket = models.BooleanField(
+        default=False,
+        verbose_name=_("requires registration"),
+        help_text=_("If enabled, users must have a valid ticket for the event before sending applications."),
+    )
 
     description = models.TextField(
         verbose_name=_("description"),

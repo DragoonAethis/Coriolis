@@ -105,15 +105,22 @@
                         <p>{% translate "You have no applications for this event." %}</p>
                     {% endif %}
 
-                    {% if event.applications_require_registration and tickets|length == 0 %}
-                        <div class="alert alert-warning" role="alert">
-                            {% translate "You must buy a ticket for this event before submitting an application." %}
-                        </div>
-                    {% elif new_application_types %}
-                        <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with button groups">
+                    {% if new_application_types %}
+                        <div class="d-grid gap-2" role="toolbar"
+                             aria-label="Toolbar with button groups">
                             {% for type in new_application_types %}
                                 <a href="{% url 'application_form' event.slug type.id %}"
-                                   class="btn btn-primary">{{ type.button_label }}</a>
+                                   class="btn text-start
+                                          {% if type.requires_valid_ticket and valid_tickets|length == 0 %}
+                                              btn-outline-primary
+                                          {% else %}
+                                              btn-primary
+                                          {% endif %}">
+                                    {{ type.button_label }}
+                                    {% if type.requires_valid_ticket %}
+                                        <span class="badge rounded-pill text-bg-warning">{% translate "Ticket required" %}</span>
+                                    {% endif %}
+                                </a>
                             {% endfor %}
                         </div>
                     {% else %}

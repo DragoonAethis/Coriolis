@@ -14,7 +14,7 @@ from payments import RedirectNeeded, PaymentStatus
 
 from events.forms import UpdateTicketForm
 from events.models import Event, EventPage, Application, ApplicationType, Payment
-from events.models.tickets import Ticket, TicketType, TicketStatus, TicketSource
+from events.models.tickets import Ticket, TicketType, TicketStatus
 from payments_przelewy24.api import Przelewy24API
 
 
@@ -37,12 +37,14 @@ def event_index(request, slug):
         # fmt: off
         # Black makes all this difficult to read :(
 
-        context["tickets"] = (
-            Ticket.objects.filter(event=event)
-            .filter(user=request.user)
-            .filter(source__in=(TicketSource.ONLINE, TicketSource.ADMIN))
-            .order_by("id")
+        user_tickets = (
+            Ticket.objects.filter(event=event, user=request.user)
+            .not_onsite()
+            .order_by('id')
         )
+
+        context["tickets"] = user_tickets
+        context["valid_tickets"] = user_tickets.valid_statuses_only()
 
         context["applications"] = (
             Application.objects.filter(event=event)

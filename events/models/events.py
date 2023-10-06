@@ -1,9 +1,9 @@
 import uuid
 
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Event(models.Model):
@@ -60,11 +60,6 @@ class Event(models.Model):
         default=True,
         verbose_name=_("emails enabled"),
         help_text=_("Toggles emails for some status changes on this event."),
-    )
-    applications_require_registration = models.BooleanField(
-        default=True,
-        verbose_name=_("applications require registration"),
-        help_text=_("If enabled, users must register for the event before sending applications."),
     )
 
     ticket_renderer = models.ForeignKey(
