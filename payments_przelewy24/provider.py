@@ -4,16 +4,15 @@ from decimal import Decimal
 
 import requests
 from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse
 from django.http.response import HttpResponseBadRequest
 from payments import PaymentStatus
 from payments.core import BasicProvider
-from payments.forms import PaymentForm
 from payments.models import BasePayment
+from sentry_sdk import capture_exception
 
 from payments_przelewy24.api import Transaction
 from payments_przelewy24.forms import ProcessForm
-
 from .api import Przelewy24API, Przelewy24Config
 
 CENTS = Decimal("0.01")
@@ -89,5 +88,7 @@ class Przelewy24Provider(BasicProvider):
                 return HttpResponseBadRequest("Failed - incorrect data")
         except Exception as e:
             logger.error(f"{str(e)}, {request.body.decode('utf-8')}")
+            capture_exception(e)
+
             return HttpResponseBadRequest("Failed")
         return HttpResponse("OK")
