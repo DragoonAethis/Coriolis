@@ -1,17 +1,16 @@
-import io
-import decimal
 import datetime
+import decimal
+import io
 from pprint import pformat
 
-from django.http import FileResponse
-from django.contrib import admin
-from django.forms import ModelForm
-from django.contrib.admin.views.decorators import staff_member_required
-from django.utils.translation import gettext_lazy as _
-from django.utils.safestring import mark_safe
-from django.urls import reverse
-
 import xlsxwriter
+from django.contrib import admin
+from django.contrib.admin.views.decorators import staff_member_required
+from django.forms import ModelForm
+from django.http import FileResponse
+from django.urls import reverse
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext_lazy as _
 
 from events.models import *
 
@@ -38,6 +37,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ("name", "slug", "ticket_code_length")
     list_filter = ("active",)
     search_fields = ("name",)
+    save_as = True
 
 
 @admin.register(EventPage)
@@ -45,12 +45,14 @@ class EventPageAdmin(admin.ModelAdmin):
     list_display = ("name", "event", "slug", "hidden")
     list_filter = ("event", "page_type", "hidden")
     search_fields = ("name", "slug")
+    save_as = True
 
 
 @admin.register(TicketRenderer)
 class TicketRendererAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
+    save_as = True
 
 
 @admin.register(NotificationChannel)
@@ -58,6 +60,7 @@ class NotificationChannelAdmin(admin.ModelAdmin):
     list_display = ("name", "event", "enabled", "source", "target")
     list_filter = ("event", "source", "target")
     search_fields = ("name",)
+    save_as = True
 
 
 @admin.register(TicketType)
@@ -150,6 +153,7 @@ class ApplicationTypeAdmin(admin.ModelAdmin):
     list_display = ("name", "event", "slug", "registration_from", "registration_to")
     list_filter = ("event",)
     search_fields = ("name",)
+    save_as = True
 
 
 @admin.register(Application)
