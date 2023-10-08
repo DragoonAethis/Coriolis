@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-06 03:09+0200\n"
-"PO-Revision-Date: 2023-10-06 03:10+0200\n"
+"POT-Creation-Date: 2023-10-08 18:03+0200\n"
+"PO-Revision-Date: 2023-10-08 18:10+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -20,33 +20,33 @@ msgstr ""
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 3.3.2\n"
 
-#: events/admin/models.py:122 events/admin/models.py:174
+#: events/admin/models.py:125 events/admin/models.py:178
 #: events/models/applications.py:83 events/models/tickets.py:200
 msgid "type"
 msgstr "typ"
 
-#: events/admin/models.py:137 events/models/payments.py:27
+#: events/admin/models.py:140 events/models/payments.py:27
 #: events/models/tickets.py:183
 msgid "ticket"
 msgstr "bilet"
 
-#: events/admin/models.py:183
+#: events/admin/models.py:187
 msgid "Download selected applications as XLSX"
 msgstr "Pobierz wybrane zgłoszenia jako XLSX"
 
-#: events/admin/models.py:196
+#: events/admin/models.py:200
 msgid "ID"
 msgstr "ID"
 
-#: events/admin/models.py:197 templates/base.html:151 templates/base.html:167
+#: events/admin/models.py:201 templates/base.html:169 templates/base.html:185
 msgid "User"
 msgstr "Użytkownik"
 
-#: events/admin/models.py:198 templates/base.html:145
+#: events/admin/models.py:202 templates/base.html:163
 msgid "Event"
 msgstr "Wydarzenie"
 
-#: events/admin/models.py:199
+#: events/admin/models.py:203
 #: templates/events/applications/application_details.html:15
 #: templates/events/crew/ticket.html:74
 #: templates/events/emails/thank_you.html:7
@@ -54,7 +54,7 @@ msgstr "Wydarzenie"
 msgid "Type"
 msgstr "Typ"
 
-#: events/admin/models.py:200
+#: events/admin/models.py:204
 #: templates/events/applications/application_details.html:19
 #: templates/events/crew/ticket.html:75
 #: templates/events/emails/application_changed.html:6
@@ -63,13 +63,13 @@ msgstr "Typ"
 msgid "Status"
 msgstr "Status"
 
-#: events/admin/models.py:201 templates/events/crew/list.html:14
+#: events/admin/models.py:205 templates/events/crew/list.html:14
 #: templates/events/crew/ticket.html:17
 #: templates/events/tickets/details.html:18
 msgid "Name"
 msgstr "Nazwa"
 
-#: events/admin/models.py:202
+#: events/admin/models.py:206
 #: templates/events/applications/application_details.html:27
 #: templates/events/crew/list.html:16 templates/events/crew/ticket.html:20
 #: templates/events/emails/new_application.html:8
@@ -77,7 +77,7 @@ msgstr "Nazwa"
 msgid "Phone"
 msgstr "Telefon"
 
-#: events/admin/models.py:203
+#: events/admin/models.py:207
 #: templates/events/applications/application_details.html:23
 #: templates/events/crew/list.html:15 templates/events/crew/ticket.html:18
 #: templates/events/emails/new_application.html:9
@@ -85,7 +85,7 @@ msgstr "Telefon"
 msgid "Email"
 msgstr "Email"
 
-#: events/admin/models.py:204 events/forms/applications.py:45
+#: events/admin/models.py:208 events/forms/applications.py:45
 #: templates/events/applications/application_details.html:48
 #: templates/events/crew/ticket.html:58
 #: templates/events/emails/application_changed.html:7
@@ -95,7 +95,7 @@ msgstr "Email"
 msgid "Notes"
 msgstr "Notatki"
 
-#: events/admin/models.py:205
+#: events/admin/models.py:209
 #: templates/events/applications/application_details.html:54
 msgid "Org Notes"
 msgstr "Notatki Organizatorów"
@@ -1054,11 +1054,11 @@ msgstr "status zmieni się %(timestamp)s"
 msgid "%(event)s: Ticket '%(code)s' (new status)"
 msgstr "%(event)s: Bilet '%(code)s' (nowy status)"
 
-#: events/models/users.py:9
+#: events/models/users.py:11
 msgid "exempt from 2FA"
 msgstr "wyłączony z 2FA"
 
-#: events/models/users.py:11
+#: events/models/users.py:13
 msgid ""
 "If enabled, this user does not have to enable 2FA even if the usual security "
 "policies would enforce it."
@@ -1189,7 +1189,7 @@ msgstr "Ten bilet został anulowany."
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
-#: events/views/misc.py:113 templates/events/index.html:77
+#: events/views/misc.py:112 templates/events/index.html:77
 msgid ""
 "Online ticket sales for this event have ended. You can purchase a ticket on "
 "site."
@@ -1197,71 +1197,71 @@ msgstr ""
 "Sprzedaż biletów online na to wydarzenie zakończyła się. Możesz kupić bilet "
 "na miejscu."
 
-#: events/views/misc.py:141
+#: events/views/misc.py:140
 msgid "This ticket is not yours!"
 msgstr "Ten bilet nie jest twój!"
 
-#: events/views/misc.py:143 events/views/misc.py:174
+#: events/views/misc.py:142 events/views/misc.py:173
 msgid "You don't own this ticket!"
 msgstr "Nie posiadasz tego biletu!"
 
-#: events/views/misc.py:178
+#: events/views/misc.py:177
 msgid "This ticket was already paid for."
 msgstr "Ten bilet został już opłacony."
 
-#: events/views/misc.py:182
+#: events/views/misc.py:181
 msgid "You cannot pay online for this ticket."
 msgstr "Nie możesz zapłacić online za ten bilet."
 
-#: events/views/misc.py:211
+#: events/views/misc.py:210
 msgid ""
 "This ticket has too many payments in progress. Please contact the organizers."
 msgstr ""
 "Ten bilet ma za dużo płatności w toku. Skontaktuj się z organizatorami."
 
-#: events/views/misc.py:232
+#: events/views/misc.py:226
 msgid "This ticket was already paid for. Thank you!"
 msgstr "Ten bilet został już opłacony. Dziękujemy!"
 
-#: events/views/misc.py:242
-msgid "Resuming an existing payment in progress. Problems?"
-msgstr "Wznawiamy płatność w toku. Problemy?"
-
-#: events/views/misc.py:243
-msgid "Start a new payment."
-msgstr "Rozpocznij nową płatność."
-
-#: events/views/misc.py:267
+#: events/views/misc.py:259
 msgid "Continue Payment"
 msgstr "Kontynuuj Płatność"
 
-#: events/views/misc.py:299
-msgid ""
-"We did not receive a payment notification from Przelewy24. Try again later "
-"or contact organizers about this issue."
-msgstr ""
-"Nie otrzymaliśmy powiadomienia o płatności z systemu Przelewy24. Spróbuj "
-"ponownie później lub powiadom organizatorów o tym problemie."
+#: events/views/misc.py:264
+msgid "Resuming an existing payment in progress. Problems?"
+msgstr "Wznawiamy płatność w toku. Problemy?"
 
-#: events/views/misc.py:319
+#: events/views/misc.py:265
+msgid "Start a new payment."
+msgstr "Rozpocznij nową płatność."
+
+#: events/views/misc.py:289
+msgid ""
+"Still waiting for the payment confirmation - please try again in a few "
+"minutes."
+msgstr ""
+"Dalej czekamy na potwierdzenie płatności - spróbuj ponownie później za kilka "
+"minut."
+
+#: events/views/misc.py:291
 msgid "Payment successful - thank you!"
 msgstr "Płatność udana - dziękujemy!"
 
-#: events/views/misc.py:327
+#: events/views/misc.py:295
 msgid "Payment failed on our end - please try again in a few minutes."
 msgstr ""
 "Płatność nie udała się po naszej stronie - spróbuj ponownie później za kilka "
 "minut."
 
-#: events/views/misc.py:329
+#: events/views/misc.py:297
 msgid "Payment rejected - please try again."
 msgstr "Płatność odrzucona - spróbuj ponownie."
 
-#: events/views/misc.py:331
+#: events/views/misc.py:299
 msgid "Payment refunded."
 msgstr "Płatność zwrócona."
 
-#: events/views/misc.py:347
+#: events/views/misc.py:316
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
@@ -1442,6 +1442,97 @@ msgstr "Dodaj E-mail"
 msgid "Do you really want to remove the selected e-mail address?"
 msgstr "Czy na pewno chcesz usunąć wybrany adres e-mail?"
 
+#: templates/account/email/account_already_exists_message.txt:4
+#, python-format
+msgid ""
+"You are receiving this email because you or someone else tried to signup for "
+"an\n"
+"account using email address %(email)s.\n"
+"\n"
+"An account using that email address already exists. If you have forgotten "
+"about\n"
+"it, recover your password:\n"
+"\n"
+"%(password_reset_url)s"
+msgstr ""
+"Otrzymujesz tą wiadomość ponieważ ty lub ktoś inny spróbował zarejestrować\n"
+"nowe konto używając adresu %(email)s.\n"
+"\n"
+"Konto używające tego adresu już istnieje. Jeśli zostało ono zapomniane, "
+"przywróć\n"
+"swoje hasło:\n"
+"\n"
+"%(password_reset_url)s"
+
+#: templates/account/email/account_already_exists_subject.txt:3
+msgid "Account Already Exists"
+msgstr "Konto Już Istnieje"
+
+#: templates/account/email/base_message.txt:4
+#, python-format
+msgid "You have received this message from %(site_domain)s."
+msgstr "Otrzymujesz tą wiadomość z serwisu %(site_domain)s."
+
+#: templates/account/email/email_confirmation_message.txt:5
+#, python-format
+msgid ""
+"You're receiving this email because user %(user_display)s has given your "
+"email address to register an account on %(site_domain)s.\n"
+"\n"
+"To confirm this is correct, go to %(activate_url)s"
+msgstr ""
+"Otrzymujesz tą wiadomość ponieważ użytkownik %(user_display)s użył twojego "
+"adresu email aby zarejestrować nowe konto %(site_domain)s.\n"
+"\n"
+"Aby potwierdzić nowe konto, otwórz %(activate_url)s"
+
+#: templates/account/email/email_confirmation_subject.txt:3
+msgid "Please Confirm Your Email Address"
+msgstr "Proszę Potwierdzić Adres Email"
+
+#: templates/account/email/password_reset_key_message.txt:4
+msgid ""
+"You're receiving this email because you or someone else has requested a "
+"password reset for your user account.\n"
+"It can be safely ignored if you did not request a password reset. Click the "
+"link below to reset your password."
+msgstr ""
+"Otrzymujesz tą wiadomość ponieważ ty lub ktoś inny poprosił o reset hasła "
+"dla twojego konta.\n"
+"Zignoruj tą wiadomość jeśli to nie ty. Kliknij link poniżej aby zresetować "
+"twoje hasło."
+
+#: templates/account/email/password_reset_key_message.txt:9
+#, python-format
+msgid "In case you forgot, your username is %(username)s."
+msgstr "W razie czego, nazwa użytkownika to %(username)s."
+
+#: templates/account/email/password_reset_key_subject.txt:3
+#: templates/account/email/unknown_account_subject.txt:3
+msgid "Password Reset Email"
+msgstr "Reset Hasła"
+
+#: templates/account/email/unknown_account_message.txt:4
+#, python-format
+msgid ""
+"You are receiving this email because you or someone else has requested a\n"
+"password for your user account. However, we do not have any record of a "
+"user\n"
+"with email %(email)s in our database.\n"
+"\n"
+"This mail can be safely ignored if you did not request a password reset.\n"
+"\n"
+"If it was you, you can sign up for an account using the link below."
+msgstr ""
+"Otrzymujesz tą wiadomość ponieważ ty lub ktoś inny poprosił o reset hasła\n"
+"dla twojego konta. Niestety, w naszej bazie nie istnieje użytkownik o "
+"adresie\n"
+"%(email)s.\n"
+"\n"
+"Zignoruj tą wiadomość jeśli to nie ty.\n"
+"\n"
+"Jeśli to ty, możesz założyć nowe konto korzystając z linku poniżej."
+
 #: templates/account/email_confirm.html:6
 #: templates/account/email_confirm.html:10
 msgid "Confirm E-mail Address"
@@ -1481,7 +1572,7 @@ msgid "Sign In"
 msgstr "Zaloguj się"
 
 #: templates/account/login.html:9 templates/account/login.html:22
-#: templates/base.html:98
+#: templates/base.html:116
 msgid "Sign in"
 msgstr "Zaloguj się"
 
@@ -1773,63 +1864,67 @@ msgstr ""
 msgid "Main event website"
 msgstr "Główna strona wydarzenia"
 
-#: templates/base.html:80
+#: templates/base.html:89
+msgid "My profile"
+msgstr "Mój profil"
+
+#: templates/base.html:97
 msgid "Security"
 msgstr "Zabezpieczenia"
 
-#: templates/base.html:82
+#: templates/base.html:99
 msgid "Change password"
 msgstr "Zmień hasło"
 
-#: templates/base.html:84
+#: templates/base.html:101
 msgid "E-mail accounts"
 msgstr "Konta e-mail"
 
-#: templates/base.html:86
+#: templates/base.html:103
 msgid "Social accounts"
 msgstr "Konta społecznościowe"
 
-#: templates/base.html:88
+#: templates/base.html:105
 msgid "Configure 2FA"
 msgstr "Skonfiguruj 2FA"
 
-#: templates/base.html:92
+#: templates/base.html:110
 msgid "Sign out"
 msgstr "Wyloguj się"
 
-#: templates/base.html:127
+#: templates/base.html:145
 msgid "Contact Organizers"
 msgstr "Skontaktuj się z Organizatorami"
 
-#: templates/base.html:133 templates/base.html:221 templates/base.html:228
+#: templates/base.html:151 templates/base.html:239 templates/base.html:246
 msgid "Language"
 msgstr "Język"
 
-#: templates/base.html:140
+#: templates/base.html:158
 msgid "Admin"
 msgstr "Admin"
 
-#: templates/base.html:154
+#: templates/base.html:172
 msgid "Ticket"
 msgstr "Bilet"
 
-#: templates/base.html:157 templates/base.html:161
+#: templates/base.html:175 templates/base.html:179
 msgid "Ticket Type"
 msgstr "Typ Biletu"
 
-#: templates/base.html:170
+#: templates/base.html:188
 msgid "Application"
 msgstr "Zgłoszenie"
 
-#: templates/base.html:174 templates/base.html:179
+#: templates/base.html:192 templates/base.html:197
 msgid "Application Type"
 msgstr "Typ Zgłoszenia"
 
-#: templates/base.html:185
+#: templates/base.html:203
 msgid "Event Page"
 msgstr "Strona Wydarzenia"
 
-#: templates/base.html:206
+#: templates/base.html:224
 #, python-format
 msgid ""
 "\n"
@@ -1846,12 +1941,12 @@ msgstr ""
 "Cookies</a> aby dowiedzieć się więcej.\n"
 "                    "
 
-#: templates/base.html:243 templates/events/index.html:56
+#: templates/base.html:261 templates/events/index.html:56
 #: templates/events/index.html:98 templates/events/tickets/details.html:124
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: templates/base.html:244 templates/events/tickets/details.html:125
+#: templates/base.html:262 templates/events/tickets/details.html:125
 msgid "Change"
 msgstr "Zmień"
 
@@ -2283,6 +2378,13 @@ msgstr ""
 "Zaraz użyjesz konta\n"
 "        %(provider_name)s aby zalogować się na stronę\n"
 "        %(site_name)s. Uzupełnij poniższy formularz:"
+
+#~ msgid ""
+#~ "We did not receive a payment notification from Przelewy24. Try again "
+#~ "later or contact organizers about this issue."
+#~ msgstr ""
+#~ "Nie otrzymaliśmy powiadomienia o płatności z systemu Przelewy24. Spróbuj "
+#~ "ponownie później lub powiadom organizatorów o tym problemie."
 
 #, python-format
 #~ msgid "Logged in as %(email)s"

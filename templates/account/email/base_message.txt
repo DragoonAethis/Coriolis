@@ -1,0 +1,5 @@
+{% load i18n %}{% autoescape off %}{% block content %}{% endblock content %}
+
+---
+{% blocktrans with site_domain=current_site.domain %}You have received this message from {{ site_domain }}.{% endblocktrans %}
+{% endautoescape %}
