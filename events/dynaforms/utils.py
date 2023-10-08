@@ -55,7 +55,7 @@ def get_pretty_answer_value(answer: object, field: Field | None) -> str:
     elif isinstance(answer, bool):
         return _("Yes") if answer else _("No")
     else:
-        return mapper.get(answer) or answer
+        return str(mapper.get(answer) or answer)
 
 
 def get_pretty_answers(answers: dict, fields: dict[str, Field]) -> dict[str, str]:
