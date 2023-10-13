@@ -1,5 +1,7 @@
-from django.db import models
+import hashlib
+
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
@@ -14,3 +16,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.email or self.username or self.id}"
+
+    def get_profile_picture_url(self):
+        gravatar_hash = hashlib.md5(self.email.strip().lower().encode("utf-8")).hexdigest()
+        return f"https://www.gravatar.com/avatar/{gravatar_hash}?d=identicon"
