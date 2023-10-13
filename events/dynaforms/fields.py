@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Literal, Optional, Union, Annotated
 
 import pydantic
+from crispy_forms.layout import LayoutObject, HTML, Field
 from django.forms import fields, widgets
-from django.forms.fields import Field
 from django.forms.widgets import Widget
 from phonenumber_field import formfields as pnfields
 from pydantic import field_validator, BaseModel, Field as PydanticField
@@ -16,16 +16,38 @@ class DynaformNode(BaseModel, ABC):
     _field_class: type[Field] | None = None
     _widget: type[Widget] | None = None
 
-    label: str
-    label_type: Literal["text", "markdown", "html"] = "text"
-
     def is_form_field(self):
         """Determines if a node is a form field. True for things like
         text inputs or checkboxes, False for things like headers and images."""
         return self._field_class is not None
 
+    def get_field(self, name: str) -> Field | None:
+        if self._field_class is None:
+            return None
+
+        raise NotImplementedError(f"Override this method for {type(self)}!")
+
+    def get_layout_object(self, name: str) -> LayoutObject | None:
+        if self._field_class is None:
+            return None
+
+        raise NotImplementedError(f"Override this method for {type(self)}!")
+
+
+class DynaformTemplate(DynaformNode):
+    kind: Literal["template"]
+
+    content: str
+    content_type: Literal["markdown", "html"] = "html"
+
+    def get_layout_object(self, name: str) -> HTML:
+        return HTML(self.content)
+
 
 class DynaformField(DynaformNode, ABC):
+    label: str
+    label_type: Literal["text", "markdown", "html"] = "text"
+
     help_text: Optional[str] = None
     help_text_type: Literal["text", "markdown", "html"] = "text"
 
@@ -45,11 +67,17 @@ class DynaformField(DynaformNode, ABC):
 
         return args
 
-    def get_field(self) -> Field | None:
+    def get_field(self, name: str) -> Field | None:
         if self._field_class is None:
             return None
 
         return self._field_class(**self.get_field_class_args())
+
+    def get_layout_object(self, name: str) -> LayoutObject | None:
+        if self._field_class is None:
+            return None
+
+        return Field(name)
 
 
 class CharField(DynaformField):
@@ -130,6 +158,7 @@ class CheckboxField(ChoiceField):
 
 DynaformFieldUnion = Annotated[
     Union[
+        DynaformTemplate,
         CharField,
         TextField,
         URLField,
@@ -203,9 +232,21 @@ class Dynaform(BaseModel):
         field_config: DynaformNode
         for field_name, field_config in self.fields.items():
             if isinstance(field_config, DynaformField):
-                computed_fields[prefix + field_name] = field_config.get_field()
+                name = prefix + field_name
+                computed_fields[name] = field_config.get_field(name)
 
         return computed_fields
+
+    def get_layout_objects(self):
+        layout_objects = []
+        prefix = self.get_prefix()
+
+        field_config: DynaformNode
+        for field_name, field_config in self.fields.items():
+            if layout_object := field_config.get_layout_object(prefix + field_name):
+                layout_objects.append(layout_object)
+
+        return layout_objects
 
 
 def dynaform_prefix(name: Optional[str]) -> str:

@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, Field, Submit
 from django import forms
 from django.forms.widgets import TextInput, Textarea
 from django.urls import reverse
@@ -49,6 +49,15 @@ class ApplicationDynaform(forms.Form):
         )
 
         self.helper = FormHelper()
+        old_layout = self.helper.layout
+        self.helper.layout = Layout(
+            Field("name"),
+            Field("email"),
+            Field("phone"),
+            *self.dynaform.get_layout_objects(),
+            Field("notes"),
+        )
+
         self.helper.form_action = "post"
         self.helper.form_action = reverse("application_form", kwargs={"slug": event.slug, "id": application_type.id})
         self.helper.attrs["novalidate"] = True
