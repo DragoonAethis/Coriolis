@@ -75,6 +75,7 @@ def event_index(request, slug):
             ApplicationType.objects.filter(event=event)
             .filter(registration_to__gte=now)
             .filter(registration_from__lte=now)
+            .order_by("slug")
         )
         # fmt: on
 
