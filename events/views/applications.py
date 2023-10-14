@@ -49,7 +49,7 @@ class ApplicationView(FormView):
             .count()
             < 1
         ):
-            return False, _("You must register for this event before submitting an application.")
+            return False, _("You must buy a ticket for this event before submitting an application.")
 
         now = datetime.datetime.now()
 

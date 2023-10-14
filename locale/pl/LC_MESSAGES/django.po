@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-14 13:56+0200\n"
-"PO-Revision-Date: 2023-10-14 13:44+0200\n"
+"POT-Creation-Date: 2023-10-14 19:03+0200\n"
+"PO-Revision-Date: 2023-10-14 19:04+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1144,8 +1144,8 @@ msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
 #: events/views/applications.py:52
-msgid "You must register for this event before submitting an application."
-msgstr "Musisz zarejestrować się na to wydarzenie przed wysłaniem zgłoszenia."
+msgid "You must buy a ticket for this event before submitting an application."
+msgstr "Musisz kupić bilet na to wydarzenie przed wysłaniem zgłoszenia."
 
 #: events/views/applications.py:57
 msgid "This application is not yet open. Come back later."
@@ -1213,7 +1213,7 @@ msgstr "Ten bilet został anulowany."
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
-#: events/views/misc.py:112 templates/events/index.html:77
+#: events/views/misc.py:113 templates/events/index.html:77
 msgid ""
 "Online ticket sales for this event have ended. You can purchase a ticket on "
 "site."
@@ -1221,45 +1221,45 @@ msgstr ""
 "Sprzedaż biletów online na to wydarzenie zakończyła się. Możesz kupić bilet "
 "na miejscu."
 
-#: events/views/misc.py:140
+#: events/views/misc.py:141
 msgid "This ticket is not yours!"
 msgstr "Ten bilet nie jest twój!"
 
-#: events/views/misc.py:142 events/views/misc.py:173
+#: events/views/misc.py:143 events/views/misc.py:174
 msgid "You don't own this ticket!"
 msgstr "Nie posiadasz tego biletu!"
 
-#: events/views/misc.py:177
+#: events/views/misc.py:178
 msgid "This ticket was already paid for."
 msgstr "Ten bilet został już opłacony."
 
-#: events/views/misc.py:181
+#: events/views/misc.py:182
 msgid "You cannot pay online for this ticket."
 msgstr "Nie możesz zapłacić online za ten bilet."
 
-#: events/views/misc.py:210
+#: events/views/misc.py:211
 msgid ""
 "This ticket has too many payments in progress. Please contact the organizers."
 msgstr ""
 "Ten bilet ma za dużo płatności w toku. Skontaktuj się z organizatorami."
 
-#: events/views/misc.py:226
+#: events/views/misc.py:227
 msgid "This ticket was already paid for. Thank you!"
 msgstr "Ten bilet został już opłacony. Dziękujemy!"
 
-#: events/views/misc.py:259
+#: events/views/misc.py:260
 msgid "Continue Payment"
 msgstr "Kontynuuj Płatność"
 
-#: events/views/misc.py:264
+#: events/views/misc.py:265
 msgid "Resuming an existing payment in progress. Problems?"
 msgstr "Wznawiamy płatność w toku. Problemy?"
 
-#: events/views/misc.py:265
+#: events/views/misc.py:266
 msgid "Start a new payment."
 msgstr "Rozpocznij nową płatność."
 
-#: events/views/misc.py:289
+#: events/views/misc.py:290
 msgid ""
 "Still waiting for the payment confirmation - please try again in a few "
 "minutes."
@@ -1267,25 +1267,25 @@ msgstr ""
 "Dalej czekamy na potwierdzenie płatności - spróbuj ponownie później za kilka "
 "minut."
 
-#: events/views/misc.py:291
+#: events/views/misc.py:292
 msgid "Payment successful - thank you!"
 msgstr "Płatność udana - dziękujemy!"
 
-#: events/views/misc.py:295
+#: events/views/misc.py:296
 msgid "Payment failed on our end - please try again in a few minutes."
 msgstr ""
 "Płatność nie udała się po naszej stronie - spróbuj ponownie później za kilka "
 "minut."
 
-#: events/views/misc.py:297
+#: events/views/misc.py:298
 msgid "Payment rejected - please try again."
 msgstr "Płatność odrzucona - spróbuj ponownie."
 
-#: events/views/misc.py:299
+#: events/views/misc.py:300
 msgid "Payment refunded."
 msgstr "Płatność zwrócona."
 
-#: events/views/misc.py:316
+#: events/views/misc.py:317
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
@@ -2403,6 +2403,10 @@ msgstr ""
 "        %(provider_name)s aby zalogować się na stronę\n"
 "        %(site_name)s. Uzupełnij poniższy formularz:"
 
+#~ msgid "You must register for this event before submitting an application."
+#~ msgstr ""
+#~ "Musisz zarejestrować się na to wydarzenie przed wysłaniem zgłoszenia."
+
 #~ msgid "Template for dynamic application form fields. Docs: "
 #~ msgstr ""
 #~ "Szablon dla dynamicznych pól formularzy w zgłoszeniach. Dokumentacja: "
@@ -2417,10 +2421,6 @@ msgstr ""
 #, python-format
 #~ msgid "Logged in as %(email)s"
 #~ msgstr "Zalogowano jako %(email)s"
-
-#~ msgid ""
-#~ "You must buy a ticket for this event before submitting an application."
-#~ msgstr "Musisz kupić bilet na to wydarzenie przed wysłaniem zgłoszenia."
 
 #, python-format
 #~ msgid "%(left)s left"
