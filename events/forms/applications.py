@@ -20,10 +20,10 @@ class ApplicationDynaform(forms.Form):
         ),
     )
     email = forms.EmailField(
-        label=_("E-mail Address"),
+        label=_("Email Address"),
         required=True,
         widget=TextInput(),
-        help_text=_("E-mail address for notifications."),
+        help_text=_("Email address for notifications and contact with organizers."),
     )
     phone = PhoneNumberField(
         label=_("Phone Number"),

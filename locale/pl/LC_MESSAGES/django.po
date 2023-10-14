@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-08 18:03+0200\n"
-"PO-Revision-Date: 2023-10-08 18:10+0200\n"
+"POT-Creation-Date: 2023-10-14 12:54+0200\n"
+"PO-Revision-Date: 2023-10-14 12:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -124,13 +124,13 @@ msgstr ""
 "Twoje imię i nazwisko, tak jak widnieje na dokumencie poświadczającym "
 "tożsamość, albo organizacja którą reprezentujesz."
 
-#: events/forms/applications.py:23 events/forms/registration.py:20
-msgid "E-mail Address"
-msgstr "Adres e-mail"
+#: events/forms/applications.py:23
+msgid "Email Address"
+msgstr "Adres email"
 
-#: events/forms/applications.py:26 events/forms/registration.py:23
-msgid "E-mail address for notifications."
-msgstr "Adres e-mail do powiadomień."
+#: events/forms/applications.py:26
+msgid "Email address for notifications and contact with organizers."
+msgstr "Adres email do powiadomień i kontaktu z organizatorami."
 
 #: events/forms/applications.py:29 events/forms/registration.py:26
 msgid "Phone Number"
@@ -148,7 +148,7 @@ msgstr ""
 msgid "Optional extra notes - add anything you want!"
 msgstr "Opcjonalne dodatkowe notatki - wpisz cokolwiek co chcesz!"
 
-#: events/forms/applications.py:55
+#: events/forms/applications.py:64
 msgid "Submit Application"
 msgstr "Wyślij Zgłoszenie"
 
@@ -189,6 +189,14 @@ msgid "Your first and last name, as shown on the identifying document."
 msgstr ""
 "Twoje imię i nazwisko, tak jak widnieje na dokumencie poświadczającym "
 "tożsamość."
+
+#: events/forms/registration.py:20
+msgid "E-mail Address"
+msgstr "Adres e-mail"
+
+#: events/forms/registration.py:23
+msgid "E-mail address for notifications."
+msgstr "Adres e-mail do powiadomień."
 
 #: events/forms/registration.py:29
 msgid ""
