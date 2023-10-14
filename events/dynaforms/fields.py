@@ -54,7 +54,7 @@ class DynaformField(DynaformNode, ABC):
     required: bool = True
 
     def get_field_class_args(self) -> dict:
-        args = self.model_dump()
+        args = self.model_dump(exclude_none=True)
 
         if "kind" in args:
             del args["kind"]
@@ -114,6 +114,14 @@ class BooleanField(DynaformField):
 class CounterField(DynaformField):
     kind: Literal["counter"]
     _field_class: type[Field] = fields.IntegerField
+
+    initial: int = 0
+    min_value: int | None = None
+    max_value: int | None = None
+
+    def get_field_class_args(self) -> dict:
+        args = super().get_field_class_args()
+        return args
 
     def get_layout_object(self, name: str) -> LayoutObject | None:
         return Field(name, template="events/dynaforms/counter_field.html")
