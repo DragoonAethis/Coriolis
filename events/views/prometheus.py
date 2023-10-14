@@ -5,7 +5,7 @@ import django.http
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 
-from events.models import Event, TicketStatus, TicketSource, Ticket
+from events.models import Event, TicketStatus, Ticket
 
 
 class Counter(ABC):
@@ -17,26 +17,55 @@ class Counter(ABC):
 
 
 class GaugeCounter(Counter):
-    def __init__(self, name: str, help_text: str, evaluator: Callable[[dict], bool | int]):
-        self.value = 0
+    def __init__(
+        self,
+        name: str,
+        help_text: str,
+        evaluator: Callable[[dict], bool | int],
+        bucket_by: Callable[[dict], tuple[str, ...]] | None = None,
+        bucket_labels: tuple[str, ...] | None = None,
+    ):
         self.name = name
         self.help_text = help_text
         self.evaluator = evaluator
 
+        self.value = 0
+        self.buckets = {}
+        self.bucket_by = bucket_by
+        self.bucket_labels = bucket_labels
+
+    def accumulate_with_buckets(self, sample: dict, value):
+        self.value += value
+
+        if self.bucket_by:
+            label = self.bucket_by(sample)
+            self.buckets[label] = value + (self.buckets.get(label) or 0)
+
     def ingest(self, sample: dict):
-        self.value += int(self.evaluator(sample))
+        self.accumulate_with_buckets(sample, int(self.evaluator(sample)))
+
+    def get_prom_labels(self, labels: tuple[str, ...]):
+        return ",".join(f'{self.bucket_labels[i]}="{labels[i]}"' for i in range(len(labels)))
 
     def get_output(self):
-        return [
+        header = [
             f"# HELP {self.name} {self.help_text}",
             f"# TYPE {self.name} gauge",
-            f"{self.name} {self.value}",
         ]
+
+        if self.bucket_by:
+            values = [
+                f"{self.name}{{{self.get_prom_labels(labels)}}} {value}" for labels, value in self.buckets.items()
+            ]
+        else:
+            values = [f"{self.name} {self.value}"]
+
+        return header + values
 
 
 class FloatGaugeCounter(GaugeCounter):
     def ingest(self, sample: dict):
-        self.value += float(self.evaluator(sample))
+        self.accumulate_with_buckets(sample, float(self.evaluator(sample)))
 
 
 def prometheus_status(request, slug, key):
@@ -46,76 +75,39 @@ def prometheus_status(request, slug, key):
 
     counters: list[Counter] = [
         GaugeCounter(
-            "tickets_ready",
-            "Number of tickets registered and ready for use.",
-            lambda x: x["status"] == TicketStatus.READY,
-        ),
-        GaugeCounter(
-            "tickets_used",
-            "Number of used tickets.",
-            lambda x: x["status"] == TicketStatus.USED,
-        ),
-        GaugeCounter(
-            "tickets_waiting",
-            "Number of tickets waiting for organizers.",
-            lambda x: x["status"] == TicketStatus.WAITING,
-        ),
-        GaugeCounter(
-            "tickets_waiting_for_payment",
-            "Number of tickets waiting for payment.",
-            lambda x: x["status"] == TicketStatus.WAITING_FOR_PAYMENT,
+            "tickets_counts",
+            "Number of valid tickets by type/status.",
+            lambda x: True,  # Filtered on the query below.
+            lambda x: (str(x["type_id"]), x["source"], x["status"]),
+            ("ticket_type", "source", "status"),
         ),
         GaugeCounter(
             "tickets_paid",
             "Number of tickets paid for before the event.",
             lambda x: x["paid"],
+            lambda x: (str(x["type_id"]), x["status"]),
+            ("ticket_type", "status"),
         ),
         GaugeCounter(
             "tickets_unpaid",
             "Number of tickets not paid for before the event.",
             lambda x: not x["paid"],
+            lambda x: (str(x["type_id"]), x["status"]),
+            ("ticket_type", "status"),
         ),
         FloatGaugeCounter(
             "tickets_value",
             "Contributed value from all tickets.",
             lambda x: x["contributed_value"],
-        ),
-        GaugeCounter(
-            "ticket_source_admin",
-            "Number of tickets created administratively.",
-            lambda x: x["source"] == TicketSource.ADMIN,
-        ),
-        GaugeCounter(
-            "ticket_source_online",
-            "Number of tickets created online.",
-            lambda x: x["source"] == TicketSource.ONLINE,
-        ),
-        GaugeCounter(
-            "ticket_source_onsite",
-            "Number of tickets created on site.",
-            lambda x: x["source"] == TicketSource.ONSITE,
-        ),
-        GaugeCounter(
-            "used_ticket_source_admin",
-            "Number of used tickets created administratively.",
-            lambda x: x["status"] == TicketStatus.USED and x["source"] == TicketSource.ADMIN,
-        ),
-        GaugeCounter(
-            "used_ticket_source_online",
-            "Number of used tickets created online.",
-            lambda x: x["status"] == TicketStatus.USED and x["source"] == TicketSource.ONLINE,
-        ),
-        GaugeCounter(
-            "used_ticket_source_onsite",
-            "Number of used tickets created on-site.",
-            lambda x: x["status"] == TicketStatus.USED and x["source"] == TicketSource.ONSITE,
+            lambda x: (str(x["type_id"]), x["source"]),
+            ("ticket_type", "source"),
         ),
     ]
 
     data = (
         Ticket.objects.filter(event_id=event.id)
         .filter(~Q(status=TicketStatus.CANCELLED))
-        .values("status", "source", "paid", "contributed_value")
+        .values("type_id", "status", "source", "paid", "contributed_value")
     )
 
     output_metrics = []
