@@ -1,10 +1,9 @@
 from django import template
 from django.conf import settings
+from django.contrib.messages import DEBUG, INFO, SUCCESS, WARNING, ERROR
 from django.forms import BaseForm
 from django.forms.widgets import PasswordInput
 from django.utils.html import mark_safe
-from django.contrib.messages import DEBUG, INFO, SUCCESS, WARNING, ERROR
-
 from markdown import markdown
 
 register = template.Library()
@@ -24,8 +23,17 @@ def level_to_bootstrap_css_class(level: int) -> str:
 
 
 @register.simple_tag
-def render_markdown(content: str) -> str:
-    return mark_safe(markdown(content, output_format="html5"))
+def render_markdown(content: str, strip_wrapper: bool = False) -> str:
+    text = markdown(content, output_format="html5")
+
+    # A quick and somewhat hacky way to strip the wrapping
+    # <p> element, but only if there's a single <p> in the text.
+    # This is not fully compliant, but much faster than building
+    # the full HTML tree, then serializing it back to text.
+    if strip_wrapper and text.startswith("<p>") and text.endswith("</p>") and text.find("</p>") == text.rfind("</p>"):
+        text = text[3:-4]
+
+    return mark_safe(text)
 
 
 @register.simple_tag

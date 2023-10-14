@@ -14,6 +14,7 @@ from django.views.generic import FormView
 from events.dynaforms.utils import get_pretty_answers
 from events.forms import ApplicationDynaform
 from events.models import Event, ApplicationType, Application, Ticket
+from events.templatetags.events import render_markdown
 
 
 class ApplicationView(FormView):
@@ -115,8 +116,13 @@ class ApplicationView(FormView):
             [self.type.org_email or self.event.org_mail, application.email],
         ).send()
 
+        if self.type.submission_message:
+            notify_msg = render_markdown(self.type.submission_message, strip_wrapper=True)
+        else:
+            notify_msg = _("Your application was submitted successfully. Orgs will be in touch soon.")
+
         messages.success(
             self.request,
-            _("Your application was submitted successfully. Orgs will be in touch soon."),
+            notify_msg,
         )
         return redirect("event_index", self.event.slug)

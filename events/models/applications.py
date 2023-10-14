@@ -51,9 +51,20 @@ class ApplicationType(models.Model):
     )
     template = models.TextField(
         verbose_name=_("template"),
-        help_text=_("Template for dynamic application form fields. Docs: ")
-        + "https://github.com/DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms",
-    )  # noqa
+        help_text=_(
+            "Template for dynamic application form fields. Docs: "
+            "https://github.com/DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms"
+        ),
+    )
+    submission_message = models.TextField(
+        blank=True,
+        default="",
+        verbose_name=_("submission message"),
+        help_text=_(
+            "Message to be displayed after successfully submitting a form. "
+            "If empty, a default 'orgs will be in touch soon' message is shown."
+        ),
+    )
 
     def __str__(self):
         return f"{self.name} ({self.id})"

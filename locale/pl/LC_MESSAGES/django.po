@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-14 12:54+0200\n"
-"PO-Revision-Date: 2023-10-14 12:54+0200\n"
+"POT-Creation-Date: 2023-10-14 13:56+0200\n"
+"PO-Revision-Date: 2023-10-14 13:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Generator: Poedit 3.3.2\n"
 
 #: events/admin/models.py:125 events/admin/models.py:178
-#: events/models/applications.py:83 events/models/tickets.py:200
+#: events/models/applications.py:94 events/models/tickets.py:200
 msgid "type"
 msgstr "typ"
 
@@ -100,15 +100,15 @@ msgstr "Notatki"
 msgid "Org Notes"
 msgstr "Notatki Organizatorów"
 
-#: events/dynaforms/utils.py:56 templates/events/crew/ticket.html:35
+#: events/dynaforms/utils.py:50 templates/events/crew/ticket.html:35
 msgid "Yes"
 msgstr "Tak"
 
-#: events/dynaforms/utils.py:56 templates/events/crew/ticket.html:38
+#: events/dynaforms/utils.py:50 templates/events/crew/ticket.html:38
 msgid "No"
 msgstr "Nie"
 
-#: events/dynaforms/utils.py:64
+#: events/dynaforms/utils.py:58
 msgid "Unknown field"
 msgstr "Nieznane pole"
 
@@ -304,14 +304,14 @@ msgstr "typ zgłoszenia"
 msgid "application types"
 msgstr "typy zgłoszeń"
 
-#: events/models/applications.py:21 events/models/applications.py:82
+#: events/models/applications.py:21 events/models/applications.py:93
 #: events/models/events.py:11 events/models/events.py:145
 #: events/models/notifications.py:35 events/models/payments.py:26
 #: events/models/tickets.py:33 events/models/tickets.py:199
 msgid "event"
 msgstr "wydarzenie"
 
-#: events/models/applications.py:22 events/models/applications.py:91
+#: events/models/applications.py:22 events/models/applications.py:102
 #: events/models/events.py:20 events/models/events.py:148
 #: events/models/events.py:183 events/models/notifications.py:38
 #: events/models/tickets.py:34 events/models/tickets.py:249
@@ -380,96 +380,112 @@ msgstr "Pokazywane na ekranie zgłoszenia. Wspiera Markdown."
 msgid "template"
 msgstr "szablon"
 
-#: events/models/applications.py:54
-msgid "Template for dynamic application form fields. Docs: "
-msgstr "Szablon dla dynamicznych pól formularzy w zgłoszeniach. Dokumentacja: "
+#: events/models/applications.py:55
+msgid ""
+"Template for dynamic application form fields. Docs: https://github.com/"
+"DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms"
+msgstr ""
+"Szablon dla dynamicznych pól formularza. Dokumentacja: https://github.com/"
+"DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms"
 
-#: events/models/applications.py:67 events/models/applications.py:97
+#: events/models/applications.py:62
+msgid "submission message"
+msgstr "wiadomość po wysłaniu"
+
+#: events/models/applications.py:64
+msgid ""
+"Message to be displayed after successfully submitting a form. If empty, a "
+"default 'orgs will be in touch soon' message is shown."
+msgstr ""
+"Wiadomość do wyświetlenia po poprawnym wysłaniu formularza. Jeśli puste, "
+"zostanie wyświetlona domyślna wiadomość 'orgowie niedługo się skontaktują'."
+
+#: events/models/applications.py:78 events/models/applications.py:108
 msgid "application"
 msgstr "zgłoszenie"
 
-#: events/models/applications.py:68
+#: events/models/applications.py:79
 msgid "applications"
 msgstr "zgłoszenia"
 
-#: events/models/applications.py:72 events/models/tickets.py:160
+#: events/models/applications.py:83 events/models/tickets.py:160
 msgid "Cancelled"
 msgstr "Anulowany"
 
-#: events/models/applications.py:73 events/models/tickets.py:161
+#: events/models/applications.py:84 events/models/tickets.py:161
 msgid "Waiting for Organizers"
 msgstr "Czeka na Organizatorów"
 
-#: events/models/applications.py:74
+#: events/models/applications.py:85
 msgid "Approved"
 msgstr "Zatwierdzone"
 
-#: events/models/applications.py:75
+#: events/models/applications.py:86
 msgid "Rejected"
 msgstr "Odrzucone"
 
-#: events/models/applications.py:78 events/models/events.py:15
+#: events/models/applications.py:89 events/models/events.py:15
 #: events/models/events.py:137 events/models/payments.py:22
 #: events/models/tickets.py:195
 msgid "created"
 msgstr "utworzono"
 
-#: events/models/applications.py:79 events/models/events.py:16
+#: events/models/applications.py:90 events/models/events.py:16
 #: events/models/events.py:138 events/models/payments.py:23
 #: events/models/tickets.py:196
 msgid "updated"
 msgstr "zaktualizowano"
 
-#: events/models/applications.py:81 events/models/payments.py:25
+#: events/models/applications.py:92 events/models/payments.py:25
 #: events/models/tickets.py:198
 msgid "user"
 msgstr "użytkownik"
 
-#: events/models/applications.py:86 events/models/tickets.py:227
+#: events/models/applications.py:97 events/models/tickets.py:227
 msgid "status"
 msgstr "status"
 
-#: events/models/applications.py:92 events/models/tickets.py:253
+#: events/models/applications.py:103 events/models/tickets.py:253
 msgid "phone"
 msgstr "telefon"
 
-#: events/models/applications.py:93 events/models/tickets.py:250
+#: events/models/applications.py:104 events/models/tickets.py:250
 msgid "email"
 msgstr "email"
 
-#: events/models/applications.py:94
+#: events/models/applications.py:105
 msgid "answers"
 msgstr "odpowiedzi"
 
-#: events/models/applications.py:98
+#: events/models/applications.py:109
 msgid "Legacy application answers field."
 msgstr "Stare pole odpowiedzi na zgłoszenie."
 
-#: events/models/applications.py:103 events/models/tickets.py:259
+#: events/models/applications.py:114 events/models/tickets.py:259
 msgid "notes"
 msgstr "notatki"
 
-#: events/models/applications.py:104
+#: events/models/applications.py:115
 msgid "User notes, visible to users/orgs"
 msgstr "Notatki użytkownika, widoczne dla użytkowników/orgów"
 
-#: events/models/applications.py:108
+#: events/models/applications.py:119
 msgid "org notes"
 msgstr "notatki organizatorów"
 
-#: events/models/applications.py:109
+#: events/models/applications.py:120
 msgid "Org notes, visible to users/orgs"
 msgstr "Notatki orgów, widoczne dla użytkowników/orgów"
 
-#: events/models/applications.py:113 events/models/tickets.py:264
+#: events/models/applications.py:124 events/models/tickets.py:264
 msgid "private notes"
 msgstr "prywatne notatki"
 
-#: events/models/applications.py:114 events/models/tickets.py:265
+#: events/models/applications.py:125 events/models/tickets.py:265
 msgid "Private org notes, visible only in the admin panel"
 msgstr "Prywatne notatki orgów, widoczne tylko w panelu administracyjnym"
 
-#: events/models/applications.py:138
+#: events/models/applications.py:149
 #, python-format
 msgid "%(event)s: Application '%(name)s' (new status)"
 msgstr "%(event)s: Zgłoszenie '%(name)s' (nowy status)"
@@ -1123,29 +1139,29 @@ msgid "Your ticket image could not be saved for an unknown reason. %(hint)s"
 msgstr ""
 "Twój obrazek biletu nie mógł zostać zapisany z nieznanej przyczyny. %(hint)s"
 
-#: events/views/applications.py:41
+#: events/views/applications.py:42
 msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
-#: events/views/applications.py:51
+#: events/views/applications.py:52
 msgid "You must register for this event before submitting an application."
 msgstr "Musisz zarejestrować się na to wydarzenie przed wysłaniem zgłoszenia."
 
-#: events/views/applications.py:56
+#: events/views/applications.py:57
 msgid "This application is not yet open. Come back later."
 msgstr ""
 "Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
 
-#: events/views/applications.py:59
+#: events/views/applications.py:60
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:105
+#: events/views/applications.py:106
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:120
+#: events/views/applications.py:122
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
@@ -2386,6 +2402,10 @@ msgstr ""
 "Zaraz użyjesz konta\n"
 "        %(provider_name)s aby zalogować się na stronę\n"
 "        %(site_name)s. Uzupełnij poniższy formularz:"
+
+#~ msgid "Template for dynamic application form fields. Docs: "
+#~ msgstr ""
+#~ "Szablon dla dynamicznych pól formularzy w zgłoszeniach. Dokumentacja: "
 
 #~ msgid ""
 #~ "We did not receive a payment notification from Przelewy24. Try again "

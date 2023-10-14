@@ -9,6 +9,7 @@ from phonenumber_field import formfields as pnfields
 from pydantic import field_validator, BaseModel, Field as PydanticField
 
 from events.dynaforms.utils import parse_text_type_transform
+from events.templatetags.events import render_markdown
 
 
 class DynaformNode(BaseModel, ABC):
@@ -41,7 +42,11 @@ class DynaformTemplate(DynaformNode):
     content_type: Literal["markdown", "html"] = "html"
 
     def get_layout_object(self, name: str) -> HTML:
-        return HTML(self.content)
+        content = self.content
+        if self.content_type == "markdown":
+            content = render_markdown(content, strip_wrapper=True)
+
+        return HTML(content)
 
 
 class DynaformField(DynaformNode, ABC):

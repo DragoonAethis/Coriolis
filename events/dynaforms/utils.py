@@ -1,12 +1,24 @@
 import copy
 from typing import Literal
 
-import markdown
 from django.forms.fields import Field, ChoiceField
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
+from events.templatetags.events import render_markdown
+
 TextFormats = Literal["text", "html", "markdown"]
+
+
+def transform_text(text: str, text_type: TextFormats) -> str:
+    if text_type == "text":
+        return text
+    elif text_type == "html":
+        return mark_safe(text)
+    elif text_type == "markdown":
+        return render_markdown(text)
+    else:
+        raise ValueError(f"Text type '{text_type}' is not one of text/html/markdown!")
 
 
 def parse_text_type_transform(config: dict, text_key: str, type_key: str) -> None:
@@ -22,25 +34,7 @@ def parse_text_type_transform(config: dict, text_key: str, type_key: str) -> Non
     if not (text := config.get(text_key)):
         return
 
-    if text_type == "text":
-        pass
-    elif text_type == "html":
-        text = mark_safe(text)
-    elif text_type == "markdown":
-        rendered = markdown.markdown(text, output_format="html5")
-
-        # A quick and somewhat hacky way to strip the wrapping
-        # <p> element, but only if there's a single <p> in the text.
-        # This is not fully compliant, but much faster than building
-        # the full HTML tree, then serializing it back to text.
-        if text.startswith("<p>") and text.endswith("</p>") and text.find("</p>") == text.rfind("</p>"):
-            rendered = rendered[3:-4]
-
-        text = mark_safe(rendered)
-    else:
-        raise ValueError(f"{type_key} is not one of text/html/markdown!")
-
-    config[text_key] = text
+    config[text_key] = transform_text(text, text_type)
 
 
 def get_pretty_answer_value(answer: object, field: Field | None) -> str:
