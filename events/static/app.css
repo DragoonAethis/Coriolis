@@ -12,6 +12,20 @@
     max-width: 25%;
 }
 
+@media (min-width: 992px) {
+    .counter-wrapper {
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        justify-content: flex-end !important;
+        align-items: baseline !important;
+    }
+
+    .counter-wrapper > input {
+        max-width: 100px;
+        margin-right: 0.5rem;
+    }
+}
+
 .btn-gaps {
     gap: 0.3rem 0.3rem;
 }

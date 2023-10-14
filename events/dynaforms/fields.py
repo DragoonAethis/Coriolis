@@ -115,6 +115,9 @@ class CounterField(DynaformField):
     kind: Literal["counter"]
     _field_class: type[Field] = fields.IntegerField
 
+    def get_layout_object(self, name: str) -> LayoutObject | None:
+        return Field(name, wrapper_class="counter-wrapper")
+
 
 class ChoiceField(DynaformField, ABC):
     choices: dict[str, str]
