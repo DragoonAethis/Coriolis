@@ -30,6 +30,11 @@
     }
 }
 
+.form-control,
+.form-check-input {
+    border-color: #b5b6b7;
+}
+
 .btn-gaps {
     gap: 0.3rem 0.3rem;
 }
@@ -63,11 +68,11 @@
 
 .environment-development, .environment-staging {
     background: repeating-linear-gradient(
-        45deg,
-        rgba(0, 0, 0, 0.10),
-        rgba(0, 0, 0, 0.10) 10px,
-        rgba(0, 0, 0, 0.15) 10px,
-        rgba(0, 0, 0, 0.15) 20px
+            45deg,
+            rgba(0, 0, 0, 0.10),
+            rgba(0, 0, 0, 0.10) 10px,
+            rgba(0, 0, 0, 0.15) 10px,
+            rgba(0, 0, 0, 0.15) 20px
     ), #ffd9d9;
 }
 
