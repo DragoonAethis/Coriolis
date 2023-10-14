@@ -12,6 +12,10 @@
     max-width: 25%;
 }
 
+.counter-full-wrapper .invalid-feedback {
+    display: block;
+}
+
 @media (min-width: 992px) {
     .counter-wrapper {
         display: flex !important;

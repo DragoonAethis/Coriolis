@@ -1,0 +1,25 @@
+{% load crispy_forms_field %}
+
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+    <{% if tag %}{{ tag }}{% else %}div{% endif %} id="div_{{ field.auto_id }}"
+                                                   class="mb-3 counter-full-wrapper
+                                                           {% if wrapper_class %}{{ wrapper_class }}{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+        <div class="counter-wrapper{% if field_class %} {{ field_class }}{% endif %}">
+            {% if field.label and form_show_labels %}
+                <label {% if field.id_for_label %}for="{{ field.id_for_label }}"{% endif %}
+                       class="form-label{% if label_class %} {{ label_class }}{% endif %}{% if field.field.required %} requiredField{% endif %}">
+                    {{ field.label }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+                </label>
+            {% endif %}
+
+            {% if field.errors %}
+                {% crispy_field field 'class' 'form-control is-invalid' %}
+            {% else %}
+                {% crispy_field field 'class' 'form-control' %}
+            {% endif %}
+        </div>
+        {% include 'bootstrap5/layout/help_text_and_errors.html' %}
+    </{% if tag %}{{ tag }}{% else %}div{% endif %}>
+{% endif %}
