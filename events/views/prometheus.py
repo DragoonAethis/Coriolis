@@ -75,25 +75,11 @@ def prometheus_status(request, slug, key):
 
     counters: list[Counter] = [
         GaugeCounter(
-            "tickets_counts",
+            "ticket_counts",
             "Number of valid tickets by type/status.",
             lambda x: True,  # Filtered on the query below.
-            lambda x: (str(x["type_id"]), x["source"], x["status"]),
-            ("ticket_type", "source", "status"),
-        ),
-        GaugeCounter(
-            "tickets_paid",
-            "Number of tickets paid for before the event.",
-            lambda x: x["paid"],
-            lambda x: (str(x["type_id"]), x["status"]),
-            ("ticket_type", "status"),
-        ),
-        GaugeCounter(
-            "tickets_unpaid",
-            "Number of tickets not paid for before the event.",
-            lambda x: not x["paid"],
-            lambda x: (str(x["type_id"]), x["status"]),
-            ("ticket_type", "status"),
+            lambda x: (str(x["type_id"]), x["source"], x["status"], x["paid"]),
+            ("ticket_type", "source", "status", "paid"),
         ),
         FloatGaugeCounter(
             "tickets_value",
