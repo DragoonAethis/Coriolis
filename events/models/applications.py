@@ -103,11 +103,6 @@ class Application(models.Model):
     phone = PhoneNumberField(verbose_name=_("phone"))
     email = models.EmailField(verbose_name=_("email"))
     answers = models.JSONField(verbose_name=_("answers"))
-    application = models.TextField(
-        blank=True,
-        verbose_name=_("application"),
-        help_text=_("Legacy application answers field."),
-    )
 
     notes = models.TextField(
         blank=True,

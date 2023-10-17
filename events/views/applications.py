@@ -95,7 +95,6 @@ class ApplicationView(FormView):
             answers=answers,
         )
 
-        application.application = "\n".join([f"- {name}: {value}" for name, value in answers.items()])
         application.save()
 
         pretty_answers = {}
