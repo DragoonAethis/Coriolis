@@ -15,20 +15,20 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-black = "^23.9.1"
-sentry-sdk = "^1.31.0"
+black = "^23.10.0"
+sentry-sdk = "^1.32.0"
 Django = "^4.2.6"
 django-upgrade = "^1.15.0"
 django-allauth = "^0.57.0"
 django-allauth-2fa = "^0.11.1"
 django-environ = "^0.11.2"
 django-debug-toolbar = "^4.2.0"
-django-phonenumber-field = { extras = ["phonenumberslite"], version = "^7.1.0" }
+django-phonenumber-field = { extras = ["phonenumberslite"], version = "^7.2.0" }
 django-colorfield = "^0.10.1"
-django-crispy-forms = "^2.0"
+django-crispy-forms = "^2.1"
 crispy-bootstrap5 = "^0.7"
 gunicorn = "^21.2.0"
-whitenoise = { extras = ["brotli"], version = "^6.5.0" }
+whitenoise = { extras = ["brotli"], version = "^6.6.0" }
 requests = "^2.31.0"
 psycopg = "^3.1.12"
 Pillow = "^10.0.1"
@@ -37,7 +37,7 @@ django-payments = "^2.0.0"
 django-money = "3.2.0"
 django-hijack = "^3.4.1"
 pydantic = "^2.4.2"
-xlsxwriter = "^3.1.6"
+xlsxwriter = "^3.1.8"
 django-ipware = "^5.0.1"
 dramatiq = { extras = ["watch", "redis"], version = "^1.14.2" }
 django-dramatiq = "^0.11.5"
