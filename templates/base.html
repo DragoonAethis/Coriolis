@@ -16,7 +16,7 @@
 
     {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% get_body_css_classes %}">
 <noscript>{# Can't apply bg-warning on noscript... #}
     <div class="bg-warning">
         <div class="container pt-2 pb-2">
@@ -24,7 +24,7 @@
         </div>
     </div>
 </noscript>
-<header class="border-bottom mb-2 {% get_env_css_class %}">
+<header class="border-bottom mb-2">
     <div class="container-lg d-flex justify-content-between flex-wrap py-3">
         <div><a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a></div>
         <div class="d-flex btn-gaps flex-wrap">

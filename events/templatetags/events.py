@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.messages import DEBUG, INFO, SUCCESS, WARNING, ERROR
 from django.forms import BaseForm
 from django.forms.widgets import PasswordInput
+from django.template import RequestContext
 from django.utils.html import mark_safe
 from markdown import markdown
 
@@ -36,13 +37,23 @@ def render_markdown(content: str, strip_wrapper: bool = False) -> str:
     return mark_safe(text)
 
 
-@register.simple_tag
-def get_env_css_class() -> str:
-    css_class = f"environment-{settings.ENVIRONMENT}"
-    if settings.DEBUG:
-        css_class = f"{css_class} debug-enabled"
+@register.simple_tag(takes_context=True)
+def get_body_css_classes(context: RequestContext) -> str:
+    from events.models.events import Event
 
-    return mark_safe(css_class)
+    classes = [
+        f"environment-{settings.ENVIRONMENT}",
+        f"logged-{'in' if context.request.user.is_authenticated else 'out'}",
+    ]
+
+    event: Event | None = context.get("event")
+    if event is not None:
+        classes.append(f"event-{event.slug}")  # noqa
+
+    if settings.DEBUG:
+        classes.append("debug-enabled")
+
+    return mark_safe(" ".join(classes))
 
 
 @register.filter

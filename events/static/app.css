@@ -67,7 +67,8 @@
     --bs-text-opacity: 1;
 }
 
-.environment-development, .environment-staging {
+.environment-staging header,
+.environment-development header {
     background: repeating-linear-gradient(
             45deg,
             rgba(0, 0, 0, 0.10),
@@ -95,4 +96,14 @@
 .socialaccount_provider.discord:hover {
     border-color: #415290;
     background-color: #5668a5;
+}
+
+body.logged-in .hide-for-logged-in {
+    display: none;
+    visibility: hidden;
+}
+
+body.logged-out .hide-for-logged-out {
+    display: none;
+    visibility: hidden;
 }
