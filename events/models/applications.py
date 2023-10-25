@@ -82,6 +82,7 @@ class Application(models.Model):
     class ApplicationStatus(models.TextChoices):
         CANCELLED = "CNCL", _("Cancelled")
         WAITING = "WAIT", _("Waiting for Organizers")
+        RESERVE = "RSVE", _("On Reserve List")
         APPROVED = "APRV", _("Approved")
         REJECTED = "REJD", _("Rejected")
 
