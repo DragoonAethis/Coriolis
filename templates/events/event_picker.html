@@ -8,11 +8,18 @@
         <div class="col">
             {% if events %}
                 <h1>{% translate "Select an Event" %}</h1>
-                <ul>
+                <div class="list-group">
                     {% for event in events %}
-                        <li><a href="{% url 'event_index' event.slug %}">{{ event.name }}</a></li>
+                        <a href="{% url 'event_index' event.slug %}"
+                           class="list-group-item list-group-item-action">
+                            <div class="fs-5 fw-bold">
+                                {{ event.name }} <i class="bi bi-arrow-right"></i>
+                            </div>
+                            <div>{{ event.date_from.date }} - {{ event.date_to.date }}</div>
+                            <div>{{ event.location }}</div>
+                        </a>
                     {% endfor %}
-                </ul>
+                </div>
             {% else %}
                 <h1>{% translate "No events available!" %}</h1>
                 <p>{% translate "No events are currently available. Check back later." %}</p>
