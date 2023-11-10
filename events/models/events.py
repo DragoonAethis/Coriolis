@@ -55,7 +55,7 @@ class Event(models.Model):
     payment_enabled = models.BooleanField(
         default=True,
         verbose_name=_("payment enabled"),
-        help_text=_("Enable or disable "),
+        help_text=_("Enable or disable online payments on this event."),
     )
     emails_enabled = models.BooleanField(
         default=True,
@@ -68,7 +68,7 @@ class Event(models.Model):
         verbose_name=_("ticket renderer"),
         null=True,
         on_delete=models.SET_NULL,
-        help_text=_("System used to render the ticket images."),
+        help_text=_("System used to render the personalized ticket images."),
     )
     ticket_renderer_variants = models.CharField(
         max_length=256,

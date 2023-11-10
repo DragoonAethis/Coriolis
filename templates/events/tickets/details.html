@@ -56,25 +56,13 @@
         </div>
         <div class="col-12 col-md-4">
             {% if ticket.preview %}
-                <h5>{% translate "Ticket Preview" %}:</h5>
-                <div>
-                    <a href="#">
-                        <img class="img-fluid"
-                             src="{{ ticket.preview.url }}?updated={{ ticket.updated.timestamp | floatformat:"0" }}"
-                             alt="Ticket preview image. Click to personalize."
-                             data-bs-toggle="modal" data-bs-target="#personalizeModal">
-                    </a>
-                </div>
+                {% translate "Ticket Preview" as frag_title %}
+                {% translate "Ticket preview image." as frag_alt_text %}
+                {% include "events/tickets/fragments/ticket_preview.html" with ticket=ticket title=frag_title alt_text=frag_alt_text only %}
             {% elif ticket.image %}
-                <h5>{% translate "Image" %}:</h5>
-                <div>
-                    <a href="#">
-                        <img class="img-fluid"
-                             src="{{ ticket.image.url }}?updated={{ ticket.updated.timestamp | floatformat:"0" }}"
-                             alt="Image to be printed on the ticket. Click to personalize."
-                             data-bs-toggle="modal" data-bs-target="#personalizeModal">
-                    </a>
-                </div>
+                {% translate "Image" as frag_title %}
+                {% translate "Image to be printed on the ticket." as frag_alt_text %}
+                {% include "events/tickets/fragments/ticket_preview.html" with ticket=ticket title=frag_title alt_text=frag_alt_text only %}
             {% else %}
                 <h5>{% translate "You have no custom image on your ticket." %}</h5>
             {% endif %}
@@ -84,65 +72,26 @@
                     <button class="btn btn-lg btn-primary" data-bs-toggle="modal"
                             data-bs-target="#personalizeModal">{% translate "Change nickname/image" %}</button>
                 {% else %}
-                    <button class="btn btn-lg btn-outline-primary"
-                            disabled>{% translate "Cannot change ticket" %}</button>
+                    <button class="btn btn-lg btn-outline-primary" disabled>
+                        {% translate "Cannot change ticket" %}
+                    </button>
+                    <p class="text-muted">
+                        {% if not ticket.type.can_personalize %}
+                            {% translate "Tickets of this type cannot be personalized." %}
+                        {% elif ticket.type.is_past_personalization_date %}
+                            {% blocktranslate with personalization_date=ticket.type.personalization_to|naturaltime %}
+                                The personalization deadline has passed {{ personalization_date }}.
+                            {% endblocktranslate %}
+                        {% elif not ticket.status_allows_personalization %}
+                            {% translate "Tickets of this status cannot be personalized." %}
+                        {% endif %}
+                    </p>
                 {% endif %}
             </div>
         </div>
     </div>
 
-    <div class="modal" id="personalizeModal" tabindex="-1" aria-labelledby="personalizeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="personalizeModalLabel">{% translate "Change nickname/image" %}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                {% if ticket.can_personalize %}
-                    <form action="{% url 'ticket_update' event.slug ticket.id %}" method="post"
-                          enctype="multipart/form-data" novalidate>
-                        <div class="modal-body">
-                            <p>
-                                {% blocktranslate with relative_date=ticket.type.registration_to|naturaltime %}
-                                    You can change the nickname or image to be printed on your ticket here.
-                                    Changes can be made as many times as you want until registration closes
-                                    ({{ relative_date }}).
-                                {% endblocktranslate %}
-                            </p>
-
-                            {% if event.ticket_renderer_help_text %}
-                                <div class="alert alert-warning ticket-render-alert" role="alert">
-                                    {% render_markdown event.ticket_renderer_help_text %}
-                                </div>
-                            {% endif %}
-
-                            {% csrf_token %}
-                            {{ update_form | crispy }}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                            <button type="submit" class="btn btn-primary">{% translate "Change" %}</button>
-                        </div>
-                    </form>
-                {% else %}
-                    <div class="modal-body">
-                        <p>
-                            {% translate "This ticket can no longer be changed." %}
-                            {% if not ticket.type.can_register_or_change %}
-                                {% blocktranslate with relative_date=ticket.type.registration_to|naturaltime %}
-                                    Registration and changes were closed {{ relative_date }}.
-                                {% endblocktranslate %}
-                            {% endif %}
-                        </p>
-                        <p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{% translate "Close" %}</button>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    </div>
+    {% if ticket.can_personalize %}
+        {% include "events/tickets/fragments/ticket_personalization_modal.html" with event=event ticket=ticket update_form=update_form csrf=csrf_input %}
+    {% endif %}
 {% endblock %}

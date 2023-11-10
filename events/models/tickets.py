@@ -70,6 +70,10 @@ class TicketType(models.Model):
         verbose_name=_("can personalize"),
         help_text=_("Determines if a ticket can be personalized at all."),
     )
+    personalization_to = models.DateTimeField(
+        verbose_name=_("personalization to"),
+        help_text=_("Until when the ticket can be personalized?"),
+    )
     can_specify_shirt_size = models.BooleanField(
         default=False,
         verbose_name=_("can specify shirt size"),
@@ -152,8 +156,8 @@ class TicketType(models.Model):
     def get_absolute_url(self):
         return reverse("registration_form", kwargs={"slug": self.event.slug, "id": self.id})
 
-    def can_register_or_change(self):
-        return datetime.datetime.now() < self.registration_to
+    def is_past_personalization_date(self):
+        return datetime.datetime.now() > self.personalization_to
 
 
 class TicketStatus(models.TextChoices):
@@ -308,6 +312,19 @@ class Ticket(models.Model):
     def get_absolute_url(self):
         return reverse("ticket_details", kwargs={"slug": self.event.slug, "ticket_id": self.id})
 
+    def get_preview_url(self) -> str | None:
+        url = None
+
+        if self.preview:
+            url = self.preview.url
+        elif self.image:
+            url = self.image.url
+
+        if url:  # Poor Man's ETag:
+            url += f"?updated={self.updated.timestamp():.0f}"
+
+        return url
+
     def get_status_deadline_display(self):
         if self.status_deadline > datetime.datetime.now():
             timestamp = naturaltime(self.status_deadline)
@@ -348,16 +365,18 @@ class Ticket(models.Model):
             and self.type.online_payment_policy != OnlinePaymentPolicy.DISABLED
         )
 
+    def status_allows_personalization(self) -> bool:
+        return self.status in (
+            TicketStatus.READY,
+            TicketStatus.WAITING_FOR_PAYMENT,
+            TicketStatus.WAITING,
+        )
+
     def can_personalize(self) -> bool:
         return (
-            self.status
-            in (
-                TicketStatus.READY,
-                TicketStatus.WAITING_FOR_PAYMENT,
-                TicketStatus.WAITING,
-            )
-            and self.type.can_register_or_change()
+            self.status_allows_personalization()
             and self.type.can_personalize
+            and not self.type.is_past_personalization_date()
         )
 
     def get_code(self) -> str:

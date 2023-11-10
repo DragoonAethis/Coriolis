@@ -1,0 +1,16 @@
+{% load i18n %}
+<h5>{{ title }}:</h5>
+<div>
+    <a href="#">
+        <img class="img-fluid"
+             src="{{ ticket.get_preview_url }}"
+                {# PyCharm formatter really murders alignment here... #}
+                {% if ticket.can_personalize %}
+             alt="{{ alt_text }} {% translate "Click to personalize." %}"
+             data-bs-toggle="modal" data-bs-target="#personalizeModal"
+                {% else %}
+             alt="{{ alt_text }}"
+                {% endif %}
+        >
+    </a>
+</div>

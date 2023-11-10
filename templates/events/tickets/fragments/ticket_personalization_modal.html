@@ -1,0 +1,38 @@
+{% load i18n events humanize crispy_forms_filters %}
+<div class="modal" id="personalizeModal" tabindex="-1" aria-labelledby="personalizeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="personalizeModalLabel">{% translate "Change nickname/image" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'ticket_update' event.slug ticket.id %}" method="post"
+                  enctype="multipart/form-data" novalidate>
+                <div class="modal-body">
+                    <p>
+                        {% blocktranslate with relative_date=ticket.type.personalization_to|naturaltime %}
+                            You can change the nickname or image to be printed on your ticket here.
+                            Changes can be made as many times as you want until the personalization
+                            deadline ({{ relative_date }}).
+                        {% endblocktranslate %}
+                    </p>
+
+                    {% if event.ticket_renderer_help_text %}
+                        <div class="alert alert-warning ticket-render-alert" role="alert">
+                            {% render_markdown event.ticket_renderer_help_text %}
+                        </div>
+                    {% endif %}
+
+                    {% csrf_token %}
+                    {{ update_form | crispy }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                    <button type="submit" class="btn btn-primary">{% translate "Change" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
