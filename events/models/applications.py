@@ -163,7 +163,6 @@ class Application(models.Model):
                     "application": self,
                 },
             ).strip(),
-            from_email=settings.SERVER_EMAIL,
             to=[self.email],
             reply_to=self.get_org_emails(),
         ).send()

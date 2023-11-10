@@ -111,7 +111,6 @@ class ApplicationView(FormView):
                     "answers": pretty_answers,
                 },
             ).strip(),
-            from_email=settings.SERVER_EMAIL,
             to=application.get_notification_emails(),
             reply_to=application.get_org_emails(),
         ).send()

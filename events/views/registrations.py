@@ -129,10 +129,9 @@ class RegistrationView(FormView):
             ticket.status = TicketStatus.WAITING
             ticket._original_status = TicketStatus.WAITING
             EmailMessage(
-                _("Notes for ticket: '%(code)s'") % {"code": ticket.get_code()},
-                _("A new ticket was registered with the following notes: ") + ticket.notes,
-                settings.SERVER_EMAIL,
-                [ticket.event.org_mail],
+                subject=_("Notes for ticket: '%(code)s'") % {"code": ticket.get_code()},
+                body=_("A new ticket was registered with the following notes: ") + ticket.notes,
+                to=[ticket.event.org_mail],
                 reply_to=[ticket.email],
             ).send(fail_silently=True)
         elif self.type.online_payment_policy == OnlinePaymentPolicy.REQUIRED:
@@ -166,8 +165,8 @@ class RegistrationView(FormView):
             render_ticket_variants.send(str(ticket.id))
 
         EmailMessage(
-            _("%(event)s: Ticket '%(code)s'") % {"event": self.event.name, "code": ticket.get_code()},
-            render_to_string(
+            subject=_("%(event)s: Ticket '%(code)s'") % {"event": self.event.name, "code": ticket.get_code()},
+            body=render_to_string(
                 "events/emails/thank_you.html",
                 {
                     "event": self.event,
@@ -175,8 +174,7 @@ class RegistrationView(FormView):
                     "is_waiting": ticket.status == TicketStatus.WAITING,
                 },
             ).strip(),
-            settings.SERVER_EMAIL,
-            [ticket.email],
+            to=[ticket.email],
             reply_to=[ticket.event.org_mail],
         ).send(fail_silently=True)
 
