@@ -148,8 +148,18 @@ class PaymentAdmin(admin.ModelAdmin):
         )
 
 
+class ApplicationTypeAdminForm(ModelForm):
+    def clean_org_emails(self):
+        from events.utils import validate_multiple_emails
+
+        mails = self.cleaned_data["org_emails"]
+        validate_multiple_emails(mails)
+        return mails
+
+
 @admin.register(ApplicationType)
 class ApplicationTypeAdmin(admin.ModelAdmin):
+    form = ApplicationTypeAdminForm
     list_display = ("name", "event", "slug", "registration_from", "registration_to")
     list_filter = ("event",)
     search_fields = ("name",)

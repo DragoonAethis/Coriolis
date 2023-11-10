@@ -102,8 +102,8 @@ class ApplicationView(FormView):
             pretty_answers = get_pretty_answers(prefixed_answers, form.dynamic_fields)
 
         EmailMessage(
-            _("%(event)s: Application '%(name)s'") % {"event": self.event.name, "name": application.name},
-            render_to_string(
+            subject=_("%(event)s: Application '%(name)s'") % {"event": self.event.name, "name": application.name},
+            body=render_to_string(
                 "events/emails/new_application.html",
                 {
                     "event": self.event,
@@ -111,8 +111,8 @@ class ApplicationView(FormView):
                     "answers": pretty_answers,
                 },
             ).strip(),
-            settings.SERVER_EMAIL,
-            [self.type.org_email or self.event.org_mail, application.email],
+            from_email=settings.SERVER_EMAIL,
+            to=application.get_notification_emails(),
         ).send()
 
         if self.type.submission_message:

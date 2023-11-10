@@ -9,12 +9,23 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
+from django.core.validators import validate_email
 from django.http.request import HttpRequest
 from django.utils.translation import gettext as _
 from ipware import get_client_ip
 from sentry_sdk import capture_exception
 
 import events.models
+
+
+def validate_multiple_emails(value: str):
+    """Checks if the provided string is a comma-separated list of valid emails."""
+    value = value.strip()
+    if not value:
+        return  # Valid, but nothing to check
+
+    for mail in value.split(","):
+        validate_email(mail.strip())
 
 
 def generate_ticket_code(event: "events.models.Event") -> int:

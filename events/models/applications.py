@@ -11,6 +11,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from events.models.events import Event
 from events.models.users import User
+from events.utils import validate_multiple_emails
 
 
 class ApplicationType(models.Model):
@@ -22,13 +23,16 @@ class ApplicationType(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("name"))
     slug = models.CharField(max_length=64, verbose_name=_("slug"))
     button_label = models.CharField(max_length=128, verbose_name=_("button label"))
-    org_email = models.EmailField(
-        verbose_name=_("org email"),
+    org_emails = models.CharField(
+        db_column="org_email",
+        verbose_name=_("org emails"),
         blank=True,
         help_text=_(
             "If set, mails for these applications will be sent to the "
-            "provided address, not the global event address."
+            "provided addresses, not the global event address. This can "
+            "be a comma-separated list of emails."
         ),
+        validators=[validate_multiple_emails],
     )
 
     registration_from = models.DateTimeField(
@@ -134,6 +138,15 @@ class Application(models.Model):
     def get_absolute_url(self):
         return reverse("application_details", kwargs={"slug": self.event.slug, "app_id": self.id})
 
+    def get_org_emails(self) -> list[str]:
+        if self.type.org_emails:
+            return [mail.strip() for mail in self.type.org_emails.split(",")]
+        else:
+            return [self.event.org_mail]
+
+    def get_notification_emails(self) -> list[str]:
+        return [self.email] + self.get_org_emails()
+
     def save(self, *args, **kwargs):
         new_app = self.id is None
         super().save(*args, **kwargs)
@@ -142,17 +155,17 @@ class Application(models.Model):
 
         # Notify about the status change:
         EmailMessage(
-            _("%(event)s: Application '%(name)s' (new status)") % {"event": self.event.name, "name": self.name},
-            render_to_string(
+            subject=_("%(event)s: Application '%(name)s' (new status)") % {"event": self.event.name, "name": self.name},
+            body=render_to_string(
                 "events/emails/application_changed.html",
                 {
                     "event": self.event,
                     "application": self,
                 },
             ).strip(),
-            settings.SERVER_EMAIL,
-            [self.email],
-            reply_to=[self.type.org_email or self.event.org_mail],
+            from_email=settings.SERVER_EMAIL,
+            to=[self.email],
+            reply_to=self.get_org_emails(),
         ).send()
 
     def get_status_class(self):
