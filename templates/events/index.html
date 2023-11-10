@@ -7,7 +7,11 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h1>{% blocktranslate with name=event.name %}Tickets for {{ name }}{% endblocktranslate %}</h1>
+            <h1>
+                {% blocktranslate with name=event.name link=event.website_link %}
+                    Tickets for <a href="{{ link }}" target="_blank">{{ name }}</a>
+                {% endblocktranslate %}
+            </h1>
             <h4 class="text-muted">{{ event.date_from }} ({{ event.date_from|naturaltime }})
                 - {{ event.date_to.date }}</h4>
             <h4 class="text-muted"><a href="{{ event.location_link }}" target="_blank">{{ event.location }}</a></h4>
