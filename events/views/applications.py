@@ -113,6 +113,7 @@ class ApplicationView(FormView):
             ).strip(),
             from_email=settings.SERVER_EMAIL,
             to=application.get_notification_emails(),
+            reply_to=application.get_org_emails(),
         ).send()
 
         if self.type.submission_message:
