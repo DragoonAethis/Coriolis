@@ -213,7 +213,8 @@ DRAMATIQ_RESULT_BACKEND = {
     "MIDDLEWARE_OPTIONS": {"result_ttl": 60000},
 }
 
-DRAMATIQ_CRONTAB = {"REDIS_URL": REDIS_URL}
+# Disabled until the lock implementation is fixed in dramatiq-crontab:
+# DRAMATIQ_CRONTAB = {"REDIS_URL": REDIS_URL}
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
