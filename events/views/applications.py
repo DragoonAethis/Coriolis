@@ -112,7 +112,7 @@ class ApplicationView(FormView):
                 },
             ).strip(),
             to=application.get_notification_emails(),
-            reply_to=application.get_org_emails(),
+            reply_to=application.get_notification_emails(),
         ).send()
 
         if self.type.submission_message:
