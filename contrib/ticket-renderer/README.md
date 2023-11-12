@@ -47,7 +47,7 @@ An example Dockerfile and scripts for Remcon 2023 are provided in this directory
 
 - The `template` directory is custom to this solution. You can modify its contents to alter the rendered ticket.
 - The `test` directory contains files that Coriolis would generate and mount under `/render`.
-- Run `docker build -t r2023-renderer .` to create the required container image.
-  - You would normally provide `r2023-renderer` as the ticket renderer image in Coriolis.
+- Run `docker build -t r2024-renderer .` to create the required container image.
+  - You would normally provide `r2024-renderer` as the ticket renderer image in Coriolis.
 - Run `./test-render.sh` to do the thing.
 - Results should be in: `render/render.png`

@@ -7,7 +7,7 @@ docker run --interactive --tty --rm \
     --network none \
     --user 1000:1000 \
     --security-opt "no-new-privileges:true" \
-    r2023-renderer:latest
+    r2024-renderer:latest
 
 if [[ -f "test/render.png" ]]; then
     echo "File found: $(file test/render.png)"

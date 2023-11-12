@@ -19,98 +19,119 @@ html, body {
 }
 
 .background {
-    width:1008px;
-    height:1300px;
-    position:absolute;
-    left:0px;
-    top:0px;
+    width: 1008px;
+    height: 1258px;
+    position: absolute;
+    left: 0px;
+    top: 127px;
     background-image: url("background.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    z-index: -2;
 }
 
-.t-shadow {
-    text-shadow: black 1px 0 10px;
+.bar {
+    background-color: rgb(0, 95, 173);
+    width: 1008px;
+    height: 127px;
+    position: absolute;
+    z-index: -1;
 }
 
-.text-remcon {
-    width:882px;
-    height:103px;
-    position:absolute;
-    left:85px;
-    top:100px;
-    text-align:left;
-    font-size:120px;
-    letter-spacing:0;
-}
-.text-date {
-    width:850px;
-    height:101px;
-    position:absolute;
-    left:85px;
-    top:222px;
-    text-align:center;
-    font-size:64px;
-    letter-spacing:0;
-}
-.text-nick {
-    width:850px;
-    height:99px;
-    position:absolute;
-    left:85px;
-    top:519px;
-    text-align:center;
-    font-size:96px;
-    letter-spacing:0;
-    line-height: 100px;
+.top-bar {
+    left: 0px;
+    top: 0px;
 }
 
 .bottom-bar {
-    background-color:rgb(0, 95, 173);
-    width:1008px;
-    height:212px;
-    position:absolute;
-    left:0px;
-    top:1300px;
+    left: 0px;
+    top: 1385px;
 }
-.text-code {
-    width:850px;
-    height:99px;
-    position:absolute;
-    left:40px;
-    top:1334px;
-    text-align:left;
-    font-size:64px;
-    letter-spacing:0;
+
+div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+
+    text-shadow: rgba(0, 0, 0, 0.9) 0px 4px 3px;
+    letter-spacing: 0;
+    z-index: 0;
 }
+
+.text-top-bar {
+    width: 500px;
+    height: 127px;
+    top: 0px;
+    text-align: center;
+    font-size: 44px;
+    line-height: 1;
+}
+
 .text-role {
-    width:850px;
-    height:99px;
-    position:absolute;
-    left:40px;
-    top:1400px;
-    text-align:left;
-    font-size:64px;
-    letter-spacing:0;
+    left: 0px;
+}
+
+.text-code {
+    left: 508px;
+}
+
+.text-festiwal {
+    top: 175px;
+    left: 180px;
+    text-align: left;
+    font-size: 60px;
+}
+
+.text-remcon {
+    top: 204px;
+    left: 175px;
+    text-align: left;
+    font-size: 150px;
+}
+
+.text-2024 {
+    top: 332px;
+    left: 610px;
+    text-align: right;
+    font-size: 90px;
+}
+
+.text-nick {
+    top: 1130px;
+    left: 50px;
+    width: 908px;
+    height: 200px;
+    font-size: 64px;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.text-bottom {
+    top: 1386px;
+    left: 0px;
+    width: 1008px;
+    height: 110px;
+    font-size: 40px;
 }
 
 .bottom-sticker {
-    background-color:rgba(217, 217, 217, 0.2);
-    width:132px;
-    height:132px;
-    position:absolute;
-    left:836px;
-    top:1340px;
+    background-color: rgba(217, 217, 217, 0.2);
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    left: 836px;
+    top: 1340px;
     border-radius: 8px;
 }
 
 .bottom-logo {
-    width:132px;
-    height:120px;
-    position:absolute;
-    left:836px;
-    top:1346px;
+    width: 132px;
+    height: 120px;
+    position: absolute;
+    left: 836px;
+    top: 1346px;
     background-image: url("logo.svg");
     background-repeat: no-repeat;
     background-size: cover;

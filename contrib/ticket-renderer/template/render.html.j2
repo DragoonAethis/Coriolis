@@ -1,34 +1,45 @@
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>{{ ticket_type.prefix }}{{ ticket.code }}@{{ render.variant }}</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8">
+    <title>{{ ticket.prefixed_code }}@{{ render.variant }}</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div
-    class="background"
-    {% if render.image and render.variant != "back" %}
-      style="background-image: url('{{ render.image }}') !important"
-    {% endif %}
-  ></div>
-  <span class="text-remcon t-shadow">Remcon 2023</span>
-  <span class="text-date t-shadow">Gdynia 24-26 luty</span>
-  <span class="text-nick t-shadow">{% if ticket.nickname %}{{ ticket.nickname }}{% endif %}</span>
+<div
+        class="background"
+        {% if render.image and render.variant != "back" %}
+        style="background-image: url('{{ render.image }}') !important"
+        {% endif %}
+></div>
 
-  <div
-    class="bottom-bar"
-    {% if ticket_type.short_name == "VIP" %}
-      style="background: radial-gradient(ellipse farthest-corner at right bottom, #e9e9e9 0%, #d7d7d7 8%, #8b8b8b 30%, #817e78 40%, transparent 80%),
-                         radial-gradient(ellipse farthest-corner at left top, #c9c9c9 0%, #e1e1e1 8%, #b5b5b5 25%, #a1a1a1 62.5%, #262626 100%) !important"
-    {% elif ticket_type.short_name == "VIP+" %}
-      style="background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+<div class="bar top-bar"
+        {% if ticket_type.short_name == "VIP" %}
+     style="background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
                          radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%) !important"
-    {% elif ticket_type.color %}
-      style="background-color: {{ ticket_type.color }} !important"
-    {% endif %}
-  ></div>
-  <span class="text-code">{{ ticket.prefixed_code }}</span>
-  <span class="text-role">{{ ticket_type.short_name }}</span>
-  <div class="bottom-{% if render.variant == "back" %}sticker{% else %}logo{% endif %}"></div>
+        {% elif ticket_type.color %}
+     style="background-color: {{ ticket_type.color }} !important"
+        {% endif %}
+></div>
+
+<div class="text-top-bar text-role">{{ ticket_type.short_name }}</div>
+<div class="text-top-bar text-code">{{ ticket.prefixed_code }}</div>
+
+<div class="text-festiwal">Festiwal</div>
+<div class="text-remcon">Remcon</div>
+<div class="text-2024">2024</div>
+
+{% if ticket.nickname %}
+    <div class="text-nick">{{ ticket.nickname }}</div>
+{% endif %}
+
+<div class="bar bottom-bar"
+        {% if ticket_type.short_name == "VIP" %}
+     style="background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                         radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%) !important"
+        {% elif ticket_type.color %}
+     style="background-color: {{ ticket_type.color }} !important"
+        {% endif %}
+></div>
+<div class="text-bottom">23-25 LUTEGO 2024 &nbsp;|&nbsp; AMBEREXPO GDAŃSK</div>
 </body>
 </html>
