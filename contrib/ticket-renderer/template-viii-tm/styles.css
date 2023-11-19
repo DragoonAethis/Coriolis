@@ -86,12 +86,16 @@ div {
     width: 816px;
     top: 80px;
     font-size: 76px;
+    text-stroke: 2px black;
+    -webkit-text-stroke: 2px black;
 }
 
 .text-edycja {
     width: 816px;
     top: 164px;
     font-size: 68px;
+    text-stroke: 2px black;
+    -webkit-text-stroke: 2px black;
 }
 
 .text-nick {
@@ -102,6 +106,8 @@ div {
     line-height: 1.1;
     text-align: center;
     padding: 50px;
+    text-stroke: 2px black;
+    -webkit-text-stroke: 2px black;
 }
 
 .text-code {
