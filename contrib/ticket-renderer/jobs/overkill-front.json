@@ -1,0 +1,24 @@
+{
+    "render": {
+        "variant": "front",
+        "image": "asset2.jpg"
+    },
+    "ticket": {
+        "code": 2137,
+        "prefixed_code": "K2137",
+        "nickname": "Dragoon Aethis සිංහල 💩❤️🏳️‍🌈 □︎◆︎❒︎ ⧫︎♏︎⌧︎⧫︎ ♒︎ ♑︎♏︎ 🖳︎✆︎ 일욜에 만나~ (ノಠ益ಠ)ノ彡┻━┻",
+        "age_gate": true,
+        "name": "Jon Snow",
+        "email": null,
+        "phone": null
+    },
+    "ticket_type": {
+        "name": "Dragoon Aethis",
+        "short_name": "IT Overlord",
+        "code_prefix": "K",
+        "color": "rgb(255, 96, 96)"
+    },
+    "event": {
+        "name": "Remcon 2024"
+    }
+}

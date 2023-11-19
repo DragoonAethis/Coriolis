@@ -14,4 +14,8 @@ sudo chown -R www-data:www-data .
 sudo systemctl restart coriolis
 sudo systemctl restart coriolis-dramatiq
 sudo systemctl restart coriolis-crontab
-docker build -t r2024-renderer:latest /app/contrib/ticket-renderer
+
+pushd /app/contrib/ticket-renderer
+./build-image.sh r2024
+./build-image.sh viii-tm
+popd

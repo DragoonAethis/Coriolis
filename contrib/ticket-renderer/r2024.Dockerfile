@@ -8,9 +8,12 @@ RUN pacman -Syu --noconfirm \
     && useradd -u 1000 --user-group renderer \
     && mkdir /template
 
-ADD template /template/
-ADD coriolis-render.sh /usr/local/bin/coriolis-render.sh
 USER renderer
+ADD coriolis-render.sh /usr/local/bin/coriolis-render.sh
+
+ENV TICKET_WIDTH=1008
+ENV TICKET_HEIGHT=1512
+ADD template-r2024 /template/
 
 VOLUME /render
 CMD ["/usr/local/bin/coriolis-render.sh"]

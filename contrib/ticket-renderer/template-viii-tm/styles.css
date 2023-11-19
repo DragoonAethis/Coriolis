@@ -1,0 +1,213 @@
+/*
+VIII TM: 1008x1512
+- Sidebar width: 192px
+*/
+
+@font-face {
+    font-family: 'Gotham Rounded Bold';
+    src: url('GothamRoundedBold.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    overflow: hidden;
+    color: white;
+    font-family: "Gotham Rounded Bold", sans-serif;
+    font-weight: normal;
+}
+
+.background {
+    width: 816px;
+    height: 1320px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: -1;
+}
+
+.variant-front > .background {
+    left: 192px;
+    background-color: #a982b8;
+}
+
+.variant-back > .background {
+    left: 0px;
+    background-image: url("background.png");
+}
+
+.bars {
+    background-color: rgb(0, 95, 173);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 1008px;
+    height: 1512px;
+    z-index: -2;
+}
+
+.side-bar {
+    left: 0px;
+    top: 0px;
+    width: 192px;
+    height: 1320px;
+}
+
+.variant-front > .side-bar {
+    left: 0px;
+}
+
+.variant-back > .side-bar {
+    left: 816px;
+}
+
+.bottom-bar {
+    left: 0px;
+    top: 1320px;
+    width: 1008px;
+    height: 192px;
+}
+
+div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+
+    letter-spacing: 0;
+    z-index: 0;
+}
+
+.text-tm {
+    width: 816px;
+    top: 80px;
+    font-size: 76px;
+}
+
+.text-edycja {
+    width: 816px;
+    top: 164px;
+    font-size: 68px;
+}
+
+.text-nick {
+    top: 1020px;
+    width: 716px;
+    height: 200px;
+    font-size: 64px;
+    line-height: 1.1;
+    text-align: center;
+    padding: 50px;
+}
+
+.text-code {
+    top: 1350px;
+    left: 0px;
+    width: 816px;
+    height: 60px;
+    font-size: 44px;
+}
+
+.text-bottom {
+    top: 1420px;
+    left: 0px;
+    width: 816px;
+    height: 60px;
+    font-size: 44px;
+}
+
+.variant-back > .text-tm,
+.variant-back > .text-edycja,
+.variant-back > .text-nick,
+.variant-back > .text-code,
+.variant-back > .text-bottom {
+    left: 0px;
+}
+
+.variant-front > .text-tm,
+.variant-front > .text-edycja,
+.variant-front > .text-nick,
+.variant-front > .text-code,
+.variant-front > .text-bottom {
+    left: 192px;
+}
+
+.text-role {
+    rotate: 90deg;
+    top: 648px;
+    left: 348px;
+    width: 1128px;
+    height: 192px;
+    font-size: 92px;
+}
+
+body.variant-front .text-role {
+    rotate: -90deg;
+    left: -468px;
+}
+
+body.variant-back .text-role {
+    rotate: 90deg;
+    left: 348px;
+}
+
+.img-twilight {
+    position: absolute;
+    top: 160px;
+    left: 635px;
+}
+
+.img-emblem {
+    top: 40px;
+    left: 856px;
+    position: absolute;
+}
+
+body.variant-front .img-emblem {
+    left: 40px;
+}
+
+body.variant-back .img-emblem {
+    left: 856px;
+}
+
+.bottom-sticker {
+    background-color: rgba(255, 255, 255, 0.7);
+    width:120px;
+    height:120px;
+    position:absolute;
+    left:34px;
+    top:1358px;
+    border-radius: 8px;
+}
+
+.bottom-logo {
+    width: 132px;
+    height: 120px;
+    position: absolute;
+    left: 836px;
+    top: 1346px;
+    background-image: url("logo.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/*
+
+40px padding for the sticker
+
+1008,1512
+
+
+1417.3 - 132
+1289.2491  - x
+
+
+
+
+
+*/

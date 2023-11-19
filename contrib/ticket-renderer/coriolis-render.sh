@@ -1,6 +1,11 @@
 #!/usr/bin/bash
 cd /render || exit 1
 
+if [[ "$TICKET_WIDTH" == "" || "$TICKET_HEIGHT" == "" ]]; then
+    echo "Ticket width/height not set."
+    exit 1
+fi
+
 cp /template/* .
 j2 --undefined -o render.html render.html.j2 render.json
 
@@ -76,5 +81,5 @@ chromium \
     --hide-scrollbars \
     \
     --screenshot="render.png" \
-    --window-size=1008,1512 \
+    --window-size=$TICKET_WIDTH,$TICKET_HEIGHT \
     "render.html"

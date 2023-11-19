@@ -1,0 +1,24 @@
+{
+    "render": {
+        "variant": "back",
+        "image": "asset.jpg"
+    },
+    "ticket": {
+        "code": 2137,
+        "prefixed_code": "U2137",
+        "nickname": "Dragoon Aethis",
+        "age_gate": true,
+        "name": "Jon Snow",
+        "email": null,
+        "phone": null
+    },
+    "ticket_type": {
+        "name": "Dragoon Aethis",
+        "short_name": "Uczestnik",
+        "code_prefix": "U",
+        "color": "rgb(0, 95, 173)"
+    },
+    "event": {
+        "name": "Remcon 2024"
+    }
+}

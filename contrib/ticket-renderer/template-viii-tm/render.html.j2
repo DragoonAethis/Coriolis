@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ ticket.prefixed_code }}@{{ render.variant }}</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="variant-{{ render.variant }}">
+
+<div class="bars"
+    {% if ticket_type.short_name == "VIP" %}
+        style="background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%), radial-gradient(ellipse farthest-corner at left top, #f2dbb0 0%, #B7B78D 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%) !important"
+    {% elif ticket_type.color %}
+        style="background-color: {{ ticket_type.color }} !important"
+    {% endif %}
+></div>
+
+<img src="emblem.png" width="113" height="112" class="img-emblem">
+
+{% if render.variant == "front" %}
+    <div class="bottom-sticker"></div>
+{% endif %}
+
+<div class="text-role">{{ ticket_type.short_name }}</div>
+
+<div class="background"
+    {% if render.image and render.variant == "front" %}
+        style="background-image: url('{{ render.image }}') !important"
+    {% endif %}
+></div>
+
+{% if not render.image and render.variant == "front" %}
+    <img src="twilight-side.png" width="373" height="1269" class="img-twilight">
+{% endif %}
+
+<div class="text-tm">VIII Twilightmeet</div>
+<div class="text-edycja">Edycja rocznicowa</div>
+
+{% if ticket.nickname %}
+    <div class="text-nick">{{ ticket.nickname }}</div>
+{% endif %}
+
+<div class="text-code">{{ ticket.prefixed_code }}</div>
+<div class="text-bottom">08-10.12.2023 Gdańsk</div>
+
+<div class="text-role">{{ ticket_type.short_name }}</div>
+
+</body>
+</html>

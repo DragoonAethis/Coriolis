@@ -43,11 +43,15 @@ Your container must create the `render.png` file. Use `CMD ["any-command"]` in y
 
 ## Example
 
-An example Dockerfile and scripts for Remcon 2023 are provided in this directory. It uses Chromium and Jinja2 to create a HTML document, then renders it as a screenshot to the required image.
+Example Dockerfiles and scripts for multiple FBT events are provided in this directory. They use Chromium and Jinja2 to create a HTML document, then render it as a screenshot to the required image.
 
-- The `template` directory is custom to this solution. You can modify its contents to alter the rendered ticket.
-- The `test` directory contains files that Coriolis would generate and mount under `/render`.
-- Run `docker build -t r2024-renderer .` to create the required container image.
-  - You would normally provide `r2024-renderer` as the ticket renderer image in Coriolis.
-- Run `./test-render.sh` to do the thing.
-- Results should be in: `render/render.png`
+- Every renderer uses the `EVENT.Dockerfile` script which builds the `EVENT-renderer` image.
+- In all cases, `template-EVENT` directory is copied to `/template` in each image.
+- The `test-input` directory contains files that Coriolis would generate and mount under `/render`.
+- The `test-output` directory will be created with all render artifacts - this must contain the final `render.png`.
+- `./build-image.sh EVENT` rebuilds a given event renderer according to the convention above.
+- `./test-render.sh EVENT [JOB]` sets up the test environment in `test-output` and runs a render job.
+- Convenient template dev helper: `./watch-template.sh EVENT [JOB]`
+  - Whenever anything in `template-EVENT` changes, runs `./build-image.sh EVENT && ./test-render.sh EVENT JOB`
+  - Which you could run yourself like this: `./build-image.sh viii-tm && ./test-render.sh viii-tm jobs/std-front.json`
+- Results should be in: `test-output/render.png`
