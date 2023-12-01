@@ -30,6 +30,9 @@
         <div class="d-flex btn-gaps flex-wrap">
             {% if request.user.is_staff and event %}
                 <div class="dropdown">
+                    <a href="{% url 'mod_queue_list' event.slug %}" class="btn btn-warning">
+                        <i class="bi bi-radioactive me-1"></i> {% translate "Mod Queue" %}
+                    </a>
                     <a href="{% url 'crew_index' event.slug %}" class="btn btn-success">
                         <i class="bi bi-wrench me-1"></i> {% translate "Crew Panel" %}
                     </a>

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block head_title %}{% translate "Mod Queue" %}{% endblock %}
+
+{% block content %}
+    <h1>
+        {% translate "Mod Queue" %}
+        ({{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }})
+    </h1>
+    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2">
+        {% for ticket in object_list %}
+            <div class="col text-center">
+                {% if ticket.customization_approved_by %}
+                    <span class="fw-bold font-monospace text-success"><i
+                            class="bi bi-check me-1"></i>{{ ticket.get_code }}</span>
+                {% else %}
+                    <span class="fw-bold font-monospace"><i class="bi bi-clock me-1"></i>{{ ticket.get_code }}</span>
+                {% endif %}
+
+                <a href="{{ ticket.get_absolute_url }}">
+                    <img src="{{ ticket.get_preview_url }}" class="img-fluid m-1" alt="...">
+                </a>
+            </div>
+        {% empty %}
+            <div class="col">
+                <h2>{% translate "Mod queue is empty." %}</h2>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <nav aria-label="{% translate "Pages" %}">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ page_obj.previous_page_number }}">{% translate "Previous" %}</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                    {% endif %}
+
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">{{ page_obj.number }}</a>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">{% translate "Next" %}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+
+
+    </div>
+{% endblock %}

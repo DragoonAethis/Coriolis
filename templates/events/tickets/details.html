@@ -88,6 +88,15 @@
                     </p>
                 {% endif %}
             </div>
+
+            {% if user.is_staff %}
+                <div class="d-grid gap-2 mt-2">
+                    <span><i class="bi bi-wrench me-1"></i> {% translate "Crew Zone" %}</span>
+                    <a href="{% url "mod_queue_depersonalize" slug=event.slug ticket_id=ticket.id %}"
+                       class="btn btn-lg btn-danger">{% translate "Depersonalize" %}</a>
+                    {# <a href="#" class="btn btn-lg btn-warning">{% translate "Regenerate Previews" %}</a> #}
+                </div>
+            {% endif %}
         </div>
     </div>
 

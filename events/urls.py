@@ -62,5 +62,15 @@ urlpatterns = [
         views.CrewExistingTicketView.as_view(),
         name="crew_existing_ticket",
     ),
+    path(
+        "event/<slug:slug>/mod_queue/",
+        views.TicketModQueueListView.as_view(),
+        name="mod_queue_list",
+    ),
+    path(
+        "event/<slug:slug>/mod_queue/<uuid:ticket_id>/depersonalize",
+        views.TicketModQueueDepersonalizeFormView.as_view(),
+        name="mod_queue_depersonalize",
+    ),
     path("", views.index, name="index"),
 ]
