@@ -331,6 +331,10 @@ class UpdateTicketView(FormView):
         if shirt_size := form.cleaned_data.get("shirt_size"):
             self.ticket.shirt_size = shirt_size
 
+        # If the ticket was already approved in the mod queue, revert that:
+        self.ticket.personalization_approved_by = None
+        self.ticket.personalization_approved_on = None
+
         self.ticket.save()
         messages.info(
             self.request,

@@ -269,6 +269,7 @@ class Ticket(models.Model):
         help_text=_("Private org notes, visible only in the admin panel"),
     )
 
+    # Customizations/Personalizations
     code = models.PositiveIntegerField(
         verbose_name=_("code"),
         help_text=_("Code printed on the ticket. Required for pickup on site."),
@@ -294,6 +295,23 @@ class Ticket(models.Model):
         blank=True,
         verbose_name=_("preview"),
         help_text=_("Automatically generated preview image."),
+    )
+
+    customization_approved_by = models.ForeignKey(
+        User,
+        related_name="approved_customized_ticket_set",
+        on_delete=models.SET_NULL,
+        verbose_name=_("personalization approved by"),
+        help_text=_("The person who approved customizations on a ticket."),
+        blank=True,
+        null=True,
+    )
+    customization_approved_on = models.DateTimeField(
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_("personalization approved on"),
+        help_text=_("Date/time on which the ticket customizations were approved."),
     )
 
     # Non-database fields:
