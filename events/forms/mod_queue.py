@@ -8,8 +8,8 @@ from events.models import Event, Ticket
 
 
 class TicketModQueueDepersonalizeForm(forms.Form):
-    clear_nickname = forms.BooleanField(label=_("Clear Nickname"), initial=False)
-    clear_image = forms.BooleanField(label=_("Clear Image"), initial=True)
+    clear_nickname = forms.BooleanField(label=_("Clear Nickname"), initial=False, required=False)
+    clear_image = forms.BooleanField(label=_("Clear Image"), initial=True, required=False)
 
     def __init__(self, *args, event: Event, ticket: Ticket, **kwargs):
         super().__init__(*args, **kwargs)
