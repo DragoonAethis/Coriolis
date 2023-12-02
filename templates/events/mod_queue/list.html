@@ -8,25 +8,56 @@
         {% translate "Mod Queue" %}
         ({{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }})
     </h1>
-    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2">
+    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mb-3">
         {% for ticket in object_list %}
             <div class="col text-center">
-                <span class="fw-bold font-monospace {% if ticket.customization_approved_by %}text-success{% endif %}">
-                    <i class="bi bi-{% if ticket.customization_approved_by %}check{% else %}clock{% endif %} me-1"></i>
-                    {{ ticket.get_code }}
-                </span><br>
+                <div class="card mb-1">
+                    <div class="card-header">
+                        <div class="btn-group btn-group-sm font-monospace" role="group"
+                             aria-label="Ticket mod tools">
+                            <a class="btn btn-{% if ticket.customization_approved_by %}success{% else %}primary{% endif %}"
+                               href="{{ ticket.get_absolute_url }}" title="{% translate "User ticket page" %}"
+                               role="button">
+                                <i class="bi bi-{% if ticket.customization_approved_by %}check{% else %}clock{% endif %}"></i>
+                                {{ ticket.get_code }}
+                            </a>
+                            <a class="btn btn-success" href="{% url 'crew_existing_ticket' event.slug ticket.id %}"
+                               title="{% translate "Crew ticket page" %}" role="button">
+                                <i class="bi bi-wrench"></i>
+                            </a>
+                            <a class="btn btn-warning" href="{% url 'admin:events_ticket_change' ticket.id %}"
+                               title="{% translate "Admin ticket page" %}" role="button">
+                                <i class="bi bi-wrench"></i>
+                            </a>
+                            <a class="btn btn-danger"
+                               href="{% url "mod_queue_depersonalize" slug=event.slug ticket_id=ticket.id %}"
+                               title="{% translate "Depersonalize ticket" %}" role="button">
+                                <i class="bi bi-radioactive"></i>
+                            </a>
+                        </div>
+                    </div>
 
-                <span>
-                    {% if ticket.nickname %}
-                        {{ ticket.nickname }}
+                    <div class="card-body border-bottom">
+                        <span>
+                            {% if ticket.nickname %}
+                                {{ ticket.nickname }}
+                            {% else %}
+                                <i>{% translate "No nickname" %}</i>
+                            {% endif %}
+                        </span><br>
+                    </div>
+
+                    {% if ticket.get_preview_url %}
+                        <a href="{{ ticket.get_absolute_url }}">
+                            <img src="{{ ticket.get_preview_url }}" class="card-img-bottom img-fluid">
+                        </a>
                     {% else %}
-                        <i>{% translate "No nickname" %}</i>
+                        <a href="{{ ticket.get_absolute_url }}" class="btn btn-primary rounded-top-0">
+                            {% translate "No Image/Preview" %}
+                        </a>
                     {% endif %}
-                </span><br>
+                </div>
 
-                <a href="{{ ticket.get_absolute_url }}">
-                    <img src="{{ ticket.get_preview_url }}" class="img-fluid m-1">
-                </a>
             </div>
         {% empty %}
             <div class="col">
@@ -38,27 +69,40 @@
     <div class="row">
         <div class="col">
             <nav aria-label="{% translate "Pages" %}">
-                <ul class="pagination">
+                <ul class="pagination justify-content-center">
                     {% if page_obj.has_previous %}
+                        {% if page_obj.previous_page_number != 1 %}
+                            <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                        {% endif %}
+                        {% if page_obj.previous_page_number >= 3 %}
+                            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                        {% endif %}
                         <li class="page-item">
                             <a class="page-link"
-                               href="?page={{ page_obj.previous_page_number }}">{% translate "Previous" %}</a>
+                               href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
                     {% endif %}
 
                     <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="#">{{ page_obj.number }}</a>
+                        <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
                     </li>
 
                     {% if page_obj.has_next %}
                         <li class="page-item">
                             <a class="page-link"
-                               href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                               href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
                         </li>
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">{% translate "Next" %}</a>
-                        </li>
+
+                        {% if page_obj.next_page_number|add:1 < page_obj.paginator.num_pages %}
+                            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                        {% endif %}
+
+                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
                 </ul>
             </nav>
