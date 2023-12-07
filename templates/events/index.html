@@ -7,17 +7,18 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h1>
+            <h1 class="event-title">
                 {% blocktranslate with name=event.name link=event.website_link %}
                     Tickets for <a href="{{ link }}" target="_blank">{{ name }}</a>
                 {% endblocktranslate %}
             </h1>
-            <h4 class="text-muted">{{ event.date_from }} ({{ event.date_from|naturaltime }})
+            <h4 class="event-date-time text-muted">{{ event.date_from }} ({{ event.date_from|naturaltime }})
                 - {{ event.date_to.date }}</h4>
-            <h4 class="text-muted"><a href="{{ event.location_link }}" target="_blank">{{ event.location }}</a></h4>
-            <div class="mb-3">{% render_markdown event.description %}</div>
+            <h4 class="event-location text-muted"><a href="{{ event.location_link }}"
+                                                     target="_blank">{{ event.location }}</a></h4>
+            <div class="event-description mb-3">{% render_markdown event.description %}</div>
             {% if event.notice %}
-                <div class="alert alert-warning" role="alert">{{ event.notice }}</div>
+                <div class="event-notice-alert alert alert-warning" role="alert">{{ event.notice }}</div>
             {% endif %}
 
             {% if request.user.is_authenticated %}
