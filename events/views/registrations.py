@@ -16,7 +16,7 @@ from django.utils.html import mark_safe
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
 
-from events.forms import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
+from events.forms.registration import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models.events import Event
 from events.models.tickets import Ticket, TicketType, OnlinePaymentPolicy, TicketStatus, TicketSource
 from events.tasks.ticket_renderer import render_ticket_variants

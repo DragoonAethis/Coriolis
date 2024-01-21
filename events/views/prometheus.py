@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from collections.abc import Callable
 
 import django.http
@@ -9,9 +9,11 @@ from events.models import Event, TicketStatus, Ticket
 
 
 class Counter(ABC):
+    @abstractmethod
     def ingest(self, sample: dict):
         raise NotImplementedError("Override me!")
 
+    @abstractmethod
     def get_output(self):
         raise NotImplementedError("Override me!")
 

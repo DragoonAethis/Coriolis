@@ -1,7 +1,5 @@
 import uuid
-from typing import Optional
 
-from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db import models
 from django.template.loader import render_to_string
@@ -15,10 +13,6 @@ from events.utils import validate_multiple_emails
 
 
 class ApplicationType(models.Model):
-    class Meta:
-        verbose_name = _("application type")
-        verbose_name_plural = _("application types")
-
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     name = models.CharField(max_length=256, verbose_name=_("name"))
     slug = models.CharField(max_length=64, verbose_name=_("slug"))
@@ -70,6 +64,10 @@ class ApplicationType(models.Model):
         ),
     )
 
+    class Meta:
+        verbose_name = _("application type")
+        verbose_name_plural = _("application types")
+
     def __str__(self):
         return f"{self.name} ({self.id})"
 
@@ -78,11 +76,6 @@ class ApplicationType(models.Model):
 
 
 class Application(models.Model):
-    class Meta:
-        verbose_name = _("application")
-        verbose_name_plural = _("applications")
-        indexes = [models.Index(fields=["event", "user"])]
-
     class ApplicationStatus(models.TextChoices):
         CANCELLED = "CNCL", _("Cancelled")
         WAITING = "WAIT", _("Waiting for Organizers")
@@ -125,27 +118,16 @@ class Application(models.Model):
         help_text=_("Private org notes, visible only in the admin panel"),
     )
 
-    # Non-database fields:
-    _original_status: Optional[str] = None
+    class Meta:
+        verbose_name = _("application")
+        verbose_name_plural = _("applications")
+        indexes = [models.Index(fields=["event", "user"])]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._original_status = self.status
+    # Non-database fields:
+    _original_status: str | None = None
 
     def __str__(self):
         return f"{self.name} ({self.status}, {self.id})"
-
-    def get_absolute_url(self):
-        return reverse("application_details", kwargs={"slug": self.event.slug, "app_id": self.id})
-
-    def get_org_emails(self) -> list[str]:
-        if self.type.org_emails:
-            return [mail.strip() for mail in self.type.org_emails.split(",")]
-        else:
-            return [self.event.org_mail]
-
-    def get_notification_emails(self) -> list[str]:
-        return [self.email] + self.get_org_emails()
 
     def save(self, *args, **kwargs):
         new_app = self.id is None
@@ -166,6 +148,22 @@ class Application(models.Model):
             to=[self.email],
             reply_to=self.get_org_emails(),
         ).send()
+
+    def get_absolute_url(self):
+        return reverse("application_details", kwargs={"slug": self.event.slug, "app_id": self.id})
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._original_status = self.status
+
+    def get_org_emails(self) -> list[str]:
+        if self.type.org_emails:
+            return [mail.strip() for mail in self.type.org_emails.split(",")]
+        else:
+            return [self.event.org_mail]
+
+    def get_notification_emails(self) -> list[str]:
+        return [self.email] + self.get_org_emails()
 
     def get_status_class(self):
         if self.status == Application.ApplicationStatus.APPROVED:

@@ -49,7 +49,6 @@ class ApplicationDynaform(forms.Form):
         )
 
         self.helper = FormHelper()
-        old_layout = self.helper.layout
         self.helper.layout = Layout(
             Field("name"),
             Field("email"),

@@ -14,7 +14,7 @@ def transform_text(text: str, text_type: TextFormats) -> str:
     if text_type == "text":
         return text
     elif text_type == "html":
-        return mark_safe(text)
+        return mark_safe(text)  # noqa: S308
     elif text_type == "markdown":
         return render_markdown(text)
     else:
@@ -41,7 +41,7 @@ def get_pretty_answer_value(answer: object, field: Field | None) -> str:
     mapper = {}
 
     if isinstance(field, ChoiceField):
-        mapper = {k: v for k, v in field.choices}
+        mapper = dict(field.choices)
 
     if isinstance(answer, list):
         remapped = [mapper.get(x) or x for x in answer]

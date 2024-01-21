@@ -1,5 +1,4 @@
-from abc import ABC
-from typing import Optional
+from abc import ABC, abstractmethod
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -11,10 +10,12 @@ class NotificationChannelPayload(ABC):
     """Stores a payload and provides data rendering methods for various
     notification channel sources. This class must be overridden per source."""
 
-    def get_discord_text(self) -> Optional[str]:
+    @abstractmethod
+    def get_discord_text(self) -> str | None:
         return None
 
-    def get_telegram_text(self) -> Optional[str]:
+    @abstractmethod
+    def get_telegram_text(self) -> str | None:
         return None
 
 
@@ -28,10 +29,6 @@ class NotificationChannelTarget(models.TextChoices):
 
 
 class NotificationChannel(models.Model):
-    class Meta:
-        verbose_name = _("notification channel")
-        verbose_name_plural = _("notification channels")
-
     event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name=_("event"))
     name = models.CharField(
         max_length=256,
@@ -61,4 +58,11 @@ class NotificationChannel(models.Model):
             "Channel target configuration, in JSON. See docs: "
             "https://github.com/DragoonAethis/Coriolis/wiki/Notification-Channels"
         ),
-    )  # noqa
+    )
+
+    class Meta:
+        verbose_name = _("notification channel")
+        verbose_name_plural = _("notification channels")
+
+    def __str__(self):
+        return f"{self.name} ({self.event.name}, {self.source}, {self.target})"

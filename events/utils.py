@@ -43,17 +43,18 @@ def generate_ticket_code(event: "events.models.Event") -> int:
 
     # Try to generate a new code - scale the maximum number of attempts
     # with the current ticket code count to avoid the slow path:
-    for i in range(100):
-        generated_code = random.randint(0, maximum_tickets - 1)
+    for _unused in range(100):
+        generated_code = random.randint(0, maximum_tickets - 1)  # noqa: S311
         if generated_code not in numbers:
             return generated_code  # We've got a unique code, good!
 
     # Okay, do it the hard way. This is VERY slow with long codes.
     possible_numbers = set(range(maximum_tickets - 1)) - numbers
-    assert len(possible_numbers) > 0
+    if len(possible_numbers) <= 0:
+        raise ValueError(_("MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."))
 
     # This 100% gets us any valid remaining ticket code.
-    return random.choice(list(possible_numbers))
+    return random.choice(list(possible_numbers))  # noqa: S311
 
 
 def get_ticket_purchase_rate_limit_keys(request: HttpRequest, ticket_type: "events.models.TicketType") -> list[str]:
@@ -68,7 +69,8 @@ def get_ticket_purchase_rate_limit_keys(request: HttpRequest, ticket_type: "even
 
     client_ip, is_routable = get_client_ip(request)
     if is_routable or True:
-        keys.append(f"{prefix}.i_{hashlib.md5(bytes(client_ip, encoding='utf-8')).hexdigest()}")
+        # We don't want to directly store the IP address as the key in Redis:
+        keys.append(f"{prefix}.i_{hashlib.md5(bytes(client_ip, encoding='utf-8')).hexdigest()}")  # noqa: S324
 
     return keys
 
@@ -82,14 +84,14 @@ def delete_ticket_image(instance: "events.models.Ticket"):
     try:
         if instance.image:
             os.remove(instance.image.path)
-    except:
-        logging.exception("An error occured while deleting the ticket image.")
+    except:  # noqa
+        logging.exception("An error occurred while deleting the ticket image.")
 
     try:
         if instance.preview:
             os.remove(instance.preview.path)
-    except:
-        logging.exception("An error occured while deleting the ticket preview.")
+    except:  # noqa
+        logging.exception("An error occurred while deleting the ticket preview.")
 
     instance.image = None
     instance.preview = None

@@ -1,1 +1,1 @@
-from events.admin.models import *
+from events.admin.models import *  # noqa

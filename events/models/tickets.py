@@ -1,6 +1,5 @@
 import datetime
 import uuid
-from typing import Optional
 
 from colorfield.fields import ColorField
 from django.conf import settings
@@ -26,10 +25,6 @@ class OnlinePaymentPolicy(models.IntegerChoices):
 
 
 class TicketType(models.Model):
-    class Meta:
-        verbose_name = _("ticket type")
-        verbose_name_plural = _("ticket types")
-
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     name = models.CharField(max_length=256, verbose_name=_("name"))
     description = models.TextField(
@@ -147,14 +142,18 @@ class TicketType(models.Model):
         help_text=_("Display the number of tickets left publicly?"),
     )
 
+    class Meta:
+        verbose_name = _("ticket type")
+        verbose_name_plural = _("ticket types")
+
     def __str__(self):
         return f"{self.name} ({self.event.name})"
 
-    def __repr__(self):
-        return f"{self.name} ({self.event.name}, {self.id})"
-
     def get_absolute_url(self):
         return reverse("registration_form", kwargs={"slug": self.event.slug, "id": self.id})
+
+    def __repr__(self):
+        return f"{self.name} ({self.event.name}, {self.id})"
 
     def is_past_personalization_date(self):
         return datetime.datetime.now() > self.personalization_to
@@ -183,18 +182,6 @@ class TicketQuerySet(models.QuerySet):
 
 
 class Ticket(models.Model):
-    class Meta:
-        verbose_name = _("ticket")
-        verbose_name_plural = _("tickets")
-        unique_together = ["event", "code"]
-        indexes = [
-            models.Index(fields=["event", "code"]),
-            models.Index(fields=["event", "name"]),
-            models.Index(fields=["event", "email"]),
-        ]
-
-    objects = TicketQuerySet.as_manager()
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
     updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
@@ -315,20 +302,54 @@ class Ticket(models.Model):
     )
 
     # Non-database fields:
-    _original_status: Optional[str] = None
+    _original_status: str | None = None
+
+    objects = TicketQuerySet.as_manager()
+
+    class Meta:
+        verbose_name = _("ticket")
+        verbose_name_plural = _("tickets")
+        unique_together = ["event", "code"]
+        indexes = [
+            models.Index(fields=["event", "code"]),
+            models.Index(fields=["event", "name"]),
+            models.Index(fields=["event", "email"]),
+        ]
+
+    def __str__(self):
+        return f"{self.get_code()}: {self.name}"
+
+    def save(self, *args, **kwargs):
+        new_ticket = self.id is None
+        super().save(*args, **kwargs)
+        if new_ticket or self._original_status == self.status:
+            return
+
+        # Notify about the status change:
+        if self.event.emails_enabled:
+            EmailMessage(
+                subject=_("%(event)s: Ticket '%(code)s' (new status)")
+                % {"event": self.event.name, "code": self.get_code()},
+                body=render_to_string(
+                    "events/emails/ticket_changed.html",
+                    {
+                        "event": self.event,
+                        "ticket": self,
+                    },
+                ).strip(),
+                to=[self.email],
+                reply_to=[self.event.org_mail],
+            ).send()
+
+    def get_absolute_url(self):
+        return reverse("ticket_details", kwargs={"slug": self.event.slug, "ticket_id": self.id})
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._original_status = self.status
 
-    def __str__(self):
-        return f"{self.get_code()}: {self.name}"
-
     def __repr__(self):
         return f"{str(self)} ({self.id})"
-
-    def get_absolute_url(self):
-        return reverse("ticket_details", kwargs={"slug": self.event.slug, "ticket_id": self.id})
 
     def get_preview_url(self) -> str | None:
         url = None
@@ -401,24 +422,3 @@ class Ticket(models.Model):
         prefix = self.type.code_prefix if self.type is not None else ""
         code = str(self.code)
         return prefix + ("0" * (self.event.ticket_code_length - len(code))) + code
-
-    def save(self, *args, **kwargs):
-        new_ticket = self.id is None
-        super().save(*args, **kwargs)
-        if new_ticket or self._original_status == self.status:
-            return
-
-        # Notify about the status change:
-        if self.event.emails_enabled:
-            EmailMessage(
-                subject=_("%(event)s: Ticket '%(code)s' (new status)") % {"event": self.event.name, "code": self.get_code()},
-                body=render_to_string(
-                    "events/emails/ticket_changed.html",
-                    {
-                        "event": self.event,
-                        "ticket": self,
-                    },
-                ).strip(),
-                to=[self.email],
-                reply_to=[self.event.org_mail],
-            ).send()

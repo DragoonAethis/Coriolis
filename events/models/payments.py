@@ -1,16 +1,16 @@
 import uuid
-from typing import Iterable
+from collections.abc import Iterable
 
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
-from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from payments import PurchasedItem
 from payments.models import BasePayment
 
-from events.models.users import User
 from events.models.events import Event
 from events.models.tickets import Ticket
+from events.models.users import User
 
 
 class Payment(BasePayment):

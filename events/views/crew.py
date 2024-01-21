@@ -1,5 +1,3 @@
-from typing import Optional
-
 from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q, F
@@ -136,7 +134,7 @@ class CrewFindTicketView(FormView):
 class CrewExistingTicketView(FormView):
     event: Event
     ticket: Ticket
-    horrible_error: Optional[str]
+    horrible_error: str | None
 
     form_class = CrewUseTicketForm
     template_name = "events/crew/ticket.html"

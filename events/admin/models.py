@@ -9,10 +9,22 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import ModelForm
 from django.http import FileResponse
 from django.urls import reverse
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
-from events.models import *
+from events.models import (
+    User,
+    Event,
+    EventPage,
+    TicketRenderer,
+    NotificationChannel,
+    TicketType,
+    Ticket,
+    Payment,
+    Application,
+    ApplicationType,
+)
 
 # Ensure users go through the allauth workflow when logging into admin.
 admin.site.login = staff_member_required(admin.site.login, login_url="/accounts/login")
@@ -124,11 +136,10 @@ class TicketAdmin(admin.ModelAdmin):
 
     @admin.display(description=_("type"))
     def type_link(self, obj):
-        return mark_safe(
-            '<a href="{}">{}</a>'.format(
-                reverse("admin:events_tickettype_change", args=(obj.type_id,)),
-                obj.type.name,
-            )
+        return format_html(
+            '<a href="{}">{}</a>',
+            mark_safe(reverse("admin:events_tickettype_change", args=(obj.type_id,))),  # noqa: S308
+            obj.type.name,
         )
 
 
@@ -139,12 +150,11 @@ class PaymentAdmin(admin.ModelAdmin):
 
     @admin.display(description=_("ticket"))
     def ticket_link(self, obj):
-        return mark_safe(
-            '<a href="{}">{}: {}</a>'.format(
-                reverse("admin:events_ticket_change", args=(obj.ticket.id,)),
-                obj.ticket.get_code(),
-                obj.ticket.name,
-            )
+        return format_html(
+            '<a href="{}">{}: {}</a>',
+            mark_safe(reverse("admin:events_ticket_change", args=(obj.ticket.id,))),  # noqa: S308
+            obj.ticket.get_code(),
+            obj.ticket.name,
         )
 
 
@@ -187,11 +197,10 @@ class ApplicationAdmin(admin.ModelAdmin):
 
     @admin.display(description=_("type"))
     def type_link(self, obj):
-        return mark_safe(
-            '<a href="{}">{}</a>'.format(
-                reverse("admin:events_applicationtype_change", args=(obj.type_id,)),
-                obj.type.name,
-            )
+        return format_html(
+            '<a href="{}">{}</a>',
+            mark_safe(reverse("admin:events_applicationtype_change", args=(obj.type_id,))),  # noqa: S308
+            obj.type.name,
         )
 
     @admin.action(description=_("Download selected applications as XLSX"))
@@ -226,7 +235,7 @@ class ApplicationAdmin(admin.ModelAdmin):
         app: Application
         for app in queryset:
             # Common data:
-            for col, (label, expr) in enumerate(attr_cols):
+            for col, (_unused_label, expr) in enumerate(attr_cols):
                 ws.write(cur_row, col, self.xlsx_safe_value(expr(app)))
 
             # Application data:
@@ -247,7 +256,7 @@ class ApplicationAdmin(admin.ModelAdmin):
             cur_row += 1
 
         # Headers:
-        for col, (label, expr) in enumerate(attr_cols):
+        for col, (label, _unused_expr) in enumerate(attr_cols):
             ws.write(0, col, str(label))
 
         for col, label in enumerate(found_cols):

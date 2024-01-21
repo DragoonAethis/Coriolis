@@ -18,5 +18,6 @@ class User(AbstractUser):
         return f"{self.email or self.username or self.id}"
 
     def get_profile_picture_url(self):
-        gravatar_hash = hashlib.md5(self.email.strip().lower().encode("utf-8")).hexdigest()
+        """Generate a Gravatar profile picture URL."""
+        gravatar_hash = hashlib.md5(self.email.strip().lower().encode("utf-8")).hexdigest()  # noqa: S324
         return f"https://www.gravatar.com/avatar/{gravatar_hash}?d=identicon"

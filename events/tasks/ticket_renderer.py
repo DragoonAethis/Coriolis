@@ -1,17 +1,15 @@
-import os
 import copy
 import json
-import shutil
 import logging
+import os
 import os.path
-import tempfile
+import shutil
 import subprocess
-from typing import Optional
-
-from django.conf import settings
-from django.core.files.storage import default_storage
+import tempfile
 
 import dramatiq
+from django.conf import settings
+from django.core.files.storage import default_storage
 from dramatiq.rate_limits import ConcurrentRateLimiter
 from dramatiq.rate_limits.backends import RedisBackend
 
@@ -20,7 +18,7 @@ from events.models import Event, Ticket, TicketRenderer
 RENDERER_MUTEX = ConcurrentRateLimiter(RedisBackend(), "ticket-renderer-mutex", limit=settings.TICKET_RENDERER_MAX_JOBS)
 
 
-def get_container_tool() -> Optional[str]:
+def get_container_tool() -> str | None:
     for tool in ("podman", "docker"):
         if tool_path := shutil.which(tool):
             return tool_path
@@ -28,13 +26,13 @@ def get_container_tool() -> Optional[str]:
     return None
 
 
-def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
+def render(renderer: TicketRenderer, render_path: str) -> str | None:
     config = renderer.config
     if "image" not in config:
         raise ValueError(f"Container image name not found in the ticket renderer configuration: {renderer}")
 
+    # fmt: off
     arguments = [
-        # fmt: off
         get_container_tool(),
         "run", "-i", "--rm",
         "--pull", "never",
@@ -44,11 +42,11 @@ def render(renderer: TicketRenderer, render_path: str) -> Optional[str]:
         "--user", f"{os.getuid()}:{os.getgid()}",
         "--security-opt", "no-new-privileges:true",
         config["image"],
-        # fmt: on
     ]
+    # fmt: on
 
     # Let the job run for up to a minute:
-    proc = subprocess.run(arguments, timeout=60)
+    proc = subprocess.run(arguments, timeout=60)  # noqa: S603
 
     expected_image = os.path.join(render_path, "render.png")
     if proc.returncode != 0 or not os.path.exists(expected_image):
@@ -97,7 +95,7 @@ def render_ticket_variant(data: dict, ticket: Ticket, variant: str, save_preview
 
 
 @dramatiq.actor(queue_name="ticket-renderer")
-def render_ticket_variants(ticket_id: str, variants: Optional[list[str]] = None, save_preview: bool = True):
+def render_ticket_variants(ticket_id: str, variants: list[str] | None = None, save_preview: bool = True):
     """
     Generates multiple preview variants for a given ticket ID.
 

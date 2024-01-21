@@ -28,16 +28,13 @@ class Endpoints:
 
 @dataclass(init=False)
 class Przelewy24Config:
-
     pos_id: int
     merchant_id: int
     crc: str
     api_key: str
     endpoints: Endpoints
 
-    def __init__(
-        self, pos_id: int, merchant_id: int, crc: str, api_key: str, sandbox: bool
-    ):
+    def __init__(self, pos_id: int, merchant_id: int, crc: str, api_key: str, sandbox: bool):
         self.pos_id = pos_id
         self.merchant_id = merchant_id
         self.crc = crc
@@ -57,9 +54,7 @@ class Przelewy24Config:
         )
 
     def generate_sign(self, **kwargs) -> str:
-        return hashlib.sha384(
-            json.dumps({**kwargs, **{"crc": self.crc}}).replace(" ", "").encode("utf-8")
-        ).hexdigest()
+        return hashlib.sha384(json.dumps({**kwargs, **{"crc": self.crc}}).replace(" ", "").encode("utf-8")).hexdigest()
 
     @classmethod
     def from_env(cls, prefix: str = "PAYMENTS_") -> Przelewy24Config:

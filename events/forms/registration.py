@@ -1,12 +1,11 @@
+from crispy_forms.bootstrap import FormActions
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, Submit
 from django import forms
 from django.forms import Textarea, TextInput
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.formfields import PhoneNumberField
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit, HTML
-from crispy_forms.bootstrap import FormActions
 
 
 class RegistrationForm(forms.Form):
@@ -86,16 +85,14 @@ class UpdateTicketForm(forms.Form):
         required=True,
         help_text=_("Sizes: wearer's height/chest."),
         choices=[
-            # fmt: off
-            ("S",   "S (168/93cm)"),
-            ("M",   "M (176/99cm)"),
-            ("L",   "L (182/106cm)"),
-            ("XL",  "XL (185/113cm)"),
+            ("S", "S (168/93cm)"),
+            ("M", "M (176/99cm)"),
+            ("L", "L (182/106cm)"),
+            ("XL", "XL (185/113cm)"),
             ("2XL", "2XL (188/120cm)"),
             ("3XL", "3XL (188/128cm)"),
             ("4XL", "4XL (190/137cm)"),
             ("5XL", "5XL (big boi)"),
-            # fmt: on
         ],
     )
     image = forms.ImageField(

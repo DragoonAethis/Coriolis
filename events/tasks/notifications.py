@@ -1,13 +1,11 @@
 import logging
-from typing import Optional
 from dataclasses import dataclass
 
+import dramatiq
+import requests
 from django.utils.translation import gettext_lazy as _
 
-import requests
-import dramatiq
-
-from events.models import Event, Ticket, NotificationChannel
+from events.models import Ticket, NotificationChannel
 from events.models.notifications import (
     NotificationChannelSource,
     NotificationChannelTarget,
@@ -43,10 +41,10 @@ class NotificationChannelTicketUsedPayload(NotificationChannelPayload):
 
         return " \- ".join([str(x) for x in parts])
 
-    def get_discord_text(self) -> Optional[str]:
+    def get_discord_text(self) -> str | None:
         return self.get_markdown_text("**")
 
-    def get_telegram_text(self) -> Optional[str]:
+    def get_telegram_text(self) -> str | None:
         return self.get_markdown_text("*")
 
 
@@ -74,7 +72,7 @@ def notify_channel(event_id: int, source: NotificationChannelSource, payload_arg
                 logging.warning(f"Tried to notify Discord without a webhook URL on channel: {channel=}")
                 continue
 
-            r = requests.post(discord_webhook_url, json={"content": content})
+            r = requests.post(discord_webhook_url, json={"content": content}, timeout=10)
             if not r.ok:
                 logging.warning(f"Discord request returned {r.status_code}: {r.text}")
 
@@ -86,7 +84,7 @@ def notify_channel(event_id: int, source: NotificationChannelSource, payload_arg
             token = channel.configuration.get("token")
             chat_id = channel.configuration.get("chat_id")
             if not token or not chat_id:
-                logging.warning(f"Tried to notify Telegram with invalid configuration (missing token or chat_id).")
+                logging.warning("Tried to notify Telegram with invalid configuration (missing token or chat_id).")
                 continue
 
             url = TELEGRAM_BOT_ENDPOINT.format(token=token, method="sendMessage")
@@ -98,6 +96,7 @@ def notify_channel(event_id: int, source: NotificationChannelSource, payload_arg
                     "parse_mode": "MarkdownV2",
                     "disable_notification": True,
                 },
+                timeout=10,
             )
 
             if not r.ok:

@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Literal, Optional, Union, Annotated
+from typing import Literal, Union, Annotated
 
 import pydantic
 from crispy_forms.layout import LayoutObject, HTML, Field
@@ -53,7 +53,7 @@ class DynaformField(DynaformNode, ABC):
     label: str
     label_type: Literal["text", "markdown", "html"] = "text"
 
-    help_text: Optional[str] = None
+    help_text: str | None = None
     help_text_type: Literal["text", "markdown", "html"] = "text"
 
     required: bool = True
@@ -144,7 +144,7 @@ class ChoiceField(DynaformField, ABC):
 
     def get_field_class_args(self) -> dict:
         args = super().get_field_class_args()
-        args["choices"] = [(k, v) for k, v in self.choices.items()]
+        args["choices"] = list(self.choices.items())
         return args
 
 
@@ -173,7 +173,7 @@ class CheckboxField(ChoiceField):
 
 
 DynaformFieldUnion = Annotated[
-    Union[
+    Union[  # noqa: UP007
         DynaformTemplate,
         CharField,
         TextField,
@@ -192,11 +192,11 @@ DynaformFieldUnion = Annotated[
 
 
 class Dynaform(BaseModel):
-    _prefix: Optional[str] = None
+    _prefix: str | None = None
     fields: dict[str, DynaformFieldUnion]
 
     @classmethod
-    def build(cls, name: Optional[str], template: str) -> "Dynaform":
+    def build(cls, name: str | None, template: str) -> "Dynaform":
         df = cls.model_validate_json(template)
         df.set_prefix(name)
         return df
@@ -235,7 +235,7 @@ class Dynaform(BaseModel):
     def get_prefix(self):
         return self._prefix or ""
 
-    def set_prefix(self, name: Optional[str]):
+    def set_prefix(self, name: str | None):
         if name:
             self._prefix = f"df__{name}__"
         else:
@@ -265,13 +265,13 @@ class Dynaform(BaseModel):
         return layout_objects
 
 
-def dynaform_prefix(name: Optional[str]) -> str:
+def dynaform_prefix(name: str | None) -> str:
     if name:
         return f"df__{name}__"
     else:
         return ""
 
 
-def dynaform_to_fields(name: Optional[str], template: str) -> dict[str, Field]:
+def dynaform_to_fields(name: str | None, template: str) -> dict[str, Field]:
     dynaform = Dynaform.build(name, template)
     return dynaform.get_fields()

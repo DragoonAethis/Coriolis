@@ -40,20 +40,14 @@ class ProcessForm(forms.Form):
         )
 
         if sign != generated_sign:
-            raise forms.ValidationError(
-                f"Incorrect hash: p24_sign={sign} sign={generated_sign}"
-            )
+            raise forms.ValidationError(f"Incorrect hash: p24_sign={sign} sign={generated_sign}")
 
         if sessionId != str(self.payment.pk):
-            raise forms.ValidationError(
-                f"Incorect payment ID: sessionId: {sessionId}, paymentId: {self.payment.pk}"
-            )
+            raise forms.ValidationError(f"Incorect payment ID: sessionId: {sessionId}, paymentId: {self.payment.pk}")
 
         return cleaned_data
 
     def save(self, *args, **kwargs):
         self.payment.transaction_id = self.cleaned_data["statement"]
-        self.payment.captured_amount = (
-            self.payment.captured_amount + Decimal(self.cleaned_data["amount"]) / 100
-        )
+        self.payment.captured_amount = self.payment.captured_amount + Decimal(self.cleaned_data["amount"]) / 100
         self.payment.save()

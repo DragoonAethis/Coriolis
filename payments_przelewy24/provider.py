@@ -67,7 +67,7 @@ class Przelewy24Provider(BasicProvider):
 
     def get_payment_response(self, payment, extra_data=None):
         post = self.get_product_data(payment, extra_data)
-        return requests.post(self.endpoint, data=post)
+        return requests.post(self.endpoint, data=post, timeout=15)
 
     def process_data(self, payment, request):
         logging.info("Process Przelewy24's notification: body={request.body}")

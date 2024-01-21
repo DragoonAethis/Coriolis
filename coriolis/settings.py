@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import os
 import socket
 from pathlib import Path
 
@@ -111,7 +110,6 @@ PAYMENT_PAY_ONLINE_VARIANT = env.str("PAYMENT_PAY_ONLINE_VARIANT", "default")
 # --- STUFF BELOW THIS POINT SHOULD NOT BE CONFIGURABLE PER ENVIRONMENT. ---
 
 if DEBUG:
-    import os  # only if you haven't already imported this
     import socket  # only if you haven't already imported this
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())

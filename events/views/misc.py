@@ -1,5 +1,4 @@
 import datetime
-from typing import Tuple
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -8,11 +7,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from payments import RedirectNeeded, PaymentStatus
 
-from events.forms import UpdateTicketForm
+from events.forms.registration import UpdateTicketForm
 from events.models import Event, EventPage, Application, ApplicationType, Payment
 from events.models.tickets import Ticket, TicketType, TicketStatus
 
@@ -90,7 +90,7 @@ def event_page(request, slug, page_slug):
         try:
             page = EventPage.objects.get(event=None, slug=page_slug)
         except EventPage.DoesNotExist:
-            raise Http404("Page not found.")
+            raise Http404("Page not found.") from None
 
     return render(request, "events/events/page.html", context={"event": event, "event_page": page})
 
@@ -109,10 +109,13 @@ def ticket_picker(request, slug):
     )
 
     if len(types) == 0:
-        msg = event.sale_closed_notice or _(
-            "Online ticket sales for this event have ended. You can purchase a ticket on site."
-        )
-        messages.add_message(request, messages.WARNING, mark_safe(msg))
+        msg = _("Online ticket sales for this event have ended. You can purchase a ticket on site.")
+
+        if event.sale_closed_notice:
+            # This block may explicitly contain arbitrary HTML:
+            msg = mark_safe(event.sale_closed_notice)  # noqa: S308
+
+        messages.add_message(request, messages.WARNING, msg)
         return redirect("event_index", event.slug)
 
     return render(
@@ -125,10 +128,9 @@ def ticket_picker(request, slug):
     )
 
 
-def get_event_and_ticket(slug, ticket_id) -> Tuple[Event, Ticket]:
+def get_event_and_ticket(slug, ticket_id) -> tuple[Event, Ticket]:
     event = get_object_or_404(Event, slug=slug)
-    ticket = get_object_or_404(Ticket, id=ticket_id)
-    assert event.id == ticket.event_id
+    ticket = get_object_or_404(Ticket, id=ticket_id, event=event)
     return event, ticket
 
 
@@ -262,10 +264,12 @@ def ticket_payment(request, slug, ticket_id):
         return redirect(str(redirect_to))
 
     if resuming_payment_in_progress:
-        resuming_message = _("Resuming an existing payment in progress. Problems?")
-        no_resuming_link_label = _("Start a new payment.")
-        no_resuming_link = reverse("ticket_payment", args=[event.slug, ticket.id]) + "?resume=0"
-        msg = mark_safe(f'{resuming_message} <a href="{no_resuming_link}">{no_resuming_link_label}</a>')
+        msg = format_html(
+            '{} <a href="{}">{}</a>',
+            _("Resuming an existing payment in progress. Problems?"),
+            mark_safe(reverse("ticket_payment", args=[event.slug, ticket.id]) + "?resume=0"),  # noqa: S308
+            _("Start a new payment."),
+        )
         messages.info(request, msg)
 
     return render(
@@ -283,8 +287,7 @@ def ticket_payment(request, slug, ticket_id):
 @login_required
 def ticket_payment_finalize(request, slug, ticket_id, payment_id):
     event, ticket = get_event_and_ticket(slug, ticket_id)
-    payment = get_object_or_404(Payment, id=payment_id)
-    assert payment.ticket_id == ticket.id
+    payment = get_object_or_404(Payment, id=payment_id, ticket=ticket)
 
     if payment.status == PaymentStatus.WAITING:
         messages.warning(request, _("Still waiting for the payment confirmation - please try again in a few minutes."))
@@ -310,8 +313,7 @@ def application_details(request, slug, app_id):
     from events.dynaforms.utils import get_pretty_answers
 
     event = get_object_or_404(Event, slug=slug)
-    application = get_object_or_404(Application, id=app_id)
-    assert event.id == application.event_id
+    application = get_object_or_404(Application, id=app_id, event=event)
 
     if not application.user_id == request.user.id:
         messages.error(request, _("You don't own this application!"))

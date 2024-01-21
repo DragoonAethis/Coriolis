@@ -1,7 +1,5 @@
 import datetime
-from typing import Tuple, Optional
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
@@ -12,7 +10,7 @@ from django.utils.translation import gettext as _
 from django.views.generic import FormView
 
 from events.dynaforms.utils import get_pretty_answers
-from events.forms import ApplicationDynaform
+from events.forms.applications import ApplicationDynaform
 from events.models import Event, ApplicationType, Application, Ticket
 from events.templatetags.events import render_markdown
 
@@ -36,7 +34,7 @@ class ApplicationView(FormView):
 
         return super().dispatch(*args, **kwargs)
 
-    def validate_application_type(self) -> Tuple[bool, Optional[str]]:
+    def validate_application_type(self) -> tuple[bool, str | None]:
         """Check whenever the current ticket type can be purchased online."""
         if self.type.event_id != self.event.id:
             return False, _("This application cannot be submitted for this event!")

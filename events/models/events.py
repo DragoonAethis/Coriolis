@@ -7,11 +7,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Event(models.Model):
-    class Meta:
-        verbose_name = _("event")
-        verbose_name_plural = _("events")
-        indexes = [models.Index(fields=["slug"])]
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
     updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
@@ -116,6 +111,11 @@ class Event(models.Model):
         validators=[MinValueValidator(3), MaxValueValidator(32)],
     )
 
+    class Meta:
+        verbose_name = _("event")
+        verbose_name_plural = _("events")
+        indexes = [models.Index(fields=["slug"])]
+
     def __str__(self):
         return self.name
 
@@ -130,11 +130,6 @@ class EventPageType(models.TextChoices):
 
 
 class EventPage(models.Model):
-    class Meta:
-        verbose_name = _("event page")
-        verbose_name_plural = _("event pages")
-        constraints = [models.UniqueConstraint(fields=["event", "slug"], name="event_pages_with_unique_slugs")]
-
     created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
     updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
 
@@ -166,6 +161,11 @@ class EventPage(models.Model):
     )
     content = models.TextField(verbose_name=_("content"), help_text=_("Page content. Supports markdown."))
 
+    class Meta:
+        verbose_name = _("event page")
+        verbose_name_plural = _("event pages")
+        constraints = [models.UniqueConstraint(fields=["event", "slug"], name="event_pages_with_unique_slugs")]
+
     def __str__(self):
         if self.event is not None:
             return f"{self.name} ({self.event.name})"
@@ -177,15 +177,15 @@ class EventPage(models.Model):
 
 
 class TicketRenderer(models.Model):
-    class Meta:
-        verbose_name = _("ticket renderer")
-        verbose_name_plural = _("ticket renderers")
-
     name = models.CharField(max_length=256, verbose_name=_("name"))
     config = models.JSONField(
         blank=False,
         help_text=_("Coriolis configuration for this renderer. See wiki/docs for more info on this."),
     )
+
+    class Meta:
+        verbose_name = _("ticket renderer")
+        verbose_name_plural = _("ticket renderers")
 
     def __str__(self):
         return f"{self.name} ({self.id})"
