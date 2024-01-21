@@ -26,18 +26,16 @@
 </noscript>
 <header class="border-bottom mb-2">
     <div class="container-lg d-flex justify-content-between flex-wrap py-3">
-        <div><a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a></div>
-        <div class="d-flex btn-gaps flex-wrap">
-            {% if request.user.is_staff and event %}
-                <div class="dropdown">
-                    <a href="{% url 'mod_queue_list' event.slug %}" class="btn btn-warning">
-                        <i class="bi bi-radioactive me-1"></i> {% translate "Mod Queue" %}
-                    </a>
-                    <a href="{% url 'crew_index' event.slug %}" class="btn btn-success">
-                        <i class="bi bi-wrench me-1"></i> {% translate "Crew Panel" %}
-                    </a>
-                </div>
+        <div>
+            {% if event %}
+                <a href="{% url 'index' %}" class="brand-link me-2"><i class="bi bi-arrow-left-right"></i></a>
+                <a href="{% url 'event_index' event.slug %}" class="brand-link">{{ event.name }}</a>
+            {% else %}
+                <a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a>
             {% endif %}
+        </div>
+
+        <div class="d-flex btn-gaps flex-wrap">
             {% if event and event.eventpage_set.select_related.all %}
                 <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="pagesDropdown"
@@ -103,6 +101,43 @@
             {% endif %}
         </div>
     </div>
+
+    {% if request.user.is_staff and event %}
+        <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+            <div class="container-lg">
+                <a class="navbar-brand" href="#"><i class="bi bi-nut"></i></a>
+
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item">
+                            <a href="{% url 'crew_index' event.slug %}" class="nav-link">
+                                <i class="bi bi-wrench me-1"></i> {% translate "Crew Panel" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'mod_queue_list' event.slug %}" class="nav-link">
+                                <i class="bi bi-radioactive me-1"></i> {% translate "Mod Queue" %}
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="bi bi-people-fill me-1"></i> {% translate "Organizations" %}
+                            </a>
+                        </li>
+                    </ul>
+
+                    <form class="d-flex" role="search" action="{% url 'crew_find_ticket' event.slug %}" method="post">
+                        <div class="input-group">
+                            <input name="query" class="form-control" type="search"
+                                   placeholder="{% translate "Find a ticket..." %}">
+                            {% csrf_token %}
+                            <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
 </header>
 
 {% block body %}
