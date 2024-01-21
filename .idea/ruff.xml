@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RuffConfigService">
+    <option name="globalRuffExecutablePath" value="/usr/bin/ruff" />
+    <option name="globalRuffLspExecutablePath" value="/usr/bin/ruff-lsp" />
+    <option name="projectRuffExecutablePath" value="$PROJECT_DIR$/.venv/bin/ruff" />
+    <option name="projectRuffLspExecutablePath" value="$PROJECT_DIR$/.venv/bin/ruff-lsp" />
+    <option name="ruffConfigPath" value="$PROJECT_DIR$/pyproject.toml" />
+    <option name="runRuffOnSave" value="true" />
+    <option name="useRuffFormat" value="true" />
+    <option name="useRuffLsp" value="true" />
+  </component>
+</project>
