@@ -80,6 +80,7 @@ class TicketType(models.Model):
     )
     flags = models.ManyToManyField(
         TicketFlag,
+        blank=True,
         verbose_name=_("flags"),
         help_text=_("Flags to apply on all tickets of this type."),
     )
@@ -263,6 +264,7 @@ class Ticket(models.Model):
     )
     flags = models.ManyToManyField(
         TicketFlag,
+        blank=True,
         verbose_name=_("flags"),
         help_text=_("Flags specific to this ticket added on top of the type flags."),
     )
