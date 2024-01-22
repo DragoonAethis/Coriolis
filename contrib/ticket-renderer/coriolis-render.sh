@@ -6,7 +6,7 @@ if [[ "$TICKET_WIDTH" == "" || "$TICKET_HEIGHT" == "" ]]; then
     exit 1
 fi
 
-cp /template/* .
+cp -r /template/* .
 j2 --undefined -o render.html render.html.j2 render.json
 
 chromium \

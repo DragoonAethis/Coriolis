@@ -44,6 +44,15 @@ html, body {
     top: 0px;
 }
 
+.marker-bar {
+    left: 0px;
+    top: 1115px;
+    width: 1008px;
+    height: 270px;
+    display: flex;
+    justify-content: center;
+}
+
 .bottom-bar {
     left: 0px;
     top: 1385px;
@@ -106,6 +115,10 @@ div {
     font-size: 64px;
     line-height: 1.1;
     text-align: center;
+}
+
+.text-nick-back {
+    top: 800px !important;
 }
 
 .text-bottom {

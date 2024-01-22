@@ -29,7 +29,15 @@
 <div class="text-2024">2024</div>
 
 {% if ticket.nickname %}
-    <div class="text-nick">{{ ticket.nickname }}</div>
+    <div class="text-nick text-nick-{{ render.variant }}">{{ ticket.nickname }}</div>
+{% endif %}
+
+{% if render.variant == "back" %}
+    <div class="marker-bar">
+        {% for flag in ticket.flags %}
+            <img src="flags/{{ flag }}.png" height="270">
+        {% endfor %}
+    </div>
 {% endif %}
 
 <div class="bar bottom-bar"
