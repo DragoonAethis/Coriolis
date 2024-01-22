@@ -6,6 +6,8 @@ from pprint import pformat
 import xlsxwriter
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
+from django.db import models
+from django.forms import CheckboxSelectMultiple
 from django.forms import ModelForm
 from django.http import FileResponse
 from django.urls import reverse
@@ -19,6 +21,7 @@ from events.models import (
     EventPage,
     TicketRenderer,
     NotificationChannel,
+    TicketFlag,
     TicketType,
     Ticket,
     Payment,
@@ -75,8 +78,28 @@ class NotificationChannelAdmin(admin.ModelAdmin):
     save_as = True
 
 
+@admin.register(TicketFlag)
+class TicketFlagAdmin(admin.ModelAdmin):
+    list_display = ("name", "event", "description")
+    list_filter = ("event",)
+    search_fields = ("name",)
+    save_as = True
+
+
+class TicketTypeAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        event_id = self.instance.event_id
+
+        if "flags" in self.fields:
+            qs = TicketFlag.objects
+            qs = qs.filter(event_id=event_id) if event_id else qs.none()
+            self.fields["flags"].queryset = qs
+
+
 @admin.register(TicketType)
 class TicketTypeAdmin(admin.ModelAdmin):
+    form = TicketTypeAdminForm
     list_display = (
         "name",
         "event",
@@ -90,14 +113,23 @@ class TicketTypeAdmin(admin.ModelAdmin):
     list_filter = ("event", "self_registration")
     search_fields = ("name",)
     save_as = True
+    formfield_overrides = {
+        models.ManyToManyField: {"widget": CheckboxSelectMultiple},
+    }
 
 
 class TicketAdminForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        event_id = self.instance.event_id
 
-        if self.instance.event_id and "type" in self.fields:
-            self.fields["type"].queryset = TicketType.objects.filter(event_id=self.instance.event_id)
+        if "type" in self.fields and event_id:
+            self.fields["type"].queryset = TicketType.objects.filter(event_id=event_id)
+
+        if "flags" in self.fields:
+            qs = TicketFlag.objects
+            qs = qs.filter(event_id=event_id) if event_id else qs.none()
+            self.fields["flags"].queryset = qs
 
 
 @admin.register(Ticket)
@@ -115,6 +147,9 @@ class TicketAdmin(admin.ModelAdmin):
     )
     list_filter = ("event", "type", "status", "source", "created")
     search_fields = ("code", "name", "email", "phone", "nickname")
+    formfield_overrides = {
+        models.ManyToManyField: {"widget": CheckboxSelectMultiple},
+    }
 
     def get_fields(self, request, obj=None):
         fields = list(super().get_fields(request, obj))

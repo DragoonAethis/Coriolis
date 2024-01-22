@@ -24,6 +24,25 @@ class OnlinePaymentPolicy(models.IntegerChoices):
     REQUIRED = 2, _("Required")
 
 
+class TicketFlag(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name=_("event"))
+    name = models.CharField(max_length=256, verbose_name=_("name"))
+    description = models.TextField(
+        blank=True,
+        verbose_name=_("description"),
+        help_text=_("What does this flag mean?"),
+    )
+    metadata = models.JSONField(
+        null=True,
+        blank=True,
+        verbose_name=_("metadata"),
+        help_text=_("Additional JSON metadata to attach to this flag."),
+    )
+
+    def __str__(self):
+        return f"{self.event.name}: {self.name}"
+
+
 class TicketType(models.Model):
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     name = models.CharField(max_length=256, verbose_name=_("name"))
@@ -58,6 +77,19 @@ class TicketType(models.Model):
         blank=True,
         verbose_name=_("short name"),
         help_text=_("Usually used for ticket rendering."),
+    )
+    flags = models.ManyToManyField(
+        TicketFlag,
+        verbose_name=_("flags"),
+        help_text=_("Flags to apply on all tickets of this type."),
+    )
+    upgrade_priority = models.PositiveIntegerField(
+        default=0,
+        verbose_name=_("upgrade priority"),
+        help_text=_(
+            "Tickets with lower priority may be upgraded to higher priority "
+            "types in some situations (like being added to an organization)."
+        ),
     )
 
     can_personalize = models.BooleanField(
@@ -229,6 +261,11 @@ class Ticket(models.Model):
             "will automatically update the ticket after this date as needed."
         ),
     )
+    flags = models.ManyToManyField(
+        TicketFlag,
+        verbose_name=_("flags"),
+        help_text=_("Flags specific to this ticket added on top of the type flags."),
+    )
 
     source = models.CharField(
         max_length=16,
@@ -350,6 +387,9 @@ class Ticket(models.Model):
 
     def __repr__(self):
         return f"{str(self)} ({self.id})"
+
+    def get_flags(self) -> set[TicketFlag]:
+        return set(self.type.flags.all()) | set(self.flags.all())
 
     def get_preview_url(self) -> str | None:
         url = None

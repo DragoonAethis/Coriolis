@@ -131,6 +131,7 @@ def render_ticket_variants(ticket_id: str, variants: list[str] | None = None, sa
         "ticket": {
             "code": ticket.code,
             "prefixed_code": ticket.get_code(),
+            "flags": [f.name for f in ticket.get_flags()],
             "nickname": ticket.nickname,
             "age_gate": ticket.age_gate,
             "name": ticket.name,
@@ -141,6 +142,7 @@ def render_ticket_variants(ticket_id: str, variants: list[str] | None = None, sa
             "name": ticket.type.name,
             "color": ticket.type.color,
             "short_name": ticket.type.short_name or ticket.type.name,
+            "flags": [f.name for f in ticket.type.flags.all()],
             "code_prefix": ticket.type.code_prefix,
         },
         "event": {"name": ticket.event.name},
