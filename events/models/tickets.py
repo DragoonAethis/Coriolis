@@ -40,7 +40,7 @@ class TicketFlag(models.Model):
     )
 
     def __str__(self):
-        return f"{self.event.name}: {self.name}"
+        return self.name
 
 
 class TicketType(models.Model):
