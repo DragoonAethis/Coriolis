@@ -15,6 +15,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
+from events.admin.filters import EventContextBasedTicketTypeFilter, EventContextBasedApplicationTypeFilter
 from events.models import (
     User,
     Event,
@@ -145,7 +146,7 @@ class TicketAdmin(admin.ModelAdmin):
         "nickname",
         "created",
     )
-    list_filter = ("event", "type", "status", "source", "created")
+    list_filter = ("event", EventContextBasedTicketTypeFilter, "status", "source", "created")
     search_fields = ("code", "name", "email", "phone", "nickname")
     formfield_overrides = {
         models.ManyToManyField: {"widget": CheckboxSelectMultiple},
@@ -214,7 +215,7 @@ class ApplicationTypeAdmin(admin.ModelAdmin):
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ("name", "event", "type_link", "status", "phone", "email", "created")
-    list_filter = ("event", "type", "status")
+    list_filter = ("event", EventContextBasedApplicationTypeFilter, "status")
     search_fields = ("name", "email", "phone")
     actions = ("download_as_xlsx",)
 
