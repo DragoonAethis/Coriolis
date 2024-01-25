@@ -24,6 +24,12 @@ class BillingDetailsForm(forms.Form):
     postcode = forms.CharField(max_length=256, label=_("Postcode"))
     city = forms.CharField(max_length=256, label=_("City"))
 
+    representative = forms.CharField(
+        max_length=256,
+        label=_("Representative's first and last name"),
+        help_text=_("Name of the person who will be present on and sign the contract."),
+    )
+
     def clean_tax_id(self):
         code = self.cleaned_data["tax_id"].strip()
         if not (code.isnumeric() and (10 <= len(code) <= 11)):

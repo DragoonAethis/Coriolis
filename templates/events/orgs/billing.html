@@ -13,7 +13,8 @@
                 {% translate "Tax ID" %}: {{ object.tax_id }}<br>
                 {% translate "Address" %}: {{ object.address }}<br>
                 {% translate "Postcode" %}: {{ object.postcode }}<br>
-                {% translate "City" %}: {{ object.city }}
+                {% translate "City" %}: {{ object.city }}<br>
+                {% translate "Representative" %}: {{ object.representative }}
             </li>
         {% empty %}
             <li class="list-group-item">{% translate "There are no billing details." %}</li>

@@ -58,6 +58,7 @@ class EventOrgBillingDetails(models.Model):
     address = models.CharField(max_length=256, verbose_name=_("address"))
     postcode = models.CharField(max_length=256, verbose_name=_("postcode"))
     city = models.CharField(max_length=256, verbose_name=_("city"))
+    representative = models.CharField(max_length=256, verbose_name=_("representative"))
 
     def __str__(self):
         return _("Billing details #%s for %s") % str(self.id), self.name

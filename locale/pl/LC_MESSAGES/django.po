@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-25 23:35+0100\n"
-"PO-Revision-Date: 2024-01-25 23:36+0100\n"
+"POT-Creation-Date: 2024-01-25 23:41+0100\n"
+"PO-Revision-Date: 2024-01-25 23:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -232,11 +232,19 @@ msgstr "Kod pocztowy"
 msgid "City"
 msgstr "Miasto"
 
+#: events/forms/orgs.py:29
+msgid "Representative's first and last name"
+msgstr "Imię i nazwisko reprezentanta"
+
 #: events/forms/orgs.py:30
+msgid "Name of the person who will be present on and sign the contract."
+msgstr "Imię i nazwisko osoby która będzie obecna na i podpisze umowę."
+
+#: events/forms/orgs.py:36
 msgid "This does not look like a valid tax identifier."
 msgstr "To nie wygląda jak poprawny identyfikator podatkowy."
 
-#: events/forms/orgs.py:37
+#: events/forms/orgs.py:43
 msgid "This does not look like a valid postcode."
 msgstr "To nie wygląda jak poprawny kod pocztowy."
 
@@ -865,7 +873,11 @@ msgstr "kod pocztowy"
 msgid "city"
 msgstr "miasto"
 
-#: events/models/orgs.py:63
+#: events/models/orgs.py:61
+msgid "representative"
+msgstr "reprezentant"
+
+#: events/models/orgs.py:64
 #, python-format
 msgid "Billing details #%s for %s"
 msgstr "Dane do faktur #%s dla %s"
@@ -1475,7 +1487,7 @@ msgstr "Coś poszło nie tak... spróbuj ponownie?"
 msgid "Ticket depersonalized."
 msgstr "Bilet zdepersonalizowany."
 
-#: events/views/orgs.py:64 templates/events/orgs/billing.html:24
+#: events/views/orgs.py:64 templates/events/orgs/billing.html:25
 #: templates/events/orgs/billing_add.html:8
 msgid "Add billing details"
 msgstr "Dodaj dane do faktur"
@@ -2487,7 +2499,11 @@ msgstr "Strony"
 msgid "Tax ID"
 msgstr "Identyfikator podatkowy"
 
-#: templates/events/orgs/billing.html:19
+#: templates/events/orgs/billing.html:17
+msgid "Representative"
+msgstr "Reprezentant"
+
+#: templates/events/orgs/billing.html:20
 msgid "There are no billing details."
 msgstr "Nie ma żadnych danych do faktur."
 
