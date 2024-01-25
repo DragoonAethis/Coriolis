@@ -80,6 +80,7 @@ class BillingDetailsCreateView(FormView):
             address=form.cleaned_data["address"],
             postcode=form.cleaned_data["postcode"],
             city=form.cleaned_data["city"],
+            representative=form.cleaned_data["representative"],
         )
 
         deets.save()
