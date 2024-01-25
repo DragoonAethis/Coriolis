@@ -19,7 +19,7 @@ RENDERER_MUTEX = ConcurrentRateLimiter(RedisBackend(), "ticket-renderer-mutex", 
 
 
 def get_container_tool() -> str | None:
-    for tool in ("podman", "docker"):
+    for tool in ("docker", "podman"):
         if tool_path := shutil.which(tool):
             return tool_path
 
