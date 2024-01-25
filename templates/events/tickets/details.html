@@ -15,6 +15,13 @@
             <h5 class="{% if ticket.is_cancelled %}text-decoration-line-through{% endif %}">{% translate "Price" %}:
                 <b>{{ ticket.get_price }}</b></h5>
             <hr>
+
+            {% if ticket.org %}
+                <h5>{% translate "Organization" %}: <b>{{ ticket.org.name }}</b></h5>
+                <p class="small">{% translate "This ticket is managed by an organization. Organization owners can see and modify the registration details on this ticket." %}</p>
+                <hr>
+            {% endif %}
+
             <h5>{% translate "Name" %}: <b>{{ ticket.name }}</b></h5>
             <h5>{% translate "Email" %}: <b>{{ ticket.email }}</b></h5>
 

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n events crispy_forms_tags %}
+
+{% block head_title %}{% translate "Billing details" %} - {{ org.name }} - {{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>{% translate "Billing details" %} - {{ org.name }}</h1>
+    <ul class="list-group mb-2">
+        {% for object in object_list %}
+            <li class="list-group-item">
+                {% translate "Name" %}: {{ object.name }}<br>
+                {% translate "Tax ID" %}: {{ object.tax_id }}<br>
+                {% translate "Address" %}: {{ object.address }}<br>
+                {% translate "Postcode" %}: {{ object.postcode }}<br>
+                {% translate "City" %}: {{ object.city }}
+            </li>
+        {% empty %}
+            <li class="list-group-item">{% translate "There are no billing details." %}</li>
+        {% endfor %}
+    </ul>
+
+    <a class="btn btn-lg btn-primary" href="{% url "event_org_billing_details_add" slug=event.slug org_id=org.id %}">
+        <i class="bi bi-plus-lg me-1"></i> {% translate "Add billing details" %}
+    </a>
+
+{% endblock %}

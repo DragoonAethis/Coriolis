@@ -15,6 +15,7 @@ from djmoney.money import Money
 from phonenumber_field.modelfields import PhoneNumberField
 
 from events.models.events import Event, EventPage, EventPageType
+from events.models.orgs import EventOrg
 from events.models.users import User
 
 
@@ -222,6 +223,26 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("user"), null=True)
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     type = models.ForeignKey(TicketType, on_delete=models.RESTRICT, verbose_name=_("type"))
+
+    org = models.ForeignKey(
+        EventOrg,
+        null=True,
+        blank=True,
+        default=None,
+        on_delete=models.SET_NULL,
+        verbose_name=_("org"),
+        help_text=_("The organization this ticket belongs to."),
+    )
+    original_type = models.ForeignKey(
+        TicketType,
+        null=True,
+        blank=True,
+        default=None,
+        related_name="+",
+        on_delete=models.SET_NULL,
+        verbose_name=_("original type"),
+        help_text=_("The original ticket type, as it was set while joining the organization."),
+    )
 
     paid = models.BooleanField(verbose_name=_("paid"), default=False)
     contributed_value = MoneyField(

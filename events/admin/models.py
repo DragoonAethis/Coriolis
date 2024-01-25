@@ -28,6 +28,7 @@ from events.models import (
     Payment,
     Application,
     ApplicationType,
+    EventOrg,
 )
 
 # Ensure users go through the allauth workflow when logging into admin.
@@ -314,3 +315,10 @@ class ApplicationAdmin(admin.ModelAdmin):
             return value
 
         return pformat(value)
+
+
+@admin.register(EventOrg)
+class EventOrgAdmin(admin.ModelAdmin):
+    list_display = ("name", "event", "owner", "source_application", "target_ticket_type", "target_ticket_count")
+    list_filter = ("event", "source_application")
+    search_fields = ("name", "owner__email", "source_application__name")

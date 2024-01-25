@@ -14,6 +14,7 @@ from payments import RedirectNeeded, PaymentStatus
 
 from events.forms.registration import UpdateTicketForm
 from events.models import Event, EventPage, Application, ApplicationType, Payment
+from events.models.orgs import EventOrg
 from events.models.tickets import Ticket, TicketType, TicketStatus
 
 
@@ -49,6 +50,13 @@ def event_index(request, slug):
             Application.objects.filter(event=event)
             .filter(user=request.user)
             .order_by("id")
+        )
+
+        context["orgs"] = (
+            EventOrg.objects.filter(event=event)
+            .filter(owner=request.user)
+            .prefetch_related("ticket_set")
+            .order_by("name")
         )
 
         ticket_types = (

@@ -22,6 +22,48 @@
             {% endif %}
 
             {% if request.user.is_authenticated %}
+                {% for org in orgs %}
+                    <div class="coriolis-org coriolis-org-{{ org.id }} mb-4">
+                        <h2><i class="bi bi-people-fill"></i> {{ org.name }}</h2>
+
+                        <!-- Orgs -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <h3>
+                                    {% translate "Tickets" %}
+                                    ({{ org.ticket_set.all|length }}/{{ org.target_ticket_count }})
+                                </h3>
+                                <ul class="list-group mb-2">
+                                    <a href="#" class="list-group-item list-group-item-action disabled">
+                                        <i class="bi bi-plus-square-fill me-1"></i> {% translate "Add a ticket..." %}
+                                    </a>
+                                </ul>
+                                <ul class="list-group mb-1">
+                                    {% for ticket in org.ticket_set.all %}
+                                        <li class="list-group-item">{{ ticket.get_code }}: {{ ticket.name }}</li>
+                                    {% empty %}
+                                        <li class="list-group-item">{% translate "No tickets..." %}</li>
+                                    {% endfor %}
+                                </ul>
+
+                                {% if org.target_ticket_type %}
+                                    <span class="text-muted small">{% translate "Adding an existing ticket automatically changes its type to:" %} {{ org.target_ticket_type.name }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-lg-4">
+                                <h3>{% translate "Payments" %}</h3>
+                                <ul class="list-group mb-2">
+                                    <a href="{% url "event_org_billing_details_list" slug=event.slug org_id=org.id %}"
+                                       class="list-group-item list-group-item-action active">
+                                        <i class="bi bi-cash-stack me-1"></i> {% translate "Billing details" %}</a>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
                 <div class="coriolis-tickets mb-4">
                     <h2>{% translate "Your tickets" %}</h2>
                     {% if tickets %}
@@ -37,9 +79,15 @@
                                         {% if ticket.status_deadline %}
                                             ({{ ticket.get_status_deadline_display }})
                                         {% endif %}
-                                        <br>
+
                                         {% if not ticket.is_cancelled %}
+                                            <br>
                                             {% translate "Price" %}: <b>{{ ticket.get_price }}</b>
+                                        {% endif %}
+
+                                        {% if ticket.org %}
+                                            <br>
+                                            {% translate "Organization" %}: <b>{{ ticket.org.name }}</b>
                                         {% endif %}
                                     </p>
                                     <div class="btn-toolbar btn-gaps" role="toolbar"
