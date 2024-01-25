@@ -21,9 +21,9 @@ def get_event_and_org(view, slug, org_id) -> tuple[Event, EventOrg]:
     event = get_object_or_404(Event, slug=slug)
     org = get_object_or_404(EventOrg, event=event, id=org_id)
 
-    if view.request.user != org.owner or not view.request.user.is_superuser:
+    if view.request.user != org.owner and not view.request.user.is_superuser:
         messages.error(view.request, _("You don't have permissions to access this page."))
-        return redirect("event_index", view.event.slug)
+        return redirect("event_index", event)
 
     return event, org
 
