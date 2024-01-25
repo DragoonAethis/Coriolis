@@ -16,7 +16,7 @@ class EventContextBasedObjectFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if value := self.value():
-            queryset = queryset.filter(type_id=self.value())
+            queryset = queryset.filter(type_id=value)
 
         return queryset
 
