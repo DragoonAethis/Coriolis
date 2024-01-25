@@ -53,11 +53,18 @@ class RegistrationForm(forms.Form):
         ),
     )
 
-    def __init__(self, *args, event, ticket_type, **kwargs):
+    def __init__(self, *args, event, **kwargs):
+        if "ticket_type" in kwargs:
+            extras = kwargs.pop("ticket_type").id
+        elif "org_id" in kwargs:
+            extras = kwargs.pop("org_id")
+        else:
+            extras = None
+
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = "post"
-        self.helper.form_action = reverse("registration_form", kwargs={"slug": event.slug, "id": ticket_type.id})
+        self.helper.form_action = self.get_form_action_url(event, extras)
         self.helper.attrs["novalidate"] = True
         self.helper.layout = Layout(
             Fieldset(
@@ -71,6 +78,14 @@ class RegistrationForm(forms.Form):
             ),
             FormActions(Submit("submit", _("Register"), css_class="btn btn-lg btn-primary")),
         )
+
+    def get_form_action_url(self, event, extras):
+        return reverse("registration_form", kwargs={"slug": event.slug, "id": extras})
+
+
+class EventOrgTicketRegistrationForm(RegistrationForm):
+    def get_form_action_url(self, event, extras):
+        return reverse("event_org_tickets_add", kwargs={"slug": event.slug, "org_id": extras})
 
 
 class UpdateTicketForm(forms.Form):

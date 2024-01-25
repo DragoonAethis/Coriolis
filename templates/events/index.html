@@ -34,7 +34,8 @@
                                     ({{ org.ticket_set.all|length }}/{{ org.target_ticket_count }})
                                 </h3>
                                 <ul class="list-group mb-2">
-                                    <a href="#" class="list-group-item list-group-item-action disabled">
+                                    <a href="{% url "event_org_tickets_add" slug=event.slug org_id=org.id %}"
+                                       class="list-group-item list-group-item-action {% if org.has_ticket_slots_left %}active{% else %}disabled{% endif %}">
                                         <i class="bi bi-plus-square-fill me-1"></i> {% translate "Add a ticket..." %}
                                     </a>
                                 </ul>

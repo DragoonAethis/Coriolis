@@ -31,6 +31,9 @@ class EventOrg(models.Model):
     def __str__(self):
         return self.name
 
+    def has_ticket_slots_left(self):
+        return self.ticket_set.count() < self.target_ticket_count
+
 
 class EventOrgBillingDetails(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
