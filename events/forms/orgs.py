@@ -7,8 +7,12 @@ from django.utils.translation import gettext_lazy as _
 
 class BillingDetailsForm(forms.Form):
     name = forms.CharField(
-        label=_("Company name or your first and last name"),
+        label=_("Company name/first and last name"),
         max_length=256,
+        help_text=_(
+            "Company name if you are registering as a company. "
+            "Your first/last name if you are registering as an individual."
+        ),
     )
     tax_id = forms.CharField(
         label=_("Tax identifier"),

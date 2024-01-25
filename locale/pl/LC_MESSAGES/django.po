@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-25 23:11+0100\n"
-"PO-Revision-Date: 2024-01-25 23:11+0100\n"
+"POT-Creation-Date: 2024-01-25 23:35+0100\n"
+"PO-Revision-Date: 2024-01-25 23:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -201,34 +201,42 @@ msgid "Depersonalize"
 msgstr "Zdepersonalizuj"
 
 #: events/forms/orgs.py:10
-msgid "Company name or your first and last name"
-msgstr "Nazwa firmy lub twoje imię i nazwisko"
+msgid "Company name/first and last name"
+msgstr "Nazwa firmy/imię i nazwisko"
 
-#: events/forms/orgs.py:14
+#: events/forms/orgs.py:13
+msgid ""
+"Company name if you are registering as a company. Your first/last name if "
+"you are registering as an individual."
+msgstr ""
+"Nazwa firmy jeśli rejestrujesz się jako firma. Twoje imię/nazwisko jeśli "
+"rejestrujesz się jako osoba indywidualna."
+
+#: events/forms/orgs.py:18
 msgid "Tax identifier"
 msgstr "Identyfikator podatkowy"
 
-#: events/forms/orgs.py:16
+#: events/forms/orgs.py:20
 msgid "PESEL for individuals, NIP for companies."
 msgstr "PESEL dla osób indywidualnych, NIP dla firm."
 
-#: events/forms/orgs.py:19 templates/events/orgs/billing.html:14
+#: events/forms/orgs.py:23 templates/events/orgs/billing.html:14
 msgid "Address"
 msgstr "Adres"
 
-#: events/forms/orgs.py:20 templates/events/orgs/billing.html:15
+#: events/forms/orgs.py:24 templates/events/orgs/billing.html:15
 msgid "Postcode"
 msgstr "Kod pocztowy"
 
-#: events/forms/orgs.py:21 templates/events/orgs/billing.html:16
+#: events/forms/orgs.py:25 templates/events/orgs/billing.html:16
 msgid "City"
 msgstr "Miasto"
 
-#: events/forms/orgs.py:26
+#: events/forms/orgs.py:30
 msgid "This does not look like a valid tax identifier."
 msgstr "To nie wygląda jak poprawny identyfikator podatkowy."
 
-#: events/forms/orgs.py:33
+#: events/forms/orgs.py:37
 msgid "This does not look like a valid postcode."
 msgstr "To nie wygląda jak poprawny kod pocztowy."
 
