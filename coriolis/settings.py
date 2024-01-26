@@ -41,10 +41,7 @@ if not DEBUG and dsn:
         integrations=[DjangoIntegration()],
         send_default_pii=env.bool("SENTRY_SEND_PII", True),  # Send user details, etc?
         traces_sample_rate=env.float("SENTRY_SAMPLE_RATE", 1.0),  # Ratio of transactions to monitor for perf issues.
-        _experiments={
-            # Let's see what's slow.
-            "profiles_sample_rate": 1.0,
-        },
+        profiles_sample_rate=1.0,
     )
 
 # Database: https://docs.djangoproject.com/en/4.2/ref/settings/#databases
