@@ -31,11 +31,11 @@ class TicketModQueueListView(ListView):
 
     def get_queryset(self):
         return Ticket.objects.filter(
-            ~Q(nickname=None) | ~Q(image=None),
+            ~Q(nickname="") | ~Q(image=""),
             event=self.event,
             status__in=(TicketStatus.READY, TicketStatus.WAITING_FOR_PAYMENT),
             customization_approved_by=None,
-        )
+        ).order_by("created")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
