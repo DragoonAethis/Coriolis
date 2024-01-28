@@ -148,7 +148,7 @@ class TicketAdmin(admin.ModelAdmin):
         "created",
     )
     list_filter = ("event", EventContextBasedTicketTypeFilter, "status", "source", "created")
-    search_fields = ("code", "name", "email", "phone", "nickname")
+    search_fields = ("code", "name", "email", "phone", "nickname", "notes")
     formfield_overrides = {
         models.ManyToManyField: {"widget": CheckboxSelectMultiple},
     }
