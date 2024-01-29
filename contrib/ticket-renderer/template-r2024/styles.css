@@ -18,6 +18,16 @@ html, body {
     font-family: "Multicolore", "Corporate Logo Rounded", sans-serif;
 }
 
+.text-top-bar,
+.text-festiwal,
+.text-remcon,
+.text-2024,
+.text-nick,
+.marker-bar,
+.text-bottom {
+    z-index: 100;
+}
+
 .background {
     width: 1008px;
     height: 1258px;
@@ -66,7 +76,6 @@ div {
 
     text-shadow: rgba(0, 0, 0, 0.9) 0px 4px 3px;
     letter-spacing: 0;
-    z-index: 0;
 }
 
 .text-top-bar {
