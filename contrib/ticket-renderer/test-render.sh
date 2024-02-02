@@ -17,7 +17,7 @@ if [[ "$2" != "" ]]; then
     cp -f "$2" "$TEST_OUTPUT_DIR/render.json" || exit 1
 fi
 
-docker run --interactive --tty --rm \
+docker run --tty --rm \
     --pull never \
     -v "$(pwd)/$TEST_OUTPUT_DIR":/render \
     -w /render \

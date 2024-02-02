@@ -11,8 +11,8 @@ RUN pacman -Syu --noconfirm \
 USER renderer
 ADD coriolis-render.sh /usr/local/bin/coriolis-render.sh
 
-ENV TICKET_WIDTH=1008
-ENV TICKET_HEIGHT=1512
+ENV TICKET_WIDTH=1084
+ENV TICKET_HEIGHT=1588
 ADD template-r2024 /template/
 
 VOLUME /render

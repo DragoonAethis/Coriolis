@@ -18,35 +18,23 @@ html, body {
     font-family: "Multicolore", "Corporate Logo Rounded", sans-serif;
 }
 
-.text-top-bar,
-.text-festiwal,
-.text-remcon,
-.text-2024,
-.text-nick,
-.marker-bar,
-.text-bottom {
-    z-index: 100;
-}
-
 .background {
-    width: 1008px;
-    height: 1258px;
+    width: 1084px;
+    height: 1352px;
     position: absolute;
     left: 0px;
-    top: 127px;
+    top: 118px;
     background-image: url("background.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    z-index: -2;
 }
 
 .bar {
     background-color: rgb(0, 95, 173);
-    width: 1008px;
-    height: 127px;
+    width: 1084px;
+    height: 118px;
     position: absolute;
-    z-index: -1;
 }
 
 .top-bar {
@@ -56,22 +44,20 @@ html, body {
 
 .marker-bar {
     left: 0px;
-    top: 1115px;
-    width: 1008px;
+    top: 1082px;
+    width: 1084px;
     height: 270px;
-    display: flex;
-    justify-content: center;
 }
 
 .bottom-bar {
     left: 0px;
-    top: 1385px;
+    top: 1470px;
 }
 
 div {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     position: absolute;
 
     text-shadow: rgba(0, 0, 0, 0.9) 0px 4px 3px;
@@ -79,47 +65,52 @@ div {
 }
 
 .text-top-bar {
-    width: 500px;
-    height: 127px;
+    width: 502px;
+    height: 96px;
     top: 0px;
     text-align: center;
-    font-size: 44px;
+    font-size: 40px;
     line-height: 1;
+    margin-top: 30px;
 }
 
 .text-role {
     left: 0px;
+    margin-left: 24px;
+    margin-right: 16px;
 }
 
 .text-code {
-    left: 508px;
+    left: 544px;
+    margin-left: 16px;
+    margin-right: 24px;
 }
 
 .text-festiwal {
-    top: 175px;
-    left: 180px;
+    top: 55px;
+    left: 195px;
     text-align: left;
-    font-size: 60px;
+    font-size: 62px;
 }
 
 .text-remcon {
-    top: 204px;
-    left: 175px;
+    top: 85px;
+    left: 188px;
     text-align: left;
-    font-size: 150px;
+    font-size: 157px;
 }
 
 .text-2024 {
-    top: 332px;
-    left: 610px;
+    top: 219px;
+    left: 641px;
     text-align: right;
-    font-size: 90px;
+    font-size: 95px;
 }
 
 .text-nick {
-    top: 1130px;
+    top: 1082px;
     left: 50px;
-    width: 908px;
+    width: 984px;
     height: 200px;
     font-size: 64px;
     line-height: 1.1;
@@ -127,50 +118,10 @@ div {
 }
 
 .text-nick-back {
-    top: 800px !important;
+    top: 742px !important;
 }
 
 .text-bottom {
-    top: 1386px;
-    left: 0px;
-    width: 1008px;
-    height: 110px;
-    font-size: 40px;
+    font-size: 39px;
+    margin-bottom: 30px;
 }
-
-.bottom-sticker {
-    background-color: rgba(217, 217, 217, 0.2);
-    width: 132px;
-    height: 132px;
-    position: absolute;
-    left: 836px;
-    top: 1340px;
-    border-radius: 8px;
-}
-
-.bottom-logo {
-    width: 132px;
-    height: 120px;
-    position: absolute;
-    left: 836px;
-    top: 1346px;
-    background-image: url("logo.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-/*
-
-40px padding for the sticker
-
-1008,1512
-
-
-1417.3 - 132
-1289.2491  - x
-
-
-
-
-
-*/
