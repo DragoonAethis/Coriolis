@@ -10,7 +10,7 @@ cp -r /template/* .
 j2 --undefined -o render.html render.html.j2 render.json
 
 chromium \
-    --headless \
+    --headless=old \
     --enable-automation \
     --enable-logging=stderr \
     --log-level=0 \
@@ -76,7 +76,7 @@ chromium \
     --disable-partial-raster \
     --allow-running-insecure-content \
     \
-    --virtual-time-budget=1000000 \
+    --virtual-time-budget=10000 \
     --force-color-profile=srgb \
     --hide-scrollbars \
     \
