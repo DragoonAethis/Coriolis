@@ -10,7 +10,8 @@
         "age_gate": true,
         "name": "Jon Snow",
         "email": null,
-        "phone": null
+        "phone": null,
+        "flags": ["1 - OP", "2 - WO"]
     },
     "ticket_type": {
         "name": "Dragoon Aethis",
