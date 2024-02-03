@@ -12,18 +12,48 @@
     font-style: normal;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:where(html) {
+  line-height: 1.15;
+}
+
 html, body {
+    margin: 0;
+    padding: 0;
+    width: 1084px;
+    height: 1588px;
     overflow: hidden;
     color: white;
     font-family: "Multicolore", "Corporate Logo Rounded", sans-serif;
 }
 
+div {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-shadow: rgba(0, 0, 0, 0.9) 0px 4px 3px;
+    letter-spacing: 0;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+/*
+Remcon 2024 IDs:
+- 120x80mm + 3mm bleed = 126x86mm
+- 1588x1084px
+*/
+
 .background {
     width: 1084px;
     height: 1352px;
-    position: absolute;
-    left: 0px;
-    top: 118px;
     background-image: url("background.png");
     background-position: center;
     background-repeat: no-repeat;
@@ -34,35 +64,16 @@ html, body {
     background-color: rgb(0, 95, 173);
     width: 1084px;
     height: 118px;
-    position: absolute;
-}
-
-.top-bar {
-    left: 0px;
-    top: 0px;
 }
 
 .marker-bar {
+    position: fixed;
     left: 0px;
-    top: 1082px;
+    top: 1200px;
     width: 1084px;
     height: 270px;
 }
 
-.bottom-bar {
-    left: 0px;
-    top: 1470px;
-}
-
-div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-
-    text-shadow: rgba(0, 0, 0, 0.9) 0px 4px 3px;
-    letter-spacing: 0;
-}
 
 .text-top-bar {
     width: 502px;
@@ -87,30 +98,34 @@ div {
 }
 
 .text-festiwal {
-    top: 55px;
+    position: fixed;
+    top: 173px;
     left: 195px;
     text-align: left;
     font-size: 62px;
 }
 
 .text-remcon {
-    top: 85px;
+    position: fixed;
+    top: 203px;
     left: 188px;
     text-align: left;
     font-size: 157px;
 }
 
 .text-2024 {
-    top: 219px;
+    position: fixed;
+    top: 337px;
     left: 641px;
     text-align: right;
     font-size: 95px;
 }
 
 .text-nick {
-    top: 1082px;
-    left: 50px;
-    width: 984px;
+    position: fixed;
+    top: 1200px;
+    left: 88px;
+    width: 908px;
     height: 200px;
     font-size: 64px;
     line-height: 1.1;
@@ -118,7 +133,7 @@ div {
 }
 
 .text-nick-back {
-    top: 742px !important;
+    top: 860px !important;
 }
 
 .text-bottom {
