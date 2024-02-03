@@ -22,13 +22,15 @@ chromium \
     \
     --no-default-browser-check \
     --no-startup-window \
+    --no-first-run \
     \
-    --in-process-gpu \
-    --disable-gpu \
-    --disable-gpu-rasterization \
+    --use-vulkan \
+    --disable-vulkan-fallback-to-gl-for-testing \
     --disable-accelerated-video-decode \
     --disable-accelerated-video-encode \
+    --disable-renderer-backgrounding \
     \
+    --disable-webgl \
     --disable-domain-reliability \
     --disable-component-update \
     --disable-default-apps \
@@ -37,30 +39,22 @@ chromium \
     --disable-extensions \
     --disable-component-extensions-with-background-pages \
     \
+    --enable-features=Vulkan,NetworkServiceInProcess2 \
+    --disable-features=WebGPU,Translate,MediaRouter,OptimizationHints,AcceptCHFrame,InterestFeedContentSuggestions,CalculateNativeWinOcclusion,HeavyAdPrivacyMitigations,DialMediaRouteProvider,AutofillServerCommunication,CertificateTransparencyComponentUpdater,site-per-process \
+    \
     --password-store=basic \
     --use-mock-keychain \
     \
+    --disable-sync \
     --disable-breakpad \
     --metrics-recording-only \
     --disable-field-trial-config \
     \
-    --disable-features=Vulkan \
-    --disable-features=Translate \
-    --disable-features=MediaRouter \
-    --disable-features=OptimizationHints \
-    --disable-features=InterestFeedContentSuggestions \
-    --disable-features=CalculateNativeWinOcclusion \
-    --disable-features=HeavyAdPrivacyMitigations \
-    --disable-features=DialMediaRouteProvider \
-    --disable-features=AutofillServerCommunication \
-    --disable-features=CertificateTransparencyComponentUpdater \
-    --disable-features=site-per-process \
-    \
     --run-all-compositor-stages-before-draw \
+    --disable-new-content-rendering-timeout \
     --disable-threaded-animation \
     --disable-threaded-scrolling \
     --disable-checker-imaging \
-    --disable-software-rasterizer \
     --disable-hang-monitor \
     \
     --mute-audio \
@@ -71,9 +65,7 @@ chromium \
     --disable-client-side-phishing-detection \
     --disable-background-timer-throttling \
     --disable-backgrounding-occluded-windows \
-    --disable-renderer-backgrounding \
     --disable-accelerated-2d-canvas \
-    --disable-partial-raster \
     --allow-running-insecure-content \
     \
     --virtual-time-budget=10000 \
