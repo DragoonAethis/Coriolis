@@ -17,5 +17,4 @@ sudo systemctl restart coriolis-crontab
 
 pushd /app/contrib/ticket-renderer
 ./build-image.sh r2024
-./build-image.sh viii-tm
 popd
