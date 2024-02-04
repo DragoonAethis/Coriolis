@@ -1,21 +1,15 @@
-import datetime
-import decimal
-import io
-from pprint import pformat
-
-import xlsxwriter
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db import models
 from django.forms import CheckboxSelectMultiple
 from django.forms import ModelForm
-from django.http import FileResponse
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from events.admin.filters import EventContextBasedTicketTypeFilter, EventContextBasedApplicationTypeFilter
+from events.admin.xlsx_utils import create_in_memory_xlsx, finalize_in_memory_xlsx, xlsx_safe_value
 from events.models import (
     User,
     Event,
@@ -29,6 +23,7 @@ from events.models import (
     Application,
     ApplicationType,
     EventOrg,
+    EventOrgBillingDetails,
 )
 
 # Ensure users go through the allauth workflow when logging into admin.
@@ -220,18 +215,6 @@ class ApplicationAdmin(admin.ModelAdmin):
     search_fields = ("name", "email", "phone")
     actions = ("download_as_xlsx",)
 
-    XLSX_SAFE_TYPES = (
-        bool,
-        str,
-        int,
-        float,
-        decimal.Decimal,
-        datetime.date,
-        datetime.time,
-        datetime.datetime,
-        datetime.timedelta,
-    )
-
     @admin.display(description=_("type"))
     def type_link(self, obj):
         return format_html(
@@ -240,17 +223,9 @@ class ApplicationAdmin(admin.ModelAdmin):
             obj.type.name,
         )
 
-    @admin.action(description=_("Download selected applications as XLSX"))
+    @admin.action(description=_("Download as XLSX"))
     def download_as_xlsx(self, request, queryset):
-        buffer = io.BytesIO()
-        workbook = xlsxwriter.Workbook(
-            buffer,
-            {
-                "in_memory": True,
-                "strings_to_urls": False,
-            },
-        )
-        ws = workbook.add_worksheet()
+        buffer, workbook, ws = create_in_memory_xlsx()
 
         attr_cols = [
             (_("ID"), lambda a: str(a.id)),
@@ -273,7 +248,7 @@ class ApplicationAdmin(admin.ModelAdmin):
         for app in queryset:
             # Common data:
             for col, (_unused_label, expr) in enumerate(attr_cols):
-                ws.write(cur_row, col, self.xlsx_safe_value(expr(app)))
+                ws.write(cur_row, col, xlsx_safe_value(expr(app)))
 
             # Application data:
             for key, value in app.answers.items():
@@ -284,7 +259,7 @@ class ApplicationAdmin(admin.ModelAdmin):
                     col = col_shift + len(found_cols) - 1
 
                 try:
-                    error = ws.write(cur_row, col, self.xlsx_safe_value(value))
+                    error = ws.write(cur_row, col, xlsx_safe_value(value))
                     if error:
                         ws.write(cur_row, col, f"ERROR: {error}")
                 except:  # noqa
@@ -299,22 +274,7 @@ class ApplicationAdmin(admin.ModelAdmin):
         for col, label in enumerate(found_cols):
             ws.write(0, col + col_shift, label)
 
-        workbook.close()
-        buffer.seek(0)
-
-        return FileResponse(
-            buffer,
-            as_attachment=True,
-            filename="export.xlsx",
-            headers={"Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
-        )
-
-    @staticmethod
-    def xlsx_safe_value(value):
-        if type(value) in ApplicationAdmin.XLSX_SAFE_TYPES:
-            return value
-
-        return pformat(value)
+        return finalize_in_memory_xlsx(buffer, workbook)
 
 
 @admin.register(EventOrg)
@@ -322,3 +282,38 @@ class EventOrgAdmin(admin.ModelAdmin):
     list_display = ("name", "event", "owner", "source_application", "target_ticket_type", "target_ticket_count")
     list_filter = ("event", "source_application")
     search_fields = ("name", "owner__email", "source_application__name")
+
+
+@admin.register(EventOrgBillingDetails)
+class EventOrgBillingDetailsAdmin(admin.ModelAdmin):
+    list_display = ("name", "event", "event_org", "representative")
+    list_filter = ("event",)
+    search_fields = ("event_org__name", "name", "address", "city", "representative")
+    actions = ("download_as_xlsx",)
+
+    @admin.action(description=_("Download as XLSX"))
+    def download_as_xlsx(self, request, queryset):
+        buffer, workbook, ws = create_in_memory_xlsx()
+        attr_cols = [
+            (_("ID"), lambda bd: str(bd.id)),
+            (_("Event Org"), lambda bd: bd.event_org.name),
+            (_("Name"), lambda bd: bd.name),
+            (_("Tax ID"), lambda bd: bd.tax_id),
+            (_("Address"), lambda bd: bd.address),
+            (_("Postcode"), lambda bd: bd.postcode),
+            (_("City"), lambda bd: bd.city),
+            (_("Representative"), lambda bd: bd.representative),
+        ]
+
+        row = 0
+        for col, (label, _unused_expr) in enumerate(attr_cols):
+            ws.write(row, col, str(label))
+
+        row = 1
+        for bd in queryset:
+            for col, (_unused_label, expr) in enumerate(attr_cols):
+                ws.write(row, col, xlsx_safe_value(expr(bd)))
+
+            row += 1
+
+        return finalize_in_memory_xlsx(buffer, workbook)

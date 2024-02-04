@@ -61,4 +61,4 @@ class EventOrgBillingDetails(models.Model):
     representative = models.CharField(max_length=256, verbose_name=_("representative"))
 
     def __str__(self):
-        return _("Billing details #%s for %s") % str(self.id), self.name
+        return _("Billing details #%s for %s") % (str(self.id), self.name)
