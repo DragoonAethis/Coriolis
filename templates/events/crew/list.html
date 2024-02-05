@@ -20,7 +20,9 @@
                 <tbody>
                 {% for ticket in tickets %}
                     <tr>
-                        <th scope="row">{{ ticket.get_code }}</th>
+                        <th scope="row" class="table-{{ ticket.get_status_css_class }} font-monospace">
+                            {{ ticket.get_code }} <i class="bi bi-{{ ticket.get_status_icon }}"></i>
+                        </th>
                         <td><a href="{% url 'crew_existing_ticket' event.slug ticket.id %}">{{ ticket.name }}</a></td>
                         <td>{{ ticket.email }}</td>
                         <td>{{ ticket.phone }}</td>

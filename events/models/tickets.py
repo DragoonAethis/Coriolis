@@ -440,6 +440,28 @@ class Ticket(models.Model):
 
         return template % {"timestamp": timestamp}
 
+    def get_status_css_class(self):
+        status_to_class: dict[str, str] = {
+            TicketStatus.CANCELLED: "danger",
+            TicketStatus.WAITING: "warning",
+            TicketStatus.WAITING_FOR_PAYMENT: "warning",
+            TicketStatus.READY: "success",
+            TicketStatus.USED: "secondary",
+        }
+
+        return status_to_class.get(self.status) or "info"
+
+    def get_status_icon(self):
+        status_to_icon: dict[str, str] = {
+            TicketStatus.CANCELLED: "x-circle",
+            TicketStatus.WAITING: "clock",
+            TicketStatus.WAITING_FOR_PAYMENT: "credit-card",
+            TicketStatus.READY: "check-circle",
+            TicketStatus.USED: "check-all",
+        }
+
+        return status_to_icon.get(self.status) or "question"
+
     def get_price(self):
         if self.override_price:
             return self.price
