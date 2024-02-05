@@ -97,12 +97,11 @@ class VerifyDTO:
 
 class Przelewy24API:
     def __init__(self, config: Przelewy24Config, session=None):
-        self._http = session or requests.session()
         self._config = config
         super().__init__()
 
     def _do(self, method: str, endpoint: str, data=None):
-        response = self._http.request(
+        response = requests.request(
             method=method,
             url=endpoint,
             json=data,
