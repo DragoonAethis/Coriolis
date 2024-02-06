@@ -131,6 +131,15 @@
                         </li>
                     </ul>
 
+                    <ul class="navbar-nav me-lg-2">
+                        <li class="nav-item">
+                            <a href="{% url 'admin:index' %}" class="btn btn-outline-warning mb-2 mb-lg-0"
+                               title="{% translate "Admin" %}">
+                                <i class="bi bi-wrench me-2 me-lg-0"></i> <span class="d-lg-none">{% translate "Admin" %}</span>
+                            </a>
+                        </li>
+                    </ul>
+
                     <form class="d-flex" role="search" action="{% url 'crew_find_ticket' event.slug %}" method="post">
                         <div class="input-group">
                             <input name="query" class="form-control" type="search"
