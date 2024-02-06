@@ -40,6 +40,10 @@ class TicketFlag(models.Model):
         help_text=_("Additional JSON metadata to attach to this flag."),
     )
 
+    class Meta:
+        verbose_name = _("ticket flag")
+        verbose_name_plural = _("ticket flags")
+
     def __str__(self):
         return self.name
 

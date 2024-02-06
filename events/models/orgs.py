@@ -28,6 +28,10 @@ class EventOrg(models.Model):
         verbose_name=_("target ticket count"),
     )
 
+    class Meta:
+        verbose_name = _("event org")
+        verbose_name_plural = _("event orgs")
+
     def __str__(self):
         return self.name
 
@@ -59,6 +63,10 @@ class EventOrgBillingDetails(models.Model):
     postcode = models.CharField(max_length=256, verbose_name=_("postcode"))
     city = models.CharField(max_length=256, verbose_name=_("city"))
     representative = models.CharField(max_length=256, verbose_name=_("representative"))
+
+    class Meta:
+        verbose_name = _("event org billing details")
+        verbose_name_plural = _("event org billing details")
 
     def __str__(self):
         return _("Billing details #%s for %s") % (str(self.id), self.name)
