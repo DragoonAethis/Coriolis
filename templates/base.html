@@ -107,8 +107,13 @@
             <div class="container-lg">
                 <a class="navbar-brand" href="#"><i class="bi bi-nut"></i></a>
 
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#crewNavbar"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="crewNavbar">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0">
                         <li class="nav-item">
                             <a href="{% url 'crew_index' event.slug %}" class="nav-link">
                                 <i class="bi bi-wrench me-1"></i> {% translate "Crew Panel" %}
