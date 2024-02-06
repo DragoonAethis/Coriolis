@@ -9,15 +9,30 @@ from events.views.orgs import BillingDetailsListView, BillingDetailsCreateView, 
 from events.views.prometheus import prometheus_status
 from events.views.registrations import RegistrationView, CancelRegistrationView, UpdateTicketView
 
+# Note: Only the event/<slug:slug>/ path should end with a slash.
+# All the others should not, if possible.
+
 urlpatterns = [
-    path("event/<slug:slug>/", event_index, name="event_index"),
+    path(
+        "event/<slug:slug>/",
+        event_index,
+        name="event_index",
+    ),
     path(
         "event/<slug:slug>/prometheus/<str:key>",
         prometheus_status,
         name="prom_stats",
     ),
-    path("event/<slug:slug>/page/<slug:page_slug>", event_page, name="event_page"),
-    path("event/<slug:slug>/ticket/new/", ticket_picker, name="ticket_picker"),
+    path(
+        "event/<slug:slug>/page/<slug:page_slug>",
+        event_page,
+        name="event_page",
+    ),
+    path(
+        "event/<slug:slug>/ticket/new",
+        ticket_picker,
+        name="ticket_picker",
+    ),
     path(
         "event/<slug:slug>/ticket/new/<int:id>",
         RegistrationView.as_view(),
@@ -58,19 +73,23 @@ urlpatterns = [
         application_details,
         name="application_details",
     ),
-    path("crew/<slug:slug>/", CrewIndexNewView.as_view(), name="crew_index"),
     path(
-        "crew/<slug:slug>/ticket/",
+        "event/<slug:slug>/crew",
+        CrewIndexNewView.as_view(),
+        name="crew_index",
+    ),
+    path(
+        "event/<slug:slug>/crew/search",
         CrewFindTicketView.as_view(),
         name="crew_find_ticket",
     ),
     path(
-        "crew/<slug:slug>/ticket/<uuid:ticket_id>",
+        "event/<slug:slug>/crew/ticket/<uuid:ticket_id>",
         CrewExistingTicketView.as_view(),
         name="crew_existing_ticket",
     ),
     path(
-        "event/<slug:slug>/mod_queue/",
+        "event/<slug:slug>/mod_queue",
         TicketModQueueListView.as_view(),
         name="mod_queue_list",
     ),
@@ -80,7 +99,7 @@ urlpatterns = [
         name="mod_queue_depersonalize",
     ),
     path(
-        "event/<slug:slug>/org/<uuid:org_id>/tickets/add",
+        "event/<slug:slug>/org/<uuid:org_id>/ticket/add",
         EventOrgTicketCreateView.as_view(),
         name="event_org_tickets_add",
     ),
