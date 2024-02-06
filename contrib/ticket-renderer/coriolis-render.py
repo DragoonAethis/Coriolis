@@ -15,7 +15,7 @@ with open("render.json") as f:
     template_params = json.load(f)
 
 with open("render.html", "w") as f:
-    f.write(template.render(template_params) + "ASDF")
+    f.write(template.render(template_params))
 
 with sync_playwright() as p:
     browser = p.chromium.launch()
