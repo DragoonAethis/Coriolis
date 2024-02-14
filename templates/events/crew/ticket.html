@@ -8,59 +8,91 @@
         <div class="col-12 col-lg-6 offset-lg-3">
             <h1>{{ ticket.get_code }}: {{ ticket.name }}</h1>
 
-            <div class="card mb-2 text-bg-warning">
-                <div class="card-header">
-                    {% translate "Confirm identity" %}:
-                </div>
-                <div class="card-body">
-                    <ul class="mb-0">
-                        <li>{% translate "Name" %}: {{ ticket.name }}</li>
-                        <li>{% translate "Email" %}: {{ ticket.email }}</li>
-                        {% if ticket.phone %}
-                            <li>{% translate "Phone" %}: {{ ticket.phone }}</li>{% endif %}
-                        {% if ticket.nickname %}
-                            <li>{% translate "Nickname" %}: {{ ticket.nickname }}</li>{% endif %}
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card mb-2 {% if ticket.paid %}text-bg-success{% else %}text-bg-warning{% endif %}">
-                <div class="card-header">
-                    {% translate "Paid" %}:
-                </div>
-                <div class="card-body">
-                    <h4 class="mb-0">
-
-                        {% if ticket.paid %}
-                            <b>☑️ {% translate "Yes" %}</b> -
-                            {% translate "send to ID pickup (if purchased before the deadline)" %}.
-                        {% else %}
-                            <b>❌ {% translate "No" %}</b> - {% translate "send to payment, price" %}:
-                            <b>{{ ticket.get_price }}</b>
-                        {% endif %}
-                    </h4>
-                </div>
-            </div>
-
-            {% if ticket.age_gate is False %}
-                <div class="card mb-2 text-bg-warning">
+            {% if horrible_error %}
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">{% translate "Error" %}:</div>
                     <div class="card-body">
-                        <h4 class="mb-0">
-                            {% translate "Attendee is not of age" %} - {% translate "check the card." %}
-                        </h4>
+                        <h1 class="m-0">{{ horrible_error }}</h1>
                     </div>
                 </div>
-            {% endif %}
-
-            {% if ticket.notes %}
+                <a href="{% url 'crew_index' event.slug %}" class="btn btn-primary btn btn-lg btn-primary w-100">
+                    {% translate "Return to Accreditation" %}
+                </a>
+            {% else %}
                 <div class="card mb-2 text-bg-warning">
                     <div class="card-header">
-                        {% translate "Notes" %}:
+                        {% translate "Confirm identity" %}:
                     </div>
                     <div class="card-body">
-                        <pre class="mb-0">{{ ticket.notes }}</pre>
+                        <ul class="mb-0">
+                            <li>{% translate "Name" %}: {{ ticket.name }}</li>
+                            <li>{% translate "Email" %}: {{ ticket.email }}</li>
+                            {% if ticket.phone %}
+                                <li>{% translate "Phone" %}: {{ ticket.phone }}</li>
+                            {% endif %}
+                            {% if ticket.nickname %}
+                                <li>{% translate "Nickname" %}: {{ ticket.nickname }}</li>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
+
+                {% if ticket.is_paid_for %}
+                    <div class="card mb-2 text-bg-success">
+                        <div class="card-header" style="border-radius: var(--bs-card-inner-border-radius)">
+                            {% translate "Paid" %}: ☑️ {% translate "Yes" %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card mb-2 text-bg-warning">
+                        <div class="card-header">
+                            {% translate "Paid" %}: ❌ {% translate "No" %}
+                        </div>
+                        <div class="card-body">
+                            <h4 class="mb-0">
+                                {% translate "Price" %}: <b>{{ ticket.get_price }}</b>
+                            </h4>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if ticket.age_gate is False %}
+                    <div class="card mb-2 text-bg-warning">
+                        <div class="card-body">
+                            <h4 class="mb-0">
+                                {% translate "Attendee is not of age" %} - {% translate "check the card." %}
+                            </h4>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if ticket.issued_identifier %}
+                    <div class="card mb-2 text-bg-warning">
+                        <div class="card-header">
+                            {% translate "Issued Identifier" %}:
+                        </div>
+                        <div class="card-body">
+                            <h4 class="mb-0">
+                                {{ ticket.issued_identifier }}
+                            </h4>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if ticket.accreditation_notes %}
+                    <div class="card mb-2 text-bg-warning">
+                        <div class="card-header">
+                            {% translate "Notes" %}:
+                        </div>
+                        <div class="card-body">
+                            <pre class="mb-0">{{ ticket.accreditation_notes }}</pre>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <hr>
+
+                {% crispy form %}
             {% endif %}
 
             <hr>
@@ -79,19 +111,7 @@
                 </div>
             </div>
 
-            {% if horrible_error %}
-                <div class="card text-white bg-danger mb-3">
-                    <div class="card-header">{% translate "Error" %}:</div>
-                    <div class="card-body">
-                        <h1>{{ horrible_error }}</h1>
-                    </div>
-                </div>
-            {% else %}
-                {% crispy form %}
-            {% endif %}
-
             {% if other_tickets %}
-                <hr>
 
                 <div class="card mb-2">
                     <div class="card-header">

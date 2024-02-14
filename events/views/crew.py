@@ -149,7 +149,9 @@ class CrewExistingTicketView(FormView):
             messages.error(self.request, _("This ticket is not valid for this event!"))
             return redirect("crew_index", self.event.slug)
 
-        if self.ticket.status == TicketStatus.USED:
+        if self.ticket.stop_on_accreditation:
+            self.horrible_error = _("Call for the accreditation coordinator.")
+        elif self.ticket.status == TicketStatus.USED:
             self.horrible_error = _("This ticket has already been used.")
         elif self.ticket.status == TicketStatus.CANCELLED:
             self.horrible_error = _("This ticket has been cancelled.")

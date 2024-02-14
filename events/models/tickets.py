@@ -1,4 +1,5 @@
 import datetime
+import decimal
 import uuid
 
 from colorfield.fields import ColorField
@@ -491,6 +492,9 @@ class Ticket(models.Model):
             return self.price
 
         return self.type.price
+
+    def is_paid_for(self):
+        return self.paid or self.get_price().amount == decimal.Decimal(0)
 
     def is_cancelled(self) -> bool:
         return self.status == TicketStatus.CANCELLED
