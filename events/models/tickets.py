@@ -312,12 +312,32 @@ class Ticket(models.Model):
     notes = models.TextField(
         blank=True,
         verbose_name=_("notes"),
-        help_text=_("Public notes, visible to users/orgs"),
+        help_text=_("Public notes, visible to users/orgs, but not to accreditation."),
     )
     private_notes = models.TextField(
         blank=True,
         verbose_name=_("private notes"),
-        help_text=_("Private org notes, visible only in the admin panel"),
+        help_text=_("Private org notes, visible only in the admin panel."),
+    )
+
+    # Accreditation process details
+    accreditation_notes = models.TextField(
+        blank=True,
+        verbose_name=_("accreditation notes"),
+        help_text=_("Notes shown during accreditation."),
+    )
+    issued_identifier = models.CharField(
+        max_length=256,
+        blank=True,
+        verbose_name=_("issued identifier"),
+    )
+    stop_on_accreditation = models.BooleanField(
+        default=False,
+        verbose_name=_("stop on accreditation"),
+        help_text=_(
+            "Prevent the accreditation from letting this ticket through. "
+            "Accreditation coordinator must manually handle the ticket."
+        ),
     )
 
     # Customizations/Personalizations
