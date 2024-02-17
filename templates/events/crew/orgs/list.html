@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load i18n events crispy_forms_tags %}
+
+{% block head_title %}{% translate "Organizations" %} - {{ org.name }} - {{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{% translate "Organizations" %}</h1>
+            <table class="table table-striped table-bordered table-sm table-hover">
+                <thead>
+                <tr class="table-light">
+                    <th scope="col" class="sticky-top">{% translate "Name" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Owner" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Ticket Type" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Tickets" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Billing details" %} ({% translate "Representative" %})</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                    <tr>
+                        <th scope="row">{{ object.name }}</th>
+                        <td>{{ object.owner.email }}</td>
+                        <td>{{ object.target_ticket_type.short_name }}</td>
+                        <td class="font-monospace table-{{ object.get_ticket_status_class }}">
+                            {% if object.get_ticket_status_class == "secondary" %}
+                                <i class="bi bi-check-all"></i>
+                            {% endif %}
+                            <a class="link-{{ object.get_ticket_status_class }}"
+                               href="{% url 'crew_orgs_tickets' event.slug object.id %}">
+                                {{ object.ticket_set.count }}<small>/{{ object.target_ticket_count }}</small>
+                            </a>
+                        </td>
+                        <td class="font-monospace table-{{ object.get_billing_details_status_class }}">
+                            <a class="link-{{ object.get_billing_details_status_class }}"
+                               href="{% url 'event_org_billing_details_list' event.slug object.id %}">
+                                {{ object.billing_details_set.count }}
+                                {% if object.billing_details_set.count > 0 %}
+                                    <span>({{ object.billing_details_set.first.representative }})</span>
+                                {% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <li class="list-group-item">{% translate "There are no billing details." %}</li>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block head_title %}{% translate "Crew Panel" %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>{{ org.name }}</h1>
+            <table class="table table-striped table-bordered table-sm table-hover">
+                <thead>
+                <tr class="table-light">
+                    <th scope="col" class="sticky-top">{% translate "Code" %}</th>
+                    <th scope="col" class="sticky-top">{% translate "Name" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Email" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Phone" %}</th>
+                    <th scope="col" class="sticky-top bg-light">{% translate "Nickname" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for object in object_list %}
+                    <tr>
+                        <th scope="row" class="table-{{ object.get_status_css_class }} font-monospace">
+                            {{ object.get_code }} <i class="bi bi-{{ object.get_status_icon }}"></i>
+                        </th>
+                        <td><a href="{% url 'crew_existing_ticket' event.slug object.id %}">{{ object.name }}</a></td>
+                        <td>{{ object.email }}</td>
+                        <td>{{ object.phone }}</td>
+                        <td>{{ object.nickname }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        addEventListener("DOMContentLoaded", (event) => {
+            var ticketPicker = document.getElementById('id_query');
+            if (ticketPicker) {
+                ticketPicker.focus();
+            }
+        });
+    </script>
+{% endblock %}

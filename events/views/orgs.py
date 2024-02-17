@@ -28,9 +28,62 @@ def get_event_and_org(view, slug, org_id) -> tuple[Event, EventOrg]:
     return event, org
 
 
+class CrewEventOrgListView(ListView):
+    model = EventOrg
+    template_name = "events/crew/orgs/list.html"
+
+    event: Event
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
+        if not self.request.user.is_superuser:
+            messages.error(self.request, _("You don't have permissions to access this page."))
+            return redirect("event_index", self.event)
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        return EventOrg.objects.filter(event=self.event).prefetch_related("ticket_set", "billing_details_set")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["event"] = self.event
+        return context
+
+
+class CrewEventOrgTicketListView(ListView):
+    model = Ticket
+    template_name = "events/crew/orgs/tickets.html"
+
+    event: Event
+    org: EventOrg
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        self.event, self.org = get_event_and_org(self, self.kwargs["slug"], self.kwargs["org_id"])
+        if not self.request.user.is_superuser:
+            messages.error(self.request, _("You don't have permissions to access this page."))
+            return redirect("event_index", self.event)
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        return self.org.ticket_set.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["event"] = self.event
+        context["org"] = self.org
+        return context
+
+
 class BillingDetailsListView(ListView):
     model = EventOrgBillingDetails
     template_name = "events/orgs/billing.html"
+
+    event: Event
+    org: EventOrg
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -50,6 +103,9 @@ class BillingDetailsListView(ListView):
 class BillingDetailsCreateView(FormView):
     template_name = "events/orgs/billing_add.html"
     form_class = BillingDetailsForm
+
+    event: Event
+    org: EventOrg
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -95,6 +151,9 @@ class BillingDetailsCreateView(FormView):
 class EventOrgTicketCreateView(FormView):
     template_name = "events/orgs/tickets_add.html"
     form_class = EventOrgTicketRegistrationForm
+
+    event: Event
+    org: EventOrg
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
