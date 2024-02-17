@@ -1,10 +1,9 @@
+from crispy_forms.bootstrap import FieldWithButtons
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout
 from django import forms
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout
-from crispy_forms.bootstrap import FieldWithButtons
 
 from events.models import Event, Ticket, TicketType
 
@@ -33,13 +32,13 @@ class CrewFindTicketForm(forms.Form):
 
 
 class CrewNewTicketForm(forms.Form):
-    ticket_type = forms.ChoiceField(label=_("Ticket type", choices=[]))
+    ticket_type = forms.ChoiceField(label=_("Ticket type"), widget=forms.RadioSelect)
     age_gate = forms.BooleanField(label=_("Is attendee of age?"), required=False)
 
     def __init__(self, *args, event: Event, types: list[TicketType], **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["ticket_type"].choices = [
-            (str(t.id), f"{t.name} ({t.tickets_remaining}/{t.max_tickets})") for t in types
+            (str(t.id), f"{t.name} ({t.price}, {t.tickets_remaining}/{t.max_tickets})") for t in types
         ]
 
         self.helper = FormHelper()
