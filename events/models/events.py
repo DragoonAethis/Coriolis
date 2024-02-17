@@ -116,6 +116,13 @@ class Event(models.Model):
         verbose_name_plural = _("events")
         indexes = [models.Index(fields=["slug"])]
 
+        permissions = [
+            ("crew_accreditation", _("Can access the crew accreditation panel.")),
+            ("crew_mod_queue", _("Can access the crew mod queue.")),
+            ("crew_orgs", _("Can access the crew organization lists.")),
+            ("crew_orgs_view_billing_details", _("Can access the org billing details from the crew panel.")),
+        ]
+
     def __str__(self):
         return self.name
 

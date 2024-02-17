@@ -7,6 +7,7 @@ import uuid
 from PIL import Image
 from django.conf import settings
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
 from django.core.files.uploadedfile import UploadedFile
 from django.core.validators import validate_email
@@ -16,6 +17,12 @@ from ipware import get_client_ip
 from sentry_sdk import capture_exception
 
 import events.models
+
+
+def check_event_perms(request, event: "events.models.Event", perms: list[str]) -> None:
+    """Returns an appropriate redirect if the crew permission check fails."""
+    if not (request.user.is_staff and request.user.has_perms(perms, event)):
+        raise PermissionDenied
 
 
 def validate_multiple_emails(value: str):
