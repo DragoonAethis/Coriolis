@@ -1,16 +1,23 @@
 from django.urls import path
 
 from events.views.applications import ApplicationView
-from events.views.crew import CrewIndexNewView, CrewExistingTicketView, CrewFindTicketView
-from events.views.misc import index, event_index, event_page, application_details
-from events.views.misc import ticket_picker, ticket_details, ticket_payment, ticket_payment_finalize
-from events.views.mod_queue import TicketModQueueListView, TicketModQueueDepersonalizeFormView
+from events.views.crew.accreditation import CrewIndexNewView, CrewExistingTicketView, CrewFindTicketView
+from events.views.crew.mod_queue import TicketModQueueListView, TicketModQueueDepersonalizeFormView
+from events.views.crew.orgs import CrewEventOrgListView, CrewEventOrgTicketListView
+from events.views.misc import (
+    index,
+    event_index,
+    event_page,
+    application_details,
+    ticket_picker,
+    ticket_details,
+    ticket_payment,
+    ticket_payment_finalize,
+)
 from events.views.orgs import (
     BillingDetailsListView,
     BillingDetailsCreateView,
     EventOrgTicketCreateView,
-    CrewEventOrgListView,
-    CrewEventOrgTicketListView,
 )
 from events.views.prometheus import prometheus_status
 from events.views.registrations import RegistrationView, CancelRegistrationView, UpdateTicketView

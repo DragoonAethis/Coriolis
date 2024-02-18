@@ -2,6 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -11,71 +12,25 @@ from django.views.generic.edit import FormView
 
 from events.forms.orgs import BillingDetailsForm
 from events.forms.registration import EventOrgTicketRegistrationForm
-from events.models import Event, EventOrg, Ticket, TicketStatus, TicketSource
-from events.models import EventOrgBillingDetails
+from events.models import Event, EventOrg, Ticket, TicketStatus, TicketSource, EventOrgBillingDetails, User
 from events.tasks.ticket_renderer import render_ticket_variants
 from events.utils import generate_ticket_code
 
 
-def get_event_and_org(view, slug, org_id) -> tuple[Event, EventOrg]:
+def get_event_and_org(slug, org_id) -> tuple[Event, EventOrg]:
     event = get_object_or_404(Event, slug=slug)
     org = get_object_or_404(EventOrg, event=event, id=org_id)
-
-    if view.request.user != org.owner and not view.request.user.is_superuser:
-        messages.error(view.request, _("You don't have permissions to access this page."))
-        return redirect("event_index", event)
-
     return event, org
 
 
-class CrewEventOrgListView(ListView):
-    model = EventOrg
-    template_name = "events/crew/orgs/list.html"
+def check_org_perms(org: EventOrg, user: User, perms: list[str]):
+    """Allows access if the user either owns the org, or has
+    event-wide org management permissions."""
+    if not user.is_authenticated:
+        raise PermissionDenied
 
-    event: Event
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
-        if not self.request.user.is_superuser:
-            messages.error(self.request, _("You don't have permissions to access this page."))
-            return redirect("event_index", self.event)
-
-        return super().dispatch(*args, **kwargs)
-
-    def get_queryset(self):
-        return EventOrg.objects.filter(event=self.event).prefetch_related("ticket_set", "billing_details_set")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["event"] = self.event
-        return context
-
-
-class CrewEventOrgTicketListView(ListView):
-    model = Ticket
-    template_name = "events/crew/orgs/tickets.html"
-
-    event: Event
-    org: EventOrg
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        self.event, self.org = get_event_and_org(self, self.kwargs["slug"], self.kwargs["org_id"])
-        if not self.request.user.is_superuser:
-            messages.error(self.request, _("You don't have permissions to access this page."))
-            return redirect("event_index", self.event)
-
-        return super().dispatch(*args, **kwargs)
-
-    def get_queryset(self):
-        return self.org.ticket_set.all()
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["event"] = self.event
-        context["org"] = self.org
-        return context
+    if user != org.owner and not user.has_perms(perms):
+        raise PermissionDenied
 
 
 class BillingDetailsListView(ListView):
@@ -85,9 +40,9 @@ class BillingDetailsListView(ListView):
     event: Event
     org: EventOrg
 
-    @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        self.event, self.org = get_event_and_org(self, self.kwargs["slug"], self.kwargs["org_id"])
+        self.event, self.org = get_event_and_org(self.kwargs["slug"], self.kwargs["org_id"])
+        check_org_perms(self.org, self.request.user, ["events.crew_orgs", "events.crew_orgs_view_billing_details"])
         return super().dispatch(*args, **kwargs)
 
     def get_queryset(self):
@@ -109,7 +64,8 @@ class BillingDetailsCreateView(FormView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        self.event, self.org = get_event_and_org(self, self.kwargs["slug"], self.kwargs["org_id"])
+        self.event, self.org = get_event_and_org(self.kwargs["slug"], self.kwargs["org_id"])
+        check_org_perms(self.org, self.request.user, ["events.crew_orgs", "events.crew_orgs_view_billing_details"])
         return super().dispatch(*args, **kwargs)
 
     def get_form(self, form_class=None):
@@ -157,7 +113,8 @@ class EventOrgTicketCreateView(FormView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        self.event, self.org = get_event_and_org(self, self.kwargs["slug"], self.kwargs["org_id"])
+        self.event, self.org = get_event_and_org(self.kwargs["slug"], self.kwargs["org_id"])
+        check_org_perms(self.org, self.request.user, ["events.crew_orgs", "events.crew_accreditation"])
 
         if not self.org.target_ticket_type:
             messages.error(

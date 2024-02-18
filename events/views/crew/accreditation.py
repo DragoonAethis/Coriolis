@@ -1,8 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Q, F
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
 
@@ -10,7 +8,7 @@ from events.forms.crew import CrewNewTicketForm, CrewFindTicketForm, CrewUseTick
 from events.models import Event, Ticket, TicketType, TicketStatus, TicketSource
 from events.models.notifications import NotificationChannelSource
 from events.tasks.notifications import notify_channel
-from events.utils import generate_ticket_code
+from events.utils import generate_ticket_code, check_event_perms
 
 
 class CrewIndexNewView(FormView):
@@ -19,9 +17,10 @@ class CrewIndexNewView(FormView):
     form_class = CrewNewTicketForm
     template_name = "events/crew/index.html"
 
-    @method_decorator(user_passes_test(lambda u: u.is_staff))
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
+        check_event_perms(self.request, self.event, ["events.crew_accreditation"])
+
         return super().dispatch(*args, **kwargs)
 
     def get_form_kwargs(self):
@@ -75,9 +74,10 @@ class CrewFindTicketView(FormView):
     form_class = CrewFindTicketForm
     template_name = "events/crew/list.html"
 
-    @method_decorator(user_passes_test(lambda u: u.is_staff))
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
+        check_event_perms(self.request, self.event, ["events.crew_accreditation"])
+
         return super().dispatch(*args, **kwargs)
 
     def get_form_kwargs(self):
@@ -139,9 +139,10 @@ class CrewExistingTicketView(FormView):
     form_class = CrewUseTicketForm
     template_name = "events/crew/ticket.html"
 
-    @method_decorator(user_passes_test(lambda u: u.is_staff))
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
+        check_event_perms(self.request, self.event, ["events.crew_accreditation"])
+
         self.ticket = get_object_or_404(Ticket, id=self.kwargs["ticket_id"])
         self.horrible_error = None
 
