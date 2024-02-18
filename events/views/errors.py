@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
 
 
 def error_handler(request, message):
-    messages.error(request, message)
+    messages.error(request, message, fail_silently=True)
     return redirect("index")
 
 
