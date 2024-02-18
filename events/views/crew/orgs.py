@@ -18,7 +18,11 @@ class CrewEventOrgListView(ListView):
         return super().dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        return EventOrg.objects.filter(event=self.event).prefetch_related("ticket_set", "billing_details_set")
+        return (
+            EventOrg.objects.filter(event=self.event)
+            .select_related("owner", "target_ticket_type")
+            .prefetch_related("ticket_set", "billing_details_set")
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

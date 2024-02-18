@@ -42,7 +42,7 @@ def generate_ticket_code(event: "events.models.Event") -> int:
     # Now for the nasty part: Get ALL the ticket numbers we already
     # have in the database and generate a new one that does not
     # conflict with any existing ones.
-    maximum_tickets = 10 ** event.ticket_code_length
+    maximum_tickets = 10**event.ticket_code_length
     numbers = set(Ticket.objects.filter(event_id=event.id).values_list("code", flat=True))
 
     if len(numbers) >= maximum_tickets:
