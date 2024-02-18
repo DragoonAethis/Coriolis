@@ -1,0 +1,77 @@
+{% load i18n account %}
+<div class="container-lg d-flex justify-content-between flex-wrap py-3">
+    <div>
+        {% if event %}
+            <a href="{% url 'index' %}" class="brand-link me-2"><i class="bi bi-arrow-left-right"></i></a>
+            <a href="{% url 'event_index' event.slug %}" class="brand-link">{{ event.name }}</a>
+        {% else %}
+            <a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a>
+        {% endif %}
+    </div>
+
+    <div class="d-flex btn-gaps flex-wrap">
+        {% if event and event.eventpage_set.select_related.all %}
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="pagesDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    {% translate 'Event pages' %}
+                </button>
+                <ul class="dropdown-menu shadow" aria-labelledby="pagesDropdown">
+                    {% for page in event.eventpage_set.select_related.all %}
+                        {% if not page.hidden %}
+                            <li><a class="dropdown-item"
+                                   href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if global_event_pages %}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        {% for page in global_event_pages %}
+                            <li><a class="dropdown-item"
+                                   href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    {% blocktranslate with email=request.user.email %}
+                        Logged in as {{ email }}
+                    {% endblocktranslate %}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-sm-end shadow" aria-labelledby="userDropdown">
+                    {% if event %}
+                        <li><a class="dropdown-item" href="{{ event.website_link }}"
+                               target="_blank">{% translate 'Main event website' %} <i
+                                class="bi bi-box-arrow-right ms-1"></i></a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    {% endif %}
+                    <li><h6 class="dropdown-header">{% translate 'Security' %}</h6></li>
+                    <li><a class="dropdown-item"
+                           href="{% url 'account_change_password' %}">{% translate 'Change password' %}</a></li>
+                    <li><a class="dropdown-item"
+                           href="{% url 'account_email' %}">{% translate 'E-mail accounts' %}</a></li>
+                    <li><a class="dropdown-item"
+                           href="{% url 'socialaccount_connections' %}">{% translate 'Social accounts' %}</a></li>
+                    <li><a class="dropdown-item"
+                           href="{% url 'two-factor-setup' %}">{% translate 'Configure 2FA' %}</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
+                    </li>
+                </ul>
+            </div>
+        {% else %}
+            <div class="ms-2">
+                <a href="{% url 'account_login' %}" class="btn btn-primary ">{% translate "Sign in" %}</a>
+            </div>
+        {% endif %}
+    </div>
+</div>

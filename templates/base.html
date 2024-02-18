@@ -25,132 +25,10 @@
     </div>
 </noscript>
 <header class="border-bottom mb-2">
-    <div class="container-lg d-flex justify-content-between flex-wrap py-3">
-        <div>
-            {% if event %}
-                <a href="{% url 'index' %}" class="brand-link me-2"><i class="bi bi-arrow-left-right"></i></a>
-                <a href="{% url 'event_index' event.slug %}" class="brand-link">{{ event.name }}</a>
-            {% else %}
-                <a href="{% url 'index' %}" class="brand-link">{% block brand_title %}Coriolis{% endblock %}</a>
-            {% endif %}
-        </div>
-
-        <div class="d-flex btn-gaps flex-wrap">
-            {% if event and event.eventpage_set.select_related.all %}
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="pagesDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        {% translate 'Event pages' %}
-                    </button>
-                    <ul class="dropdown-menu shadow" aria-labelledby="pagesDropdown">
-                        {% for page in event.eventpage_set.select_related.all %}
-                            {% if not page.hidden %}
-                                <li><a class="dropdown-item"
-                                       href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-                        {% if global_event_pages %}
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            {% for page in global_event_pages %}
-                                <li><a class="dropdown-item"
-                                       href="{% url 'event_page' event.slug page.slug %}">{{ page.name }}</a></li>
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div>
-            {% endif %}
-            {% if request.user.is_authenticated %}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        {% blocktranslate with email=request.user.email %}
-                            Logged in as {{ email }}
-                        {% endblocktranslate %}
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-sm-end shadow" aria-labelledby="userDropdown">
-                        {% if event %}
-                            <li><a class="dropdown-item" href="{{ event.website_link }}"
-                                   target="_blank">{% translate 'Main event website' %} <i
-                                    class="bi bi-box-arrow-right ms-1"></i></a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                        {% endif %}
-                        <li><h6 class="dropdown-header">{% translate 'Security' %}</h6></li>
-                        <li><a class="dropdown-item"
-                               href="{% url 'account_change_password' %}">{% translate 'Change password' %}</a></li>
-                        <li><a class="dropdown-item"
-                               href="{% url 'account_email' %}">{% translate 'E-mail accounts' %}</a></li>
-                        <li><a class="dropdown-item"
-                               href="{% url 'socialaccount_connections' %}">{% translate 'Social accounts' %}</a></li>
-                        <li><a class="dropdown-item"
-                               href="{% url 'two-factor-setup' %}">{% translate 'Configure 2FA' %}</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="{% url 'account_logout' %}">{% translate "Sign out" %}</a>
-                        </li>
-                    </ul>
-                </div>
-            {% else %}
-                <div class="ms-2">
-                    <a href="{% url 'account_login' %}" class="btn btn-primary ">{% translate "Sign in" %}</a>
-                </div>
-            {% endif %}
-        </div>
-    </div>
+    {% include "events_base/header_common.html" %}
 
     {% if request.user.is_staff and event %}
-        <nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
-            <div class="container-lg">
-                <a class="navbar-brand" href="#"><i class="bi bi-nut"></i></a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#crewNavbar"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="crewNavbar">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0">
-                        <li class="nav-item">
-                            <a href="{% url 'crew_index' event.slug %}" class="nav-link">
-                                <i class="bi bi-wrench me-1"></i> {% translate "Accreditation" %}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'mod_queue_list' event.slug %}" class="nav-link">
-                                <i class="bi bi-radioactive me-1"></i> {% translate "Mod Queue" %}
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'crew_orgs' event.slug %}" class="nav-link">
-                                <i class="bi bi-people-fill me-1"></i> {% translate "Organizations" %}
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav me-lg-2">
-                        <li class="nav-item">
-                            <a href="{% url 'admin:index' %}" class="btn btn-outline-warning mb-2 mb-lg-0"
-                               title="{% translate "Admin" %}">
-                                <i class="bi bi-wrench me-2 me-lg-0"></i> <span class="d-lg-none">{% translate "Admin" %}</span>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <form class="d-flex" role="search" action="{% url 'crew_find_ticket' event.slug %}" method="post">
-                        <div class="input-group">
-                            <input name="query" class="form-control" type="search"
-                                   placeholder="{% translate "Find a ticket..." %}">
-                            {% csrf_token %}
-                            <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </nav>
+        {% include "events_base/header_crew.html" %}
     {% endif %}
 </header>
 
@@ -187,57 +65,7 @@
             </div>
 
             {% if request.user.is_staff %}
-                <div class="mb-2 gap-1">
-                    <a href="{% url 'admin:index' %}" class="btn btn-warning">
-                        <i class="bi bi-wrench me-1"></i> {% translate "Admin" %}
-                    </a>
-
-                    {% if event and perms.events.view_event %}
-                        <a href="{% url 'admin:events_event_change' event.id %}" class="btn btn-warning">
-                            <i class="bi bi-fire me-1"></i> {% translate "Event" %}
-                        </a>
-                    {% endif %}
-
-                    {% if ticket and perms.events.view_ticket %}
-                        <a href="{% url 'admin:events_user_change' ticket.user.id %}" class="btn btn-warning">
-                            <i class="bi bi-person-fill me-1"></i> {% translate "User" %}
-                        </a>
-                        <a href="{% url 'admin:events_ticket_change' ticket.id %}" class="btn btn-warning">
-                            <i class="bi bi-ticket-perforated-fill me-1"></i> {% translate "Ticket" %}
-                        </a>
-                        <a href="{% url 'admin:events_tickettype_change' ticket.type_id %}" class="btn btn-warning">
-                            <i class="bi bi-ticket-perforated me-1"></i> {% translate "Ticket Type" %}
-                        </a>
-                    {% elif ticket_type and perms.events.view_tickettype %}
-                        <a href="{% url 'admin:events_tickettype_change' ticket_type.id %}" class="btn btn-warning">
-                            <i class="bi bi-ticket-perforated me-1"></i> {% translate "Ticket Type" %}
-                        </a>
-                    {% endif %}
-
-                    {% if application and perms.events.view_application %}
-                        <a href="{% url 'admin:events_user_change' application.user.id %}" class="btn btn-warning">
-                            <i class="bi bi-person-fill me-1"></i> {% translate "User" %}
-                        </a>
-                        <a href="{% url 'admin:events_application_change' application.id %}" class="btn btn-warning">
-                            <i class="bi bi-file-earmark-ruled-fill me-1"></i> {% translate "Application" %}
-                        </a>
-                        <a href="{% url 'admin:events_applicationtype_change' application.type_id %}"
-                           class="btn btn-warning">
-                            <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
-                        </a>
-                    {% elif application_type and perms.events.view_applicationtype %}
-                        <a href="{% url 'admin:events_applicationtype_change' application_type.id %}"
-                           class="btn btn-warning">
-                            <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
-                        </a>
-                    {% endif %}
-
-                    {% if event_page and perms.events.view_eventpage %}
-                        <a href="{% url 'admin:events_eventpage_change' event_page.id %}" class="btn btn-warning">
-                            <i class="bi bi-file-earmark-text-fill me-1"></i> {% translate "Event Page" %}
-                        </a>
-                    {% endif %}
-                </div>
+                {% include "events_base/footer_admin.html" %}
             {% endif %}
 
             <div class="text-muted mt-2">
@@ -251,54 +79,10 @@
     </footer>
 
     {% if cookies_link %}
-        <div id="cookieToast" class="toast position-absolute bottom-0 end-0 m-2" role="alert" aria-live="assertive"
-             aria-atomic="true" data-bs-autohide="false">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {% blocktranslate with cookies=cookies_link %}
-                        We use cookies to deliver basic functionality on this site.
-                        Read our <a href="{{ cookies }}">Cookies Policy</a> to learn more.
-                    {% endblocktranslate %}
-                </div>
-                <button type="button" class="btn-close me-2 mt-2" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
+        {% include "events_base/footer_cookies.html" %}
     {% endif %}
 
-    <div class="modal" id="changeLanguageModal" tabindex="-1" aria-labelledby="changeLanguageModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changeLanguageModalLabel">Language/{% translate "Language" %}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{% url 'set_language' %}" method="post">
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        <input name="next" type="hidden" value="{{ redirect_to }}">
-                        <label for="language" class="form-label">Language/{% translate "Language" %}</label>
-                        <select name="language" class="form-select" aria-label="Select language">
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% get_available_languages as LANGUAGES %}
-                            {% get_language_info_list for LANGUAGES as languages %}
-                            {% for language in languages %}
-                                <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
-                                        selected{% endif %}>
-                                    {{ language.name_local }} ({{ language.code }})
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Cancel/{% translate "Cancel" %}</button>
-                        <button type="submit" class="btn btn-primary">Change/{% translate "Change" %}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    {% include "events_base/footer_language.html" %}
 
     <script src="{% static 'bootstrap/5.3.2/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'app.js' %}"></script>

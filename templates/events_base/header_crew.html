@@ -1,0 +1,58 @@
+{% load i18n account %}
+<nav class="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-lg">
+        <a class="navbar-brand" href="#"><i class="bi bi-nut"></i></a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#crewNavbar"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="crewNavbar">
+            <ul class="navbar-nav me-auto my-2 my-lg-0">
+                {% if perms.events.crew_accreditation %}
+                    <li class="nav-item">
+                        <a href="{% url 'crew_index' event.slug %}" class="nav-link">
+                            <i class="bi bi-wrench me-1"></i> {% translate "Accreditation" %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if perms.events.crew_mod_queue %}
+                    <li class="nav-item">
+                        <a href="{% url 'mod_queue_list' event.slug %}" class="nav-link">
+                            <i class="bi bi-radioactive me-1"></i> {% translate "Mod Queue" %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if perms.events.crew_orgs %}
+                    <li class="nav-item">
+                        <a href="{% url 'crew_orgs' event.slug %}" class="nav-link">
+                            <i class="bi bi-people-fill me-1"></i> {% translate "Organizations" %}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <ul class="navbar-nav me-lg-2">
+                <li class="nav-item">
+                    <a href="{% url 'admin:index' %}" class="btn btn-outline-warning mb-2 mb-lg-0"
+                       title="{% translate "Admin" %}">
+                        <i class="bi bi-wrench me-2 me-lg-0"></i>
+                        <span class="d-lg-none">{% translate "Admin" %}</span>
+                    </a>
+                </li>
+            </ul>
+
+            {% if perms.events.crew_accreditation %}
+                <form class="d-flex" role="search" action="{% url 'crew_find_ticket' event.slug %}" method="post">
+                    <div class="input-group">
+                        <input name="query" class="form-control" type="search"
+                               placeholder="{% translate "Find a ticket..." %}">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</nav>

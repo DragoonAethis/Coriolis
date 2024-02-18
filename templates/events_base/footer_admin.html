@@ -1,0 +1,52 @@
+{% load i18n account %}
+<div class="mb-2 gap-1">
+    <a href="{% url 'admin:index' %}" class="btn btn-warning">
+        <i class="bi bi-wrench me-1"></i> {% translate "Admin" %}
+    </a>
+
+    {% if event and perms.events.view_event %}
+        <a href="{% url 'admin:events_event_change' event.id %}" class="btn btn-warning">
+            <i class="bi bi-fire me-1"></i> {% translate "Event" %}
+        </a>
+    {% endif %}
+
+    {% if ticket and perms.events.view_ticket %}
+        <a href="{% url 'admin:events_user_change' ticket.user.id %}" class="btn btn-warning">
+            <i class="bi bi-person-fill me-1"></i> {% translate "User" %}
+        </a>
+        <a href="{% url 'admin:events_ticket_change' ticket.id %}" class="btn btn-warning">
+            <i class="bi bi-ticket-perforated-fill me-1"></i> {% translate "Ticket" %}
+        </a>
+        <a href="{% url 'admin:events_tickettype_change' ticket.type_id %}" class="btn btn-warning">
+            <i class="bi bi-ticket-perforated me-1"></i> {% translate "Ticket Type" %}
+        </a>
+    {% elif ticket_type and perms.events.view_tickettype %}
+        <a href="{% url 'admin:events_tickettype_change' ticket_type.id %}" class="btn btn-warning">
+            <i class="bi bi-ticket-perforated me-1"></i> {% translate "Ticket Type" %}
+        </a>
+    {% endif %}
+
+    {% if application and perms.events.view_application %}
+        <a href="{% url 'admin:events_user_change' application.user.id %}" class="btn btn-warning">
+            <i class="bi bi-person-fill me-1"></i> {% translate "User" %}
+        </a>
+        <a href="{% url 'admin:events_application_change' application.id %}" class="btn btn-warning">
+            <i class="bi bi-file-earmark-ruled-fill me-1"></i> {% translate "Application" %}
+        </a>
+        <a href="{% url 'admin:events_applicationtype_change' application.type_id %}"
+           class="btn btn-warning">
+            <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
+        </a>
+    {% elif application_type and perms.events.view_applicationtype %}
+        <a href="{% url 'admin:events_applicationtype_change' application_type.id %}"
+           class="btn btn-warning">
+            <i class="bi bi-file-earmark-ruled me-1"></i> {% translate "Application Type" %}
+        </a>
+    {% endif %}
+
+    {% if event_page and perms.events.view_eventpage %}
+        <a href="{% url 'admin:events_eventpage_change' event_page.id %}" class="btn btn-warning">
+            <i class="bi bi-file-earmark-text-fill me-1"></i> {% translate "Event Page" %}
+        </a>
+    {% endif %}
+</div>
