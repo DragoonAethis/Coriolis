@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
@@ -15,7 +16,7 @@ from events.models import Event, ApplicationType, Application, Ticket
 from events.templatetags.events import render_markdown
 
 
-class ApplicationView(FormView):
+class ApplicationSubmissionView(FormView):
     event: Event
     type: ApplicationType
 
@@ -123,3 +124,32 @@ class ApplicationView(FormView):
             notify_msg,
         )
         return redirect("event_index", self.event.slug)
+
+
+@login_required
+def application_details(request, slug, app_id):
+    from events.dynaforms.fields import Dynaform
+    from events.dynaforms.utils import get_pretty_answers
+
+    event = get_object_or_404(Event, slug=slug)
+    application = get_object_or_404(Application, id=app_id, event=event)
+
+    if not application.user_id == request.user.id:
+        messages.error(request, _("You don't own this application!"))
+        return redirect("event_index", event.slug)
+
+    dynaform = Dynaform.build(None, application.type.template)
+
+    pretty_answers = {}
+    if application.answers:
+        pretty_answers = get_pretty_answers(dict(application.answers), dynaform.get_fields())
+
+    return render(
+        request,
+        "events/applications/application_details.html",
+        {
+            "event": event,
+            "application": application,
+            "answers": pretty_answers,
+        },
+    )

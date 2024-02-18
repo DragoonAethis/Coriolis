@@ -1,6 +1,6 @@
 from django.urls import path
 
-from events.views.applications import ApplicationView
+from events.views.applications import ApplicationSubmissionView, application_details
 from events.views.crew.accreditation import CrewIndexNewView, CrewExistingTicketView, CrewFindTicketView
 from events.views.crew.mod_queue import TicketModQueueListView, TicketModQueueDepersonalizeFormView
 from events.views.crew.orgs import CrewEventOrgListView, CrewEventOrgTicketListView
@@ -8,7 +8,6 @@ from events.views.misc import (
     index,
     event_index,
     event_page,
-    application_details,
     ticket_picker,
     ticket_details,
     ticket_payment,
@@ -78,7 +77,7 @@ urlpatterns = [
     ),
     path(
         "event/<slug:slug>/application/new/<int:id>",
-        ApplicationView.as_view(),
+        ApplicationSubmissionView.as_view(),
         name="application_form",
     ),
     path(

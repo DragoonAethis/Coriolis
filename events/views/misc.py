@@ -313,32 +313,3 @@ def ticket_payment_finalize(request, slug, ticket_id, payment_id):
         ticket.save()
 
     return redirect("ticket_details", event.slug, ticket.id)
-
-
-@login_required
-def application_details(request, slug, app_id):
-    from events.dynaforms.fields import Dynaform
-    from events.dynaforms.utils import get_pretty_answers
-
-    event = get_object_or_404(Event, slug=slug)
-    application = get_object_or_404(Application, id=app_id, event=event)
-
-    if not application.user_id == request.user.id:
-        messages.error(request, _("You don't own this application!"))
-        return redirect("event_index", event.slug)
-
-    dynaform = Dynaform.build(None, application.type.template)
-
-    pretty_answers = {}
-    if application.answers:
-        pretty_answers = get_pretty_answers(dict(application.answers), dynaform.get_fields())
-
-    return render(
-        request,
-        "events/applications/application_details.html",
-        {
-            "event": event,
-            "application": application,
-            "answers": pretty_answers,
-        },
-    )
