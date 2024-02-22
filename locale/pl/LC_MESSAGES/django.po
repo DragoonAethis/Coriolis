@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-17 17:51+0100\n"
-"PO-Revision-Date: 2024-02-22 02:04+0100\n"
+"POT-Creation-Date: 2024-02-22 02:51+0100\n"
+"PO-Revision-Date: 2024-02-22 02:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -46,11 +46,12 @@ msgstr "Pobierz jako XLSX"
 msgid "ID"
 msgstr "ID"
 
-#: events/admin/models.py:232 templates/base.html:220 templates/base.html:236
+#: events/admin/models.py:232 templates/events_base/footer_admin.html:15
+#: templates/events_base/footer_admin.html:31
 msgid "User"
 msgstr "Użytkownik"
 
-#: events/admin/models.py:233 templates/base.html:214
+#: events/admin/models.py:233 templates/events_base/footer_admin.html:9
 msgid "Event"
 msgstr "Wydarzenie"
 
@@ -388,7 +389,7 @@ msgid "Cancel ticket"
 msgstr "Anuluj bilet"
 
 #: events/models/applications.py:16 events/models/applications.py:91
-#: events/models/events.py:115 events/models/events.py:141
+#: events/models/events.py:115 events/models/events.py:148
 #: events/models/notifications.py:32 events/models/orgs.py:10
 #: events/models/orgs.py:65 events/models/payments.py:26
 #: events/models/tickets.py:30 events/models/tickets.py:53
@@ -397,8 +398,8 @@ msgid "event"
 msgstr "wydarzenie"
 
 #: events/models/applications.py:17 events/models/applications.py:100
-#: events/models/events.py:16 events/models/events.py:144
-#: events/models/events.py:180 events/models/notifications.py:35
+#: events/models/events.py:16 events/models/events.py:151
+#: events/models/events.py:187 events/models/notifications.py:35
 #: events/models/orgs.py:12 events/models/orgs.py:74
 #: events/models/tickets.py:31 events/models/tickets.py:54
 #: events/models/tickets.py:305
@@ -406,7 +407,7 @@ msgid "name"
 msgstr "nazwa"
 
 #: events/models/applications.py:18 events/models/events.py:19
-#: events/models/events.py:147
+#: events/models/events.py:154
 msgid "slug"
 msgstr "slug"
 
@@ -513,13 +514,13 @@ msgid "Rejected"
 msgstr "Odrzucone"
 
 #: events/models/applications.py:87 events/models/events.py:11
-#: events/models/events.py:133 events/models/payments.py:22
+#: events/models/events.py:140 events/models/payments.py:22
 #: events/models/tickets.py:225
 msgid "created"
 msgstr "utworzono"
 
 #: events/models/applications.py:88 events/models/events.py:12
-#: events/models/events.py:134 events/models/payments.py:23
+#: events/models/events.py:141 events/models/payments.py:23
 #: events/models/tickets.py:226
 msgid "updated"
 msgstr "zaktualizowano"
@@ -658,7 +659,7 @@ msgstr "emaile włączone"
 msgid "Toggles emails for some status changes on this event."
 msgstr "Włącz maile używane dla niektórych zmian statusu na tym wydarzeniu."
 
-#: events/models/events.py:63 events/models/events.py:187
+#: events/models/events.py:63 events/models/events.py:194
 msgid "ticket renderer"
 msgstr "renderer biletów"
 
@@ -738,61 +739,77 @@ msgstr "długość kodu biletu"
 msgid "events"
 msgstr "wydarzenia"
 
-#: events/models/events.py:127
+#: events/models/events.py:120
+msgid "Can access the crew accreditation panel."
+msgstr "Może otworzyć panel akredytacji."
+
+#: events/models/events.py:121
+msgid "Can access the crew mod queue."
+msgstr "Może otworzyć kolejkę moderacji."
+
+#: events/models/events.py:122
+msgid "Can access the crew organization lists."
+msgstr "Może otworzyć listę organizacji."
+
+#: events/models/events.py:123
+msgid "Can access the org billing details from the crew panel."
+msgstr "Może otworzyć dane do faktur z panelu organizacji."
+
+#: events/models/events.py:134
 msgid "Informational"
 msgstr "Informacyjna"
 
-#: events/models/events.py:128
+#: events/models/events.py:135
 msgid "Hidden Informational"
 msgstr "Ukryta Informacyjna"
 
-#: events/models/events.py:129
+#: events/models/events.py:136
 msgid "Ticket Payment Instructions"
 msgstr "Instrukcje Płatności za Bilet"
 
-#: events/models/events.py:142
+#: events/models/events.py:149
 msgid "If not set, will be shown for all events."
 msgstr "Jeśli nie jest ustawione, będzie wyświetlane dla wszystkich wydarzeń."
 
-#: events/models/events.py:148
+#: events/models/events.py:155
 msgid "Short name used in links. Event-specific pages have precedence."
 msgstr ""
 "Krótka nazwa używana w linkach. Strony specyficzne dla wydarzeń mają "
 "priorytet."
 
-#: events/models/events.py:152
+#: events/models/events.py:159
 msgid "page type"
 msgstr "typ strony"
 
-#: events/models/events.py:155
+#: events/models/events.py:162
 msgid "What this page is going to be used for?"
 msgstr "Do czego będzie używana ta strona?"
 
-#: events/models/events.py:159
+#: events/models/events.py:166
 msgid "hidden"
 msgstr "ukryta"
 
-#: events/models/events.py:160
+#: events/models/events.py:167
 msgid "Whenever to hide this page in the page listing."
 msgstr "Decyduje o ukryciu strony w listingu stron."
 
-#: events/models/events.py:162
+#: events/models/events.py:169
 msgid "content"
 msgstr "treść"
 
-#: events/models/events.py:162
+#: events/models/events.py:169
 msgid "Page content. Supports markdown."
 msgstr "Treść strony. Wspiera Markdown."
 
-#: events/models/events.py:165
+#: events/models/events.py:172
 msgid "event page"
 msgstr "strona wydarzenia"
 
-#: events/models/events.py:166
+#: events/models/events.py:173
 msgid "event pages"
 msgstr "strony wydarzeń"
 
-#: events/models/events.py:183
+#: events/models/events.py:190
 msgid ""
 "Coriolis configuration for this renderer. See wiki/docs for more info on "
 "this."
@@ -800,7 +817,7 @@ msgstr ""
 "Konfiguracja Coriolisa dla tego renderera. Zajrzyj do wiki/dokumentacji po "
 "więcej informacji."
 
-#: events/models/events.py:188
+#: events/models/events.py:195
 msgid "ticket renderers"
 msgstr "renderery biletów"
 
@@ -1347,14 +1364,14 @@ msgstr ""
 msgid "[System] The ticket was not paid for in time."
 msgstr "[System] Bilet nie został opłacony na czas."
 
-#: events/utils.py:42 events/utils.py:54
+#: events/utils.py:50 events/utils.py:62
 msgid ""
 "MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."
 msgstr ""
 "MAKSYMALNA LICZBA KODÓW BILETÓW OSIĄGNIĘTA! Skontaktuj się z organizatorami "
 "wydarzenia ws. tej wiadomości."
 
-#: events/utils.py:105
+#: events/utils.py:113
 msgid ""
 "Save it as PNG in an image editor of your choice (e.g. Krita) and upload it "
 "again."
@@ -1362,12 +1379,12 @@ msgstr ""
 "Zapisz go jako PNG w wybranym edytorze graficznym (np. Krita) i załaduj go "
 "ponownie."
 
-#: events/utils.py:111
+#: events/utils.py:119
 #, python-format
 msgid "Your ticket image could not be read. %(hint)s"
 msgstr "Twój obrazek biletu nie może zostać odczytany. %(hint)s"
 
-#: events/utils.py:121
+#: events/utils.py:129
 #, python-format
 msgid ""
 "Your ticket image was saved with color format %(mode)s which we cannot "
@@ -1377,7 +1394,7 @@ msgstr ""
 "możemy przechować. Został on przekonwertowany na RGB i może nie wyglądać "
 "poprawnie. %(hint)s"
 
-#: events/utils.py:131
+#: events/utils.py:139
 #, python-format
 msgid ""
 "Your ticket image was saved with color format %(mode)s which we cannot store "
@@ -1386,89 +1403,113 @@ msgstr ""
 "Twój obrazek biletu został zapisany z formatem kolorów %(mode)s którego nie "
 "możemy przechować ani automatycznie przekonwertować na RGB. %(hint)s"
 
-#: events/utils.py:146
+#: events/utils.py:154
 #, python-format
 msgid "Your ticket image could not be saved for an unknown reason. %(hint)s"
 msgstr ""
 "Twój obrazek biletu nie mógł zostać zapisany z nieznanej przyczyny. %(hint)s"
 
-#: events/views/applications.py:40
+#: events/views/applications.py:41
 msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
-#: events/views/applications.py:50
+#: events/views/applications.py:51
 msgid "You must buy a ticket for this event before submitting an application."
 msgstr "Musisz kupić bilet na to wydarzenie przed wysłaniem zgłoszenia."
 
-#: events/views/applications.py:55
+#: events/views/applications.py:56
 msgid "This application is not yet open. Come back later."
 msgstr ""
 "Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
 
-#: events/views/applications.py:58
+#: events/views/applications.py:59
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:103
+#: events/views/applications.py:104
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:119
+#: events/views/applications.py:120
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/crew.py:49 events/views/registrations.py:60
+#: events/views/applications.py:138
+msgid "You don't own this application!"
+msgstr "Nie posiadasz tego zgłoszenia!"
+
+#: events/views/crew/accreditation.py:48 events/views/registrations.py:60
 #: events/views/registrations.py:148
 msgid "We ran out of these tickets."
 msgstr "Ten rodzaj biletu wyprzedał się."
 
-#: events/views/crew.py:56
+#: events/views/crew/accreditation.py:55
 msgid "Generated Ticket"
 msgstr "Wygenerowany Bilet"
 
-#: events/views/crew.py:68
+#: events/views/crew/accreditation.py:67
 msgid "Success - ticket created: "
 msgstr "Sukces - bilet utworzony: "
 
-#: events/views/crew.py:107
+#: events/views/crew/accreditation.py:107
 msgid "Ticket with the provided code does not exist - searching..."
 msgstr "Bilet z podanym kodem nie istnieje - szukam..."
 
-#: events/views/crew.py:117
+#: events/views/crew/accreditation.py:117
 msgid "No tickets found."
 msgstr "Nie znaleziono żadnych biletów."
 
-#: events/views/crew.py:121
+#: events/views/crew/accreditation.py:121
 msgid "Found a single ticket."
 msgstr "Znaleziono jeden bilet."
 
-#: events/views/crew.py:130
+#: events/views/crew/accreditation.py:130
 msgid "Ticket with the provided code does not exist."
 msgstr "Bilet z podanym kodem nie istnieje."
 
-#: events/views/crew.py:149
+#: events/views/crew/accreditation.py:150
 msgid "This ticket is not valid for this event!"
 msgstr "Ten bilet nie jest ważny dla tego wydarzenia!"
 
-#: events/views/crew.py:153
+#: events/views/crew/accreditation.py:154
 msgid "Call for the accreditation coordinator."
 msgstr "Zawołaj koordynatora akredytacji."
 
-#: events/views/crew.py:155
+#: events/views/crew/accreditation.py:156
 msgid "This ticket has already been used."
 msgstr "Ten bilet został już użyty."
 
-#: events/views/crew.py:157
+#: events/views/crew/accreditation.py:158
 msgid "This ticket has been cancelled."
 msgstr "Ten bilet został anulowany."
 
-#: events/views/crew.py:159
+#: events/views/crew/accreditation.py:160
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
+
+#: events/views/crew/mod_queue.py:66
+msgid "Something went wrong... try again?"
+msgstr "Coś poszło nie tak... spróbuj ponownie?"
+
+#: events/views/crew/mod_queue.py:83
+msgid "Ticket depersonalized."
+msgstr "Bilet zdepersonalizowany."
+
+#: events/views/errors.py:12 events/views/errors.py:16
+msgid "You don't have permissions to access this page."
+msgstr "Nie masz uprawnień aby otworzyć tą stronę."
+
+#: events/views/errors.py:20
+msgid "The page you tried to visit was not found."
+msgstr "Strona którą chcesz otworzyć nie została znaleziona."
+
+#: events/views/errors.py:24
+msgid "The server encountered an unknown error."
+msgstr "Serwer napotkał nieznany błąd."
 
 #: events/views/misc.py:120 templates/events/index.html:131
 msgid ""
@@ -1542,33 +1583,16 @@ msgstr "Płatność odrzucona - spróbuj ponownie."
 msgid "Payment refunded."
 msgstr "Płatność zwrócona."
 
-#: events/views/misc.py:327
-msgid "You don't own this application!"
-msgstr "Nie posiadasz tego zgłoszenia!"
-
-#: events/views/mod_queue.py:27 events/views/mod_queue.py:59
-#: events/views/orgs.py:25 events/views/orgs.py:41 events/views/orgs.py:66
-msgid "You don't have permissions to access this page."
-msgstr "Nie masz uprawnień aby otworzyć tą stronę."
-
-#: events/views/mod_queue.py:76
-msgid "Something went wrong... try again?"
-msgstr "Coś poszło nie tak... spróbuj ponownie?"
-
-#: events/views/mod_queue.py:93
-msgid "Ticket depersonalized."
-msgstr "Bilet zdepersonalizowany."
-
-#: events/views/orgs.py:120 templates/events/orgs/billing.html:25
+#: events/views/orgs.py:76 templates/events/orgs/billing.html:25
 #: templates/events/orgs/billing_add.html:8
 msgid "Add billing details"
 msgstr "Dodaj dane do faktur"
 
-#: events/views/orgs.py:143
+#: events/views/orgs.py:99
 msgid "Billing details added."
 msgstr "Dane do faktur dodane."
 
-#: events/views/orgs.py:164
+#: events/views/orgs.py:121
 msgid ""
 "Ticket type is not set for this organization - please contact the event "
 "organizers."
@@ -1576,15 +1600,15 @@ msgstr ""
 "Typ biletu nie jest ustawiony dla tej organizacji - skontaktuj się z "
 "organizatorami wydarzenia."
 
-#: events/views/orgs.py:169
+#: events/views/orgs.py:126
 msgid "You have reached the maximum amount of tickets."
 msgstr "Osiągnięto maksymalną ilość biletów."
 
-#: events/views/orgs.py:184
+#: events/views/orgs.py:141
 msgid "Add ticket"
 msgstr "Dodaj bilet"
 
-#: events/views/orgs.py:225 events/views/registrations.py:210
+#: events/views/orgs.py:182 events/views/registrations.py:210
 msgid "Thank you for your registration! You can see your ticket details below."
 msgstr ""
 "Dziękujemy za rejestrację! Możesz znaleźć szczegóły swojego biletu poniżej."
@@ -1704,6 +1728,19 @@ msgstr "Konto nieaktywne"
 #: templates/account/account_inactive.html:10
 msgid "This account is inactive."
 msgstr "To konto jest nieaktywne."
+
+#: templates/account/base_reauthenticate.html:5
+#: templates/account/base_reauthenticate.html:9
+msgid "Confirm Access"
+msgstr "Potwierdź Dostęp"
+
+#: templates/account/base_reauthenticate.html:11
+msgid "Please reauthenticate to safeguard your account."
+msgstr "Uwierzytelnij się ponownie aby potwierdzić dostęp do tego konta."
+
+#: templates/account/base_reauthenticate.html:17
+msgid "Alternative options"
+msgstr "Alternatywne opcje"
 
 #: templates/account/email.html:5 templates/account/email.html:8
 msgid "E-mail Addresses"
@@ -1871,7 +1908,7 @@ msgstr ""
 "                jest adresem e-mail użytkownika %(user_display)s.\n"
 "            "
 
-#: templates/account/email_confirm.html:25
+#: templates/account/email_confirm.html:25 templates/mfa/reauthenticate.html:20
 msgid "Confirm"
 msgstr "Potwierdź"
 
@@ -1886,12 +1923,13 @@ msgstr ""
 "            <a href=\"%(email_url)s\">o ponowne wysłanie linku "
 "potwierdzającego</a>."
 
-#: templates/account/login.html:4
+#: templates/account/login.html:4 templates/mfa/authenticate.html:5
+#: templates/mfa/authenticate.html:23
 msgid "Sign In"
 msgstr "Zaloguj się"
 
 #: templates/account/login.html:9 templates/account/login.html:22
-#: templates/base.html:116
+#: templates/events_base/header_common.html:73
 msgid "Sign in"
 msgstr "Zaloguj się"
 
@@ -2082,7 +2120,8 @@ msgstr ""
 "href=\"%(email_url)s\">zmienić swój adres e-mail</a>.\n"
 "    "
 
-#: templates/allauth_2fa/authenticate.html:7
+#: templates/allauth_2fa/authenticate.html:7 templates/mfa/authenticate.html:9
+#: templates/mfa/index.html:5 templates/mfa/index.html:9
 msgid "Two-Factor Authentication"
 msgstr "Uwierzytelnianie Dwuskładnikowe"
 
@@ -2120,6 +2159,7 @@ msgid "Disable Two-Factor Authentication"
 msgstr "Wyłącz Uwierzytelnianie Dwuskładnikowe"
 
 #: templates/allauth_2fa/remove.html:9
+#: templates/mfa/recovery_codes/generate.html:13
 msgid "Are you sure?"
 msgstr "Na pewno?"
 
@@ -2151,7 +2191,7 @@ msgstr "Wpisz kod wygenerowany przez aplikację:"
 msgid "Verify"
 msgstr "Zweryfikuj"
 
-#: templates/base.html:23
+#: templates/base.html:24
 msgid ""
 "You don't have JavaScript enabled. Some elements on this page will not work "
 "correctly."
@@ -2159,131 +2199,14 @@ msgstr ""
 "Nie masz włączonego JavaScriptu. Niektóre elementy na tej stronie nie będą "
 "działać poprawnie."
 
-#: templates/base.html:43
-msgid "Event pages"
-msgstr "Strony wydarzeń"
-
-#: templates/base.html:68
-#, python-format
-msgid ""
-"\n"
-"                            Logged in as %(email)s\n"
-"                        "
-msgstr ""
-"\n"
-"                            Zalogowano jako %(email)s\n"
-"                        "
-
-#: templates/base.html:75
-msgid "Main event website"
-msgstr "Główna strona wydarzenia"
-
-#: templates/base.html:90
-msgid "My profile"
-msgstr "Mój profil"
-
-#: templates/base.html:98
-msgid "Security"
-msgstr "Zabezpieczenia"
-
-#: templates/base.html:100
-msgid "Change password"
-msgstr "Zmień hasło"
-
-#: templates/base.html:102
-msgid "E-mail accounts"
-msgstr "Konta e-mail"
-
-#: templates/base.html:104
-msgid "Social accounts"
-msgstr "Konta społecznościowe"
-
-#: templates/base.html:106
-msgid "Configure 2FA"
-msgstr "Skonfiguruj 2FA"
-
-#: templates/base.html:110
-msgid "Sign out"
-msgstr "Wyloguj się"
-
-#: templates/base.html:136
-msgid "Accreditation"
-msgstr "Akredytacja"
-
-#: templates/base.html:141 templates/events/mod_queue/list.html:4
-#: templates/events/mod_queue/list.html:8
-msgid "Mod Queue"
-msgstr "Kolejka Moderacji"
-
-#: templates/base.html:146 templates/events/crew/orgs/list.html:4
-#: templates/events/crew/orgs/list.html:10
-msgid "Organizations"
-msgstr "Organizacje"
-
-#: templates/base.html:154 templates/base.html:155 templates/base.html:209
-msgid "Admin"
-msgstr "Admin"
-
-#: templates/base.html:163
-msgid "Find a ticket..."
-msgstr "Znajdź bilet..."
-
-#: templates/base.html:196
+#: templates/base.html:58
 msgid "Contact Organizers"
 msgstr "Skontaktuj się z Organizatorami"
 
-#: templates/base.html:202 templates/base.html:290 templates/base.html:297
+#: templates/base.html:64 templates/events_base/footer_language.html:6
+#: templates/events_base/footer_language.html:13
 msgid "Language"
 msgstr "Język"
-
-#: templates/base.html:223
-msgid "Ticket"
-msgstr "Bilet"
-
-#: templates/base.html:226 templates/base.html:230
-#: templates/events/crew/orgs/list.html:16
-msgid "Ticket Type"
-msgstr "Typ Biletu"
-
-#: templates/base.html:239
-msgid "Application"
-msgstr "Zgłoszenie"
-
-#: templates/base.html:243 templates/base.html:248
-msgid "Application Type"
-msgstr "Typ Zgłoszenia"
-
-#: templates/base.html:254
-msgid "Event Page"
-msgstr "Strona Wydarzenia"
-
-#: templates/base.html:275
-#, python-format
-msgid ""
-"\n"
-"                        We use cookies to deliver basic functionality on "
-"this site.\n"
-"                        Read our <a href=\"%(cookies)s\">Cookies Policy</a> "
-"to learn more.\n"
-"                    "
-msgstr ""
-"\n"
-"                        Używamy ciasteczka aby dostarczać podstawową "
-"funkcjonalność na tej stronie.\n"
-"                        Przeczytaj naszą <a href=\"%(cookies)s\">Politykę "
-"Cookies</a> aby dowiedzieć się więcej.\n"
-"                    "
-
-#: templates/base.html:312 templates/events/index.html:110
-#: templates/events/index.html:152
-#: templates/events/tickets/fragments/ticket_personalization_modal.html:32
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: templates/base.html:313
-#: templates/events/tickets/fragments/ticket_personalization_modal.html:33
-msgid "Change"
-msgstr "Zmień"
 
 #: templates/events/applications/application_details.html:4
 #: templates/events/applications/application_details.html:10
@@ -2321,9 +2244,21 @@ msgstr "Potrzeba nowego biletu?"
 msgid "Code"
 msgstr "Kod"
 
+#: templates/events/crew/orgs/list.html:4
+#: templates/events/crew/orgs/list.html:10
+#: templates/events_base/header_crew.html:30
+msgid "Organizations"
+msgstr "Organizacje"
+
 #: templates/events/crew/orgs/list.html:15
 msgid "Owner"
 msgstr "Właściciel"
+
+#: templates/events/crew/orgs/list.html:16
+#: templates/events_base/footer_admin.html:21
+#: templates/events_base/footer_admin.html:25
+msgid "Ticket Type"
+msgstr "Typ Biletu"
 
 #: templates/events/crew/orgs/list.html:17 templates/events/index.html:33
 msgid "Tickets"
@@ -2518,6 +2453,13 @@ msgstr "Zapłać Online"
 msgid "Pay after approval"
 msgstr "Zapłać po akceptacji"
 
+#: templates/events/index.html:110 templates/events/index.html:152
+#: templates/events/tickets/fragments/ticket_personalization_modal.html:32
+#: templates/events_base/footer_language.html:28
+#: templates/mfa/authenticate.html:27
+msgid "Cancel"
+msgstr "Anuluj"
+
 #: templates/events/index.html:117
 msgid "You have no tickets for this event."
 msgstr "Nie masz żadnych biletów na to wydarzenie."
@@ -2556,6 +2498,12 @@ msgstr "Zaloguj się aby kupić lub zarządzać biletami"
 #: templates/events/mod_queue/list.html:34
 msgid "Depersonalize ticket"
 msgstr "Zdepersonalizuj bilet"
+
+#: templates/events/mod_queue/list.html:4
+#: templates/events/mod_queue/list.html:8
+#: templates/events_base/header_crew.html:23
+msgid "Mod Queue"
+msgstr "Kolejka Moderacji"
 
 #: templates/events/mod_queue/list.html:19
 msgid "User ticket page"
@@ -2697,6 +2645,11 @@ msgstr ""
 "                            (%(relative_date)s).\n"
 "                        "
 
+#: templates/events/tickets/fragments/ticket_personalization_modal.html:33
+#: templates/events_base/footer_language.html:29
+msgid "Change"
+msgstr "Zmień"
+
 #: templates/events/tickets/fragments/ticket_preview.html:9
 msgid "Click to personalize."
 msgstr "Kliknij aby spersonalizować."
@@ -2770,6 +2723,253 @@ msgstr "Możesz zapłacić za ten bilet na miejscu lub online (po rejestracji)."
 msgid "You must pay for this ticket on-site."
 msgstr "Musisz zapłacić za ten typ biletu na miejscu."
 
+#: templates/events_base/footer_admin.html:4
+#: templates/events_base/header_crew.html:39
+#: templates/events_base/header_crew.html:41
+msgid "Admin"
+msgstr "Admin"
+
+#: templates/events_base/footer_admin.html:18
+msgid "Ticket"
+msgstr "Bilet"
+
+#: templates/events_base/footer_admin.html:34
+msgid "Application"
+msgstr "Zgłoszenie"
+
+#: templates/events_base/footer_admin.html:38
+#: templates/events_base/footer_admin.html:43
+msgid "Application Type"
+msgstr "Typ Zgłoszenia"
+
+#: templates/events_base/footer_admin.html:49
+msgid "Event Page"
+msgstr "Strona Wydarzenia"
+
+#: templates/events_base/footer_cookies.html:6
+#, python-format
+msgid ""
+"\n"
+"                We use cookies to deliver basic functionality on this site.\n"
+"                Read our <a href=\"%(cookies)s\">Cookies Policy</a> to learn "
+"more.\n"
+"            "
+msgstr ""
+"\n"
+"                Używamy ciasteczka aby dostarczać podstawową funkcjonalność "
+"na tej stronie.\n"
+"                Przeczytaj naszą <a href=\"%(cookies)s\">Politykę Cookies</"
+"a> aby dowiedzieć się więcej.\n"
+"            "
+
+#: templates/events_base/header_common.html:17
+msgid "Event pages"
+msgstr "Strony wydarzeń"
+
+#: templates/events_base/header_common.html:42
+#, python-format
+msgid ""
+"\n"
+"                        Logged in as %(email)s\n"
+"                    "
+msgstr ""
+"\n"
+"                        Zalogowano jako %(email)s\n"
+"                    "
+
+#: templates/events_base/header_common.html:49
+msgid "Main event website"
+msgstr "Główna strona wydarzenia"
+
+#: templates/events_base/header_common.html:55
+msgid "Security"
+msgstr "Zabezpieczenia"
+
+#: templates/events_base/header_common.html:57
+msgid "Change password"
+msgstr "Zmień hasło"
+
+#: templates/events_base/header_common.html:59
+msgid "E-mail accounts"
+msgstr "Konta e-mail"
+
+#: templates/events_base/header_common.html:61
+msgid "Social accounts"
+msgstr "Konta społecznościowe"
+
+#: templates/events_base/header_common.html:63
+msgid "Configure 2FA"
+msgstr "Skonfiguruj 2FA"
+
+#: templates/events_base/header_common.html:67
+msgid "Sign out"
+msgstr "Wyloguj się"
+
+#: templates/events_base/header_crew.html:16
+msgid "Accreditation"
+msgstr "Akredytacja"
+
+#: templates/events_base/header_crew.html:50
+msgid "Find a ticket..."
+msgstr "Znajdź bilet..."
+
+#: templates/mfa/authenticate.html:12
+msgid ""
+"Your account is protected by two-factor authentication. Please enter an "
+"authenticator code:"
+msgstr ""
+"Twoje konto jest chronione przez uwierzytelnianie dwuskładnikowe. Proszę "
+"podać kod z authenticatora:"
+
+#: templates/mfa/email/recovery_codes_generated_message.txt:4
+msgid ""
+"A new set of Two-Factor Authentication recovery codes has been generated."
+msgstr ""
+"Nowy zestaw kodów odzyskiwania dla Uwierzytelniania Dwuskładnikowego został "
+"wygenerowany."
+
+#: templates/mfa/email/recovery_codes_generated_subject.txt:3
+msgid "New Recovery Codes Generated"
+msgstr "Nowe Kody Odzyskiwania Wygenerowane"
+
+#: templates/mfa/email/totp_activated_message.txt:4
+#: templates/mfa/messages/totp_activated.txt:2
+#, fuzzy
+#| msgid "Authenticate"
+msgid "Authenticator app activated."
+msgstr "Uwierzytelnij"
+
+#: templates/mfa/email/totp_activated_subject.txt:3
+#, fuzzy
+#| msgid "Authenticate"
+msgid "Authenticator App Activated"
+msgstr "Uwierzytelnij"
+
+#: templates/mfa/email/totp_deactivated_message.txt:4
+#: templates/mfa/messages/totp_deactivated.txt:2
+msgid "Authenticator app deactivated."
+msgstr ""
+
+#: templates/mfa/email/totp_deactivated_subject.txt:3
+msgid "Authenticator App Deactivated"
+msgstr ""
+
+#: templates/mfa/index.html:14 templates/mfa/totp/base.html:4
+#, fuzzy
+#| msgid "Authenticate"
+msgid "Authenticator App"
+msgstr "Uwierzytelnij"
+
+#: templates/mfa/index.html:18
+msgid "Authentication using an authenticator app is active."
+msgstr ""
+
+#: templates/mfa/index.html:20
+msgid "An authenticator app is not active."
+msgstr ""
+
+#: templates/mfa/index.html:28 templates/mfa/totp/deactivate_form.html:24
+msgid "Deactivate"
+msgstr "Dezaktywuj"
+
+#: templates/mfa/index.html:32 templates/mfa/totp/activate_form.html:32
+msgid "Activate"
+msgstr "Aktywuj"
+
+#: templates/mfa/index.html:42 templates/mfa/recovery_codes/base.html:4
+#: templates/mfa/recovery_codes/generate.html:6
+#: templates/mfa/recovery_codes/index.html:6
+msgid "Recovery Codes"
+msgstr "Kody Odzyskiwania"
+
+#: templates/mfa/index.html:47 templates/mfa/recovery_codes/index.html:9
+#, python-format
+msgid ""
+"There is %(unused_count)s out of %(total_count)s recovery codes available."
+msgid_plural ""
+"There are %(unused_count)s out of %(total_count)s recovery codes available."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: templates/mfa/index.html:50
+msgid "No recovery codes set up."
+msgstr "Nie masz ustawionych żadnych kodów odzyskiwania."
+
+#: templates/mfa/index.html:59
+msgid "View"
+msgstr "Zobacz"
+
+#: templates/mfa/index.html:65
+msgid "Download"
+msgstr "Pobierz"
+
+#: templates/mfa/index.html:73 templates/mfa/recovery_codes/generate.html:29
+msgid "Generate"
+msgstr "Wygeneruj"
+
+#: templates/mfa/messages/recovery_codes_generated.txt:2
+msgid "A new set of recovery codes has been generated."
+msgstr ""
+
+#: templates/mfa/reauthenticate.html:5
+msgid "Enter an authenticator code:"
+msgstr ""
+
+#: templates/mfa/recovery_codes/generate.html:9
+msgid "You are about to generate a new set of recovery codes for your account."
+msgstr ""
+
+#: templates/mfa/recovery_codes/generate.html:11
+msgid "This action will invalidate your existing codes."
+msgstr ""
+
+#: templates/mfa/recovery_codes/index.html:13
+msgid "Unused codes"
+msgstr ""
+
+#: templates/mfa/recovery_codes/index.html:25
+msgid "Download codes"
+msgstr "Pobierz kody"
+
+#: templates/mfa/recovery_codes/index.html:30
+msgid "Generate new codes"
+msgstr "Wygeneruj nowe kody"
+
+#: templates/mfa/totp/activate_form.html:4
+#: templates/mfa/totp/activate_form.html:8
+msgid "Activate Authenticator App"
+msgstr "Aktywuj Authenticator"
+
+#: templates/mfa/totp/activate_form.html:11
+msgid ""
+"To protect your account with two-factor authentication, scan the QR code "
+"below with your authenticator app. Then, input the verification code "
+"generated by the app below."
+msgstr ""
+
+#: templates/mfa/totp/activate_form.html:21
+msgid "Authenticator secret"
+msgstr "Sekret authenticatora"
+
+#: templates/mfa/totp/activate_form.html:24
+msgid ""
+"You can store this secret and use it to reinstall your authenticator app at "
+"a later time."
+msgstr ""
+
+#: templates/mfa/totp/deactivate_form.html:5
+#: templates/mfa/totp/deactivate_form.html:9
+msgid "Deactivate Authenticator App"
+msgstr "Dezaktywuj Authenticator"
+
+#: templates/mfa/totp/deactivate_form.html:12
+msgid ""
+"You are about to deactivate authenticator app based authentication. Are you "
+"sure?"
+msgstr ""
+
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:8
 msgid "Social Network Login Failure"
@@ -2831,6 +3031,9 @@ msgstr ""
 "Zaraz użyjesz konta\n"
 "        %(provider_name)s aby zalogować się na stronę\n"
 "        %(site_name)s. Uzupełnij poniższy formularz:"
+
+#~ msgid "My profile"
+#~ msgstr "Mój profil"
 
 #, fuzzy
 #~| msgid "Billing details"
