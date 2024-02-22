@@ -33,7 +33,6 @@ urlpatterns = [
     path("__debug__/", include(debug_toolbar.urls)),
     path("sentry-debug/", trigger_error),
     path("admin/", admin.site.urls),
-    path("accounts/", include("allauth_2fa.urls")),
     path("accounts/", include("allauth.urls")),
     path("hijack/", include("hijack.urls")),
     path("payments/", include("payments.urls")),

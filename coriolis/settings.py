@@ -132,6 +132,7 @@ INSTALLED_APPS = [
     "dramatiq_crontab",
 
     "allauth",
+    "allauth.mfa",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
@@ -177,8 +178,8 @@ MIDDLEWARE = [
 
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django_otp.middleware.OTPMiddleware",
-    "allauth_2fa.middleware.AllauthTwoFactorMiddleware",
-    "events.middleware.RequireSuperuser2FAMiddleware",
+    #"allauth_2fa.middleware.AllauthTwoFactorMiddleware",
+    #"events.middleware.RequireSuperuser2FAMiddleware",
 
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -226,7 +227,7 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-ACCOUNT_ADAPTER = "allauth_2fa.adapter.OTPAdapter"
+#ACCOUNT_ADAPTER = "allauth_2fa.adapter.OTPAdapter"
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 LOGIN_REDIRECT_URL = "/"
