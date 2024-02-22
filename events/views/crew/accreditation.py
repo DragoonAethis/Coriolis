@@ -112,7 +112,11 @@ class CrewFindTicketView(FormView):
             query |= Q(**{f"{field}__icontains": text_query})
 
         try:
-            tickets = list(Ticket.objects.filter(event_id=self.event.id).filter(query))
+            tickets = list(
+                Ticket.objects.filter(event_id=self.event.id)
+                .filter(query)
+                .prefetch_related("event", "type", "type__event")
+            )
             if len(tickets) == 0:
                 messages.error(self.request, _("No tickets found."))
                 return redirect("crew_index", self.event.slug)
