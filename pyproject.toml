@@ -32,7 +32,7 @@ gunicorn = "^21.2.0"
 whitenoise = { extras = ["brotli"], version = "^6.6.0" }
 requests = "^2.31.0"
 psycopg = { extras = ["binary", "pool"], version = "^3.1.18" }
-Pillow = "^10.0.1"
+Pillow = "^10.3.0"
 Markdown = "^3.4.4"
 django-payments = "^2.0.0"
 django-money = "3.2.0"
