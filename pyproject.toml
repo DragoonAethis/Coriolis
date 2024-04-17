@@ -28,7 +28,7 @@ django-phonenumber-field = { extras = ["phonenumberslite"], version = "^7.3.0" }
 django-colorfield = "^0.11.0"
 django-crispy-forms = "^2.1"
 crispy-bootstrap5 = "^2023.10"
-gunicorn = "^21.2.0"
+gunicorn = "^22.0.0"
 whitenoise = { extras = ["brotli"], version = "^6.6.0" }
 requests = "^2.31.0"
 psycopg = { extras = ["binary", "pool"], version = "^3.1.18" }
