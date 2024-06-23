@@ -39,7 +39,7 @@ class NotificationChannelTicketUsedPayload(NotificationChannelPayload):
             f"{_('Source')}: {ticket.get_source_display()}",
         ]
 
-        return " \- ".join([str(x) for x in parts])
+        return " \\- ".join([str(x) for x in parts])
 
     def get_discord_text(self) -> str | None:
         return self.get_markdown_text("**")
