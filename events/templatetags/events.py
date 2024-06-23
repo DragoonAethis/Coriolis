@@ -34,7 +34,8 @@ def render_markdown(content: str, strip_wrapper: bool = False) -> str:
     if strip_wrapper and text.startswith("<p>") and text.endswith("</p>") and text.find("</p>") == text.rfind("</p>"):
         text = text[3:-4]
 
-    return mark_safe(text)
+    # Disable Ruff warnings about mark_safe, since we're explicitly building HTML here:
+    return mark_safe(text)  # noqa: S308
 
 
 @register.simple_tag(takes_context=True)
@@ -53,7 +54,7 @@ def get_body_css_classes(context: RequestContext) -> str:
     if settings.DEBUG:
         classes.append("debug-enabled")
 
-    return mark_safe(" ".join(classes))
+    return " ".join(classes)
 
 
 @register.filter

@@ -316,7 +316,9 @@ class UpdateTicketView(FormView):
                 errors.append(f"<li><b>{form.fields[field].label}</b>: {error}</li>")
         errors.append("</ul>")
 
-        messages.error(self.request, mark_safe("".join(errors)))
+        # Disable Ruff warnings about mark_safe, since we're explicitly building HTML here:
+        messages.error(self.request, mark_safe("".join(errors)))  # noqa: S308
+
         return redirect("ticket_details", self.event.slug, self.ticket.id)
 
     def form_valid(self, form):
