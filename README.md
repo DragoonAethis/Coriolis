@@ -2,24 +2,33 @@
 
 A small event management and ticketing utility.
 
-- Sell various ticket types with badge personalization (nickname, [avatar](https://github.com/DragoonAethis/Coriolis/wiki/Ticket-Preview-Generator))
-- Provide applications (for volunteering, stalls, etc) with [customizable forms](https://github.com/DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms)
+If you run an instance, join the [User Group on Telegram](https://t.me/coriolisusergroup)!
+
+**Warning:** The project is currently being migrated to a containerized deployment and development environment.
+**New deployments are currently not recommended.** The current `main` branch hosts the classic environment on a
+Python 3.12 host. Please upgrade to [Caelondia](https://github.com/DragoonAethis/Coriolis/releases/tag/caelondia)
+if you are on an older version first.
+
+- Sell various ticket types with badge personalization
+  (nickname, [avatar](https://github.com/DragoonAethis/Coriolis/wiki/Ticket-Preview-Generator))
+- Provide applications (for volunteering, vendors, stalls, etc)
+  with [customizable forms](https://github.com/DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms)
 - Lightweight event/global pages system w/ Markdown support (for ToS, policies, etc)
 - Integrates with django-payments (currently Przelewy24, a Polish payment gateway)
 - Available in English and Polish
 
 ![](docs/images/FrontPage.png)
 
-
 ## Development
 
 Requirements:
 
-- Primarily developed and tested on Linux, but should work on Windows/macOS too.
-- You'll need Python 3.9+ with [Poetry](https://python-poetry.org/).
-- For the database, you'll need PostgreSQL 13+.
-- For the cache and background task queues, you'll need Redis 5.0+.
-- Optional: You might want to use [Mailhog](https://github.com/mailhog/MailHog) as a fake SMTP server.
+- Developed and tested on Linux (any distro - run under a Linux VM on other OSes).
+- You'll need Python 3.12+ with [Poetry](https://python-poetry.org/).
+- For the database, you'll need PostgreSQL 14+.
+- For the cache and background task queues, you'll need Redis 6.0+.
+- For the ticket generation, you'll need a working Docker or Podman installation.
+- Optional: You might want to use [Mailhog](https://github.com/mailhog/MailHog) as a fake SMTP server for development.
 
 Setting up the environment:
 
@@ -42,14 +51,13 @@ You're now ready to run the development server:
 
 Common development tasks:
 
-- `./manage.py makemessages -l pl -i contrib` - generate translation PO files for the `pl` locale.
+- `./manage.py makemessages -l pl` - generate translation PO files for the `pl` locale.
 - `./manage.py compilemessages` - compile all available PO files into MO files (used by the app).
 - `./manage.py makemigrations` - generate database migrations after introducing changes in our models.
 - `./manage.py migrate` - apply missing migrations to your currently-running database.
 - `./manage.py collectstatic` - generate complete contents of the `static` directory (required for prod).
 - `./manage.py rundramatiq --reload` - runs the task queue with a code autoreloader.
 - `./upgrade.sh` - pulls the current Git branch and runs common upgrade steps, then restarts the service.
-
 
 ## Production
 
