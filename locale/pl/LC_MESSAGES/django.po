@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-22 02:51+0100\n"
+"POT-Creation-Date: 2024-06-24 00:23+0200\n"
 "PO-Revision-Date: 2024-02-22 02:56+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1459,35 +1459,35 @@ msgstr "Sukces - bilet utworzony: "
 msgid "Ticket with the provided code does not exist - searching..."
 msgstr "Bilet z podanym kodem nie istnieje - szukam..."
 
-#: events/views/crew/accreditation.py:117
+#: events/views/crew/accreditation.py:121
 msgid "No tickets found."
 msgstr "Nie znaleziono żadnych biletów."
 
-#: events/views/crew/accreditation.py:121
+#: events/views/crew/accreditation.py:125
 msgid "Found a single ticket."
 msgstr "Znaleziono jeden bilet."
 
-#: events/views/crew/accreditation.py:130
+#: events/views/crew/accreditation.py:134
 msgid "Ticket with the provided code does not exist."
 msgstr "Bilet z podanym kodem nie istnieje."
 
-#: events/views/crew/accreditation.py:150
+#: events/views/crew/accreditation.py:154
 msgid "This ticket is not valid for this event!"
 msgstr "Ten bilet nie jest ważny dla tego wydarzenia!"
 
-#: events/views/crew/accreditation.py:154
+#: events/views/crew/accreditation.py:158
 msgid "Call for the accreditation coordinator."
 msgstr "Zawołaj koordynatora akredytacji."
 
-#: events/views/crew/accreditation.py:156
+#: events/views/crew/accreditation.py:160
 msgid "This ticket has already been used."
 msgstr "Ten bilet został już użyty."
 
-#: events/views/crew/accreditation.py:158
+#: events/views/crew/accreditation.py:162
 msgid "This ticket has been cancelled."
 msgstr "Ten bilet został anulowany."
 
-#: events/views/crew/accreditation.py:160
+#: events/views/crew/accreditation.py:164
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
@@ -1708,7 +1708,7 @@ msgstr "Ten typ biletu nie może zostać spersonalizowany."
 msgid "This ticket can no longer be changed."
 msgstr "Ten bilet nie może już zostać zmieniony."
 
-#: events/views/registrations.py:342
+#: events/views/registrations.py:344
 msgid ""
 "Changes were saved and your ticket is now being generated. Refresh this page "
 "in a few minutes to see the preview."
@@ -1716,7 +1716,7 @@ msgstr ""
 "Zmiany zostały zapisane i twój bilet jest właśnie generowany. Odśwież tą "
 "stronę za kilka minut aby zobaczyć podgląd."
 
-#: events/views/registrations.py:352
+#: events/views/registrations.py:354
 msgid "Something went wrong - try again."
 msgstr "Coś poszło nie tak - spróbuj ponownie."
 
