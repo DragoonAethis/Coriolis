@@ -15,15 +15,15 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-ruff = "^0.4.10"
-sentry-sdk = "^2.6.0"
+ruff = "^0.5.1"
+sentry-sdk = "^2.7.1"
 Django = "^4.2.13"
-django-upgrade = "^1.18.0"
+django-upgrade = "^1.19.0"
 django-allauth = { extras = ["mfa", "openid", "socialaccount"], version = "^0.63.3" }
 django-allauth-2fa = "^0.11.1"
 django-environ = "^0.11.2"
-django-debug-toolbar = "^4.4.2"
-django-phonenumber-field = { extras = ["phonenumberslite"], version = "^7.3.0" }
+django-debug-toolbar = "^4.4.5"
+django-phonenumber-field = { extras = ["phonenumberslite"], version = "^8.0.0" }
 django-colorfield = "^0.11.0"
 django-crispy-forms = "^2.2"
 crispy-bootstrap5 = "^2024.2"
@@ -35,8 +35,8 @@ Pillow = "^10.3.0"
 Markdown = "^3.6"
 django-payments = "^2.0.0"
 django-money = "3.2.0"
-django-hijack = "^3.5.1"
-pydantic = "^2.7.4"
+django-hijack = "^3.6.0"
+pydantic = "^2.8.2"
 xlsxwriter = "^3.2.0"
 django-ipware = "^7.0.1"
 dramatiq = { extras = ["watch", "redis"], version = "^1.17.0" }
