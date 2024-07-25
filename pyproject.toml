@@ -15,17 +15,17 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-ruff = "^0.5.1"
-sentry-sdk = "^2.7.1"
+ruff = "^0.5.5"
+sentry-sdk = "^2.11.0"
 Django = "^4.2.13"
-django-upgrade = "^1.19.0"
-django-allauth = { extras = ["mfa", "openid", "socialaccount"], version = "^0.63.3" }
+django-upgrade = "^1.20.0"
+django-allauth = { extras = ["mfa", "openid", "socialaccount"], version = "^0.63.6" }
 django-allauth-2fa = "^0.11.1"
 django-environ = "^0.11.2"
-django-debug-toolbar = "^4.4.5"
+django-debug-toolbar = "^4.4.6"
 django-phonenumber-field = { extras = ["phonenumberslite"], version = "^8.0.0" }
 django-colorfield = "^0.11.0"
-django-crispy-forms = "^2.2"
+django-crispy-forms = "^2.3"
 crispy-bootstrap5 = "^2024.2"
 gunicorn = "^22.0.0"
 whitenoise = { extras = ["brotli"], version = "^6.7.0" }
@@ -43,7 +43,7 @@ dramatiq = { extras = ["watch", "redis"], version = "^1.17.0" }
 django-dramatiq = "^0.11.6"
 django-dramatiq-email = "^1.4.2"
 dramatiq-crontab = { extras = ["redis", "sentry"], version = "^1.0.7" }
-django-storages = "^1.14.3"
+django-storages = "^1.14.4"
 django-lifecycle = "^1.2.4"
 
 # Vendored due to project-specific hacks and fixes:
