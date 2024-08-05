@@ -15,11 +15,11 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-ruff = "^0.5.5"
-sentry-sdk = "^2.11.0"
-Django = "^4.2.13"
+ruff = "^0.5.6"
+sentry-sdk = "^2.12.0"
+Django = "^4.2.14"
 django-upgrade = "^1.20.0"
-django-allauth = { extras = ["mfa", "openid", "socialaccount"], version = "^0.63.6" }
+django-allauth = { extras = ["mfa", "openid", "socialaccount"], version = "^64.0.0" }
 django-allauth-2fa = "^0.11.1"
 django-environ = "^0.11.2"
 django-debug-toolbar = "^4.4.6"
@@ -34,7 +34,7 @@ psycopg = { extras = ["binary", "pool"], version = "^3.2.1" }
 pillow = "^10.4.0"
 Markdown = "^3.6"
 django-payments = "^2.0.0"
-django-money = "^3.5.2"
+django-money = "^3.5.3"
 django-hijack = "^3.6.0"
 pydantic = "^2.8.2"
 XlsxWriter = "^3.2.0"
