@@ -1,0 +1,63 @@
+name: coriolis
+services:
+  postgres:
+    image: postgres:16.3-bookworm
+    env_file: ".env"
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+  valkey:
+    # Used to be Redis, but...
+    image: valkey/valkey:7.2-bookworm
+    env_file: ".env"
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - "valkey_data:/data"
+    command: valkey-server --save 60 1 --loglevel warning
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "127.0.0.1:8001:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+  base:
+    build: .
+    links:
+      - postgres
+      - valkey
+      - mailpit
+    volumes:
+      - "coriolis_media:/app/media"
+    init: true
+    env_file: .env
+    restart: on-failure
+    entrypoint: "/usr/local/bin/poetry run"
+    command: "python --version"
+  web:
+    extends:
+      service: base
+    deploy:
+      replicas: 1
+    ports:
+      - "127.0.0.1:8000:8000"
+    command: "gunicorn coriolis.wsgi --timeout 30 --worker-class gthread --threads 4 --max-requests 64"
+  dramatiq:
+    extends:
+      service: base
+    deploy:
+      replicas: 1
+    command: "python manage.py rundramatiq --processes 1 --threads 1"
+  crontab:
+    extends:
+      service: base
+    deploy:
+      replicas: 1
+    command: "python manage.py crontab --no-heartbeat"
+
+volumes:
+  postgres_data:
+  valkey_data:
+  coriolis_media:
