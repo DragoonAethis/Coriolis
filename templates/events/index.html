@@ -73,7 +73,7 @@
                                 <h5 class="card-header">{{ ticket.type.name }}</h5>
                                 <div class="card-body">
                                     <h5 class="card-title"><b>
-                                        {{ ticket.type.code_prefix }}{{ ticket.code|stringformat:"04d" }}</b> {{ ticket.name }}
+                                        {{ ticket.get_code }}</b> {{ ticket.name }}
                                     </h5>
                                     <p class="card-text">
                                         {% translate "Status" %}: <b>{{ ticket.get_status_display }}</b>
