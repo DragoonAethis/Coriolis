@@ -36,25 +36,36 @@ services:
     restart: on-failure
     entrypoint: "/usr/local/bin/poetry run"
     command: "python --version"
+  init-db:
+    extends:
+      service: base
+    command: "python manage.py migrate"
   web:
     extends:
       service: base
     deploy:
       replicas: 1
+    depends_on:
+      init-db:
+        condition: service_completed_successfully
     ports:
       - "127.0.0.1:8000:8000"
     command: "gunicorn coriolis.wsgi --timeout 30 --worker-class gthread --threads 4 --max-requests 64"
   dramatiq:
     extends:
       service: base
+    depends_on:
+      init-db:
+        condition: service_completed_successfully
     deploy:
       replicas: 1
     command: "python manage.py rundramatiq --processes 1 --threads 1"
   crontab:
     extends:
       service: base
-    deploy:
-      replicas: 1
+    depends_on:
+      init-db:
+        condition: service_completed_successfully
     command: "python manage.py crontab --no-heartbeat"
 
 volumes:
