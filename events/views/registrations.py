@@ -188,29 +188,22 @@ class RegistrationView(FormView):
                 rate_limit_cache.set(key, deadline, timeout=self.type.purchase_rate_limit_secs)
 
         if ticket.status == TicketStatus.WAITING_FOR_PAYMENT:
-            messages.success(
-                self.request,
-                _(
-                    "Thank you for your registration! You must pay for the selected ticket "
-                    "type online. Do so now, or click Pay Online later from your tickets."
-                ),
+            success_msg = _(
+                "Thank you for your registration! You must pay for the selected ticket "
+                "type online. Do so now, or click Pay Online later from your tickets."
             )
-            return redirect("ticket_payment", self.event.slug, ticket.id)
         elif ticket.status == TicketStatus.WAITING:
-            messages.success(
-                self.request,
-                _(
-                    "Thank you for your registration! You will receive an e-mail when "
-                    "organizers read and acknowledge your ticket notes."
-                ),
+            success_msg = _(
+                "Thank you for your registration! You will receive an e-mail "
+                "when organizers read and acknowledge your ticket notes."
             )
         elif ticket.status == TicketStatus.READY:
-            messages.success(
-                self.request,
-                _("Thank you for your registration! You can see your ticket details below."),
-            )
+            success_msg = _("Thank you for your registration! You can see your ticket details below.")
+        else:
+            success_msg = _("Your ticket has an impossible status right after registration...?")
 
-        return redirect("event_index", self.event.slug)
+        messages.success(self.request, success_msg)
+        return redirect("ticket_post_registration", self.event.slug, ticket.id)
 
 
 class CancelRegistrationView(FormView):

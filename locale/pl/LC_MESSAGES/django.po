@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-24 00:23+0200\n"
-"PO-Revision-Date: 2024-02-22 02:56+0100\n"
+"POT-Creation-Date: 2024-08-07 01:34+0200\n"
+"PO-Revision-Date: 2024-08-07 01:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -69,6 +69,7 @@ msgstr "Typ"
 #: templates/events/emails/application_changed.html:6
 #: templates/events/emails/ticket_changed.html:6 templates/events/index.html:79
 #: templates/events/index.html:145 templates/events/tickets/details.html:14
+#: templates/events/tickets/post_registration.html:19
 msgid "Status"
 msgstr "Status"
 
@@ -1523,41 +1524,41 @@ msgstr ""
 msgid "This ticket is not yours!"
 msgstr "Ten bilet nie jest twój!"
 
-#: events/views/misc.py:153 events/views/misc.py:184
+#: events/views/misc.py:153 events/views/misc.py:206
 msgid "You don't own this ticket!"
 msgstr "Nie posiadasz tego biletu!"
 
-#: events/views/misc.py:188
+#: events/views/misc.py:210
 msgid "This ticket was already paid for."
 msgstr "Ten bilet został już opłacony."
 
-#: events/views/misc.py:192
+#: events/views/misc.py:214
 msgid "You cannot pay online for this ticket."
 msgstr "Nie możesz zapłacić online za ten bilet."
 
-#: events/views/misc.py:221
+#: events/views/misc.py:243
 msgid ""
 "This ticket has too many payments in progress. Please contact the organizers."
 msgstr ""
 "Ten bilet ma za dużo płatności w toku. Skontaktuj się z organizatorami."
 
-#: events/views/misc.py:237
+#: events/views/misc.py:259
 msgid "This ticket was already paid for. Thank you!"
 msgstr "Ten bilet został już opłacony. Dziękujemy!"
 
-#: events/views/misc.py:270
+#: events/views/misc.py:292
 msgid "Continue Payment"
 msgstr "Kontynuuj Płatność"
 
-#: events/views/misc.py:277
+#: events/views/misc.py:299
 msgid "Resuming an existing payment in progress. Problems?"
 msgstr "Wznawiamy płatność w toku. Problemy?"
 
-#: events/views/misc.py:279
+#: events/views/misc.py:301
 msgid "Start a new payment."
 msgstr "Rozpocznij nową płatność."
 
-#: events/views/misc.py:301
+#: events/views/misc.py:323
 msgid ""
 "Still waiting for the payment confirmation - please try again in a few "
 "minutes."
@@ -1565,21 +1566,21 @@ msgstr ""
 "Dalej czekamy na potwierdzenie płatności - spróbuj ponownie później za kilka "
 "minut."
 
-#: events/views/misc.py:303
+#: events/views/misc.py:325
 msgid "Payment successful - thank you!"
 msgstr "Płatność udana - dziękujemy!"
 
-#: events/views/misc.py:307
+#: events/views/misc.py:329
 msgid "Payment failed on our end - please try again in a few minutes."
 msgstr ""
 "Płatność nie udała się po naszej stronie - spróbuj ponownie później za kilka "
 "minut."
 
-#: events/views/misc.py:309
+#: events/views/misc.py:331
 msgid "Payment rejected - please try again."
 msgstr "Płatność odrzucona - spróbuj ponownie."
 
-#: events/views/misc.py:311
+#: events/views/misc.py:333
 msgid "Payment refunded."
 msgstr "Płatność zwrócona."
 
@@ -1608,7 +1609,7 @@ msgstr "Osiągnięto maksymalną ilość biletów."
 msgid "Add ticket"
 msgstr "Dodaj bilet"
 
-#: events/views/orgs.py:182 events/views/registrations.py:210
+#: events/views/orgs.py:182 events/views/registrations.py:201
 msgid "Thank you for your registration! You can see your ticket details below."
 msgstr ""
 "Dziękujemy za rejestrację! Możesz znaleźć szczegóły swojego biletu poniżej."
@@ -1654,7 +1655,7 @@ msgstr ""
 msgid "%(event)s: Ticket '%(code)s'"
 msgstr "%(event)s: Bilet '%(code)s'"
 
-#: events/views/registrations.py:194
+#: events/views/registrations.py:192
 msgid ""
 "Thank you for your registration! You must pay for the selected ticket type "
 "online. Do so now, or click Pay Online later from your tickets."
@@ -1662,7 +1663,7 @@ msgstr ""
 "Dziękujemy za rejestrację! Musisz zapłacić za wybrany typ biletu online. "
 "Zrób to teraz, lub kliknij Zapłać Online później z twoich biletów."
 
-#: events/views/registrations.py:203
+#: events/views/registrations.py:197
 msgid ""
 "Thank you for your registration! You will receive an e-mail when organizers "
 "read and acknowledge your ticket notes."
@@ -1670,17 +1671,21 @@ msgstr ""
 "Dziękujemy za rejestrację! Otrzymasz e-maila gdy organizatorzy przeczytają i "
 "zatwierdzą notatki w twoim bilecie."
 
-#: events/views/registrations.py:229
+#: events/views/registrations.py:203
+msgid "Your ticket has an impossible status right after registration...?"
+msgstr "Twój bilet ma niemożliwy status od razu po rejestracji...?"
+
+#: events/views/registrations.py:222
 msgid "You cannot cancel a ticket that is not yours!"
 msgstr "Nie możesz anulować biletu który nie jest twój!"
 
-#: events/views/registrations.py:238
+#: events/views/registrations.py:231
 msgid ""
 "Cannot cancel a ticket with this status - please contact the organizers."
 msgstr ""
 "Nie możesz anulować biletu z tym statusem - skontaktuj się z organizatorami."
 
-#: events/views/registrations.py:245
+#: events/views/registrations.py:238
 msgid ""
 "Cannot cancel a ticket that was already paid for - please contact the "
 "organizers."
@@ -1688,27 +1693,27 @@ msgstr ""
 "Nie możesz anulować biletu który został już opłacony - skontaktuj się z "
 "organizatorami."
 
-#: events/views/registrations.py:252
+#: events/views/registrations.py:245
 msgid "This ticket has attached payments - please contact the organizers."
 msgstr "Ten bilet ma podpięte płatności - skontaktuj się z organizatorami."
 
-#: events/views/registrations.py:276
+#: events/views/registrations.py:269
 msgid "Ticket cancelled."
 msgstr "Bilet anulowany."
 
-#: events/views/registrations.py:293
+#: events/views/registrations.py:286
 msgid "You cannot change a ticket that is not yours!"
 msgstr "Nie możesz zmienić biletu który nie jest twój!"
 
-#: events/views/registrations.py:297
+#: events/views/registrations.py:290
 msgid "This ticket type cannot be personalized."
 msgstr "Ten typ biletu nie może zostać spersonalizowany."
 
-#: events/views/registrations.py:301
+#: events/views/registrations.py:294
 msgid "This ticket can no longer be changed."
 msgstr "Ten bilet nie może już zostać zmieniony."
 
-#: events/views/registrations.py:344
+#: events/views/registrations.py:337
 msgid ""
 "Changes were saved and your ticket is now being generated. Refresh this page "
 "in a few minutes to see the preview."
@@ -1716,7 +1721,7 @@ msgstr ""
 "Zmiany zostały zapisane i twój bilet jest właśnie generowany. Odśwież tą "
 "stronę za kilka minut aby zobaczyć podgląd."
 
-#: events/views/registrations.py:354
+#: events/views/registrations.py:347
 msgid "Something went wrong - try again."
 msgstr "Coś poszło nie tak - spróbuj ponownie."
 
@@ -2293,6 +2298,7 @@ msgstr "Opłacony"
 
 #: templates/events/crew/ticket.html:53 templates/events/index.html:86
 #: templates/events/tickets/details.html:15
+#: templates/events/tickets/post_registration.html:24
 msgid "Price"
 msgstr "Cena"
 
@@ -2549,6 +2555,7 @@ msgstr "Czy na pewno chcesz anulować ten bilet?"
 
 #: templates/events/tickets/details.html:4
 #: templates/events/tickets/details.html:10
+#: templates/events/tickets/post_registration.html:50
 msgid "Ticket details"
 msgstr "Szczegóły biletu"
 
@@ -2700,6 +2707,38 @@ msgstr ""
 msgid "Sold out :("
 msgstr "Wyprzedany :("
 
+#: templates/events/tickets/post_registration.html:8
+msgid "Thank you!"
+msgstr "Dziękujemy!"
+
+#: templates/events/tickets/post_registration.html:10
+msgid "Your ticket was reserved successfully."
+msgstr "Twój bilet został zarezerwowany pomyślnie."
+
+#: templates/events/tickets/post_registration.html:30
+msgid "What next?"
+msgstr "Co dalej?"
+
+#: templates/events/tickets/post_registration.html:34
+msgid ""
+"You can pay for your ticket online after organizers approve your notes. You "
+"will receive an email when this happens."
+msgstr ""
+"Możesz zapłacić za twój bilet online po akceptacji notatek przez "
+"organizatora. Otrzymasz wiadomość email gdy to nastąpi."
+
+#: templates/events/tickets/post_registration.html:41
+msgid "Pay for the ticket online"
+msgstr "Zapłać za bilet online"
+
+#: templates/events/tickets/post_registration.html:46
+msgid "Buy another ticket"
+msgstr "Kup kolejny bilet"
+
+#: templates/events/tickets/post_registration.html:53
+msgid "Return to the event home"
+msgstr "Wróć na stronę wydarzenia"
+
 #: templates/events/tickets/register.html:12
 #, python-format
 msgid ""
@@ -2834,39 +2873,33 @@ msgstr "Nowe Kody Odzyskiwania Wygenerowane"
 
 #: templates/mfa/email/totp_activated_message.txt:4
 #: templates/mfa/messages/totp_activated.txt:2
-#, fuzzy
-#| msgid "Authenticate"
 msgid "Authenticator app activated."
-msgstr "Uwierzytelnij"
+msgstr "Aplikacja autoryzacyjna aktywowana."
 
 #: templates/mfa/email/totp_activated_subject.txt:3
-#, fuzzy
-#| msgid "Authenticate"
 msgid "Authenticator App Activated"
-msgstr "Uwierzytelnij"
+msgstr "Aplikacja Autoryzacyjna Aktywowana"
 
 #: templates/mfa/email/totp_deactivated_message.txt:4
 #: templates/mfa/messages/totp_deactivated.txt:2
 msgid "Authenticator app deactivated."
-msgstr ""
+msgstr "Aplikacja autoryzacyjna dezaktywowana."
 
 #: templates/mfa/email/totp_deactivated_subject.txt:3
 msgid "Authenticator App Deactivated"
-msgstr ""
+msgstr "Aplikacja Autoryzacyjna Dezaktywowana"
 
 #: templates/mfa/index.html:14 templates/mfa/totp/base.html:4
-#, fuzzy
-#| msgid "Authenticate"
 msgid "Authenticator App"
-msgstr "Uwierzytelnij"
+msgstr "Aplikacja Autoryzacyjna"
 
 #: templates/mfa/index.html:18
 msgid "Authentication using an authenticator app is active."
-msgstr ""
+msgstr "Autoryzacja za pomocą aplikacji autoryzacyjnej jest aktywna."
 
 #: templates/mfa/index.html:20
 msgid "An authenticator app is not active."
-msgstr ""
+msgstr "Aplikacja autoryzacyjna jest nieaktywna."
 
 #: templates/mfa/index.html:28 templates/mfa/totp/deactivate_form.html:24
 msgid "Deactivate"
@@ -2889,9 +2922,12 @@ msgid ""
 msgid_plural ""
 "There are %(unused_count)s out of %(total_count)s recovery codes available."
 msgstr[0] ""
-msgstr[1] ""
+"Dostępny jest %(unused_count)s z %(total_count)s kodów odzyskiwania."
+msgstr[1] "Dostępne są %(unused_count)s z %(total_count)s kodów odzyskiwania."
 msgstr[2] ""
+"Dostępnych jest %(unused_count)s z %(total_count)s kodów odzyskiwania."
 msgstr[3] ""
+"Dostępnych jest %(unused_count)s z %(total_count)s kodów odzyskiwania."
 
 #: templates/mfa/index.html:50
 msgid "No recovery codes set up."
@@ -2911,23 +2947,23 @@ msgstr "Wygeneruj"
 
 #: templates/mfa/messages/recovery_codes_generated.txt:2
 msgid "A new set of recovery codes has been generated."
-msgstr ""
+msgstr "Nowy zestaw kodów odzyskiwania został wygenerowany."
 
 #: templates/mfa/reauthenticate.html:5
 msgid "Enter an authenticator code:"
-msgstr ""
+msgstr "Podaj kod autoryzacyjny:"
 
 #: templates/mfa/recovery_codes/generate.html:9
 msgid "You are about to generate a new set of recovery codes for your account."
-msgstr ""
+msgstr "Zaraz wygenerujesz nowy zestaw kodów odzyskiwania dla Twojego konta."
 
 #: templates/mfa/recovery_codes/generate.html:11
 msgid "This action will invalidate your existing codes."
-msgstr ""
+msgstr "Ta czynność spowoduje unieważnienie istniejących kodów."
 
 #: templates/mfa/recovery_codes/index.html:13
 msgid "Unused codes"
-msgstr ""
+msgstr "Niewykorzystane kody"
 
 #: templates/mfa/recovery_codes/index.html:25
 msgid "Download codes"
@@ -2948,6 +2984,9 @@ msgid ""
 "below with your authenticator app. Then, input the verification code "
 "generated by the app below."
 msgstr ""
+"Aby zabezpieczyć swoje konto za pomocą uwierzytelniania dwuskładnikowego, "
+"zeskanuj poniższy kod QR za pomocą aplikacji uwierzytelniającej. Następnie "
+"wprowadź poniżej kod weryfikacyjny wygenerowany przez aplikację."
 
 #: templates/mfa/totp/activate_form.html:21
 msgid "Authenticator secret"
@@ -2958,6 +2997,8 @@ msgid ""
 "You can store this secret and use it to reinstall your authenticator app at "
 "a later time."
 msgstr ""
+"Możesz przechować ten sekret i użyć go później do ponownej instalacji "
+"aplikacji uwierzytelniającej."
 
 #: templates/mfa/totp/deactivate_form.html:5
 #: templates/mfa/totp/deactivate_form.html:9
@@ -2969,6 +3010,8 @@ msgid ""
 "You are about to deactivate authenticator app based authentication. Are you "
 "sure?"
 msgstr ""
+"You are about to deactivate authenticator app based authentication. Jesteś "
+"pewien?"
 
 #: templates/socialaccount/authentication_error.html:5
 #: templates/socialaccount/authentication_error.html:8

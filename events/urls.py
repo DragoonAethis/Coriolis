@@ -12,6 +12,7 @@ from events.views.misc import (
     ticket_details,
     ticket_payment,
     ticket_payment_finalize,
+    ticket_post_registration,
 )
 from events.views.orgs import (
     BillingDetailsListView,
@@ -54,6 +55,11 @@ urlpatterns = [
         "event/<slug:slug>/ticket/<uuid:ticket_id>",
         ticket_details,
         name="ticket_details",
+    ),
+    path(
+        "event/<slug:slug>/ticket/<uuid:ticket_id>/thank_you",
+        ticket_post_registration,
+        name="ticket_post_registration",
     ),
     path(
         "event/<slug:slug>/ticket/<uuid:ticket_id>/update",

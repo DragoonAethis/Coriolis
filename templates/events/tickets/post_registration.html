@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load i18n events crispy_forms_tags %}
+
+{% block head_title %}{{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>{% translate "Thank you!" %}</h1>
+    <div>
+        <p>{% translate "Your ticket was reserved successfully." %}</p>
+
+        <div class="card mb-2">
+            <h5 class="card-header">{{ ticket.type.name }}</h5>
+            <div class="card-body">
+                <h5 class="card-title"><b>
+                    {{ ticket.get_code }}</b> {{ ticket.name }}
+                </h5>
+                <p class="card-text">
+                    {% translate "Status" %}: <b>{{ ticket.get_status_display }}</b>
+                    {% if ticket.status_deadline %}
+                        ({{ ticket.get_status_deadline_display }})
+                    {% endif %}
+                    <br>
+                    {% translate "Price" %}: <b>{{ ticket.get_price }}</b>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h3>{% translate "What next?" %}</h3>
+
+    {% if ticket.status == 'WAIT' %}
+        <div class="alert alert-warning" role="alert">
+            {% translate "You can pay for your ticket online after organizers approve your notes. You will receive an email when this happens." %}
+        </div>
+    {% endif %}
+
+    <div class="btn-toolbar btn-gaps">
+        {% if ticket.can_pay_online %}
+            <a href="{% url 'ticket_payment' event.slug ticket.id %}" class="btn btn-lg btn-primary">
+                {% translate "Pay for the ticket online" %}
+            </a>
+        {% endif %}
+        {% if can_purchase_tickets %}
+            <a class="btn btn-lg btn-primary" href="{% url 'ticket_picker' event.slug %}">
+                {% translate "Buy another ticket" %}
+            </a>
+        {% endif %}
+        <a class="btn btn-lg btn-primary" href="{% url 'ticket_details' event.slug ticket.id %}">
+            {% translate "Ticket details" %}
+        </a>
+        <a class="btn btn-lg btn-primary" href="{% url 'event_index' event.slug %}">
+            {% translate "Return to the event home" %}
+        </a>
+    </div>
+{% endblock %}

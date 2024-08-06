@@ -171,6 +171,28 @@ def ticket_details(request, slug, ticket_id):
     )
 
 
+def ticket_post_registration(request, slug, ticket_id):
+    event, ticket = get_event_and_ticket(slug, ticket_id)
+    now = datetime.datetime.now()
+    context = {
+        "event": event,
+        "ticket": ticket,
+    }
+
+    purchasables = (
+        TicketType.objects.filter(event=event)
+        .filter(self_registration=True)
+        .filter(tickets_remaining__gt=0)
+        .filter(registration_to__gte=now)
+        .filter(registration_from__lte=now)
+        .count()
+    )
+
+    context["can_purchase_tickets"] = purchasables > 0
+
+    return render(request, "events/tickets/post_registration.html", context)
+
+
 @login_required
 def ticket_payment(request, slug, ticket_id):
     event, ticket = get_event_and_ticket(slug, ticket_id)
