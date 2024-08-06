@@ -10,10 +10,15 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV DATABASE_URL="sqlite://:memory:"
 ENV REDIS_URL="redis://localhost:6379"
 
-RUN echo "Initial system configuration..." \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    echo "Initial system configuration..." \
+    && apt-get update \
+    && apt-get dist-upgrade -y \
+    && apt-get install -y curl gettext \
     && adduser --system --uid 1000 --group --shell /bin/bash --home ${APP_HOME} django \
     && pip install --upgrade pip \
-    && pip install poetry~=1.8.3
+    && pip install poetry==1.8.3
 
 USER django
 WORKDIR ${APP_HOME}
