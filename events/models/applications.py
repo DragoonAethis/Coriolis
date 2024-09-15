@@ -80,7 +80,7 @@ class Application(models.Model):
         CANCELLED = "CNCL", _("Cancelled")
         WAITING = "WAIT", _("Waiting for Organizers")
         RESERVE = "RSVE", _("On Reserve List")
-        APPROVED = "APRV", _("Approved")
+        APPROVED = "APRV", _("Accepted")
         REJECTED = "REJD", _("Rejected")
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -169,8 +169,8 @@ class Application(models.Model):
         if self.status == Application.ApplicationStatus.APPROVED:
             return "table-success"
         elif self.status in (
-            Application.ApplicationStatus.REJECTED,
-            Application.ApplicationStatus.CANCELLED,
+                Application.ApplicationStatus.REJECTED,
+                Application.ApplicationStatus.CANCELLED,
         ):
             return "table-danger"
         else:
