@@ -16,6 +16,6 @@ class EventsConfig(AppConfig):
         connect_signals()
 
         # Make sure all target media dirs are present when we need them:
-        for path in ["ticketavatars", "templates", "previews"]:
+        for path in ["ticketavatars", "previews"]:
             path = Path(os.path.join(settings.MEDIA_ROOT, path))
             path.mkdir(mode=0o755, parents=True, exist_ok=True)
