@@ -1,5 +1,6 @@
 import copy
 import logging
+import os
 from typing import Literal
 
 from django.forms.fields import Field, ChoiceField
@@ -46,7 +47,9 @@ def get_pretty_answer_value(answer: object, field: Field | None) -> str:
     if isinstance(field, ChoiceField):
         mapper = dict(field.choices)
 
-    if isinstance(answer, list):
+    if answer is None:
+        return "-"
+    elif isinstance(answer, list):
         remapped = [mapper.get(x) or x for x in answer]
         return ", ".join(remapped)
     elif isinstance(answer, bool):
@@ -54,13 +57,28 @@ def get_pretty_answer_value(answer: object, field: Field | None) -> str:
     elif isinstance(answer, dict):
         try_val = ComplexAnswerUnion.model_validate(answer)
         if isinstance(try_val, ComplexAnswerFileUpload):
+            basename = os.path.basename(try_val.filename)
+            can_download = True
+            extra_info = []
+
             if try_val.encrypted:
-                return f"{try_val.filename} ({_("file is encrypted")})"
+                extra_info.append(_("file is encrypted"))
+                can_download = False
 
-            return try_val.filename
+            if extra_info:
+                label = f"{basename} ({', '.join(extra_info)})"
+            else:
+                label = basename
 
-        logging.error(f"Unknown answer content type: {answer}")
-        return "-"
+            if can_download:
+                # TODO: Handle inline download links?
+                # Requires an auth view for this specific lookup.
+                pass
+
+            return label
+        else:
+            logging.error(f"Unknown answer content type: {answer}")
+            return "-"
     else:
         return str(mapper.get(answer) or answer)
 

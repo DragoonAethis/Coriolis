@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-13 23:10+0200\n"
-"PO-Revision-Date: 2024-10-13 23:11+0200\n"
+"POT-Creation-Date: 2024-10-14 00:16+0200\n"
+"PO-Revision-Date: 2024-10-14 00:16+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -144,15 +144,19 @@ msgstr "Miasto"
 msgid "Representative"
 msgstr "Reprezentant"
 
-#: events/dynaforms/utils.py:53 templates/events/crew/ticket.html:43
+#: events/dynaforms/utils.py:56 templates/events/crew/ticket.html:43
 msgid "Yes"
 msgstr "Tak"
 
-#: events/dynaforms/utils.py:53 templates/events/crew/ticket.html:49
+#: events/dynaforms/utils.py:56 templates/events/crew/ticket.html:49
 msgid "No"
 msgstr "Nie"
 
-#: events/dynaforms/utils.py:71
+#: events/dynaforms/utils.py:65
+msgid "file is encrypted"
+msgstr "plik jest zaszyfrowany"
+
+#: events/dynaforms/utils.py:89
 msgid "Unknown field"
 msgstr "Nieznane pole"
 
@@ -1412,14 +1416,14 @@ msgstr ""
 msgid "[System] The ticket was not paid for in time."
 msgstr "[System] Bilet nie został opłacony na czas."
 
-#: events/utils.py:50 events/utils.py:62
+#: events/utils.py:49 events/utils.py:61
 msgid ""
 "MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."
 msgstr ""
 "MAKSYMALNA LICZBA KODÓW BILETÓW OSIĄGNIĘTA! Skontaktuj się z organizatorami "
 "wydarzenia ws. tej wiadomości."
 
-#: events/utils.py:113
+#: events/utils.py:112
 msgid ""
 "Save it as PNG in an image editor of your choice (e.g. Krita) and upload it "
 "again."
@@ -1427,12 +1431,12 @@ msgstr ""
 "Zapisz go jako PNG w wybranym edytorze graficznym (np. Krita) i załaduj go "
 "ponownie."
 
-#: events/utils.py:119
+#: events/utils.py:118
 #, python-format
 msgid "Your ticket image could not be read. %(hint)s"
 msgstr "Twój obrazek biletu nie może zostać odczytany. %(hint)s"
 
-#: events/utils.py:129
+#: events/utils.py:128
 #, python-format
 msgid ""
 "Your ticket image was saved with color format %(mode)s which we cannot "
@@ -1442,7 +1446,7 @@ msgstr ""
 "możemy przechować. Został on przekonwertowany na RGB i może nie wyglądać "
 "poprawnie. %(hint)s"
 
-#: events/utils.py:139
+#: events/utils.py:138
 #, python-format
 msgid ""
 "Your ticket image was saved with color format %(mode)s which we cannot store "
@@ -1451,53 +1455,53 @@ msgstr ""
 "Twój obrazek biletu został zapisany z formatem kolorów %(mode)s którego nie "
 "możemy przechować ani automatycznie przekonwertować na RGB. %(hint)s"
 
-#: events/utils.py:154
+#: events/utils.py:153
 #, python-format
 msgid "Your ticket image could not be saved for an unknown reason. %(hint)s"
 msgstr ""
 "Twój obrazek biletu nie mógł zostać zapisany z nieznanej przyczyny. %(hint)s"
 
-#: events/views/applications.py:55
+#: events/views/applications.py:50
 msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
-#: events/views/applications.py:65
+#: events/views/applications.py:60
 msgid "You must buy a ticket for this event before submitting an application."
 msgstr "Musisz kupić bilet na to wydarzenie przed wysłaniem zgłoszenia."
 
-#: events/views/applications.py:70
+#: events/views/applications.py:65
 msgid "This application is not yet open. Come back later."
 msgstr ""
 "Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
 
-#: events/views/applications.py:73
+#: events/views/applications.py:68
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:117
+#: events/views/applications.py:112
 #, python-format
 msgid "Public key '%s' required for encryption was not found."
 msgstr "Klucz publiczny '%s' wymagany do szyfrowania nie został znaleziony."
 
-#: events/views/applications.py:125
+#: events/views/applications.py:120
 #, python-format
-msgid "Could not save the form: No public keys found for '%s'."
+msgid "Form template invalid: No public keys found for '%s'."
 msgstr ""
-"Nie można zapisać formularza: Nie znaleziono kluczy publicznych dla '%s'."
+"Szablon formularza niepoprawny: Nie znaleziono kluczy publicznych dla '%s'."
 
-#: events/views/applications.py:166
+#: events/views/applications.py:161
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:182
+#: events/views/applications.py:177
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/applications.py:200
+#: events/views/applications.py:195
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
