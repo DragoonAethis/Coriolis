@@ -1,3 +1,4 @@
+import re
 from abc import ABC
 from typing import Literal, Union, Annotated
 
@@ -10,6 +11,8 @@ from pydantic import field_validator, BaseModel, Field as PydanticField
 
 from events.dynaforms.utils import parse_text_type_transform
 from events.templatetags.events import render_markdown
+
+SIMPLE_IDENTIFIER_PATTERN = r"^[a-zA-Z0-9_-]+$"
 
 
 class DynaformNode(BaseModel, ABC):
@@ -172,6 +175,39 @@ class CheckboxField(ChoiceField):
     _widget: type[Widget] = widgets.CheckboxSelectMultiple
 
 
+class FileField(DynaformField):
+    kind: Literal["file"]
+    _field_class: type[Field] = fields.FileField
+    _widget: type[Widget] = widgets.ClearableFileInput
+
+    upload_prefix: str
+    encrypt: bool = False
+    pubkeys: list[str] = []
+
+    @field_validator("upload_prefix")
+    @classmethod
+    def upload_prefix_must_be_simple(cls, v):
+        if not re.fullmatch(SIMPLE_IDENTIFIER_PATTERN, v):
+            raise ValueError("may contain ASCII letters, numbers, dashes and underscores only")
+        return v
+
+    @field_validator("pubkeys")
+    @classmethod
+    def pubkeys_must_be_simple(cls, v):
+        for key in v:
+            if not re.fullmatch(SIMPLE_IDENTIFIER_PATTERN, key):
+                raise ValueError("pubkey name must contain ASCII letters, numbers, dashes and underscores only")
+        return v
+
+    def get_field_class_args(self) -> dict:
+        args = super().get_field_class_args()
+        for key in ("upload_prefix", "encrypt", "pubkeys"):
+            if key in args:
+                del args[key]
+
+        return args
+
+
 DynaformFieldUnion = Annotated[
     Union[  # noqa: UP007
         DynaformTemplate,
@@ -186,6 +222,7 @@ DynaformFieldUnion = Annotated[
         MultiSelectField,
         RadioField,
         CheckboxField,
+        FileField,
     ],
     PydanticField(discriminator="kind"),
 ]
@@ -229,6 +266,21 @@ class Dynaform(BaseModel):
 
         if duplicated_names:
             raise pydantic.ValidationError(f"Dynamic form has duplicated field names: {duplicated_names}")
+
+        return v
+
+    @field_validator("fields")
+    @classmethod
+    def check_encrypted_pubkeys(cls, v: dict[str, DynaformFieldUnion]):
+        for name, field in v.items():
+            if not isinstance(field, FileField):
+                continue
+
+            if not field.encrypt:
+                continue
+
+            if not field.pubkeys:
+                raise pydantic.ValidationError("Pubkeys must be provided if encryption is enabled.")
 
         return v
 

@@ -1,11 +1,14 @@
 import copy
+import logging
 from typing import Literal
 
 from django.forms.fields import Field, ChoiceField
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
+from events.dynaforms.answers import ComplexAnswerUnion
 from events.templatetags.events import render_markdown
+from .answers import ComplexAnswerFileUpload
 
 TextFormats = Literal["text", "html", "markdown"]
 
@@ -48,6 +51,16 @@ def get_pretty_answer_value(answer: object, field: Field | None) -> str:
         return ", ".join(remapped)
     elif isinstance(answer, bool):
         return _("Yes") if answer else _("No")
+    elif isinstance(answer, dict):
+        try_val = ComplexAnswerUnion.model_validate(answer)
+        if isinstance(try_val, ComplexAnswerFileUpload):
+            if try_val.encrypted:
+                return f"{try_val.filename} ({_("file is encrypted")})"
+
+            return try_val.filename
+
+        logging.error(f"Unknown answer content type: {answer}")
+        return "-"
     else:
         return str(mapper.get(answer) or answer)
 
