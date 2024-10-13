@@ -34,6 +34,7 @@ dsn = env.str("SENTRY_DSN", None)
 if not DEBUG and dsn:
     import sentry_sdk
     from sentry_sdk.integrations.django import DjangoIntegration
+    from sentry_sdk.integrations.dramatiq import DramatiqIntegration
 
     sentry_sdk.init(
         dsn=dsn,
