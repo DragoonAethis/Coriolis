@@ -17,7 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/coriolis" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/events" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Remote Python 3.12.4 Docker Compose (web)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Poetry (Coriolis)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
