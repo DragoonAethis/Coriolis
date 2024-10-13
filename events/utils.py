@@ -2,7 +2,6 @@ import hashlib
 import logging
 import os
 import random
-import uuid
 
 from PIL import Image
 from django.conf import settings
@@ -84,8 +83,8 @@ def get_ticket_purchase_rate_limit_keys(request: HttpRequest, ticket_type: "even
 
 
 def get_ticket_preview_path(instance: "events.models.TicketType", filename: str):
-    """Generates a new ticket preview path within MEDIA_ROOT."""
-    return f"templates/{instance.event.slug}/{uuid.uuid4()}.png"
+    """This function is deprecated but kept for migration backwards compatibility."""
+    return "/tmp/DEPRECATED-DO-NOT-USE"
 
 
 def delete_ticket_image(instance: "events.models.Ticket"):
