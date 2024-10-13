@@ -66,8 +66,9 @@ EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", False)
 SERVER_EMAIL = env.str("SERVER_EMAIL", "coriolis@localhost")
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-MEDIA_ROOT = env.str("MEDIA_ROOT", BASE_DIR / "media")
 MEDIA_URL = env.str("MEDIA_URL", "/media/")
+MEDIA_ROOT = env.str("MEDIA_ROOT", BASE_DIR / "media")
+PRIVATE_MEDIA_ROOT = env.str("PRIVATE_MEDIA_ROOT", BASE_DIR / "private")
 
 TICKET_RENDERER_MAX_JOBS = env.int("TICKET_RENDERER_MAX_JOBS", 3)
 
@@ -307,6 +308,12 @@ STATIC_ROOT = BASE_DIR / "static"
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "private": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {
+            "location": PRIVATE_MEDIA_ROOT,
+        },
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

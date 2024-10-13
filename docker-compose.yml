@@ -31,6 +31,7 @@ services:
       - mailpit
     volumes:
       - "coriolis_media:/app/media"
+      - "coriolis_private:/app/private"
     init: true
     env_file: .env
     restart: on-failure
@@ -72,3 +73,4 @@ volumes:
   postgres_data:
   valkey_data:
   coriolis_media:
+  coriolis_private:
