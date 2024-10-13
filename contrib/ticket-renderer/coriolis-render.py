@@ -7,6 +7,11 @@ from playwright.sync_api import sync_playwright
 TICKET_WIDTH = int(os.environ["TICKET_WIDTH"])
 TICKET_HEIGHT = int(os.environ["TICKET_HEIGHT"])
 
+TICKET_CROP_X = int(os.environ.get("TICKET_CROP_X", 0))
+TICKET_CROP_Y = int(os.environ.get("TICKET_CROP_Y", 0))
+TICKET_CROP_W = int(os.environ.get("TICKET_CROP_W", TICKET_WIDTH))
+TICKET_CROP_H = int(os.environ.get("TICKET_CROP_H", TICKET_HEIGHT))
+
 with open("render.html.j2") as f:
     env = Environment(autoescape=select_autoescape())
     template = env.from_string(f.read())
@@ -42,10 +47,10 @@ with sync_playwright() as p:
     page.screenshot(
         path="render.png",
         clip={
-            "x": 0,
-            "y": 0,
-            "width": TICKET_WIDTH,
-            "height": TICKET_HEIGHT,
+            "x": TICKET_CROP_X,
+            "y": TICKET_CROP_Y,
+            "width":  TICKET_CROP_W,
+            "height": TICKET_CROP_H,
         },
     )
 
