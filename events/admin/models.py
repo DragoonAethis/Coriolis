@@ -24,6 +24,7 @@ from events.models import (
     ApplicationType,
     EventOrg,
     EventOrgBillingDetails,
+    AgePublicKey,
 )
 
 # Ensure users go through the allauth workflow when logging into admin.
@@ -197,6 +198,13 @@ class ApplicationTypeAdminForm(ModelForm):
         mails = self.cleaned_data["org_emails"]
         validate_multiple_emails(mails)
         return mails
+
+
+@admin.register(AgePublicKey)
+class AgePublicKeyAdmin(admin.ModelAdmin):
+    list_display = ("name", "event")
+    list_filter = ("event", )
+    search_fields = ("name", )
 
 
 @admin.register(ApplicationType)

@@ -5,3 +5,4 @@ from .orgs import EventOrg, EventOrgBillingDetails
 from .payments import Payment
 from .tickets import TicketFlag, TicketType, Ticket, TicketStatus, TicketSource
 from .users import User
+from .uploads import AgePublicKey, AgePublicKeyType
