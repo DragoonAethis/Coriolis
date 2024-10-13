@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-15 22:02+0200\n"
-"PO-Revision-Date: 2024-09-15 22:02+0200\n"
+"POT-Creation-Date: 2024-10-13 23:10+0200\n"
+"PO-Revision-Date: 2024-10-13 23:11+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -28,34 +28,34 @@ msgstr "typ biletu"
 msgid "application type"
 msgstr "typ zgłoszenia"
 
-#: events/admin/models.py:169 events/admin/models.py:218
+#: events/admin/models.py:170 events/admin/models.py:226
 #: events/models/applications.py:92 events/models/tickets.py:230
 msgid "type"
 msgstr "typ"
 
-#: events/admin/models.py:183 events/models/payments.py:27
+#: events/admin/models.py:184 events/models/payments.py:27
 #: events/models/tickets.py:395
 msgid "ticket"
 msgstr "bilet"
 
-#: events/admin/models.py:226 events/admin/models.py:294
+#: events/admin/models.py:234 events/admin/models.py:302
 msgid "Download as XLSX"
 msgstr "Pobierz jako XLSX"
 
-#: events/admin/models.py:231 events/admin/models.py:298
+#: events/admin/models.py:239 events/admin/models.py:306
 msgid "ID"
 msgstr "ID"
 
-#: events/admin/models.py:232 templates/events_base/footer_admin.html:15
+#: events/admin/models.py:240 templates/events_base/footer_admin.html:15
 #: templates/events_base/footer_admin.html:31
 msgid "User"
 msgstr "Użytkownik"
 
-#: events/admin/models.py:233 templates/events_base/footer_admin.html:9
+#: events/admin/models.py:241 templates/events_base/footer_admin.html:9
 msgid "Event"
 msgstr "Wydarzenie"
 
-#: events/admin/models.py:234
+#: events/admin/models.py:242
 #: templates/events/applications/application_details.html:15
 #: templates/events/crew/ticket.html:106
 #: templates/events/emails/thank_you.html:7
@@ -63,7 +63,7 @@ msgstr "Wydarzenie"
 msgid "Type"
 msgstr "Typ"
 
-#: events/admin/models.py:235
+#: events/admin/models.py:243
 #: templates/events/applications/application_details.html:19
 #: templates/events/crew/ticket.html:107
 #: templates/events/emails/application_changed.html:6
@@ -73,7 +73,7 @@ msgstr "Typ"
 msgid "Status"
 msgstr "Status"
 
-#: events/admin/models.py:236 events/admin/models.py:300
+#: events/admin/models.py:244 events/admin/models.py:308
 #: templates/events/crew/list.html:14 templates/events/crew/orgs/list.html:14
 #: templates/events/crew/orgs/tickets.html:14
 #: templates/events/crew/ticket.html:28 templates/events/orgs/billing.html:12
@@ -81,7 +81,7 @@ msgstr "Status"
 msgid "Name"
 msgstr "Nazwa"
 
-#: events/admin/models.py:237
+#: events/admin/models.py:245
 #: templates/events/applications/application_details.html:27
 #: templates/events/crew/list.html:16
 #: templates/events/crew/orgs/tickets.html:16
@@ -91,7 +91,7 @@ msgstr "Nazwa"
 msgid "Phone"
 msgstr "Telefon"
 
-#: events/admin/models.py:238
+#: events/admin/models.py:246
 #: templates/events/applications/application_details.html:23
 #: templates/events/crew/list.html:15
 #: templates/events/crew/orgs/tickets.html:15
@@ -101,7 +101,7 @@ msgstr "Telefon"
 msgid "Email"
 msgstr "Email"
 
-#: events/admin/models.py:239 events/forms/applications.py:45
+#: events/admin/models.py:247 events/forms/applications.py:45
 #: templates/events/applications/application_details.html:39
 #: templates/events/crew/ticket.html:85
 #: templates/events/emails/application_changed.html:7
@@ -111,48 +111,48 @@ msgstr "Email"
 msgid "Notes"
 msgstr "Notatki"
 
-#: events/admin/models.py:240
+#: events/admin/models.py:248
 #: templates/events/applications/application_details.html:45
 msgid "Org Notes"
 msgstr "Notatki Organizatorów"
 
-#: events/admin/models.py:299
+#: events/admin/models.py:307
 msgid "Event Org"
 msgstr "Organizacja Wydarzenia"
 
-#: events/admin/models.py:301 templates/events/orgs/billing.html:13
+#: events/admin/models.py:309 templates/events/orgs/billing.html:13
 msgid "Tax ID"
 msgstr "Identyfikator podatkowy"
 
-#: events/admin/models.py:302 events/forms/orgs.py:23
+#: events/admin/models.py:310 events/forms/orgs.py:23
 #: templates/events/orgs/billing.html:14
 msgid "Address"
 msgstr "Adres"
 
-#: events/admin/models.py:303 events/forms/orgs.py:24
+#: events/admin/models.py:311 events/forms/orgs.py:24
 #: templates/events/orgs/billing.html:15
 msgid "Postcode"
 msgstr "Kod pocztowy"
 
-#: events/admin/models.py:304 events/forms/orgs.py:25
+#: events/admin/models.py:312 events/forms/orgs.py:25
 #: templates/events/orgs/billing.html:16
 msgid "City"
 msgstr "Miasto"
 
-#: events/admin/models.py:305 templates/events/crew/orgs/list.html:18
+#: events/admin/models.py:313 templates/events/crew/orgs/list.html:18
 #: templates/events/orgs/billing.html:17
 msgid "Representative"
 msgstr "Reprezentant"
 
-#: events/dynaforms/utils.py:50 templates/events/crew/ticket.html:43
+#: events/dynaforms/utils.py:53 templates/events/crew/ticket.html:43
 msgid "Yes"
 msgstr "Tak"
 
-#: events/dynaforms/utils.py:50 templates/events/crew/ticket.html:49
+#: events/dynaforms/utils.py:53 templates/events/crew/ticket.html:49
 msgid "No"
 msgstr "Nie"
 
-#: events/dynaforms/utils.py:58
+#: events/dynaforms/utils.py:71
 msgid "Unknown field"
 msgstr "Nieznane pole"
 
@@ -394,7 +394,7 @@ msgstr "Anuluj bilet"
 #: events/models/notifications.py:32 events/models/orgs.py:10
 #: events/models/orgs.py:65 events/models/payments.py:26
 #: events/models/tickets.py:30 events/models/tickets.py:53
-#: events/models/tickets.py:229
+#: events/models/tickets.py:229 events/models/uploads.py:17
 msgid "event"
 msgstr "wydarzenie"
 
@@ -403,7 +403,7 @@ msgstr "wydarzenie"
 #: events/models/events.py:187 events/models/notifications.py:35
 #: events/models/orgs.py:12 events/models/orgs.py:74
 #: events/models/tickets.py:31 events/models/tickets.py:54
-#: events/models/tickets.py:305
+#: events/models/tickets.py:305 events/models/uploads.py:20
 msgid "name"
 msgstr "nazwa"
 
@@ -1349,6 +1349,53 @@ msgstr "jeśli nie zostanie opłacony, bilet zostanie anulowany %(timestamp)s"
 msgid "status will change %(timestamp)s"
 msgstr "status zmieni się %(timestamp)s"
 
+#: events/models/uploads.py:12
+msgid "Age-native X25519 Public Key (age1...)"
+msgstr "Natywny Klucz Publiczny Age X25519 (age1...)"
+
+#: events/models/uploads.py:13
+msgid "SSH Ed25519 Public Key (ssh-ed25519 ...)"
+msgstr "Klucz Publiczny SSH Ed25519 (ssh-ed25519...)"
+
+#: events/models/uploads.py:21
+msgid "Friendly public key name to be used as its unique identifier."
+msgstr ""
+"Przyjazna nazwa klucza publicznego używana jako jego unikalny identyfikator."
+
+#: events/models/uploads.py:25
+msgid ""
+"The name may contain ASCII letters, numbers, underscores and dashes only."
+msgstr ""
+"Nazwa może zawierać jedynie litery i cyfry ASCII, podkreślniki i myślniki."
+
+#: events/models/uploads.py:30
+msgid "kind"
+msgstr "rodzaj"
+
+#: events/models/uploads.py:34
+msgid "pubkey"
+msgstr "klucz publiczny"
+
+#: events/models/uploads.py:36
+msgid "The public key to use for cryptographic operations."
+msgstr "Klucz publiczny do użycia w operacjach kryptograficznych."
+
+#: events/models/uploads.py:40
+msgid "Age public key"
+msgstr "klucz publiczny Age"
+
+#: events/models/uploads.py:41
+msgid "Age public keys"
+msgstr "klucze publiczne Age"
+
+#: events/models/uploads.py:52
+msgid "Age-native X25519 keys must begin with 'age1'."
+msgstr "Natywne klucze publiczne Age X25519 muszą zaczynać się od 'age1'."
+
+#: events/models/uploads.py:55
+msgid "SSH Ed25519 keys must begin with 'ssh-ed25519'."
+msgstr "Klucze publiczne SSH Ed25519 muszą zaczynać się od 'ssh-ed25519'."
+
 #: events/models/users.py:11
 msgid "exempt from 2FA"
 msgstr "wyłączony z 2FA"
@@ -1410,36 +1457,47 @@ msgid "Your ticket image could not be saved for an unknown reason. %(hint)s"
 msgstr ""
 "Twój obrazek biletu nie mógł zostać zapisany z nieznanej przyczyny. %(hint)s"
 
-#: events/views/applications.py:41
+#: events/views/applications.py:55
 msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
-#: events/views/applications.py:51
+#: events/views/applications.py:65
 msgid "You must buy a ticket for this event before submitting an application."
 msgstr "Musisz kupić bilet na to wydarzenie przed wysłaniem zgłoszenia."
 
-#: events/views/applications.py:56
+#: events/views/applications.py:70
 msgid "This application is not yet open. Come back later."
 msgstr ""
 "Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
 
-#: events/views/applications.py:59
+#: events/views/applications.py:73
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:104
+#: events/views/applications.py:117
+#, python-format
+msgid "Public key '%s' required for encryption was not found."
+msgstr "Klucz publiczny '%s' wymagany do szyfrowania nie został znaleziony."
+
+#: events/views/applications.py:125
+#, python-format
+msgid "Could not save the form: No public keys found for '%s'."
+msgstr ""
+"Nie można zapisać formularza: Nie znaleziono kluczy publicznych dla '%s'."
+
+#: events/views/applications.py:166
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:120
+#: events/views/applications.py:182
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/applications.py:138
+#: events/views/applications.py:200
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
