@@ -10,7 +10,3 @@ poetry run python manage.py compilemessages
 poetry run python manage.py collectstatic --no-input
 sudo chown -R www-data:www-data .
 sudo systemctl restart nginx.service coriolis.service coriolis-crontab.service coriolis-dramatiq.service
-
-pushd /app/contrib/ticket-renderer
-./build-image.sh r2024
-popd
