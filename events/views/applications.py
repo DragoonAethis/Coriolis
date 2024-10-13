@@ -1,7 +1,13 @@
 import datetime
+import os
+import uuid
 
+import pyrage
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
+from django.core.files.storage import storages
+from django.core.files.uploadedfile import UploadedFile
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
@@ -9,10 +15,13 @@ from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import FormView
+from sentry_sdk import capture_exception
 
+from events.dynaforms.answers import ComplexAnswerFileUpload
+from events.dynaforms.fields import FileField as DynaFileField
 from events.dynaforms.utils import get_pretty_answers
 from events.forms.applications import ApplicationDynaform
-from events.models import Event, ApplicationType, Application, Ticket
+from events.models import Event, ApplicationType, Application, Ticket, AgePublicKey
 from events.templatetags.events import render_markdown
 
 
@@ -81,6 +90,54 @@ class ApplicationSubmissionView(FormView):
 
         prefix = form.dynaform.get_prefix()
         answers = {key.removeprefix(prefix): data for key, data in prefixed_answers.items()}
+
+        # Process file uploads
+        for upload_name, uploaded_file in answers.items():
+            if not isinstance(uploaded_file, UploadedFile):
+                continue
+
+            field_config: DynaFileField = form.dynaform.fields[upload_name]
+            uploaded_file: UploadedFile
+
+            _name, extension = os.path.splitext(uploaded_file.name)
+            extension = extension.strip().strip(".").lower()
+            if not (len(extension) > 0 and extension.isalnum()):
+                extension = "unknown"
+
+            if field_config.encrypt:
+                recipients, errors = AgePublicKey.resolve_pubkeys(self.event, field_config.pubkeys)
+                for key, exc in errors.items():
+                    if isinstance(exc, AgePublicKey.DoesNotExist):
+                        messages.error(
+                            self.request, _("Public key '%s' required for encryption was not found.") % (key,)
+                        )
+                    else:
+                        # Something went wrong, let Sentry handle this quietly until it happens...
+                        capture_exception(exc)
+
+                if not recipients:
+                    messages.error(
+                        self.request, _("Form template invalid: No public keys found for '%s'.") % (upload_name,)
+                    )
+
+                # TODO: Stream the output to a temporary file on disk, not ContentFile.
+                # While we limit the file upload size anyways, this has potential to break things...
+                encrypted_file = ContentFile(b"")
+                pyrage.encrypt_io(uploaded_file.file, encrypted_file, recipients=recipients)
+
+                extension = f"{extension}.age"
+                file_to_save = encrypted_file
+            else:
+                file_to_save = uploaded_file.file
+
+            filename = f"{self.event.slug}/{field_config.upload_prefix or upload_name}/{uuid.uuid4()}.{extension}"
+            real_filename = storages["private"].save(filename, file_to_save)
+
+            answers[upload_name] = ComplexAnswerFileUpload(
+                filename=real_filename,
+                encrypted=field_config.encrypt,
+            ).model_dump()
+            prefixed_answers[f"{prefix}{upload_name}"] = answers[upload_name]
 
         application = Application(
             user=self.request.user,
