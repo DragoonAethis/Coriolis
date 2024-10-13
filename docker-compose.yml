@@ -1,7 +1,7 @@
 name: coriolis
 services:
   postgres:
-    image: postgres:16.3-bookworm
+    image: postgres:16.4-bookworm
     env_file: ".env"
     ports:
       - "127.0.0.1:5432:5432"
@@ -9,7 +9,7 @@ services:
       - "postgres_data:/var/lib/postgresql/data"
   valkey:
     # Used to be Redis, but...
-    image: valkey/valkey:7.2-bookworm
+    image: valkey/valkey:8.0-bookworm
     env_file: ".env"
     ports:
       - "127.0.0.1:6379:6379"
@@ -19,6 +19,7 @@ services:
   mailpit:
     image: axllent/mailpit:latest
     ports:
+      - "127.0.0.1:1025:1025"
       - "127.0.0.1:8025:8025"
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
