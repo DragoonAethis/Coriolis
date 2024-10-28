@@ -5,6 +5,7 @@ from typing import Literal
 
 from django.forms.fields import Field, ChoiceField
 from django.utils.safestring import mark_safe
+from django.utils.translation import get_language, get_supported_language_variant
 from django.utils.translation import gettext as _
 
 from events.dynaforms.answers import ComplexAnswerUnion
@@ -20,7 +21,7 @@ def transform_text(text: str, text_type: TextFormats) -> str:
     elif text_type == "html":
         return mark_safe(text)  # noqa: S308
     elif text_type == "markdown":
-        return render_markdown(text)
+        return render_markdown(text, strip_wrapper=True)
     else:
         raise ValueError(f"Text type '{text_type}' is not one of text/html/markdown!")
 
@@ -39,6 +40,32 @@ def parse_text_type_transform(config: dict, text_key: str, type_key: str) -> Non
         return
 
     config[text_key] = transform_text(text, text_type)
+
+
+def translate_text(text_languages: dict[str, str]) -> str:
+    if len(text_languages) < 1:
+        # Translatable label dict is empty or not a valid dict?
+        return _("MISSING TRANSLATION!")
+
+    current_lang_code = get_supported_language_variant(get_language())
+    replacement_str = text_languages.get(current_lang_code)
+
+    if not replacement_str:
+        # Get the first listed language, whatever it is:
+        replacement_str = next(iter(text_languages.values()))
+
+    return replacement_str
+    pass
+
+
+def parse_translation_transform(config: dict, text_key: str) -> None:
+    if not (text_languages := config.get(text_key)):
+        return
+
+    if not isinstance(text_languages, dict):
+        return  # Nothing to do - translatable label must be a dict[str, str]
+
+    config[text_key] = translate_text(text_languages)
 
 
 def get_pretty_answer_value(answer: object, field: Field | None) -> str:

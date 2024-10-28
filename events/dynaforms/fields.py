@@ -9,8 +9,14 @@ from django.forms.widgets import Widget
 from phonenumber_field import formfields as pnfields
 from pydantic import field_validator, BaseModel, Field as PydanticField
 
-from events.dynaforms.utils import parse_text_type_transform
+from events.dynaforms.utils import (
+    translate_text,
+    parse_text_type_transform,
+    parse_translation_transform,
+)
 from events.templatetags.events import render_markdown
+
+type LocalizableLabel = str | dict[str, str]
 
 SIMPLE_IDENTIFIER_PATTERN = r"^[a-zA-Z0-9_-]+$"
 
@@ -41,11 +47,15 @@ class DynaformNode(BaseModel, ABC):
 class DynaformTemplate(DynaformNode):
     kind: Literal["template"]
 
-    content: str
+    content: LocalizableLabel
     content_type: Literal["markdown", "html"] = "html"
 
     def get_layout_object(self, name: str) -> HTML:
         content = self.content
+
+        if isinstance(content, dict):
+            content = translate_text(content)
+
         if self.content_type == "markdown":
             content = render_markdown(content, strip_wrapper=True)
 
@@ -53,10 +63,10 @@ class DynaformTemplate(DynaformNode):
 
 
 class DynaformField(DynaformNode, ABC):
-    label: str
+    label: LocalizableLabel
     label_type: Literal["text", "markdown", "html"] = "text"
 
-    help_text: str | None = None
+    help_text: LocalizableLabel | None = None
     help_text_type: Literal["text", "markdown", "html"] = "text"
 
     required: bool = True
@@ -69,6 +79,9 @@ class DynaformField(DynaformNode, ABC):
 
         if self._widget is not None:
             args["widget"] = self._widget
+
+        parse_translation_transform(args, "label")
+        parse_translation_transform(args, "help_text")
 
         parse_text_type_transform(args, "label", "label_type")
         parse_text_type_transform(args, "help_text", "help_text_type")
@@ -136,13 +149,21 @@ class CounterField(DynaformField):
 
 
 class ChoiceField(DynaformField, ABC):
-    choices: dict[str, str]
+    choices: dict[str, LocalizableLabel]
 
     @field_validator("choices")
     @classmethod
-    def must_have_any_choices(cls, v):
-        if len(v) == 0:
+    def validate_translate_choices(cls, v):
+        if not isinstance(v, dict):
+            raise ValueError("choices must be a dictionary")
+
+        if len(v) < 1:
             raise ValueError("must have any choices")
+
+        for choice_key, choice_label in v.items():
+            if isinstance(choice_label, dict):
+                v[choice_key] = translate_text(choice_label)
+
         return v
 
     def get_field_class_args(self) -> dict:
