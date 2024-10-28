@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import re
 import socket
 from pathlib import Path
 
@@ -30,6 +31,29 @@ SECRET_KEY = env.str("SECRET_KEY", "what-a-horribly-insecure-world-is-this")
 ENVIRONMENT = env.str("ENVIRONMENT", "development")
 DEBUG = env.bool("DEBUG", True)
 
+
+def sentry_frontpage_spam_downsampler(context):
+    transaction = context.get("transaction_context")
+    wsgi_env = context.get("wsgi_environ")
+
+    if not transaction or not wsgi_env:
+        return True
+
+    uri = wsgi_env.get("RAW_URI")
+    assertions = [
+        transaction.get("op") == "http.server",
+        transaction.get("origin") == "auto.http.django",
+        wsgi_env.get("REQUEST_METHOD") == "GET",
+        wsgi_env.get("QUERY_STRING") == "",
+        (uri == "/") or re.fullmatch("[a-zA-Z0-9_-]+", uri.removeprefix("/event/").removesuffix("/")),
+    ]
+
+    if all(assertions):
+        return 0.05
+
+    return True
+
+
 dsn = env.str("SENTRY_DSN", None)
 if not DEBUG and dsn:
     import sentry_sdk
@@ -44,6 +68,7 @@ if not DEBUG and dsn:
             DramatiqIntegration(),
         ],
         send_default_pii=env.bool("SENTRY_SEND_PII", True),  # Send user details, etc?
+        traces_sampler=sentry_frontpage_spam_downsampler,
         traces_sample_rate=env.float("SENTRY_SAMPLE_RATE", 1.0),  # Ratio of transactions to monitor for perf issues.
         profiles_sample_rate=1.0,
     )
