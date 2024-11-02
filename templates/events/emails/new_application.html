@@ -1,13 +1,14 @@
 {% load i18n %}
 {% blocktranslate with event=event.name %}New application for {{ event }}:{% endblocktranslate %}
 {{ application.name|safe }} ({{ application.type.name }})
-
 {% autoescape off %}{# This is a plain-text form, do not autoescape text here. #}
 {% if answers %}{% for label, answer in answers.items %}
-    - {{ label }}: {{ answer }}
+- {{ label }}: {{ answer }}
 {% endfor %}{% endif %}
 - {% translate "Phone" %}: {{ application.phone }}
+
 - {% translate "Email" %}: {{ application.email }}
+
 - {% translate "Notes" %}: {{ application.notes }}
 {% endautoescape %}
 
