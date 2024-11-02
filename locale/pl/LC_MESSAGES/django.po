@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 17:20+0100\n"
-"PO-Revision-Date: 2024-11-02 17:21+0100\n"
+"POT-Creation-Date: 2024-11-02 19:36+0100\n"
+"PO-Revision-Date: 2024-11-02 19:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1490,30 +1490,42 @@ msgstr ""
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:112
+#: events/views/applications.py:74
+msgid ""
+"The cloned application does not exist, you cannot access it or is not valid "
+"for this form."
+msgstr ""
+"Klonowane zgłoszenie nie istnieje, nie możesz go otworzyć lub nie jest "
+"poprawne dla tego formularza."
+
+#: events/views/applications.py:106
+msgid "The form was prefilled with data based on another application: "
+msgstr "Formularz został wypełniony danymi na podstawie innego zgłoszenia: "
+
+#: events/views/applications.py:157
 #, python-format
 msgid "Public key '%s' required for encryption was not found."
 msgstr "Klucz publiczny '%s' wymagany do szyfrowania nie został znaleziony."
 
-#: events/views/applications.py:120
+#: events/views/applications.py:165
 #, python-format
 msgid "Form template invalid: No public keys found for '%s'."
 msgstr ""
 "Szablon formularza niepoprawny: Nie znaleziono kluczy publicznych dla '%s'."
 
-#: events/views/applications.py:161
+#: events/views/applications.py:206
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:177
+#: events/views/applications.py:222
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/applications.py:195
+#: events/views/applications.py:240
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
@@ -2305,7 +2317,7 @@ msgid "Applications"
 msgstr "Zgłoszenia"
 
 #: templates/events/applications/application_form.html:10
-#: templates/events/index.html:178
+#: templates/events/index.html:180
 msgid "Deadline:"
 msgstr "Deadline:"
 
@@ -2538,7 +2550,7 @@ msgstr "Zapłać Online"
 msgid "Pay after approval"
 msgstr "Zapłać po akceptacji"
 
-#: templates/events/index.html:110 templates/events/index.html:152
+#: templates/events/index.html:110 templates/events/index.html:154
 #: templates/events/tickets/fragments/ticket_personalization_modal.html:32
 #: templates/events_base/footer_language.html:28
 #: templates/mfa/authenticate.html:27
@@ -2562,19 +2574,23 @@ msgstr ""
 msgid "Your applications"
 msgstr "Twoje zgłoszenia"
 
-#: templates/events/index.html:159
+#: templates/events/index.html:152
+msgid "Clone"
+msgstr "Sklonuj"
+
+#: templates/events/index.html:161
 msgid "You have no applications for this event."
 msgstr "Nie masz żadnych zgłoszeń na to wydarzenie."
 
-#: templates/events/index.html:175
+#: templates/events/index.html:177
 msgid "Ticket required"
 msgstr "Bilet wymagany"
 
-#: templates/events/index.html:185
+#: templates/events/index.html:187
 msgid "Applications for this event are closed."
 msgstr "Zgłoszenia na to wydarzenie są zamknięte."
 
-#: templates/events/index.html:192
+#: templates/events/index.html:194
 msgid "Sign in to buy or manage tickets"
 msgstr "Zaloguj się aby kupić lub zarządzać biletami"
 

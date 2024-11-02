@@ -69,6 +69,51 @@ class ApplicationSubmissionView(FormView):
 
         return True, None
 
+    def get_cloned_initial_data(self, application_id: str) -> dict:
+        initial = {}
+        err_msg = _("The cloned application does not exist, you cannot access it or is not valid for this form.")
+        try:
+            app = Application.objects.get(id=application_id)
+        except Application.DoesNotExist:
+            messages.warning(self.request, err_msg)
+            return initial
+
+        if app.type_id != self.type.id:
+            messages.warning(self.request, err_msg)
+            return initial
+
+        user_is_privileged = self.request.user.is_staff and self.request.user.has_perm("event.edit_application")
+
+        if not (user_is_privileged or app.user == self.request.user):
+            messages.warning(self.request, err_msg)
+            return initial
+
+        initial["email"] = app.email
+        initial["phone"] = app.phone
+
+        # Dynamic form answers:
+        df_prefix = f"df__{ApplicationDynaform.DYNAFORM_NAME}__"
+        for key, value in app.answers.items():
+            if not value:
+                continue
+
+            if isinstance(value, dict):
+                continue  # Complex answer types - nope out!
+
+            initial[df_prefix + key] = value
+
+        # fmt: off
+        messages.info(self.request, _("The form was prefilled with data based on another application: ") + app.name)
+        return initial
+
+    def get_initial(self):
+        initial = super().get_initial()
+
+        if cloned_application_id := self.request.GET.get("clone_application", None):
+            initial.update(self.get_cloned_initial_data(cloned_application_id))
+
+        return initial
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update(

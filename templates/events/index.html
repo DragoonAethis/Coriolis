@@ -148,9 +148,8 @@
                                          aria-label="Toolbar with application actions">
                                         <a href="{% url 'application_details' event.slug application.id %}"
                                            class="btn btn-primary me-2">{% translate "Details" %}</a>
-                                        {% if ticket.status == 'WAIT' %}
-                                            <a href="#" class="btn btn-danger me-2">{% translate "Cancel" %}</a>
-                                        {% endif %}
+                                        <a href="{% url 'application_form' event.slug application.type_id %}?clone_application={{ application.id }}"
+                                           class="btn btn-secondary me-2">{% translate "Clone" %}</a>
                                     </div>
                                 </div>
                             </div>
