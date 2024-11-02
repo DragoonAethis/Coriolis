@@ -172,7 +172,10 @@
                                           {% endif %}">
                                     {{ type.button_label }}
                                     {% if type.requires_valid_ticket %}
-                                        <span class="badge rounded-pill text-bg-warning">{% translate "Ticket required" %}</span>
+                                        <span class="badge text-bg-warning">{% translate "Ticket required" %}</span>
+                                    {% endif %}
+                                    {% if type.display_deadline %}
+                                        <span class="badge text-bg-danger">{% translate "Deadline:" %} {{ type.registration_to.date }}</span>
                                     {% endif %}
                                 </a>
                             {% endfor %}

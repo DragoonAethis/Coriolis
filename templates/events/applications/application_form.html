@@ -1,11 +1,14 @@
 {% extends 'base.html' %}
-{% load i18n crispy_forms_tags events %}
+{% load i18n crispy_forms_tags events humanize %}
 
 {% block head_title %}{% translate "Applications" %} - {{ event.name }}{% endblock %}
 {% block brand_title %}{{ event.name }}{% endblock %}
 
 {% block content %}
     <h1>{{ event.name }}: {{ application_type.name }}</h1>
+    {% if application_type.display_deadline %}
+        <h4 class="pulse-red">{% translate "Deadline:" %} {{ application_type.registration_to }} ({{ application_type.registration_to | naturaltime }})</h4>
+    {% endif %}
     <div>{% render_markdown application_type.description %}</div>
     {% crispy form %}
 {% endblock %}

@@ -36,6 +36,21 @@
     border-color: #b5b6b7;
 }
 
+@keyframes pulse-red {
+    0%   { color: var(--bs-heading-color); }
+    5%   { color: var(--bs-danger); }
+    10%  { color: var(--bs-heading-color); }
+    15%  { color: var(--bs-danger); }
+    20%  { color: var(--bs-heading-color); }
+    25%  { color: var(--bs-danger); }
+    100% { color: var(--bs-heading-color); }
+}
+
+.pulse-red {
+    animation-name: pulse-red;
+    animation-duration: 12s;
+}
+
 .btn-gaps {
     gap: 0.3rem 0.3rem;
 }
