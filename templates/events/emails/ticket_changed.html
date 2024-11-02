@@ -4,6 +4,6 @@
 {% translate "Your ticket details" %}:
 - {% translate "Ticket code" %}: {{ ticket.get_code }}
 - {% translate "Status" %}: {{ ticket.get_status_display }}
-- {% translate "Notes" %}: {{ ticket.notes }}
+- {% translate "Notes" %}: {{ ticket.notes|safe }}
 
 {% translate "If you have any questions or issues, feel free to reply to this email." %}
