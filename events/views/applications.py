@@ -131,7 +131,7 @@ class ApplicationSubmissionView(FormView):
         return context
 
     def form_invalid(self, form):
-        messages.error(self.request, _("Your application was not submitted - scroll down to see errors."))
+        messages.error(self.request, _("YOUR APPLICATION WAS *NOT* SUBMITTED - scroll down to see errors."))
         return super().form_invalid(form)
 
     def form_valid(self, form: ApplicationDynaform):
