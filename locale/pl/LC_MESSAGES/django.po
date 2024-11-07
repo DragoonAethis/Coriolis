@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-02 19:36+0100\n"
-"PO-Revision-Date: 2024-11-02 19:36+0100\n"
+"POT-Creation-Date: 2024-11-07 12:42+0100\n"
+"PO-Revision-Date: 2024-11-07 12:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -96,7 +96,7 @@ msgstr "Telefon"
 #: templates/events/crew/list.html:15
 #: templates/events/crew/orgs/tickets.html:15
 #: templates/events/crew/ticket.html:29
-#: templates/events/emails/new_application.html:9
+#: templates/events/emails/new_application.html:10
 #: templates/events/tickets/details.html:26
 msgid "Email"
 msgstr "Email"
@@ -105,7 +105,7 @@ msgstr "Email"
 #: templates/events/applications/application_details.html:39
 #: templates/events/crew/ticket.html:85
 #: templates/events/emails/application_changed.html:7
-#: templates/events/emails/new_application.html:10
+#: templates/events/emails/new_application.html:12
 #: templates/events/emails/ticket_changed.html:7
 #: templates/events/tickets/details.html:36
 msgid "Notes"
@@ -1502,30 +1502,35 @@ msgstr ""
 msgid "The form was prefilled with data based on another application: "
 msgstr "Formularz został wypełniony danymi na podstawie innego zgłoszenia: "
 
-#: events/views/applications.py:157
+#: events/views/applications.py:134
+msgid "Your application was not submitted - scroll down to see errors."
+msgstr ""
+"Twoje zgłoszenie nie zostało wysłane - przewiń w dół aby zobaczyć błędy."
+
+#: events/views/applications.py:161
 #, python-format
 msgid "Public key '%s' required for encryption was not found."
 msgstr "Klucz publiczny '%s' wymagany do szyfrowania nie został znaleziony."
 
-#: events/views/applications.py:165
+#: events/views/applications.py:169
 #, python-format
 msgid "Form template invalid: No public keys found for '%s'."
 msgstr ""
 "Szablon formularza niepoprawny: Nie znaleziono kluczy publicznych dla '%s'."
 
-#: events/views/applications.py:206
+#: events/views/applications.py:210
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:222
+#: events/views/applications.py:226
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/applications.py:240
+#: events/views/applications.py:244
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
@@ -2317,7 +2322,7 @@ msgid "Applications"
 msgstr "Zgłoszenia"
 
 #: templates/events/applications/application_form.html:10
-#: templates/events/index.html:180
+#: templates/events/index.html:177
 msgid "Deadline:"
 msgstr "Deadline:"
 
@@ -2435,7 +2440,7 @@ msgid "Org notes"
 msgstr "Notatki organizatorów"
 
 #: templates/events/emails/application_changed.html:10
-#: templates/events/emails/new_application.html:12
+#: templates/events/emails/new_application.html:15
 #: templates/events/emails/thank_you.html:15
 #: templates/events/emails/ticket_changed.html:9
 msgid "If you have any questions or issues, feel free to reply to this email."
@@ -2550,7 +2555,7 @@ msgstr "Zapłać Online"
 msgid "Pay after approval"
 msgstr "Zapłać po akceptacji"
 
-#: templates/events/index.html:110 templates/events/index.html:154
+#: templates/events/index.html:110
 #: templates/events/tickets/fragments/ticket_personalization_modal.html:32
 #: templates/events_base/footer_language.html:28
 #: templates/mfa/authenticate.html:27
@@ -2578,19 +2583,19 @@ msgstr "Twoje zgłoszenia"
 msgid "Clone"
 msgstr "Sklonuj"
 
-#: templates/events/index.html:161
+#: templates/events/index.html:158
 msgid "You have no applications for this event."
 msgstr "Nie masz żadnych zgłoszeń na to wydarzenie."
 
-#: templates/events/index.html:177
+#: templates/events/index.html:174
 msgid "Ticket required"
 msgstr "Bilet wymagany"
 
-#: templates/events/index.html:187
+#: templates/events/index.html:184
 msgid "Applications for this event are closed."
 msgstr "Zgłoszenia na to wydarzenie są zamknięte."
 
-#: templates/events/index.html:194
+#: templates/events/index.html:191
 msgid "Sign in to buy or manage tickets"
 msgstr "Zaloguj się aby kupić lub zarządzać biletami"
 

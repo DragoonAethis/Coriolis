@@ -130,6 +130,10 @@ class ApplicationSubmissionView(FormView):
         context.update({"event": self.event, "application_type": self.type})
         return context
 
+    def form_invalid(self, form):
+        messages.error(self.request, _("Your application was not submitted - scroll down to see errors."))
+        return super().form_invalid(form)
+
     def form_valid(self, form: ApplicationDynaform):
         prefixed_answers = {key: form.cleaned_data[key] for key in form.dynamic_fields.keys()}
 
