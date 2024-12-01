@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-07 13:24+0100\n"
-"PO-Revision-Date: 2024-11-07 13:25+0100\n"
+"POT-Creation-Date: 2024-12-01 15:40+0100\n"
+"PO-Revision-Date: 2024-12-01 15:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -2596,8 +2596,8 @@ msgid "Applications for this event are closed."
 msgstr "Zgłoszenia na to wydarzenie są zamknięte."
 
 #: templates/events/index.html:191
-msgid "Sign in to buy or manage tickets"
-msgstr "Zaloguj się aby kupić lub zarządzać biletami"
+msgid "Sign in to see tickets, applications and organizations"
+msgstr "Zaloguj się aby zobaczyć bilety, zgłoszenia i organizacje"
 
 #: templates/events/mod_queue/depersonalize.html:4
 #: templates/events/mod_queue/depersonalize.html:10
@@ -3174,6 +3174,9 @@ msgstr ""
 "Zaraz użyjesz konta\n"
 "        %(provider_name)s aby zalogować się na stronę\n"
 "        %(site_name)s. Uzupełnij poniższy formularz:"
+
+#~ msgid "Sign in to buy or manage tickets"
+#~ msgstr "Zaloguj się aby kupić lub zarządzać biletami"
 
 #~ msgid "Approved"
 #~ msgstr "Przyjęte"
