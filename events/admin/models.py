@@ -144,7 +144,7 @@ class TicketAdmin(admin.ModelAdmin):
         "created",
     )
     list_filter = ("event", EventContextBasedTicketTypeFilter, "status", "source", "created")
-    search_fields = ("code", "name", "email", "phone", "nickname", "notes")
+    search_fields = ("code", "name", "email", "phone", "nickname", "notes", "private_notes", "accreditation_notes")
     formfield_overrides = {
         models.ManyToManyField: {"widget": CheckboxSelectMultiple},
     }
@@ -203,8 +203,8 @@ class ApplicationTypeAdminForm(ModelForm):
 @admin.register(AgePublicKey)
 class AgePublicKeyAdmin(admin.ModelAdmin):
     list_display = ("name", "event")
-    list_filter = ("event", )
-    search_fields = ("name", )
+    list_filter = ("event",)
+    search_fields = ("name",)
 
 
 @admin.register(ApplicationType)
