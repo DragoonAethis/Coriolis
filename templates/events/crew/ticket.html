@@ -15,10 +15,12 @@
                         <h1 class="m-0">{{ horrible_error }}</h1>
                     </div>
                 </div>
-                <a href="{% url 'crew_index' event.slug %}" class="btn btn-primary btn btn-lg btn-primary w-100">
+                <a href="{% url 'crew_index' event.slug %}" class="btn btn-primary btn btn-lg btn-primary w-100 mb-2">
                     {% translate "Return to Accreditation" %}
                 </a>
-            {% else %}
+            {% endif %}
+
+            {% if event.force_display_ticket_details_in_crew_panel or not horrible_error %}
                 <div class="card mb-2 text-bg-warning">
                     <div class="card-header">
                         {% translate "Confirm identity" %}:
@@ -90,9 +92,11 @@
                     </div>
                 {% endif %}
 
-                <hr>
+                {% if not horrible_error %}
+                    <hr>
 
-                {% crispy form %}
+                    {% crispy form %}
+                {% endif %}
             {% endif %}
 
             <hr>

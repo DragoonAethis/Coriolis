@@ -45,7 +45,11 @@ class Event(models.Model):
 
     date_from = models.DateTimeField(verbose_name=_("date from"))
     date_to = models.DateTimeField(verbose_name=_("date to"))
-    active = models.BooleanField(default=True, verbose_name=_("active"))
+    active = models.BooleanField(
+        default=True,
+        verbose_name=_("event active"),
+        help_text=_("If disabled, hides this event from the front page picker."),
+    )
 
     payment_enabled = models.BooleanField(
         default=True,
@@ -56,6 +60,14 @@ class Event(models.Model):
         default=True,
         verbose_name=_("emails enabled"),
         help_text=_("Toggles emails for some status changes on this event."),
+    )
+    force_display_ticket_details_in_crew_panel = models.BooleanField(
+        default=False,
+        verbose_name=_("force display ticket details in crew panel"),
+        help_text=_(
+            "Force display all data for tickets, even if they cannot be acted upon. "
+            "Useful for quick data lookups before the event."
+        ),
     )
 
     ticket_renderer = models.ForeignKey(
