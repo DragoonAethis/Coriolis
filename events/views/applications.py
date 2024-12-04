@@ -88,8 +88,10 @@ class ApplicationSubmissionView(FormView):
             messages.warning(self.request, err_msg)
             return initial
 
+        # Non-dynamic fields:
         initial["email"] = app.email
-        initial["phone"] = app.phone
+        initial["phone"] = app.phone.as_e164
+        initial["notes"] = app.notes
 
         # Dynamic form answers:
         df_prefix = f"df__{ApplicationDynaform.DYNAFORM_NAME}__"
