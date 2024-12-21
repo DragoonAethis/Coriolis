@@ -55,6 +55,7 @@ class EventAdmin(admin.ModelAdmin):
 
 @admin.register(EventPage)
 class EventPageAdmin(admin.ModelAdmin):
+    list_select_related = ("event",)
     list_display = ("name", "event", "slug", "hidden")
     list_filter = ("event", "page_type", "hidden")
     search_fields = ("name", "slug")
@@ -70,6 +71,7 @@ class TicketRendererAdmin(admin.ModelAdmin):
 
 @admin.register(NotificationChannel)
 class NotificationChannelAdmin(admin.ModelAdmin):
+    list_select_related = ("event",)
     list_display = ("name", "event", "enabled", "source", "target")
     list_filter = ("event", "source", "target")
     search_fields = ("name",)
@@ -78,6 +80,7 @@ class NotificationChannelAdmin(admin.ModelAdmin):
 
 @admin.register(TicketFlag)
 class TicketFlagAdmin(admin.ModelAdmin):
+    list_select_related = ("event",)
     list_display = ("name", "event", "description")
     list_filter = ("event",)
     search_fields = ("name",)
@@ -97,6 +100,7 @@ class TicketTypeAdminForm(ModelForm):
 
 @admin.register(TicketType)
 class TicketTypeAdmin(admin.ModelAdmin):
+    list_select_related = ("event",)
     form = TicketTypeAdminForm
     list_display = (
         "name",
@@ -134,6 +138,7 @@ class TicketAdminForm(ModelForm):
 class TicketAdmin(admin.ModelAdmin):
     form = TicketAdminForm
     readonly_fields = ("created", "updated")
+    list_select_related = ("event", "type")
     list_display = (
         "__str__",
         "event",
@@ -145,6 +150,7 @@ class TicketAdmin(admin.ModelAdmin):
     )
     list_filter = ("event", EventContextBasedTicketTypeFilter, "status", "source", "created")
     search_fields = ("code", "name", "email", "phone", "nickname", "notes", "private_notes", "accreditation_notes")
+    autocomplete_fields = ("user", "type", "org", "original_type", "customization_approved_by")
     formfield_overrides = {
         models.ManyToManyField: {"widget": CheckboxSelectMultiple},
     }
@@ -178,8 +184,10 @@ class TicketAdmin(admin.ModelAdmin):
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
+    list_select_related = ("user", "event", "ticket", "ticket__type")
     list_display = ("id", "transaction_id", "total", "status", "event", "ticket_link")
     list_filter = ("event", "status")
+    autocomplete_fields = ("user", "ticket")
 
     @admin.display(description=_("ticket"))
     def ticket_link(self, obj):
@@ -202,6 +210,7 @@ class ApplicationTypeAdminForm(ModelForm):
 
 @admin.register(AgePublicKey)
 class AgePublicKeyAdmin(admin.ModelAdmin):
+    list_select_related = ("event",)
     list_display = ("name", "event")
     list_filter = ("event",)
     search_fields = ("name",)
@@ -210,6 +219,7 @@ class AgePublicKeyAdmin(admin.ModelAdmin):
 @admin.register(ApplicationType)
 class ApplicationTypeAdmin(admin.ModelAdmin):
     form = ApplicationTypeAdminForm
+    list_select_related = ("event",)
     list_display = ("name", "event", "slug", "registration_from", "registration_to")
     list_filter = ("event",)
     search_fields = ("name",)
@@ -218,9 +228,11 @@ class ApplicationTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
+    list_select_related = ("event", "type")
     list_display = ("name", "event", "type_link", "status", "phone", "email", "created")
     list_filter = ("event", EventContextBasedApplicationTypeFilter, "status")
     search_fields = ("name", "email", "phone")
+    autocomplete_fields = ("user", "type")
     actions = ("download_as_xlsx",)
 
     @admin.display(description=_("type"))
@@ -287,16 +299,20 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 @admin.register(EventOrg)
 class EventOrgAdmin(admin.ModelAdmin):
+    list_select_related = ("event", "owner", "source_application", "target_ticket_type")
     list_display = ("name", "event", "owner", "source_application", "target_ticket_type", "target_ticket_count")
     list_filter = ("event", "source_application")
     search_fields = ("name", "owner__email", "source_application__name")
+    autocomplete_fields = ("owner", "source_application", "target_ticket_type")
 
 
 @admin.register(EventOrgBillingDetails)
 class EventOrgBillingDetailsAdmin(admin.ModelAdmin):
+    list_select_related = ("event", "event_org")
     list_display = ("name", "event", "event_org", "representative")
     list_filter = ("event",)
     search_fields = ("event_org__name", "name", "address", "city", "representative")
+    autocomplete_fields = ("event_org",)
     actions = ("download_as_xlsx",)
 
     @admin.action(description=_("Download as XLSX"))
