@@ -46,6 +46,7 @@ django-dramatiq-email = "^1.4.3"
 dramatiq-crontab = { extras = ["redis", "sentry"], version = "^1.0.8" }
 django-storages = "^1.14.4"
 django-lifecycle = "^1.2.4"
+pyinstrument = "^5.0.0"
 
 # Vendored due to project-specific hacks and fixes:
 #django-payments-przelewy24 = { git = "https://github.com/ar4s/django-payments-przelewy24" }

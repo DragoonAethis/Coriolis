@@ -10,12 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-import re
 import socket
+from functools import partial
 from pathlib import Path
 
 import environ
 
+from events.perftools import sentry_frontpage_spam_downsampler, show_pyinstrument
 from payments_przelewy24.config import Przelewy24Config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,29 +32,7 @@ SECRET_KEY = env.str("SECRET_KEY", "what-a-horribly-insecure-world-is-this")
 ENVIRONMENT = env.str("ENVIRONMENT", "development")
 DEBUG = env.bool("DEBUG", True)
 
-
-def sentry_frontpage_spam_downsampler(context):
-    transaction = context.get("transaction_context")
-    wsgi_env = context.get("wsgi_environ")
-
-    if not transaction or not wsgi_env:
-        return True
-
-    uri = wsgi_env.get("RAW_URI")
-    assertions = [
-        transaction.get("op") == "http.server",
-        transaction.get("origin") == "auto.http.django",
-        wsgi_env.get("REQUEST_METHOD") == "GET",
-        wsgi_env.get("QUERY_STRING") == "",
-        (uri == "/") or re.fullmatch("[a-zA-Z0-9_-]+", uri.removeprefix("/event/").removesuffix("/")),
-    ]
-
-    if all(assertions):
-        return 0.05
-
-    return True
-
-
+# Unattended tracing and profiling:
 dsn = env.str("SENTRY_DSN", None)
 if not DEBUG and dsn:
     import sentry_sdk
@@ -72,6 +51,9 @@ if not DEBUG and dsn:
         traces_sample_rate=env.float("SENTRY_SAMPLE_RATE", 1.0),  # Ratio of transactions to monitor for perf issues.
         profiles_sample_rate=1.0,
     )
+
+# Attended profiling:
+PYINSTRUMENT_SHOW_CALLBACK = partial(show_pyinstrument, env.list("PYINSTRUMENT_PASSWORDS", default=None))
 
 # Database: https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {"default": env.db()}
@@ -197,6 +179,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "pyinstrument.middleware.ProfilerMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
     "events.middleware.ForceDefaultLanguageMiddleware",
