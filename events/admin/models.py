@@ -199,6 +199,14 @@ class PaymentAdmin(admin.ModelAdmin):
         )
 
 
+@admin.register(AgePublicKey)
+class AgePublicKeyAdmin(admin.ModelAdmin):
+    list_select_related = ("event",)
+    list_display = ("name", "event")
+    list_filter = ("event",)
+    search_fields = ("name",)
+
+
 class ApplicationTypeAdminForm(ModelForm):
     def clean_org_emails(self):
         from events.utils import validate_multiple_emails
@@ -206,14 +214,6 @@ class ApplicationTypeAdminForm(ModelForm):
         mails = self.cleaned_data["org_emails"]
         validate_multiple_emails(mails)
         return mails
-
-
-@admin.register(AgePublicKey)
-class AgePublicKeyAdmin(admin.ModelAdmin):
-    list_select_related = ("event",)
-    list_display = ("name", "event")
-    list_filter = ("event",)
-    search_fields = ("name",)
 
 
 @admin.register(ApplicationType)
