@@ -145,7 +145,7 @@
                                     <p class="card-text">{% translate "Status" %}:
                                         <b>{{ application.get_status_display }}</b></p>
                                     {% if application.banner %}
-                                        <div class="alert alert-primary">{% render_markdown application.banner strip_wrapper=True %}</div>
+                                        <div class="alert alert-primary application-banner">{% render_markdown application.banner strip_wrapper=True %}</div>
                                     {% endif %}
                                     <div class="btn-toolbar" role="toolbar"
                                          aria-label="Toolbar with application actions">
