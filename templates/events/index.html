@@ -24,7 +24,7 @@
             {% if request.user.is_authenticated %}
                 {% for org in orgs %}
                     <div class="coriolis-org coriolis-org-{{ org.id }} mb-4">
-                        <h2><i class="bi bi-people-fill"></i> {{ org.name }}</h2>
+                        <h2><i class="bi bi-people-fill"></i> {% translate "Organization" %}: {{ org.name }}</h2>
 
                         <!-- Orgs -->
                         <div class="row">
