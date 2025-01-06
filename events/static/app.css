@@ -82,6 +82,10 @@
     --bs-text-opacity: 1;
 }
 
+.application-banner > :last-child {
+    margin-bottom: 0;
+}
+
 .environment-staging header,
 .environment-development header {
     background: repeating-linear-gradient(
