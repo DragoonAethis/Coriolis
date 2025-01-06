@@ -229,11 +229,23 @@ class ApplicationTypeAdmin(admin.ModelAdmin):
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
     list_select_related = ("event", "type")
-    list_display = ("name", "event", "type_link", "status", "phone", "email", "created")
+    list_display = ("name", "label", "event", "type_link", "status", "phone", "email", "ticket_code", "created")
     list_filter = ("event", EventContextBasedApplicationTypeFilter, "status")
     search_fields = ("name", "email", "phone")
-    autocomplete_fields = ("user", "type")
+    autocomplete_fields = ("user", "type", "ticket")
     actions = ("download_as_xlsx",)
+
+    @admin.display(description=_("label"))
+    def label(self, obj):
+        selector = obj.type.label_selector
+        if not selector:
+            return "-"
+
+        maybe_label = obj.answers.get(selector)
+        if maybe_label:
+            return maybe_label
+
+        return "-"
 
     @admin.display(description=_("type"))
     def type_link(self, obj):
@@ -241,6 +253,17 @@ class ApplicationAdmin(admin.ModelAdmin):
             '<a href="{}">{}</a>',
             mark_safe(reverse("admin:events_applicationtype_change", args=(obj.type_id,))),  # noqa: S308
             obj.type.name,
+        )
+
+    @admin.display(description=_("ticket"))
+    def ticket_code(self, obj):
+        if not obj.ticket:
+            return "-"
+
+        return format_html(
+            '<a href="{}">{}</a>',
+            mark_safe(reverse("admin:events_ticket_change", args=(obj.ticket_id,))),  # noqa: S308
+            obj.ticket.get_code(),
         )
 
     @admin.action(description=_("Download as XLSX"))
@@ -256,6 +279,8 @@ class ApplicationAdmin(admin.ModelAdmin):
             (_("Name"), lambda a: a.name),
             (_("Phone"), lambda a: str(a.phone)),
             (_("Email"), lambda a: a.email),
+            (_("Ticket"), lambda a: "-" if not a.ticket_id else a.ticket.get_code()),
+            (_("Ticket ID"), lambda a: "-" if not a.ticket_id else str(a.ticket_id)),
             (_("Notes"), lambda a: a.notes),
             (_("Org Notes"), lambda a: a.org_notes),
         ]

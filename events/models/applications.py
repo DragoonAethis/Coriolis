@@ -9,6 +9,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from events.models.events import Event
 from events.models.users import User
+from events.models.tickets import Ticket
 from events.utils import validate_multiple_emails
 
 
@@ -27,6 +28,14 @@ class ApplicationType(models.Model):
             "be a comma-separated list of emails."
         ),
         validators=[validate_multiple_emails],
+    )
+    label_selector = models.CharField(
+        blank=True,
+        max_length=128,
+        verbose_name=_("label selector"),
+        help_text=_(
+            "Selects the answer field from the application template to display as a Label in the Application admin."
+        ),
     )
 
     registration_from = models.DateTimeField(
@@ -105,6 +114,10 @@ class Application(models.Model):
     name = models.CharField(max_length=256, verbose_name=_("name"))
     phone = PhoneNumberField(verbose_name=_("phone"))
     email = models.EmailField(verbose_name=_("email"))
+    ticket = models.ForeignKey(
+        Ticket, blank=True, null=True, default=None, on_delete=models.RESTRICT, verbose_name=_("ticket")
+    )
+
     answers = models.JSONField(verbose_name=_("answers"))
 
     notes = models.TextField(
