@@ -122,6 +122,11 @@ class Application(models.Model):
         verbose_name=_("private notes"),
         help_text=_("Private org notes, visible only in the admin panel"),
     )
+    banner = models.TextField(
+        blank=True,
+        verbose_name=_("banner"),
+        help_text=_("Banner/MOTD (uses Markdown), visible to users on the front page and in the application details"),
+    )
 
     class Meta:
         verbose_name = _("application")
@@ -174,8 +179,8 @@ class Application(models.Model):
         if self.status == Application.ApplicationStatus.APPROVED:
             return "table-success"
         elif self.status in (
-                Application.ApplicationStatus.REJECTED,
-                Application.ApplicationStatus.CANCELLED,
+            Application.ApplicationStatus.REJECTED,
+            Application.ApplicationStatus.CANCELLED,
         ):
             return "table-danger"
         else:

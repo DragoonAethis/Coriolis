@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n events %}
 
 {% block head_title %}{% trans "Application details" %}{% endblock %}
 {% block brand_title %}{{ event.name }}{% endblock %}
@@ -9,6 +9,9 @@
         <div class="col">
             <h5 class="text-muted">{% translate "Application details" %}</h5>
             <h1>{{ application.name }}</h1>
+            {% if application.banner %}
+                <div class="alert alert-primary">{% render_markdown application.banner strip_wrapper=True %}</div>
+            {% endif %}
             <table class="table table-sm table-striped table-bordered table-hover application-table">
                 <tbody>
                 <tr>
