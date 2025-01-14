@@ -17,7 +17,7 @@ classifiers = [
 python = "^3.12"
 ruff = "^0.8.1"
 sentry-sdk = "^2.19.0"
-Django = "^4.2.16"
+Django = "^4.2.18"
 django-upgrade = "^1.22.1"
 django-allauth = { extras = ["mfa", "openid", "socialaccount"], version = "^64.2.1" }
 django-allauth-2fa = "^0.11.1"
