@@ -36,6 +36,15 @@
     border-color: #b5b6b7;
 }
 
+.border-primary-on-hover:hover {
+    --bs-border-opacity: 1;
+    border-color: rgba(var(--bs-primary-rgb),var(--bs-border-opacity)) !important;
+}
+
+.mod-queue-checkbox-ctr-pad {
+    padding: .375rem .575rem;
+}
+
 @keyframes pulse-red {
     0%   { color: var(--bs-heading-color); }
     5%   { color: var(--bs-danger); }

@@ -2,7 +2,11 @@ from django.urls import path
 
 from events.views.applications import ApplicationSubmissionView, application_details
 from events.views.crew.accreditation import CrewIndexNewView, CrewExistingTicketView, CrewFindTicketView
-from events.views.crew.mod_queue import TicketModQueueListView, TicketModQueueDepersonalizeFormView
+from events.views.crew.mod_queue import (
+    TicketModQueueListView,
+    TicketModQueueDepersonalizeFormView,
+    mod_queue_approve_selected,
+)
 from events.views.crew.orgs import CrewEventOrgListView, CrewEventOrgTicketListView
 from events.views.misc import (
     index,
@@ -120,6 +124,11 @@ urlpatterns = [
         "event/<slug:slug>/mod_queue",
         TicketModQueueListView.as_view(),
         name="mod_queue_list",
+    ),
+    path(
+        "event/<slug:slug>/mod_queue/approve",
+        mod_queue_approve_selected,
+        name="mod_queue_approve",
     ),
     path(
         "event/<slug:slug>/mod_queue/<uuid:ticket_id>/depersonalize",

@@ -6,109 +6,143 @@
 {% block content %}
     <h1>
         {% translate "Mod Queue" %}
-        ({{ page_obj.start_index }}-{{ page_obj.end_index }} of {{ page_obj.paginator.count }})
+        ({{ page_obj.start_index }}-{{ page_obj.end_index }} / {{ page_obj.paginator.count }})
+        <div class="btn-group btn-group-lg">
+            <a href="{% url "mod_queue_list" event.slug %}?all=1" class="btn btn-primary {% if show_all_tickets %}active{% endif %}">{% translate "All" %}</a>
+            <a href="{% url "mod_queue_list" event.slug %}?all=0" class="btn btn-primary {% if not show_all_tickets %}active{% endif %}">{% translate "Unreviewed" %}</a>
+        </div>
     </h1>
-    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mb-3">
-        {% for ticket in object_list %}
-            <div class="col text-center">
-                <div class="card mb-1">
-                    <div class="card-header">
-                        <div class="btn-group btn-group-sm font-monospace" role="group"
-                             aria-label="Ticket mod tools">
-                            <a class="btn btn-{% if ticket.customization_approved_by %}success{% else %}primary{% endif %}"
-                               href="{{ ticket.get_absolute_url }}" title="{% translate "User ticket page" %}"
-                               role="button">
-                                <i class="bi bi-{% if ticket.customization_approved_by %}check{% else %}clock{% endif %}"></i>
-                                {{ ticket.get_code }}
+    <form action="{% url "mod_queue_approve" event.slug %}?page={{ page_obj.number }}&all={{ show_all_tickets }}" method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <input type="hidden" name="event" value="{{ event.slug }}">
+        <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mb-3">
+            {% for ticket in object_list %}
+                <div class="col text-center">
+                    <div class="card border-primary-on-hover border-2 mb-1">
+                        <div class="card-header {% if ticket.customization_approved_by %}text-bg-success{% endif %}">
+                            <span>
+                                {% if ticket.nickname %}
+                                    {{ ticket.nickname }}
+                                {% else %}
+                                    <i>{% translate "No nickname" %}</i>
+                                {% endif %}
+                            </span>
+                            {% if ticket.customization_approved_by %}
+                                <br>
+                                <small><i class="bi bi-person-badge-fill"></i> {{ ticket.customization_approved_by }}</small>
+
+                                <br>
+                                <small><i class="bi bi-clock"></i> {{ ticket.customization_approved_on }}</small>
+                            {% endif %}
+                        </div>
+
+                        {% if ticket.get_preview_url %}
+                            <a href="{{ ticket.get_absolute_url }}">
+                                <img src="{{ ticket.get_preview_url }}" class="card-img rounded-0 img-fluid">
                             </a>
-                            <a class="btn btn-success" href="{% url 'crew_existing_ticket' event.slug ticket.id %}"
-                               title="{% translate "Crew ticket page" %}" role="button">
-                                <i class="bi bi-wrench"></i>
+                        {% else %}
+                            <a href="{{ ticket.get_absolute_url }}" class="btn btn-primary rounded-top-0">
+                                {% translate "No Image/Preview" %}
                             </a>
-                            <a class="btn btn-warning" href="{% url 'admin:events_ticket_change' ticket.id %}"
-                               title="{% translate "Admin ticket page" %}" role="button">
-                                <i class="bi bi-wrench"></i>
-                            </a>
-                            <a class="btn btn-danger"
-                               href="{% url "mod_queue_depersonalize" slug=event.slug ticket_id=ticket.id %}"
-                               title="{% translate "Depersonalize ticket" %}" role="button">
-                                <i class="bi bi-radioactive"></i>
-                            </a>
+                        {% endif %}
+
+                        <div class="card-footer">
+                            <div class="btn-group btn-group-sm font-monospace">
+                                <div class="input-group-text mod-queue-checkbox-ctr-pad">
+                                    <input type="checkbox"
+                                           class="form-check-input mt-0"
+                                           {% if not ticket.customization_approved_by %}
+                                               name="approval.{{ forloop.counter0 }}"
+                                               value="{{ ticket.id }}"
+                                               aria-label="{% translate "Approve customization for this ticket" %}"
+                                           {% else %}
+                                               aria-label="{% translate "Ticket already approved" %}"
+                                               disabled
+                                           {% endif %}
+                                           checked>
+                                </div>
+                                <a class="btn btn-{% if ticket.customization_approved_by %}success{% else %}primary{% endif %}"
+                                   href="{{ ticket.get_absolute_url }}" title="{% translate "User ticket page" %}"
+                                   role="button">
+                                    <i class="bi bi-{% if ticket.customization_approved_by %}check{% else %}clock{% endif %}"></i>
+                                    {{ ticket.get_code }}
+                                </a>
+                            </div>
+
+                            <div class="btn-group btn-group-sm font-monospace" role="group"
+                                 aria-label="Ticket mod tools">
+
+                                <a class="btn btn-success" href="{% url 'crew_existing_ticket' event.slug ticket.id %}"
+                                   title="{% translate "Crew ticket page" %}" role="button">
+                                    <i class="bi bi-wrench"></i>
+                                </a>
+                                <a class="btn btn-warning" href="{% url 'admin:events_ticket_change' ticket.id %}"
+                                   title="{% translate "Admin ticket page" %}" role="button">
+                                    <i class="bi bi-wrench"></i>
+                                </a>
+                                <a class="btn btn-danger"
+                                   href="{% url "mod_queue_depersonalize" slug=event.slug ticket_id=ticket.id %}"
+                                   title="{% translate "Depersonalize ticket" %}" role="button">
+                                    <i class="bi bi-radioactive"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="card-body border-bottom">
-                        <span>
-                            {% if ticket.nickname %}
-                                {{ ticket.nickname }}
-                            {% else %}
-                                <i>{% translate "No nickname" %}</i>
-                            {% endif %}
-                        </span><br>
-                    </div>
-
-                    {% if ticket.get_preview_url %}
-                        <a href="{{ ticket.get_absolute_url }}">
-                            <img src="{{ ticket.get_preview_url }}" class="card-img-bottom img-fluid">
-                        </a>
-                    {% else %}
-                        <a href="{{ ticket.get_absolute_url }}" class="btn btn-primary rounded-top-0">
-                            {% translate "No Image/Preview" %}
-                        </a>
-                    {% endif %}
                 </div>
-
-            </div>
-        {% empty %}
-            <div class="col">
-                <h2>{% translate "Mod queue is empty." %}</h2>
-            </div>
-        {% endfor %}
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <nav aria-label="{% translate "Pages" %}">
-                <ul class="pagination justify-content-center">
-                    {% if page_obj.has_previous %}
-                        {% if page_obj.previous_page_number != 1 %}
-                            <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
-                        {% endif %}
-                        {% if page_obj.previous_page_number >= 3 %}
-                            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                        {% endif %}
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
-                        </li>
-                    {% endif %}
-
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
-                    </li>
-
-                    {% if page_obj.has_next %}
-                        <li class="page-item">
-                            <a class="page-link"
-                               href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
-                        </li>
-
-                        {% if page_obj.next_page_number|add:1 < page_obj.paginator.num_pages %}
-                            <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                        {% endif %}
-
-                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
-                            <li class="page-item">
-                                <a class="page-link"
-                                   href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
-                            </li>
-                        {% endif %}
-                    {% endif %}
-                </ul>
-            </nav>
-
+            {% empty %}
+                <div class="col">
+                    <h2>{% translate "Mod queue is empty." %}</h2>
+                </div>
+            {% endfor %}
         </div>
 
+        <div class="row">
+            <div class="col">
+                <nav aria-label="{% translate "Actions and pages" %}">
+                    <nav class="btn-toolbar" aria-label="{% translate "Actions and pages" %}">
+                        <div class="btn-group me-2" role="group" aria-label="{% translate "Actions" %}">
+                            <button class="btn btn-success" type="submit">{% translate "Approve selected" %}</button>
+                        </div>
+                        <ul class="btn-group pagination mb-0" role="group" aria-label="{% translate "Pages" %}">
+                            {% if page_obj.has_previous %}
+                                {% if page_obj.previous_page_number != 1 %}
+                                    <li class="page-item"><a class="page-link" href="?page=1&all={{ show_all_tickets }}">1</a></li>
+                                {% endif %}
+                                {% if page_obj.previous_page_number >= 3 %}
+                                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                                {% endif %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ page_obj.previous_page_number }}&all={{ show_all_tickets }}">{{ page_obj.previous_page_number }}</a>
+                                </li>
+                            {% endif %}
 
-    </div>
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="?page={{ page_obj.number }}&all={{ show_all_tickets }}">{{ page_obj.number }}</a>
+                            </li>
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ page_obj.next_page_number }}&all={{ show_all_tickets }}">{{ page_obj.next_page_number }}</a>
+                                </li>
+
+                                {% if page_obj.next_page_number|add:1 < page_obj.paginator.num_pages %}
+                                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                                {% endif %}
+
+                                {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page={{ page_obj.paginator.num_pages }}&all={{ show_all_tickets }}">{{ page_obj.paginator.num_pages }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </nav>
+            </div>
+        </div>
+    </form>
 {% endblock %}

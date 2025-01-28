@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-06 23:23+0100\n"
-"PO-Revision-Date: 2025-01-06 23:23+0100\n"
+"POT-Creation-Date: 2025-01-28 02:14+0100\n"
+"PO-Revision-Date: 2025-01-28 02:25+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1646,13 +1646,17 @@ msgstr "Ten bilet został anulowany."
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
-#: events/views/crew/mod_queue.py:66
+#: events/views/crew/mod_queue.py:76
 msgid "Something went wrong... try again?"
 msgstr "Coś poszło nie tak... spróbuj ponownie?"
 
-#: events/views/crew/mod_queue.py:83
+#: events/views/crew/mod_queue.py:93
 msgid "Ticket depersonalized."
 msgstr "Bilet zdepersonalizowany."
+
+#: events/views/crew/mod_queue.py:100
+msgid "This form accepts POST requests only."
+msgstr "Ten formularz przyjmuje tylko żądania POST."
 
 #: events/views/errors.py:12 events/views/errors.py:16
 msgid "You don't have permissions to access this page."
@@ -2665,7 +2669,7 @@ msgstr "Zaloguj się aby zobaczyć bilety, zgłoszenia i organizacje"
 
 #: templates/events/mod_queue/depersonalize.html:4
 #: templates/events/mod_queue/depersonalize.html:10
-#: templates/events/mod_queue/list.html:34
+#: templates/events/mod_queue/list.html:85
 msgid "Depersonalize ticket"
 msgstr "Zdepersonalizuj bilet"
 
@@ -2675,31 +2679,60 @@ msgstr "Zdepersonalizuj bilet"
 msgid "Mod Queue"
 msgstr "Kolejka Moderacji"
 
-#: templates/events/mod_queue/list.html:19
-msgid "User ticket page"
-msgstr "Strona biletu użytkownika"
+#: templates/events/mod_queue/list.html:11
+msgid "All"
+msgstr "Wszystko"
 
-#: templates/events/mod_queue/list.html:25
-msgid "Crew ticket page"
-msgstr "Strona biletu zespołu"
+#: templates/events/mod_queue/list.html:12
+msgid "Unreviewed"
+msgstr "Nieprzejrzane"
 
-#: templates/events/mod_queue/list.html:29
-msgid "Admin ticket page"
-msgstr "Strona biletu admina"
-
-#: templates/events/mod_queue/list.html:45
+#: templates/events/mod_queue/list.html:27
 msgid "No nickname"
 msgstr "Brak ksywki"
 
-#: templates/events/mod_queue/list.html:56
+#: templates/events/mod_queue/list.html:45
 msgid "No Image/Preview"
 msgstr "Brak obrazka/podglądu"
 
-#: templates/events/mod_queue/list.html:64
+#: templates/events/mod_queue/list.html:57
+msgid "Approve customization for this ticket"
+msgstr "Zatwierdź personalizację dla tego biletu"
+
+#: templates/events/mod_queue/list.html:59
+msgid "Ticket already approved"
+msgstr "Bilet został już zatwierdzony"
+
+#: templates/events/mod_queue/list.html:65
+msgid "User ticket page"
+msgstr "Strona biletu użytkownika"
+
+#: templates/events/mod_queue/list.html:76
+msgid "Crew ticket page"
+msgstr "Strona biletu zespołu"
+
+#: templates/events/mod_queue/list.html:80
+msgid "Admin ticket page"
+msgstr "Strona biletu admina"
+
+#: templates/events/mod_queue/list.html:95
 msgid "Mod queue is empty."
 msgstr "Kolejka moderacji jest pusta."
 
-#: templates/events/mod_queue/list.html:71
+#: templates/events/mod_queue/list.html:102
+#: templates/events/mod_queue/list.html:103
+msgid "Actions and pages"
+msgstr "Akcje i strony"
+
+#: templates/events/mod_queue/list.html:104
+msgid "Actions"
+msgstr "Akcje"
+
+#: templates/events/mod_queue/list.html:105
+msgid "Approve selected"
+msgstr "Zatwierdź zaznaczone"
+
+#: templates/events/mod_queue/list.html:107
 msgid "Pages"
 msgstr "Strony"
 
@@ -3240,9 +3273,6 @@ msgstr ""
 
 #~ msgid "Sign in to buy or manage tickets"
 #~ msgstr "Zaloguj się aby kupić lub zarządzać biletami"
-
-#~ msgid "Approved"
-#~ msgstr "Przyjęte"
 
 #~ msgid "My profile"
 #~ msgstr "Mój profil"

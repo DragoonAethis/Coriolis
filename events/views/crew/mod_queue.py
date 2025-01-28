@@ -1,4 +1,7 @@
+import datetime
+
 from django.contrib import messages
+from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext as _
@@ -15,25 +18,32 @@ class TicketModQueueListView(ListView):
 
     model = Ticket
     paginate_by = 32  # 4 columns x 8 rows
+    show_all_tickets = False
     template_name = "events/mod_queue/list.html"
 
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
         check_event_perms(self.request, self.event, ["events.crew_mod_queue"])
 
+        self.show_all_tickets = self.request.GET.get("all") == "1"
         return super().dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        return Ticket.objects.filter(
+        tickets = Ticket.objects.filter(
             ~Q(nickname="") | ~Q(image=""),
             event=self.event,
             status__in=(TicketStatus.READY, TicketStatus.WAITING_FOR_PAYMENT),
-            customization_approved_by=None,
-        ).order_by("created")
+        )
+
+        if not self.show_all_tickets:
+            tickets = tickets.filter(customization_approved_by=None)
+
+        return tickets.order_by("created")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["event"] = self.event
+        context["show_all_tickets"] = int(self.show_all_tickets)
         return context
 
 
@@ -74,11 +84,36 @@ class TicketModQueueDepersonalizeFormView(FormView):
             self.ticket.nickname = ""
 
         # If the ticket was already approved in the mod queue, revert that:
-        self.ticket.personalization_approved_by = None
-        self.ticket.personalization_approved_on = None
+        self.ticket.customization_approved_by = None
+        self.ticket.customization_approved_on = None
         self.ticket.save()
 
         render_ticket_variants.send(str(self.ticket.id))
 
         messages.info(self.request, _("Ticket depersonalized."))
         return redirect("ticket_details", self.event.slug, self.ticket.id)
+
+
+@transaction.atomic
+def mod_queue_approve_selected(request, slug, *args, **kwargs):
+    if request.method != "POST":
+        messages.error(request, _("This form accepts POST requests only."))
+        return redirect("mod_queue_list", slug=slug)
+
+    event = get_object_or_404(Event, slug=slug)
+    check_event_perms(request, event, ["events.crew_mod_queue"])
+
+    approval_ids = []
+    for key, value in request.POST.items():
+        if not key.startswith("approval."):
+            continue
+
+        approval_ids.append(value)
+
+    tickets = Ticket.objects.filter(event=event, id__in=approval_ids)
+    for ticket in tickets:
+        ticket.customization_approved_by = request.user
+        ticket.customization_approved_on = datetime.datetime.now()
+        ticket.save()
+
+    return redirect("mod_queue_list", slug=event.slug, **kwargs)

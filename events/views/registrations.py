@@ -327,8 +327,8 @@ class UpdateTicketView(FormView):
             self.ticket.shirt_size = shirt_size
 
         # If the ticket was already approved in the mod queue, revert that:
-        self.ticket.personalization_approved_by = None
-        self.ticket.personalization_approved_on = None
+        self.ticket.customization_approved_by = None
+        self.ticket.customization_approved_on = None
 
         self.ticket.save()
         messages.info(
