@@ -1,5 +1,6 @@
 import datetime
 
+from django.urls import reverse
 from django.contrib import messages
 from django.db import transaction
 from django.db.models import Q
@@ -116,4 +117,5 @@ def mod_queue_approve_selected(request, slug, *args, **kwargs):
         ticket.customization_approved_on = datetime.datetime.now()
         ticket.save()
 
-    return redirect("mod_queue_list", slug=event.slug, **kwargs)
+    base_url = reverse("mod_queue_list", kwargs={"slug": event.slug})
+    return redirect(f"{base_url}?page={request.GET.get("page") or 1}&all={request.GET.get("all") or 0}")
