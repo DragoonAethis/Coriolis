@@ -28,6 +28,7 @@ from events.templatetags.events import render_markdown
 class ApplicationSubmissionView(FormView):
     event: Event
     type: ApplicationType
+    key: str | None
 
     form_class = ApplicationDynaform
     template_name = "events/applications/application_form.html"
@@ -36,6 +37,7 @@ class ApplicationSubmissionView(FormView):
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
         self.type = get_object_or_404(ApplicationType, event=self.event, id=self.kwargs["id"])
+        self.key = self.request.GET.get("key")
 
         valid, error_msg = self.validate_application_type()
         if not valid:
@@ -48,6 +50,16 @@ class ApplicationSubmissionView(FormView):
         """Check whenever the current ticket type can be purchased online."""
         if self.type.event_id != self.event.id:
             return False, _("This application cannot be submitted for this event!")
+
+        if self.key:
+            target_keys = [x.strip() for x in self.type.secret_keys.splitlines()]
+            for maybe_key in target_keys:
+                if not maybe_key or maybe_key.startswith("#"):
+                    continue
+
+                if self.key == maybe_key:
+                    # Ignore all requirements and just...
+                    return True, None
 
         if (
             self.type.requires_valid_ticket
@@ -110,6 +122,9 @@ class ApplicationSubmissionView(FormView):
 
     def get_initial(self):
         initial = super().get_initial()
+
+        if self.key:
+            initial["key"] = self.key
 
         if cloned_application_id := self.request.GET.get("clone_application", None):
             initial.update(self.get_cloned_initial_data(cloned_application_id))

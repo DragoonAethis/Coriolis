@@ -37,6 +37,16 @@ class ApplicationType(models.Model):
             "Selects the answer field from the application template to display as a Label in the Application admin."
         ),
     )
+    secret_keys = models.TextField(
+        blank=True,
+        default="",
+        verbose_name=_("secret keys"),
+        help_text=_(
+            "Secret keys that can be used to submit an application after the deadline "
+            "or without the required ticket. Append '?key=...' to the application URL "
+            "to use them. Single key per line, lines starting with '#' are comments."
+        ),
+    )
 
     registration_from = models.DateTimeField(
         verbose_name=_("registration from"),

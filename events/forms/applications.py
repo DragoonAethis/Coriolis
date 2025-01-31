@@ -32,6 +32,12 @@ class ApplicationDynaform(forms.Form):
             "Required for notifications and contact with organizers. (Add a country prefix, like +44 for the UK.)"
         ),
     )
+    key = forms.CharField(
+        label=_("Secret Key"),
+        max_length=256,
+        required=False,
+        widget=forms.widgets.HiddenInput,
+    )
 
     DYNAFORM_NAME = "act"
 
@@ -55,9 +61,13 @@ class ApplicationDynaform(forms.Form):
             Field("phone"),
             *self.dynaform.get_layout_objects(),
             Field("notes"),
+            Field("key"),
         )
 
-        self.helper.form_action = "post"
-        self.helper.form_action = reverse("application_form", kwargs={"slug": event.slug, "id": application_type.id})
+        form_url = reverse("application_form", kwargs={"slug": event.slug, "id": application_type.id})
+        if key := self.initial.get("key"):
+            form_url += "?key=" + key
+
+        self.helper.form_action = form_url
         self.helper.attrs["novalidate"] = True
         self.helper.add_input(Submit("submit", _("Submit Application"), css_class="btn btn-lg btn-primary"))

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-28 02:14+0100\n"
-"PO-Revision-Date: 2025-01-28 02:25+0100\n"
+"POT-Creation-Date: 2025-02-01 00:54+0100\n"
+"PO-Revision-Date: 2025-02-01 00:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -24,17 +24,17 @@ msgstr ""
 msgid "ticket type"
 msgstr "typ biletu"
 
-#: events/admin/filters.py:31 events/models/applications.py:82
+#: events/admin/filters.py:31 events/models/applications.py:92
 msgid "application type"
 msgstr "typ zgłoszenia"
 
 #: events/admin/models.py:194 events/admin/models.py:268
-#: events/models/applications.py:106 events/models/tickets.py:230
+#: events/models/applications.py:116 events/models/tickets.py:230
 msgid "type"
 msgstr "typ"
 
 #: events/admin/models.py:210 events/admin/models.py:276
-#: events/models/applications.py:118 events/models/payments.py:27
+#: events/models/applications.py:128 events/models/payments.py:27
 #: events/models/tickets.py:395
 msgid "ticket"
 msgstr "bilet"
@@ -114,7 +114,7 @@ msgstr "Bilet"
 msgid "Ticket ID"
 msgstr "ID Biletu"
 
-#: events/admin/models.py:302 events/forms/applications.py:45
+#: events/admin/models.py:302 events/forms/applications.py:51
 #: templates/events/applications/application_details.html:42
 #: templates/events/crew/ticket.html:87
 #: templates/events/emails/application_changed.html:7
@@ -209,11 +209,15 @@ msgstr ""
 "Wymagane do powiadomień i kontaktu z organizatorami. (Dodaj prefiks krajowy, "
 "taki jak +48 dla Polski.)"
 
-#: events/forms/applications.py:48
+#: events/forms/applications.py:36
+msgid "Secret Key"
+msgstr "Sekretny Klucz"
+
+#: events/forms/applications.py:54
 msgid "Optional extra notes - add anything you want!"
 msgstr "Opcjonalne dodatkowe notatki - wpisz cokolwiek co chcesz!"
 
-#: events/forms/applications.py:63
+#: events/forms/applications.py:73
 msgid "Submit Application"
 msgstr "Wyślij Zgłoszenie"
 
@@ -410,7 +414,7 @@ msgstr "Tak jest - anuluj ten bilet!"
 msgid "Cancel ticket"
 msgstr "Anuluj bilet"
 
-#: events/models/applications.py:17 events/models/applications.py:105
+#: events/models/applications.py:17 events/models/applications.py:115
 #: events/models/events.py:127 events/models/events.py:160
 #: events/models/notifications.py:32 events/models/orgs.py:10
 #: events/models/orgs.py:65 events/models/payments.py:26
@@ -419,7 +423,7 @@ msgstr "Anuluj bilet"
 msgid "event"
 msgstr "wydarzenie"
 
-#: events/models/applications.py:18 events/models/applications.py:114
+#: events/models/applications.py:18 events/models/applications.py:124
 #: events/models/events.py:16 events/models/events.py:163
 #: events/models/events.py:199 events/models/notifications.py:35
 #: events/models/orgs.py:12 events/models/orgs.py:74
@@ -462,27 +466,41 @@ msgstr ""
 "Wybiera pole odpowiedzi z szablonu formularza do wyświetlenia jako Etykieta "
 "w adminie Zgłoszeń."
 
-#: events/models/applications.py:42 events/models/tickets.py:117
+#: events/models/applications.py:43
+msgid "secret keys"
+msgstr "sekretne klucze"
+
+#: events/models/applications.py:45
+msgid ""
+"Secret keys that can be used to submit an application after the deadline or "
+"without the required ticket. Append '?key=...' to the application URL to use "
+"them. Single key per line, lines starting with '#' are comments."
+msgstr ""
+"Sekretne klucze które mogą zostać użyte do wysłania formularza po terminie "
+"lub bez wymaganego biletu. Dodaj '?key=...' do adresu URL zgłoszenia aby go "
+"użyć. Jeden klucz na linię, linie zaczynające się od '#' są komentarzami."
+
+#: events/models/applications.py:52 events/models/tickets.py:117
 msgid "registration from"
 msgstr "rejestracja od"
 
-#: events/models/applications.py:43
+#: events/models/applications.py:53
 msgid "Date/time from which users can create these applications."
 msgstr "Data/godzina od której użytkownicy mogą tworzyć te zgłoszenia."
 
-#: events/models/applications.py:46 events/models/tickets.py:118
+#: events/models/applications.py:56 events/models/tickets.py:118
 msgid "registration to"
 msgstr "rejestracja do"
 
-#: events/models/applications.py:47
+#: events/models/applications.py:57
 msgid "Date/time when the form for these applications closes."
 msgstr "Data/godzina gdy formularz tego zgłoszenia zamyka się."
 
-#: events/models/applications.py:51
+#: events/models/applications.py:61
 msgid "requires registration"
 msgstr "wymaga rejestracji"
 
-#: events/models/applications.py:52
+#: events/models/applications.py:62
 msgid ""
 "If enabled, users must have a valid ticket for the event before sending "
 "applications."
@@ -490,28 +508,28 @@ msgstr ""
 "Jeśli włączone, użytkownicy muszą mieć ważny bilet na to wydarzenie przed "
 "wysyłaniem zgłoszeń."
 
-#: events/models/applications.py:56
+#: events/models/applications.py:66
 msgid "display deadline"
 msgstr "wyświetlaj termin"
 
-#: events/models/applications.py:57
+#: events/models/applications.py:67
 msgid "Publicly display the application form closure date."
 msgstr "Publicznie wyświetlaj datę zamknięcia formularza zgłoszenia."
 
-#: events/models/applications.py:61 events/models/events.py:113
+#: events/models/applications.py:71 events/models/events.py:113
 #: events/models/tickets.py:34 events/models/tickets.py:56
 msgid "description"
 msgstr "opis"
 
-#: events/models/applications.py:62
+#: events/models/applications.py:72
 msgid "Shown on the application form. Supports Markdown."
 msgstr "Pokazywane na ekranie zgłoszenia. Wspiera Markdown."
 
-#: events/models/applications.py:65
+#: events/models/applications.py:75
 msgid "template"
 msgstr "szablon"
 
-#: events/models/applications.py:67
+#: events/models/applications.py:77
 msgid ""
 "Template for dynamic application form fields. Docs: https://github.com/"
 "DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms"
@@ -519,11 +537,11 @@ msgstr ""
 "Szablon dla dynamicznych pól formularza. Dokumentacja: https://github.com/"
 "DragoonAethis/Coriolis/wiki/Dynamic-Application-Forms"
 
-#: events/models/applications.py:74
+#: events/models/applications.py:84
 msgid "submission message"
 msgstr "wiadomość po wysłaniu"
 
-#: events/models/applications.py:76
+#: events/models/applications.py:86
 msgid ""
 "Message to be displayed after successfully submitting a form. If empty, a "
 "default 'orgs will be in touch soon' message is shown."
@@ -531,92 +549,92 @@ msgstr ""
 "Wiadomość do wyświetlenia po poprawnym wysłaniu formularza. Jeśli puste, "
 "zostanie wyświetlona domyślna wiadomość 'orgowie niedługo się skontaktują'."
 
-#: events/models/applications.py:83
+#: events/models/applications.py:93
 msgid "application types"
 msgstr "typy zgłoszeń"
 
-#: events/models/applications.py:94 events/models/tickets.py:202
+#: events/models/applications.py:104 events/models/tickets.py:202
 msgid "Cancelled"
 msgstr "Anulowany"
 
-#: events/models/applications.py:95 events/models/tickets.py:203
+#: events/models/applications.py:105 events/models/tickets.py:203
 msgid "Waiting for Organizers"
 msgstr "Czeka na Organizatorów"
 
-#: events/models/applications.py:96
+#: events/models/applications.py:106
 msgid "On Reserve List"
 msgstr "Na Liście Rezerwowej"
 
-#: events/models/applications.py:97
+#: events/models/applications.py:107
 msgid "Accepted"
 msgstr "Przyjęte"
 
-#: events/models/applications.py:98
+#: events/models/applications.py:108
 msgid "Rejected"
 msgstr "Odrzucone"
 
-#: events/models/applications.py:101 events/models/events.py:11
+#: events/models/applications.py:111 events/models/events.py:11
 #: events/models/events.py:152 events/models/payments.py:22
 #: events/models/tickets.py:225
 msgid "created"
 msgstr "utworzono"
 
-#: events/models/applications.py:102 events/models/events.py:12
+#: events/models/applications.py:112 events/models/events.py:12
 #: events/models/events.py:153 events/models/payments.py:23
 #: events/models/tickets.py:226
 msgid "updated"
 msgstr "zaktualizowano"
 
-#: events/models/applications.py:104 events/models/payments.py:25
+#: events/models/applications.py:114 events/models/payments.py:25
 #: events/models/tickets.py:228
 msgid "user"
 msgstr "użytkownik"
 
-#: events/models/applications.py:109 events/models/tickets.py:277
+#: events/models/applications.py:119 events/models/tickets.py:277
 msgid "status"
 msgstr "status"
 
-#: events/models/applications.py:115 events/models/tickets.py:309
+#: events/models/applications.py:125 events/models/tickets.py:309
 msgid "phone"
 msgstr "telefon"
 
-#: events/models/applications.py:116 events/models/tickets.py:306
+#: events/models/applications.py:126 events/models/tickets.py:306
 msgid "email"
 msgstr "email"
 
-#: events/models/applications.py:121
+#: events/models/applications.py:131
 msgid "answers"
 msgstr "odpowiedzi"
 
-#: events/models/applications.py:125 events/models/tickets.py:315
+#: events/models/applications.py:135 events/models/tickets.py:315
 msgid "notes"
 msgstr "notatki"
 
-#: events/models/applications.py:126
+#: events/models/applications.py:136
 msgid "User notes, visible to users/orgs"
 msgstr "Notatki użytkownika, widoczne dla użytkowników/orgów"
 
-#: events/models/applications.py:130
+#: events/models/applications.py:140
 msgid "org notes"
 msgstr "notatki organizatorów"
 
-#: events/models/applications.py:131
+#: events/models/applications.py:141
 msgid "Org notes, visible to users/orgs"
 msgstr "Notatki orgów, widoczne dla użytkowników/orgów"
 
-#: events/models/applications.py:135 events/models/tickets.py:320
+#: events/models/applications.py:145 events/models/tickets.py:320
 msgid "private notes"
 msgstr "prywatne notatki"
 
-#: events/models/applications.py:136
+#: events/models/applications.py:146
 msgid "Private org notes, visible only in the admin panel"
 msgstr "Prywatne notatki orgów, widoczne tylko w panelu administracyjnym"
 
-#: events/models/applications.py:140
+#: events/models/applications.py:150
 msgid "banner"
 msgstr "baner"
 
-#: events/models/applications.py:141
+#: events/models/applications.py:151
 msgid ""
 "Banner/MOTD (uses Markdown), visible to users on the front page and in the "
 "application details"
@@ -624,15 +642,15 @@ msgstr ""
 "Baner/Wiadomość Dnia (używa Markdowna), widoczna dla użytkowników na stronie "
 "głównej i w szczegółach zgłoszenia"
 
-#: events/models/applications.py:145
+#: events/models/applications.py:155
 msgid "application"
 msgstr "zgłoszenie"
 
-#: events/models/applications.py:146
+#: events/models/applications.py:156
 msgid "applications"
 msgstr "zgłoszenia"
 
-#: events/models/applications.py:163
+#: events/models/applications.py:173
 #, python-format
 msgid "%(event)s: Application '%(name)s' (new status)"
 msgstr "%(event)s: Zgłoszenie '%(name)s' (nowy status)"
@@ -1536,24 +1554,24 @@ msgid "Your ticket image could not be saved for an unknown reason. %(hint)s"
 msgstr ""
 "Twój obrazek biletu nie mógł zostać zapisany z nieznanej przyczyny. %(hint)s"
 
-#: events/views/applications.py:50
+#: events/views/applications.py:52
 msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
-#: events/views/applications.py:60
+#: events/views/applications.py:72
 msgid "You must buy a ticket for this event before submitting an application."
 msgstr "Musisz kupić bilet na to wydarzenie przed wysłaniem zgłoszenia."
 
-#: events/views/applications.py:65
+#: events/views/applications.py:77
 msgid "This application is not yet open. Come back later."
 msgstr ""
 "Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
 
-#: events/views/applications.py:68
+#: events/views/applications.py:80
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:74
+#: events/views/applications.py:86
 msgid ""
 "The cloned application does not exist, you cannot access it or is not valid "
 "for this form."
@@ -1561,39 +1579,39 @@ msgstr ""
 "Klonowane zgłoszenie nie istnieje, nie możesz go otworzyć lub nie jest "
 "poprawne dla tego formularza."
 
-#: events/views/applications.py:108
+#: events/views/applications.py:120
 msgid "The form was prefilled with data based on another application: "
 msgstr "Formularz został wypełniony danymi na podstawie innego zgłoszenia: "
 
-#: events/views/applications.py:136
+#: events/views/applications.py:151
 msgid "YOUR APPLICATION WAS *NOT* SUBMITTED - scroll down to see errors."
 msgstr ""
 "TWOJE ZGŁOSZENIE *NIE* ZOSTAŁO WYSŁANE - przewiń w dół aby zobaczyć błędy."
 
-#: events/views/applications.py:163
+#: events/views/applications.py:178
 #, python-format
 msgid "Public key '%s' required for encryption was not found."
 msgstr "Klucz publiczny '%s' wymagany do szyfrowania nie został znaleziony."
 
-#: events/views/applications.py:171
+#: events/views/applications.py:186
 #, python-format
 msgid "Form template invalid: No public keys found for '%s'."
 msgstr ""
 "Szablon formularza niepoprawny: Nie znaleziono kluczy publicznych dla '%s'."
 
-#: events/views/applications.py:212
+#: events/views/applications.py:227
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:228
+#: events/views/applications.py:243
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/applications.py:246
+#: events/views/applications.py:261
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
@@ -1646,15 +1664,15 @@ msgstr "Ten bilet został anulowany."
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
-#: events/views/crew/mod_queue.py:76
+#: events/views/crew/mod_queue.py:77
 msgid "Something went wrong... try again?"
 msgstr "Coś poszło nie tak... spróbuj ponownie?"
 
-#: events/views/crew/mod_queue.py:93
+#: events/views/crew/mod_queue.py:94
 msgid "Ticket depersonalized."
 msgstr "Bilet zdepersonalizowany."
 
-#: events/views/crew/mod_queue.py:100
+#: events/views/crew/mod_queue.py:101
 msgid "This form accepts POST requests only."
 msgstr "Ten formularz przyjmuje tylko żądania POST."
 
