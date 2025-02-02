@@ -378,6 +378,7 @@ class EventOrgBillingDetailsAdmin(admin.ModelAdmin):
         buffer, workbook, ws = create_in_memory_xlsx()
         attr_cols = [
             (_("ID"), lambda bd: str(bd.id)),
+            (_("Org ID"), lambda bd: str(bd.event_org.id)),
             (_("Event Org"), lambda bd: bd.event_org.name),
             (_("Name"), lambda bd: bd.name),
             (_("Tax ID"), lambda bd: bd.tax_id),
