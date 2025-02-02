@@ -341,7 +341,7 @@ class EventOrgAdmin(admin.ModelAdmin):
             (_("Ticket Code"), lambda t: t.get_code()),
             (_("Name"), lambda t: t.name),
             (_("Email"), lambda t: t.email),
-            (_("Phone"), lambda t: t.phone),
+            (_("Phone"), lambda t: str(t.phone)),
             (_("Status"), lambda t: t.get_status_display()),
             (_("Issued Identifier"), lambda t: t.issued_identifier),
         ]
