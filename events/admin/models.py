@@ -329,6 +329,39 @@ class EventOrgAdmin(admin.ModelAdmin):
     list_filter = ("event", "source_application")
     search_fields = ("name", "owner__email", "source_application__name")
     autocomplete_fields = ("owner", "source_application", "target_ticket_type")
+    actions = ("download_ticket_list_xlsx",)
+
+    @admin.action(description=_("Download the ticket list as XLSX"))
+    def download_ticket_list_xlsx(self, request, queryset):
+        buffer, workbook, ws = create_in_memory_xlsx()
+        attr_cols: list[tuple[str, Callable[[Ticket], Any]]] = [
+            (_("Org ID"), lambda t: str(t.org_id)),
+            (_("Org Name"), lambda t: t.org.name),
+            (_("Ticket Type"), lambda t: t.type.short_name),
+            (_("Ticket Code"), lambda t: t.get_code()),
+            (_("Name"), lambda t: t.name),
+            (_("Email"), lambda t: t.email),
+            (_("Phone"), lambda t: t.phone),
+            (_("Status"), lambda t: t.get_status_display()),
+            (_("Issued Identifier"), lambda t: t.issued_identifier),
+        ]
+
+        # Don't murder the database pretty please:
+        queryset = queryset.prefetch_related("ticket_set", "ticket_set__type")
+
+        row = 0
+        for col, (label, _unused_expr) in enumerate(attr_cols):
+            ws.write(row, col, str(label))
+
+        row = 1
+        for org in queryset:
+            for ticket in org.ticket_set.order_by("created"):
+                for col, (_unused_label, expr) in enumerate(attr_cols):
+                    ws.write(row, col, xlsx_safe_value(expr(ticket)))
+
+                row += 1
+
+        return finalize_in_memory_xlsx(buffer, workbook)
 
 
 @admin.register(EventOrgBillingDetails)

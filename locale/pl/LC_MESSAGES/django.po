@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-01 00:54+0100\n"
-"PO-Revision-Date: 2025-02-01 00:55+0100\n"
+"POT-Creation-Date: 2025-02-02 15:16+0100\n"
+"PO-Revision-Date: 2025-02-02 15:16+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -28,39 +28,39 @@ msgstr "typ biletu"
 msgid "application type"
 msgstr "typ zgłoszenia"
 
-#: events/admin/models.py:194 events/admin/models.py:268
+#: events/admin/models.py:197 events/admin/models.py:271
 #: events/models/applications.py:116 events/models/tickets.py:230
 msgid "type"
 msgstr "typ"
 
-#: events/admin/models.py:210 events/admin/models.py:276
+#: events/admin/models.py:213 events/admin/models.py:279
 #: events/models/applications.py:128 events/models/payments.py:27
 #: events/models/tickets.py:395
 msgid "ticket"
 msgstr "bilet"
 
-#: events/admin/models.py:256
+#: events/admin/models.py:259
 msgid "label"
 msgstr "etykieta"
 
-#: events/admin/models.py:287 events/admin/models.py:361
+#: events/admin/models.py:290 events/admin/models.py:397
 msgid "Download as XLSX"
 msgstr "Pobierz jako XLSX"
 
-#: events/admin/models.py:292 events/admin/models.py:365
+#: events/admin/models.py:295 events/admin/models.py:401
 msgid "ID"
 msgstr "ID"
 
-#: events/admin/models.py:293 templates/events_base/footer_admin.html:15
+#: events/admin/models.py:296 templates/events_base/footer_admin.html:15
 #: templates/events_base/footer_admin.html:31
 msgid "User"
 msgstr "Użytkownik"
 
-#: events/admin/models.py:294 templates/events_base/footer_admin.html:9
+#: events/admin/models.py:297 templates/events_base/footer_admin.html:9
 msgid "Event"
 msgstr "Wydarzenie"
 
-#: events/admin/models.py:295
+#: events/admin/models.py:298
 #: templates/events/applications/application_details.html:18
 #: templates/events/crew/ticket.html:110
 #: templates/events/emails/thank_you.html:7
@@ -68,7 +68,7 @@ msgstr "Wydarzenie"
 msgid "Type"
 msgstr "Typ"
 
-#: events/admin/models.py:296
+#: events/admin/models.py:299 events/admin/models.py:366
 #: templates/events/applications/application_details.html:22
 #: templates/events/crew/ticket.html:111
 #: templates/events/emails/application_changed.html:6
@@ -78,15 +78,16 @@ msgstr "Typ"
 msgid "Status"
 msgstr "Status"
 
-#: events/admin/models.py:297 events/admin/models.py:367
-#: templates/events/crew/list.html:14 templates/events/crew/orgs/list.html:14
+#: events/admin/models.py:300 events/admin/models.py:363
+#: events/admin/models.py:403 templates/events/crew/list.html:14
+#: templates/events/crew/orgs/list.html:14
 #: templates/events/crew/orgs/tickets.html:14
 #: templates/events/crew/ticket.html:30 templates/events/orgs/billing.html:12
 #: templates/events/tickets/details.html:25
 msgid "Name"
 msgstr "Nazwa"
 
-#: events/admin/models.py:298
+#: events/admin/models.py:301 events/admin/models.py:365
 #: templates/events/applications/application_details.html:30
 #: templates/events/crew/list.html:16
 #: templates/events/crew/orgs/tickets.html:16
@@ -96,7 +97,7 @@ msgstr "Nazwa"
 msgid "Phone"
 msgstr "Telefon"
 
-#: events/admin/models.py:299
+#: events/admin/models.py:302 events/admin/models.py:364
 #: templates/events/applications/application_details.html:26
 #: templates/events/crew/list.html:15
 #: templates/events/crew/orgs/tickets.html:15
@@ -106,15 +107,15 @@ msgstr "Telefon"
 msgid "Email"
 msgstr "Email"
 
-#: events/admin/models.py:300 templates/events_base/footer_admin.html:18
+#: events/admin/models.py:303 templates/events_base/footer_admin.html:18
 msgid "Ticket"
 msgstr "Bilet"
 
-#: events/admin/models.py:301
+#: events/admin/models.py:304
 msgid "Ticket ID"
 msgstr "ID Biletu"
 
-#: events/admin/models.py:302 events/forms/applications.py:51
+#: events/admin/models.py:305 events/forms/applications.py:51
 #: templates/events/applications/application_details.html:42
 #: templates/events/crew/ticket.html:87
 #: templates/events/emails/application_changed.html:7
@@ -124,35 +125,61 @@ msgstr "ID Biletu"
 msgid "Notes"
 msgstr "Notatki"
 
-#: events/admin/models.py:303
+#: events/admin/models.py:306
 #: templates/events/applications/application_details.html:48
 msgid "Org Notes"
 msgstr "Notatki Organizatorów"
 
-#: events/admin/models.py:366
+#: events/admin/models.py:355
+msgid "Download the ticket list as XLSX"
+msgstr "Pobierz listę biletów jako XLSX"
+
+#: events/admin/models.py:359
+msgid "Org ID"
+msgstr "ID Organizacji"
+
+#: events/admin/models.py:360
+msgid "Org Name"
+msgstr "Nazwa Organizacji"
+
+#: events/admin/models.py:361 templates/events/crew/orgs/list.html:16
+#: templates/events_base/footer_admin.html:21
+#: templates/events_base/footer_admin.html:25
+msgid "Ticket Type"
+msgstr "Typ Biletu"
+
+#: events/admin/models.py:362
+msgid "Ticket Code"
+msgstr "Kod Biletu"
+
+#: events/admin/models.py:367 templates/events/crew/ticket.html:74
+msgid "Issued Identifier"
+msgstr "Nadany Identyfikator"
+
+#: events/admin/models.py:402
 msgid "Event Org"
 msgstr "Organizacja Wydarzenia"
 
-#: events/admin/models.py:368 templates/events/orgs/billing.html:13
+#: events/admin/models.py:404 templates/events/orgs/billing.html:13
 msgid "Tax ID"
 msgstr "Identyfikator podatkowy"
 
-#: events/admin/models.py:369 events/forms/orgs.py:23
+#: events/admin/models.py:405 events/forms/orgs.py:23
 #: templates/events/orgs/billing.html:14
 msgid "Address"
 msgstr "Adres"
 
-#: events/admin/models.py:370 events/forms/orgs.py:24
+#: events/admin/models.py:406 events/forms/orgs.py:24
 #: templates/events/orgs/billing.html:15
 msgid "Postcode"
 msgstr "Kod pocztowy"
 
-#: events/admin/models.py:371 events/forms/orgs.py:25
+#: events/admin/models.py:407 events/forms/orgs.py:25
 #: templates/events/orgs/billing.html:16
 msgid "City"
 msgstr "Miasto"
 
-#: events/admin/models.py:372 templates/events/crew/orgs/list.html:18
+#: events/admin/models.py:408 templates/events/crew/orgs/list.html:18
 #: templates/events/orgs/billing.html:17
 msgid "Representative"
 msgstr "Reprezentant"
@@ -2440,12 +2467,6 @@ msgstr "Organizacje"
 msgid "Owner"
 msgstr "Właściciel"
 
-#: templates/events/crew/orgs/list.html:16
-#: templates/events_base/footer_admin.html:21
-#: templates/events_base/footer_admin.html:25
-msgid "Ticket Type"
-msgstr "Typ Biletu"
-
 #: templates/events/crew/orgs/list.html:17 templates/events/index.html:33
 msgid "Tickets"
 msgstr "Bilety"
@@ -2490,10 +2511,6 @@ msgstr "Uczestnik nie jest pełnoletni"
 #: templates/events/crew/ticket.html:65
 msgid "check the card."
 msgstr "sprawdź kartę konwentowicza."
-
-#: templates/events/crew/ticket.html:74
-msgid "Issued Identifier"
-msgstr "Nadany Identyfikator"
 
 #: templates/events/crew/ticket.html:112
 msgid "Created"
@@ -3305,9 +3322,6 @@ msgstr ""
 
 #~ msgid "send to payment, price"
 #~ msgstr "odeślij do płatności, cena"
-
-#~ msgid "Download selected applications as XLSX"
-#~ msgstr "Pobierz wybrane zgłoszenia jako XLSX"
 
 #, python-format
 #~ msgid "Tickets for %(name)s"
