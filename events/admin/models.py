@@ -326,7 +326,7 @@ class ApplicationAdmin(admin.ModelAdmin):
 class EventOrgAdmin(admin.ModelAdmin):
     list_select_related = ("event", "owner", "source_application", "target_ticket_type")
     list_display = ("name", "event", "owner", "source_application", "target_ticket_type", "target_ticket_count")
-    list_filter = ("event", "source_application")
+    list_filter = ("event",)
     search_fields = ("name", "owner__email", "source_application__name")
     autocomplete_fields = ("owner", "source_application", "target_ticket_type")
     actions = ("download_ticket_list_xlsx",)
