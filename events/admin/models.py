@@ -1,3 +1,6 @@
+from typing import Any
+from collections.abc import Callable
+
 from django.contrib import admin
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db import models
@@ -371,22 +374,10 @@ class EventOrgBillingDetailsAdmin(admin.ModelAdmin):
     list_filter = ("event",)
     search_fields = ("event_org__name", "name", "address", "city", "representative")
     autocomplete_fields = ("event_org",)
-    actions = ("download_as_xlsx",)
+    actions = ("download_as_xlsx", "download_as_manufaktur")
 
-    @admin.action(description=_("Download as XLSX"))
-    def download_as_xlsx(self, request, queryset):
+    def download_xlsx_helper(self, queryset, attr_cols: list[tuple[str, Callable]]):
         buffer, workbook, ws = create_in_memory_xlsx()
-        attr_cols = [
-            (_("ID"), lambda bd: str(bd.id)),
-            (_("Org ID"), lambda bd: str(bd.event_org.id)),
-            (_("Event Org"), lambda bd: bd.event_org.name),
-            (_("Name"), lambda bd: bd.name),
-            (_("Tax ID"), lambda bd: bd.tax_id),
-            (_("Address"), lambda bd: bd.address),
-            (_("Postcode"), lambda bd: bd.postcode),
-            (_("City"), lambda bd: bd.city),
-            (_("Representative"), lambda bd: bd.representative),
-        ]
 
         row = 0
         for col, (label, _unused_expr) in enumerate(attr_cols):
@@ -400,3 +391,35 @@ class EventOrgBillingDetailsAdmin(admin.ModelAdmin):
             row += 1
 
         return finalize_in_memory_xlsx(buffer, workbook)
+
+    @admin.action(description=_("Download as Manufaktur data"))
+    def download_as_manufaktur(self, request, queryset):
+        attr_cols = [
+            ("id", lambda bd: str(bd.id)),
+            ("org_id", lambda bd: str(bd.event_org.id)),
+            ("org_name", lambda bd: bd.event_org.name),
+            ("name", lambda bd: bd.name),
+            ("tax_id", lambda bd: bd.tax_id),
+            ("address", lambda bd: bd.address),
+            ("postcode", lambda bd: bd.postcode),
+            ("city", lambda bd: bd.city),
+            ("representative", lambda bd: bd.representative),
+        ]
+
+        return self.download_xlsx_helper(queryset, attr_cols)
+
+    @admin.action(description=_("Download as XLSX"))
+    def download_as_xlsx(self, request, queryset):
+        attr_cols = [
+            (_("ID"), lambda bd: str(bd.id)),
+            (_("Org ID"), lambda bd: str(bd.event_org.id)),
+            (_("Event Org"), lambda bd: bd.event_org.name),
+            (_("Name"), lambda bd: bd.name),
+            (_("Tax ID"), lambda bd: bd.tax_id),
+            (_("Address"), lambda bd: bd.address),
+            (_("Postcode"), lambda bd: bd.postcode),
+            (_("City"), lambda bd: bd.city),
+            (_("Representative"), lambda bd: bd.representative),
+        ]
+
+        return self.download_xlsx_helper(queryset, attr_cols)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 15:16+0100\n"
-"PO-Revision-Date: 2025-02-02 15:16+0100\n"
+"POT-Creation-Date: 2025-02-04 23:57+0100\n"
+"PO-Revision-Date: 2025-02-04 23:57+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -43,11 +43,11 @@ msgstr "bilet"
 msgid "label"
 msgstr "etykieta"
 
-#: events/admin/models.py:290 events/admin/models.py:397
+#: events/admin/models.py:290 events/admin/models.py:429
 msgid "Download as XLSX"
 msgstr "Pobierz jako XLSX"
 
-#: events/admin/models.py:295 events/admin/models.py:401
+#: events/admin/models.py:295 events/admin/models.py:432
 msgid "ID"
 msgstr "ID"
 
@@ -79,7 +79,7 @@ msgid "Status"
 msgstr "Status"
 
 #: events/admin/models.py:300 events/admin/models.py:363
-#: events/admin/models.py:403 templates/events/crew/list.html:14
+#: events/admin/models.py:435 templates/events/crew/list.html:14
 #: templates/events/crew/orgs/list.html:14
 #: templates/events/crew/orgs/tickets.html:14
 #: templates/events/crew/ticket.html:30 templates/events/orgs/billing.html:12
@@ -134,7 +134,7 @@ msgstr "Notatki Organizatorów"
 msgid "Download the ticket list as XLSX"
 msgstr "Pobierz listę biletów jako XLSX"
 
-#: events/admin/models.py:359
+#: events/admin/models.py:359 events/admin/models.py:433
 msgid "Org ID"
 msgstr "ID Organizacji"
 
@@ -156,30 +156,34 @@ msgstr "Kod Biletu"
 msgid "Issued Identifier"
 msgstr "Nadany Identyfikator"
 
-#: events/admin/models.py:402
+#: events/admin/models.py:413
+msgid "Download as Manufaktur data"
+msgstr "Pobierz jako dane Manufaktury"
+
+#: events/admin/models.py:434
 msgid "Event Org"
 msgstr "Organizacja Wydarzenia"
 
-#: events/admin/models.py:404 templates/events/orgs/billing.html:13
+#: events/admin/models.py:436 templates/events/orgs/billing.html:13
 msgid "Tax ID"
 msgstr "Identyfikator podatkowy"
 
-#: events/admin/models.py:405 events/forms/orgs.py:23
+#: events/admin/models.py:437 events/forms/orgs.py:23
 #: templates/events/orgs/billing.html:14
 msgid "Address"
 msgstr "Adres"
 
-#: events/admin/models.py:406 events/forms/orgs.py:24
+#: events/admin/models.py:438 events/forms/orgs.py:24
 #: templates/events/orgs/billing.html:15
 msgid "Postcode"
 msgstr "Kod pocztowy"
 
-#: events/admin/models.py:407 events/forms/orgs.py:25
+#: events/admin/models.py:439 events/forms/orgs.py:25
 #: templates/events/orgs/billing.html:16
 msgid "City"
 msgstr "Miasto"
 
-#: events/admin/models.py:408 templates/events/crew/orgs/list.html:18
+#: events/admin/models.py:440 templates/events/crew/orgs/list.html:18
 #: templates/events/orgs/billing.html:17
 msgid "Representative"
 msgstr "Reprezentant"
