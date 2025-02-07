@@ -19,9 +19,10 @@ from events.views.misc import (
     ticket_post_registration,
 )
 from events.views.orgs import (
-    BillingDetailsListView,
+    EventOrgInvoicingOverview,
     BillingDetailsCreateView,
     EventOrgTicketCreateView,
+    download_invoice,
 )
 from events.views.prometheus import prometheus_status
 from events.views.registrations import RegistrationView, CancelRegistrationView, UpdateTicketView
@@ -141,14 +142,19 @@ urlpatterns = [
         name="event_org_tickets_add",
     ),
     path(
-        "event/<slug:slug>/org/<uuid:org_id>/billing_details",
-        BillingDetailsListView.as_view(),
-        name="event_org_billing_details_list",
+        "event/<slug:slug>/org/<uuid:org_id>/invoices",
+        EventOrgInvoicingOverview.as_view(),
+        name="event_org_invoices_overview",
     ),
     path(
-        "event/<slug:slug>/org/<uuid:org_id>/billing_details/add",
+        "event/<slug:slug>/org/<uuid:org_id>/invoices/download/<uuid:invoice_id>",
+        download_invoice,
+        name="event_org_invoices_download",
+    ),
+    path(
+        "event/<slug:slug>/org/<uuid:org_id>/invoices/billing_details",
         BillingDetailsCreateView.as_view(),
-        name="event_org_billing_details_add",
+        name="event_org_invoices_billing_details_add",
     ),
     path("", index, name="index"),
 ]

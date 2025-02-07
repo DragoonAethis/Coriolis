@@ -55,13 +55,12 @@
                             <div class="col-lg-4">
                                 <h3>{% translate "Payments" %}</h3>
                                 <ul class="list-group mb-2">
-                                    <a href="{% url "event_org_billing_details_list" slug=event.slug org_id=org.id %}"
+                                    <a href="{% url "event_org_invoices_overview" slug=event.slug org_id=org.id %}"
                                        class="list-group-item list-group-item-action active">
-                                        <i class="bi bi-cash-stack me-1"></i> {% translate "Billing details" %}</a>
+                                        <i class="bi bi-cash-stack me-1"></i> {% translate "Invoices and billing details" %}</a>
                                 </ul>
                             </div>
                         </div>
-
                     </div>
                 {% endfor %}
 

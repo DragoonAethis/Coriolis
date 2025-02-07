@@ -35,7 +35,7 @@
                         </td>
                         <td class="font-monospace table-{{ object.get_billing_details_status_class }}">
                             <a class="link-{{ object.get_billing_details_status_class }}"
-                               href="{% url 'event_org_billing_details_list' event.slug object.id %}">
+                               href="{% url 'event_org_invoices_overview' event.slug object.id %}">
                                 {{ object.billing_details_set.count }}
                                 {% if object.billing_details_set.count > 0 %}
                                     <span>({{ object.billing_details_set.first.representative }})</span>

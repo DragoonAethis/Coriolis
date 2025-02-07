@@ -7,12 +7,13 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
-from django.views.generic import ListView
 from django.views.generic.edit import FormView
+from django.views.generic.detail import DetailView
+from django.http import FileResponse
 
 from events.forms.orgs import BillingDetailsForm
 from events.forms.registration import EventOrgTicketRegistrationForm
-from events.models import Event, EventOrg, Ticket, TicketStatus, TicketSource, EventOrgBillingDetails, User
+from events.models import Event, EventOrg, EventOrgInvoice, Ticket, TicketStatus, TicketSource, EventOrgBillingDetails, User
 from events.tasks.ticket_renderer import render_ticket_variants
 from events.utils import generate_ticket_code
 
@@ -33,8 +34,8 @@ def check_org_perms(org: EventOrg, user: User, perms: list[str]):
         raise PermissionDenied
 
 
-class BillingDetailsListView(ListView):
-    model = EventOrgBillingDetails
+class EventOrgInvoicingOverview(DetailView):
+    model = EventOrg
     template_name = "events/orgs/billing.html"
 
     event: Event
@@ -45,14 +46,34 @@ class BillingDetailsListView(ListView):
         check_org_perms(self.org, self.request.user, ["events.crew_orgs", "events.crew_orgs_view_billing_details"])
         return super().dispatch(*args, **kwargs)
 
-    def get_queryset(self):
-        return EventOrgBillingDetails.objects.filter(event_org=self.org)
+    def get_object(self, queryset=None):
+        return self.org
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["event"] = self.event
         context["org"] = self.org
+        context["invoices"] = self.org.invoice_set.order_by("created")
+        context["billing_details"] = self.org.billing_details_set.order_by("name")
         return context
+
+
+def download_invoice(request, slug, org_id, invoice_id):
+    event, org = get_event_and_org(slug, org_id)
+    check_org_perms(org, request.user, [
+        "events.crew_orgs",
+        "events.crew_orgs_view_invoices",
+        "events.crew_orgs_view_billing_details",
+    ])
+
+    invoice: EventOrgInvoice = get_object_or_404(EventOrgInvoice, event=event, id=invoice_id)
+
+    return FileResponse(
+        invoice.file.open("rb"),
+        as_attachment=True,
+        filename=invoice.file.name,
+        headers={"Content-Type": "application/octet-stream"},
+    )
 
 
 class BillingDetailsCreateView(FormView):
@@ -101,7 +122,7 @@ class BillingDetailsCreateView(FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy("event_org_billing_details_list", kwargs={"slug": self.event.slug, "org_id": self.org.id})
+        return reverse_lazy("event_org_invoices_overview", kwargs={"slug": self.event.slug, "org_id": self.org.id})
 
 
 class EventOrgTicketCreateView(FormView):
