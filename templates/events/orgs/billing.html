@@ -17,7 +17,7 @@
                         <li>{% translate "Tax value (VAT)" %}: <strong>{{ invoice.tax_value }}</strong></li>
                         <li>{% translate "Gross value" %}: <strong>{{ invoice.gross_value }}</strong></li>
                         <li>{% translate "Created" %}: <strong>{{ invoice.created }}</strong></li>
-                        <li>{% translate "Notatki" %}: <strong>{{ invoice.notes|default:"-" }}</strong></li>
+                        <li>{% translate "Notes" %}: <strong>{{ invoice.notes|default:"-" }}</strong></li>
                     </ul>
                     <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with ticket actions">
                         <a href="{% url "event_org_invoices_download" event.slug org.id invoice.id %}" class="btn btn-primary">
