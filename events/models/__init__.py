@@ -1,7 +1,7 @@
 from .applications import ApplicationType, Application
 from .events import Event, EventPage, EventPageType, TicketRenderer
 from .notifications import NotificationChannel
-from .orgs import EventOrg, EventOrgBillingDetails
+from .orgs import EventOrg, EventOrgBillingDetails, EventOrgInvoice
 from .payments import Payment
 from .tickets import TicketFlag, TicketType, Ticket, TicketStatus, TicketSource
 from .users import User

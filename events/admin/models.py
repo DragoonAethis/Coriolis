@@ -27,6 +27,7 @@ from events.models import (
     ApplicationType,
     EventOrg,
     EventOrgBillingDetails,
+    EventOrgInvoice,
     AgePublicKey,
 )
 
@@ -423,3 +424,12 @@ class EventOrgBillingDetailsAdmin(admin.ModelAdmin):
         ]
 
         return self.download_xlsx_helper(queryset, attr_cols)
+
+
+@admin.register(EventOrgInvoice)
+class EventOrgInvoiceAdmin(admin.ModelAdmin):
+    list_select_related = ("event", "event_org")
+    list_display = ("document_id", "name", "tag", "event", "event_org")
+    list_filter = ("event",)
+    search_fields = ("event_org__name", "name", "document_id")
+    autocomplete_fields = ("event_org",)

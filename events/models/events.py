@@ -132,6 +132,7 @@ class Event(models.Model):
             ("crew_accreditation", _("Can access the crew accreditation panel.")),
             ("crew_mod_queue", _("Can access the crew mod queue.")),
             ("crew_orgs", _("Can access the crew organization lists.")),
+            ("crew_orgs_view_invoices", _("Can access the org invoices from the crew panel.")),
             ("crew_orgs_view_billing_details", _("Can access the org billing details from the crew panel.")),
         ]
 
