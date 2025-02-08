@@ -6,6 +6,9 @@
 .idea/**/sshConfigs.xml
 .idea/**/dataSources.xml
 
+# We want this to be FOSS, but after the event
+/contrib/ticket-renderer
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
