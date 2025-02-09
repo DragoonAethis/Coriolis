@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from crispy_forms.bootstrap import FieldWithButtons
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout
@@ -33,12 +35,23 @@ class CrewFindTicketForm(forms.Form):
 
 class CrewNewTicketForm(forms.Form):
     ticket_type = forms.ChoiceField(label=_("Ticket type"), widget=forms.RadioSelect)
-    age_gate = forms.BooleanField(label=_("Is attendee of age?"), required=False)
+    age_gate = forms.ChoiceField(label=_("Is attendee of age?"), widget=forms.RadioSelect)
 
     def __init__(self, *args, event: Event, types: list[TicketType], **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["ticket_type"].choices = [
             (str(t.id), f"{t.name} ({t.price}, {t.tickets_remaining}/{t.max_tickets})") for t in types
+        ]
+
+        today = datetime.today()
+        if (today.month == 2) and (today.day == 29):
+            date_of_age = today.replace(year=today.year - 18, month=today.month + 1, day=1)
+        else:
+            date_of_age = today.replace(year=today.year - 18)
+
+        self.fields["age_gate"].choices = [
+            (True, _("Yes - born before/on: ") + date_of_age.date().isoformat()),
+            (False, _("No")),
         ]
 
         self.helper = FormHelper()

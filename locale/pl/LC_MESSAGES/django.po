@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-09 22:59+0100\n"
-"PO-Revision-Date: 2025-02-09 22:59+0100\n"
+"POT-Creation-Date: 2025-02-10 00:12+0100\n"
+"PO-Revision-Date: 2025-02-10 00:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -62,7 +62,7 @@ msgstr "Wydarzenie"
 
 #: events/admin/models.py:300
 #: templates/events/applications/application_details.html:18
-#: templates/events/crew/ticket.html:110
+#: templates/events/crew/ticket.html:114
 #: templates/events/emails/thank_you.html:7
 #: templates/events/tickets/details.html:13
 msgid "Type"
@@ -70,7 +70,7 @@ msgstr "Typ"
 
 #: events/admin/models.py:301 events/admin/models.py:368
 #: templates/events/applications/application_details.html:22
-#: templates/events/crew/ticket.html:111
+#: templates/events/crew/ticket.html:115
 #: templates/events/emails/application_changed.html:6
 #: templates/events/emails/ticket_changed.html:6 templates/events/index.html:81
 #: templates/events/index.html:147 templates/events/tickets/details.html:14
@@ -84,7 +84,7 @@ msgstr "Status"
 #: templates/events/crew/orgs/detail.html:79
 #: templates/events/crew/orgs/list.html:21
 #: templates/events/crew/orgs/tickets.html:14
-#: templates/events/crew/ticket.html:30 templates/events/orgs/billing.html:44
+#: templates/events/crew/ticket.html:33 templates/events/orgs/billing.html:44
 #: templates/events/tickets/details.html:25
 msgid "Name"
 msgstr "Nazwa"
@@ -93,7 +93,7 @@ msgstr "Nazwa"
 #: templates/events/applications/application_details.html:30
 #: templates/events/crew/list.html:16 templates/events/crew/orgs/detail.html:26
 #: templates/events/crew/orgs/tickets.html:16
-#: templates/events/crew/ticket.html:33
+#: templates/events/crew/ticket.html:36
 #: templates/events/emails/new_application.html:8
 #: templates/events/tickets/details.html:29
 msgid "Phone"
@@ -103,7 +103,7 @@ msgstr "Telefon"
 #: templates/events/applications/application_details.html:26
 #: templates/events/crew/list.html:15 templates/events/crew/orgs/detail.html:25
 #: templates/events/crew/orgs/tickets.html:15
-#: templates/events/crew/ticket.html:31
+#: templates/events/crew/ticket.html:34
 #: templates/events/emails/new_application.html:10
 #: templates/events/tickets/details.html:26
 msgid "Email"
@@ -119,7 +119,7 @@ msgstr "ID Biletu"
 
 #: events/admin/models.py:307 events/forms/applications.py:51
 #: templates/events/applications/application_details.html:42
-#: templates/events/crew/ticket.html:87
+#: templates/events/crew/ticket.html:90
 #: templates/events/emails/application_changed.html:7
 #: templates/events/emails/new_application.html:12
 #: templates/events/emails/ticket_changed.html:7
@@ -155,7 +155,7 @@ msgstr "Typ Biletu"
 msgid "Ticket Code"
 msgstr "Kod Biletu"
 
-#: events/admin/models.py:369 templates/events/crew/ticket.html:74
+#: events/admin/models.py:369 templates/events/crew/ticket.html:77
 msgid "Issued Identifier"
 msgstr "Nadany Identyfikator"
 
@@ -195,11 +195,12 @@ msgstr "Reprezentant"
 msgid "MISSING TRANSLATION!"
 msgstr "BRAKUJĄCE TŁUMACZENIE!"
 
-#: events/dynaforms/utils.py:83 templates/events/crew/ticket.html:45
+#: events/dynaforms/utils.py:83 templates/events/crew/ticket.html:48
 msgid "Yes"
 msgstr "Tak"
 
-#: events/dynaforms/utils.py:83 templates/events/crew/ticket.html:51
+#: events/dynaforms/utils.py:83 events/forms/crew.py:54
+#: templates/events/crew/ticket.html:54
 msgid "No"
 msgstr "Nie"
 
@@ -255,31 +256,35 @@ msgstr "Opcjonalne dodatkowe notatki - wpisz cokolwiek co chcesz!"
 msgid "Submit Application"
 msgstr "Wyślij Zgłoszenie"
 
-#: events/forms/crew.py:13
+#: events/forms/crew.py:15
 msgid "Code, name, email, phone or nickname"
 msgstr "Kod, imię, nazwisko, email, telefon lub ksywka"
 
-#: events/forms/crew.py:16
+#: events/forms/crew.py:18
 msgid "Numeric codes only, without the prefix."
 msgstr "Tylko kody cyfrowe, bez prefiksu."
 
-#: events/forms/crew.py:26
+#: events/forms/crew.py:28
 msgid "Search"
 msgstr "Wyszukaj"
 
-#: events/forms/crew.py:35 templates/events/crew/orgs/detail.html:14
+#: events/forms/crew.py:37 templates/events/crew/orgs/detail.html:14
 msgid "Ticket type"
 msgstr "Typ biletu"
 
-#: events/forms/crew.py:36
+#: events/forms/crew.py:38
 msgid "Is attendee of age?"
 msgstr "Czy uczestnik jest pełnoletni?"
 
-#: events/forms/crew.py:47
+#: events/forms/crew.py:53
+msgid "Yes - born before/on: "
+msgstr "Tak - urodzony przed/w dniu: "
+
+#: events/forms/crew.py:60
 msgid "Create"
 msgstr "Utwórz"
 
-#: events/forms/crew.py:57
+#: events/forms/crew.py:70
 msgid "Use"
 msgstr "Użyj"
 
@@ -389,7 +394,7 @@ msgstr ""
 "zanim twój bilet będzie gotowy do użycia na tym wydarzeniu. Płatności online "
 "będą dostępne po ich zatwierdzeniu."
 
-#: events/forms/registration.py:71 templates/events/crew/ticket.html:106
+#: events/forms/registration.py:71 templates/events/crew/ticket.html:110
 #: templates/events/index.html:100 templates/events/index.html:155
 msgid "Details"
 msgstr "Szczegóły"
@@ -401,7 +406,7 @@ msgstr "Zarejestruj się"
 #: events/forms/registration.py:93 templates/events/crew/list.html:17
 #: templates/events/crew/orgs/detail.html:27
 #: templates/events/crew/orgs/tickets.html:17
-#: templates/events/crew/ticket.html:36
+#: templates/events/crew/ticket.html:39
 #: templates/events/tickets/details.html:33
 msgid "Nickname"
 msgstr "Ksywka"
@@ -1756,52 +1761,52 @@ msgstr ""
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
-#: events/views/crew/accreditation.py:48 events/views/registrations.py:60
+#: events/views/crew/accreditation.py:54 events/views/registrations.py:60
 #: events/views/registrations.py:148
 msgid "We ran out of these tickets."
 msgstr "Ten rodzaj biletu wyprzedał się."
 
-#: events/views/crew/accreditation.py:55
+#: events/views/crew/accreditation.py:61
 msgid "Generated Ticket"
 msgstr "Wygenerowany Bilet"
 
-#: events/views/crew/accreditation.py:67
+#: events/views/crew/accreditation.py:73
 msgid "Success - ticket created: "
 msgstr "Sukces - bilet utworzony: "
 
-#: events/views/crew/accreditation.py:107
+#: events/views/crew/accreditation.py:113
 msgid "Ticket with the provided code does not exist - searching..."
 msgstr "Bilet z podanym kodem nie istnieje - szukam..."
 
-#: events/views/crew/accreditation.py:121
+#: events/views/crew/accreditation.py:127
 msgid "No tickets found."
 msgstr "Nie znaleziono żadnych biletów."
 
-#: events/views/crew/accreditation.py:125
+#: events/views/crew/accreditation.py:131
 msgid "Found a single ticket."
 msgstr "Znaleziono jeden bilet."
 
-#: events/views/crew/accreditation.py:134
+#: events/views/crew/accreditation.py:140
 msgid "Ticket with the provided code does not exist."
 msgstr "Bilet z podanym kodem nie istnieje."
 
-#: events/views/crew/accreditation.py:154
+#: events/views/crew/accreditation.py:160
 msgid "This ticket is not valid for this event!"
 msgstr "Ten bilet nie jest ważny dla tego wydarzenia!"
 
-#: events/views/crew/accreditation.py:158
+#: events/views/crew/accreditation.py:164
 msgid "Call for the accreditation coordinator."
 msgstr "Zawołaj koordynatora akredytacji."
 
-#: events/views/crew/accreditation.py:160
+#: events/views/crew/accreditation.py:166
 msgid "This ticket has already been used."
 msgstr "Ten bilet został już użyty."
 
-#: events/views/crew/accreditation.py:162
+#: events/views/crew/accreditation.py:168
 msgid "This ticket has been cancelled."
 msgstr "Ten bilet został anulowany."
 
-#: events/views/crew/accreditation.py:164
+#: events/views/crew/accreditation.py:170
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
@@ -2653,45 +2658,45 @@ msgstr "Nic nie znaleziono"
 msgid "No data"
 msgstr "Brak danych"
 
-#: templates/events/crew/ticket.html:13
+#: templates/events/crew/ticket.html:16
 msgid "Error"
 msgstr "Błąd"
 
-#: templates/events/crew/ticket.html:19
+#: templates/events/crew/ticket.html:22
 msgid "Return to Accreditation"
 msgstr "Powrót do Akredytacji"
 
-#: templates/events/crew/ticket.html:26
+#: templates/events/crew/ticket.html:29
 msgid "Confirm identity"
 msgstr "Potwierdź tożsamość"
 
-#: templates/events/crew/ticket.html:45 templates/events/crew/ticket.html:51
+#: templates/events/crew/ticket.html:48 templates/events/crew/ticket.html:54
 msgid "Paid"
 msgstr "Opłacony"
 
-#: templates/events/crew/ticket.html:55 templates/events/index.html:88
+#: templates/events/crew/ticket.html:58 templates/events/index.html:88
 #: templates/events/tickets/details.html:15
 #: templates/events/tickets/post_registration.html:24
 msgid "Price"
 msgstr "Cena"
 
-#: templates/events/crew/ticket.html:65
+#: templates/events/crew/ticket.html:68
 msgid "Attendee is not of age"
 msgstr "Uczestnik nie jest pełnoletni"
 
-#: templates/events/crew/ticket.html:65
+#: templates/events/crew/ticket.html:68
 msgid "check the card."
 msgstr "sprawdź kartę konwentowicza."
 
-#: templates/events/crew/ticket.html:112 templates/events/orgs/billing.html:20
+#: templates/events/crew/ticket.html:116 templates/events/orgs/billing.html:20
 msgid "Created"
 msgstr "Utworzono"
 
-#: templates/events/crew/ticket.html:113
+#: templates/events/crew/ticket.html:117
 msgid "Updated"
 msgstr "Zaktualizowano"
 
-#: templates/events/crew/ticket.html:122
+#: templates/events/crew/ticket.html:126
 msgid "This attendee has registered other tickets"
 msgstr "Ten uczestnik ma zarejestrowane inne bilety"
 
