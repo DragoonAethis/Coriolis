@@ -15,6 +15,13 @@ class EventOrg(models.Model):
     event = models.ForeignKey("events.Event", on_delete=models.CASCADE, verbose_name=_("event"))
     owner = models.ForeignKey(get_user_model(), on_delete=models.RESTRICT, verbose_name=_("owner"))
     name = models.CharField(max_length=256, verbose_name=_("name"))
+    location_tag = models.CharField(
+        blank=True,
+        max_length=256,
+        verbose_name=_("location tag"),
+        help_text=_("Map location or another identifier that makes it easier to locate this org in on-site operations.")
+    )
+
     source_application = models.ForeignKey(
         "events.Application",
         null=True,
