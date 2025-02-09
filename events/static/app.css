@@ -74,6 +74,11 @@
     margin-right: .25rem;
 }
 
+/* I don't know why the icon baseline is misaligned... */
+.fix-icon-va::before {
+    vertical-align: 0.125em;
+}
+
 .ticket-nerd-details {
     color: #6c757d !important;
     font-family: var(--bs-font-monospace);

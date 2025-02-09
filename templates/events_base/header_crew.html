@@ -26,7 +26,7 @@
                 {% endif %}
                 {% if perms.events.crew_orgs %}
                     <li class="nav-item">
-                        <a href="{% url 'crew_orgs' event.slug %}" class="nav-link">
+                        <a href="{% url 'crew_orgs_list' event.slug %}" class="nav-link">
                             <i class="bi bi-people-fill me-1"></i> {% translate "Organizations" %}
                         </a>
                     </li>

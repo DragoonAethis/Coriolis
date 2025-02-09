@@ -8,6 +8,8 @@
     <link href="{% static 'simple-datatables/10.0.0/simple-datatables.custom.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
+{% block main_body_container_class %}container-fluid{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col">
@@ -20,6 +22,7 @@
                     <th scope="col" class="sticky-top" data-type="string" data-searchable="true"  data-sortable="true" >{% translate "Owner" %}</th>
                     <th scope="col" class="sticky-top" data-type="string" data-searchable="false" data-sortable="true" >{% translate "Ticket Type" %}</th>
                     <th scope="col" class="sticky-top" data-type="html"   data-searchable="false" data-sortable="false">{% translate "Tickets" %}</th>
+                    <th scope="col" class="sticky-top" data-type="html"   data-searchable="false" data-sortable="false">{% translate "Tasks" %}</th>
                     <th scope="col" class="sticky-top" data-type="html"   data-searchable="true"  data-sortable="true" >{% translate "Billing details" %} ({% translate "Representative" %})</th>
                 </tr>
                 </thead>
@@ -27,9 +30,10 @@
                 {% for object in object_list %}
                     <tr>
                         <td class="font-monospace">{{ object.location_tag|default:"-" }}</td>
-                        <td>{{ object.name }}</td>
+                        <td><a href="{% url 'crew_orgs_details' event.slug object.id %}">{{ object.name }}</a></td>
                         <td>{{ object.owner.email }}</td>
                         <td>{{ object.target_ticket_type.short_name }}</td>
+
                         <td class="font-monospace table-{% get_counter_bg_class object.ticket_set.count object.target_ticket_count %}">
                             {% if object.has_all_tickets_used %}
                                 <i class="bi bi-check-all"></i>
@@ -39,6 +43,17 @@
                                 {{ object.ticket_set.count }}<small>/{{ object.target_ticket_count }}</small>
                             </a>
                         </td>
+
+                        <td class="font-monospace table-{% get_counter_bg_class object.tasks_done_count object.task_set.count %}">
+                            {% if object.has_all_tasks_done %}
+                                <i class="bi bi-check-all"></i>
+                            {% endif %}
+                            <a class="link-{% get_counter_bg_class object.tasks_done_count object.task_set.count %}"
+                               href="{%  url 'crew_orgs_details' event.slug object.id %}">
+                                {{ object.tasks_done_count }}<small>/{{ object.task_set.count }}</small>
+                            </a>
+                        </td>
+
                         <td class="table-{% get_counter_bg_class object.billing_details_set.count 1 %}">
                             <a class="link-{% get_counter_bg_class object.billing_details_set.count 1 %}"
                                href="{% url 'event_org_invoices_overview' event.slug object.id %}">

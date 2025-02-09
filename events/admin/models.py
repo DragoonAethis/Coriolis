@@ -26,6 +26,7 @@ from events.models import (
     Application,
     ApplicationType,
     EventOrg,
+    EventOrgTask,
     EventOrgBillingDetails,
     EventOrgInvoice,
     AgePublicKey,
@@ -366,6 +367,16 @@ class EventOrgAdmin(admin.ModelAdmin):
                 row += 1
 
         return finalize_in_memory_xlsx(buffer, workbook)
+
+
+@admin.register(EventOrgTask)
+class EventOrgTaskAdmin(admin.ModelAdmin):
+    list_select_related = ("event", "event_org")
+    list_display = ("name", "done", "event_org", "event")
+    list_filter = ("event", "done")
+    search_fields = ("name", "event_org__name", "notes")
+    autocomplete_fields = ("event_org", )
+    pass
 
 
 @admin.register(EventOrgBillingDetails)

@@ -53,6 +53,7 @@ class EventOrgInvoicingOverview(DetailView):
         context = super().get_context_data(**kwargs)
         context["event"] = self.event
         context["org"] = self.org
+        context["is_owner"] = self.org.owner == self.request.user
         context["invoices"] = self.org.invoice_set.order_by("created")
         context["billing_details"] = self.org.billing_details_set.order_by("name")
         return context

@@ -53,6 +53,48 @@ class EventOrg(models.Model):
     def has_all_tickets_used(self):
         return self.ticket_set.count() > 0 and all(ticket.status == "USED" for ticket in self.ticket_set.all())
 
+    def has_all_tasks_done(self):
+        return self.task_set.count() > 0 and all(task.done for task in self.task_set.all())
+
+
+class EventOrgTask(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
+    updated_by = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.RESTRICT, verbose_name=_("updated by"))
+
+    event = models.ForeignKey(
+        "events.Event",
+        on_delete=models.CASCADE,
+        related_name="task_set",
+        verbose_name=_("event"),
+    )
+    event_org = models.ForeignKey(
+        "events.EventOrg",
+        on_delete=models.CASCADE,
+        related_name="task_set",
+        verbose_name=_("event org"),
+    )
+
+    name = models.CharField(
+        max_length=256,
+        verbose_name=_("name"),
+        help_text=_("Large task name displayed in the org overview"),
+    )
+    done = models.BooleanField(
+        default=False,
+        verbose_name=_("done"),
+    )
+
+    notes = models.TextField(
+        blank=True,
+        verbose_name=_("notes"),
+        help_text=_("Extra notes displayed under the task"),
+    )
+
+    def __str__(self):
+        return self.name
+
 
 class EventOrgBillingDetails(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -162,3 +204,6 @@ class EventOrgInvoice(models.Model):
         verbose_name=_("notes"),
         help_text=_("Additional notes visible to org owners."),
     )
+
+    def __str__(self):
+        return f"{self.name} {self.document_id}"

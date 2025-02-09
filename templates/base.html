@@ -34,7 +34,7 @@
 </header>
 
 {% block body %}
-    <section class="container-lg">
+    <section class="{% block main_body_container_class %}container-lg{% endblock %}">
         {% if messages %}
             <div class="mb-2">
                 {% for message in messages %}

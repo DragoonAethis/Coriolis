@@ -7,32 +7,37 @@
 {% block content %}
     <h3><i class="bi bi-people-fill"></i> {{ org.name }}</h3>
     <h1>{% translate "Invoices" %}</h1>
-    <div class="coriolis-invoices">
-        {% for invoice in invoices %}
-            <div class="card mb-2">
-                <h5 class="card-header">{{ invoice.name }} <strong>{{ invoice.document_id }}</strong></h5>
-                <div class="card-body">
-                    <ul>
-                        <li>{% translate "Net value" %}: <strong>{{ invoice.net_value }}</strong></li>
-                        <li>{% translate "Tax value (VAT)" %}: <strong>{{ invoice.tax_value }}</strong></li>
-                        <li>{% translate "Gross value" %}: <strong>{{ invoice.gross_value }}</strong></li>
-                        <li>{% translate "Created" %}: <strong>{{ invoice.created }}</strong></li>
-                        <li>{% translate "Notes" %}: <strong>{{ invoice.notes|default:"-" }}</strong></li>
-                    </ul>
-                    <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with ticket actions">
-                        <a href="{% url "event_org_invoices_download" event.slug org.id invoice.id %}" class="btn btn-primary">
-                            {% translate "Download invoice" %}
-                        </a>
+    {% if is_owner or perms.events.crew_orgs_view_invoices %}
+        <div class="coriolis-invoices">
+            {% for invoice in invoices %}
+                <div class="card mb-2">
+                    <h5 class="card-header">{{ invoice.name }} <strong>{{ invoice.document_id }}</strong></h5>
+                    <div class="card-body">
+                        <ul>
+                            <li>{% translate "Net value" %}: <strong>{{ invoice.net_value }}</strong></li>
+                            <li>{% translate "Tax value (VAT)" %}: <strong>{{ invoice.tax_value }}</strong></li>
+                            <li>{% translate "Gross value" %}: <strong>{{ invoice.gross_value }}</strong></li>
+                            <li>{% translate "Created" %}: <strong>{{ invoice.created }}</strong></li>
+                            <li>{% translate "Notes" %}: <strong>{{ invoice.notes|default:"-" }}</strong></li>
+                        </ul>
+                        <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with ticket actions">
+                            <a href="{% url "event_org_invoices_download" event.slug org.id invoice.id %}" class="btn btn-primary">
+                                {% translate "Download invoice" %}
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% empty %}
-            {% translate "There are no invoices." %}
-        {% endfor %}
-    </div>
+            {% empty %}
+                {% translate "There are no invoices." %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning">{% translate "You don't have permissions to access invoices for this organization." %}</div>
+    {% endif %}
     <hr>
 
     <h1>{% translate "Billing details" %}</h1>
+    {% if is_owner or perms.events.crew_orgs_view_billing_details %}
     <ul class="list-group mb-2">
         {% for object in billing_details %}
             <li class="list-group-item">
@@ -51,5 +56,8 @@
     <a class="btn btn-lg btn-primary" href="{% url "event_org_invoices_billing_details_add" slug=event.slug org_id=org.id %}">
         <i class="bi bi-plus-lg me-1"></i> {% translate "Add billing details" %}
     </a>
+    {% else %}
+        <div class="alert alert-warning">{% translate "You don't have permissions to access billing details for this organization." %}</div>
+    {% endif %}
 
 {% endblock %}

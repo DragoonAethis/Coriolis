@@ -7,7 +7,13 @@ from events.views.crew.mod_queue import (
     TicketModQueueDepersonalizeFormView,
     mod_queue_approve_selected,
 )
-from events.views.crew.orgs import CrewEventOrgListView, CrewEventOrgTicketListView
+from events.views.crew.orgs import (
+    CrewEventOrgListView,
+    CrewEventOrgDetailView,
+    crew_event_org_add_task,
+    crew_event_org_update_task,
+    CrewEventOrgTicketListView,
+)
 from events.views.misc import (
     index,
     event_index,
@@ -114,10 +120,25 @@ urlpatterns = [
     path(
         "event/<slug:slug>/crew/orgs",
         CrewEventOrgListView.as_view(),
-        name="crew_orgs",
+        name="crew_orgs_list",
     ),
     path(
-        "event/<slug:slug>/crew/orgs/<uuid:org_id>/ticket",
+        "event/<slug:slug>/crew/orgs/<uuid:org_id>",
+         CrewEventOrgDetailView.as_view(),
+        name="crew_orgs_details",
+    ),
+    path(
+        "event/<slug:slug>/crew/orgs/<uuid:org_id>/tasks",
+         crew_event_org_add_task,
+        name="crew_orgs_tasks_add",
+    ),
+    path(
+        "event/<slug:slug>/crew/orgs/<uuid:org_id>/tasks/<uuid:task_id>",
+         crew_event_org_update_task,
+        name="crew_orgs_tasks_update",
+    ),
+    path(
+        "event/<slug:slug>/crew/orgs/<uuid:org_id>/tickets",
         CrewEventOrgTicketListView.as_view(),
         name="crew_orgs_tickets",
     ),
