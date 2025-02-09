@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-07 22:26+0100\n"
-"PO-Revision-Date: 2025-02-07 22:26+0100\n"
+"POT-Creation-Date: 2025-02-09 18:02+0100\n"
+"PO-Revision-Date: 2025-02-09 18:03+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -72,15 +72,15 @@ msgstr "Typ"
 #: templates/events/applications/application_details.html:22
 #: templates/events/crew/ticket.html:111
 #: templates/events/emails/application_changed.html:6
-#: templates/events/emails/ticket_changed.html:6 templates/events/index.html:78
-#: templates/events/index.html:144 templates/events/tickets/details.html:14
+#: templates/events/emails/ticket_changed.html:6 templates/events/index.html:81
+#: templates/events/index.html:147 templates/events/tickets/details.html:14
 #: templates/events/tickets/post_registration.html:19
 msgid "Status"
 msgstr "Status"
 
 #: events/admin/models.py:301 events/admin/models.py:364
 #: events/admin/models.py:436 templates/events/crew/list.html:14
-#: templates/events/crew/orgs/list.html:14
+#: templates/events/crew/orgs/list.html:18
 #: templates/events/crew/orgs/tickets.html:14
 #: templates/events/crew/ticket.html:30 templates/events/orgs/billing.html:39
 #: templates/events/tickets/details.html:25
@@ -143,7 +143,7 @@ msgstr "ID Organizacji"
 msgid "Org Name"
 msgstr "Nazwa Organizacji"
 
-#: events/admin/models.py:362 templates/events/crew/orgs/list.html:16
+#: events/admin/models.py:362 templates/events/crew/orgs/list.html:20
 #: templates/events_base/footer_admin.html:21
 #: templates/events_base/footer_admin.html:25
 msgid "Ticket Type"
@@ -184,7 +184,7 @@ msgstr "Kod pocztowy"
 msgid "City"
 msgstr "Miasto"
 
-#: events/admin/models.py:441 templates/events/crew/orgs/list.html:18
+#: events/admin/models.py:441 templates/events/crew/orgs/list.html:22
 #: templates/events/orgs/billing.html:44
 msgid "Representative"
 msgstr "Reprezentant"
@@ -388,7 +388,7 @@ msgstr ""
 "będą dostępne po ich zatwierdzeniu."
 
 #: events/forms/registration.py:71 templates/events/crew/ticket.html:106
-#: templates/events/index.html:97 templates/events/index.html:152
+#: templates/events/index.html:100 templates/events/index.html:155
 msgid "Details"
 msgstr "Szczegóły"
 
@@ -1790,7 +1790,7 @@ msgstr "Strona którą chcesz otworzyć nie została znaleziona."
 msgid "The server encountered an unknown error."
 msgstr "Serwer napotkał nieznany błąd."
 
-#: events/views/misc.py:120 templates/events/index.html:130
+#: events/views/misc.py:120 templates/events/index.html:133
 msgid ""
 "Online ticket sales for this event have ended. You can purchase a ticket on "
 "site."
@@ -2509,7 +2509,7 @@ msgid "Applications"
 msgstr "Zgłoszenia"
 
 #: templates/events/applications/application_form.html:10
-#: templates/events/index.html:179
+#: templates/events/index.html:182
 msgid "Deadline:"
 msgstr "Deadline:"
 
@@ -2533,29 +2533,41 @@ msgid "Code"
 msgstr "Kod"
 
 #: templates/events/crew/orgs/list.html:4
-#: templates/events/crew/orgs/list.html:10
+#: templates/events/crew/orgs/list.html:14
 #: templates/events_base/header_crew.html:30
 msgid "Organizations"
 msgstr "Organizacje"
 
-#: templates/events/crew/orgs/list.html:15
+#: templates/events/crew/orgs/list.html:19
 msgid "Owner"
 msgstr "Właściciel"
 
-#: templates/events/crew/orgs/list.html:17 templates/events/index.html:33
+#: templates/events/crew/orgs/list.html:21 templates/events/index.html:36
 msgid "Tickets"
 msgstr "Bilety"
 
-#: templates/events/crew/orgs/list.html:18 templates/events/orgs/billing.html:4
+#: templates/events/crew/orgs/list.html:22 templates/events/orgs/billing.html:4
 #: templates/events/orgs/billing.html:35
 #: templates/events/orgs/billing_add.html:4
 msgid "Billing details"
 msgstr "Dane do faktur"
 
-#: templates/events/crew/orgs/list.html:47
+#: templates/events/crew/orgs/list.html:51
 #: templates/events/orgs/billing.html:47
 msgid "There are no billing details."
 msgstr "Nie ma żadnych danych do faktur."
+
+#: templates/events/crew/orgs/list.html:69
+msgid "Search..."
+msgstr "Szukaj..."
+
+#: templates/events/crew/orgs/list.html:70
+msgid "Search within table"
+msgstr "Szukaj w tabeli"
+
+#: templates/events/crew/orgs/list.html:71
+msgid "Nothing found"
+msgstr "Nic nie znaleziono"
 
 #: templates/events/crew/ticket.html:13
 msgid "Error"
@@ -2573,7 +2585,7 @@ msgstr "Potwierdź tożsamość"
 msgid "Paid"
 msgstr "Opłacony"
 
-#: templates/events/crew/ticket.html:55 templates/events/index.html:85
+#: templates/events/crew/ticket.html:55 templates/events/index.html:88
 #: templates/events/tickets/details.html:15
 #: templates/events/tickets/post_registration.html:24
 msgid "Price"
@@ -2700,84 +2712,84 @@ msgstr ""
 "target=\"_blank\">%(name)s</a>\n"
 "                "
 
-#: templates/events/index.html:27 templates/events/index.html:90
+#: templates/events/index.html:30 templates/events/index.html:93
 #: templates/events/tickets/details.html:20
 msgid "Organization"
 msgstr "Organizacja"
 
-#: templates/events/index.html:39
+#: templates/events/index.html:42
 msgid "Add a ticket..."
 msgstr "Dodaj bilet..."
 
-#: templates/events/index.html:46
+#: templates/events/index.html:49
 msgid "No tickets..."
 msgstr "Brak biletów..."
 
-#: templates/events/index.html:51
+#: templates/events/index.html:54
 msgid "Adding an existing ticket automatically changes its type to:"
 msgstr "Dodanie istniejącego biletu automatycznie zmieni jego typ na:"
 
-#: templates/events/index.html:56
+#: templates/events/index.html:59
 msgid "Payments"
 msgstr "Płatności"
 
-#: templates/events/index.html:60
+#: templates/events/index.html:63
 msgid "Invoices and billing details"
 msgstr "Faktury i dane do faktur"
 
-#: templates/events/index.html:68
+#: templates/events/index.html:71
 msgid "Your tickets"
 msgstr "Twoje bilety"
 
-#: templates/events/index.html:101
+#: templates/events/index.html:104
 msgid "Pay Online"
 msgstr "Zapłać Online"
 
-#: templates/events/index.html:105
+#: templates/events/index.html:108
 msgid "Pay after approval"
 msgstr "Zapłać po akceptacji"
 
-#: templates/events/index.html:109
+#: templates/events/index.html:112
 #: templates/events/tickets/fragments/ticket_personalization_modal.html:32
 #: templates/events_base/footer_language.html:28
 #: templates/mfa/authenticate.html:27
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: templates/events/index.html:116
+#: templates/events/index.html:119
 msgid "You have no tickets for this event."
 msgstr "Nie masz żadnych biletów na to wydarzenie."
 
-#: templates/events/index.html:121
+#: templates/events/index.html:124
 msgid "Buy a ticket"
 msgstr "Kup bilet"
 
-#: templates/events/index.html:124
+#: templates/events/index.html:127
 msgid "Online ticket sales for this event have not yet started."
 msgstr ""
 "Sprzedaż online biletów dla tego wydarzenia jeszcze się nie rozpoczęła."
 
-#: templates/events/index.html:137
+#: templates/events/index.html:140
 msgid "Your applications"
 msgstr "Twoje zgłoszenia"
 
-#: templates/events/index.html:154
+#: templates/events/index.html:157
 msgid "Clone"
 msgstr "Sklonuj"
 
-#: templates/events/index.html:160
+#: templates/events/index.html:163
 msgid "You have no applications for this event."
 msgstr "Nie masz żadnych zgłoszeń na to wydarzenie."
 
-#: templates/events/index.html:176
+#: templates/events/index.html:179
 msgid "Ticket required"
 msgstr "Bilet wymagany"
 
-#: templates/events/index.html:186
+#: templates/events/index.html:189
 msgid "Applications for this event are closed."
 msgstr "Zgłoszenia na to wydarzenie są zamknięte."
 
-#: templates/events/index.html:193
+#: templates/events/index.html:196
 msgid "Sign in to see tickets, applications and organizations"
 msgstr "Zaloguj się aby zobaczyć bilety, zgłoszenia i organizacje"
 
