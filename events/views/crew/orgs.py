@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import redirect
@@ -51,8 +51,8 @@ class CrewEventOrgDetailView(DetailView):
         check_event_perms(self.request, self.event, ["events.crew_orgs"])
 
         event_orgs = self.event.eventorg_set.prefetch_related(
-            "task_set",
-            "ticket_set",
+            Prefetch("task_set", queryset=EventOrgTask.objects.order_by("created")),
+            Prefetch("ticket_set", queryset=Ticket.objects.order_by("created")),
             "invoice_set",
             "billing_details_set",
         ).annotate(
