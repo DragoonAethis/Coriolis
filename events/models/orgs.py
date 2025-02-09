@@ -51,21 +51,7 @@ class EventOrg(models.Model):
         return self.ticket_set.count() < self.target_ticket_count
 
     def has_all_tickets_used(self):
-        return all(ticket.status == "USED" for ticket in self.ticket_set.all())
-
-    def get_ticket_status_class(self):
-        if self.has_ticket_slots_left():
-            return "danger"
-        elif self.has_all_tickets_used():
-            return "secondary"
-        else:
-            return "success"
-
-    def get_billing_details_status_class(self):
-        if self.billing_details_set.count() > 0:
-            return "success"
-        else:
-            return "danger"
+        return self.ticket_set.count() > 0 and all(ticket.status == "USED" for ticket in self.ticket_set.all())
 
 
 class EventOrgBillingDetails(models.Model):

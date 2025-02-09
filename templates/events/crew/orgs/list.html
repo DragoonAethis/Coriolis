@@ -30,17 +30,17 @@
                         <td>{{ object.name }}</td>
                         <td>{{ object.owner.email }}</td>
                         <td>{{ object.target_ticket_type.short_name }}</td>
-                        <td class="font-monospace table-{{ object.get_ticket_status_class }}">
-                            {% if object.get_ticket_status_class == "secondary" %}
+                        <td class="font-monospace table-{% get_counter_bg_class object.ticket_set.count object.target_ticket_count %}">
+                            {% if object.has_all_tickets_used %}
                                 <i class="bi bi-check-all"></i>
                             {% endif %}
-                            <a class="link-{{ object.get_ticket_status_class }}"
+                            <a class="link-{% get_counter_bg_class object.ticket_set.count object.target_ticket_count %}"
                                href="{% url 'crew_orgs_tickets' event.slug object.id %}">
                                 {{ object.ticket_set.count }}<small>/{{ object.target_ticket_count }}</small>
                             </a>
                         </td>
-                        <td class="table-{{ object.get_billing_details_status_class }}">
-                            <a class="link-{{ object.get_billing_details_status_class }}"
+                        <td class="table-{% get_counter_bg_class object.billing_details_set.count 1 %}">
+                            <a class="link-{% get_counter_bg_class object.billing_details_set.count 1 %}"
                                href="{% url 'event_org_invoices_overview' event.slug object.id %}">
                                 {{ object.billing_details_set.count }}
                                 {% if object.billing_details_set.count > 0 %}

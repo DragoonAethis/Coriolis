@@ -57,6 +57,16 @@ def get_body_css_classes(context: RequestContext) -> str:
     return " ".join(classes)
 
 
+@register.simple_tag(takes_context=True)
+def get_counter_bg_class(context: RequestContext, value: int, expected_value: int):
+    if value < expected_value:
+        return "danger"
+    elif value == expected_value:
+        return "success"
+    else:
+        return "warning"
+
+
 @register.filter
 def allauth_autocomplete(form: BaseForm) -> BaseForm:
     """
