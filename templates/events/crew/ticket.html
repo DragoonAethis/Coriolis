@@ -5,8 +5,11 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-12 col-lg-6 offset-lg-3">
+        <div class="col-12">
             <h1>{{ ticket.get_code }}: {{ ticket.name }}</h1>
+        </div>
+        <div class="col-12 col-lg-6">
+
 
             {% if horrible_error %}
                 <div class="card text-white bg-danger mb-3">
@@ -98,9 +101,10 @@
                     {% crispy form %}
                 {% endif %}
             {% endif %}
+        </div>
 
-            <hr>
-
+        <div class="col-12 col-lg-6">
+            <hr class="d-lg-none">
             <div class="card mb-2">
                 <div class="card-header">
                     {% translate "Details" %}:
