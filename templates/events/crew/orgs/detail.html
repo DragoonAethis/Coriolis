@@ -76,7 +76,7 @@
 
                 <form action="{% url "crew_orgs_tasks_add" event.slug object.id %}" method="post" class="input-group mb-3">
                     <span class="input-group-text" id="add-a-task">{% translate "Add a task" %}:</span>
-                    <input type="text" class="form-control" name="name" placeholder="Name" aria-label="Name" aria-describedby="add-a-task" required>
+                    <input type="text" class="form-control" name="name" placeholder="{% translate "Name" %}" aria-label="{% translate "Name" %}" aria-describedby="add-a-task" required>
                     {% csrf_token %}
                     <button class="btn btn-primary" type="submit" id="add-task-btn">
                         <i class="bi bi-plus"></i> {% translate "Add" %}
