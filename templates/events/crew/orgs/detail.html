@@ -8,11 +8,52 @@
     <div class="row">
         <div class="col">
             <h1><i class="bi bi-people-fill"></i> {{ org.name }}</h1>
-            <ul>
-                <li>{% translate "Location tag" %}: {{ object.location_tag }}</li>
-                <li>{% translate "Owner" %}: {{ object.owner }}</li>
-                <li>{% translate "Ticket type" %}: {{ object.target_ticket_type.short_name }} - {{ object.target_ticket_type }}</li>
-            </ul>
+            <div class="row">
+                <div class="col-12 col-md-6 mb-1 mb-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-0 font-monospace text-body-secondary text-uppercase">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                {% translate "Location tag" %}
+                            </h6>
+                            <h4 class="mb-0">{{ object.location_tag|default:"-" }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-1 mb-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-0 font-monospace text-body-secondary text-uppercase">
+                                <i class="bi bi-ticket-perforated-fill"></i>
+                                {% translate "Ticket type" %}
+                            </h6>
+                            <h4 class="mb-0">{{ object.target_ticket_type.short_name }}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-1 mb-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-0 font-monospace text-body-secondary text-uppercase">
+                                <i class="bi bi-person-heart"></i>
+                                {% translate "Owner" %}
+                            </h6>
+                            <h4 class="mb-0"><a href="mailto:{{ object.owner.email }}">{{ object.owner }}</a></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-1 mb-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="mb-0 font-monospace text-body-secondary text-uppercase">
+                                <i class="bi bi-file-person"></i>
+                                {% translate "Representative" %}
+                            </h6>
+                            <h4 class="mb-0">{{ object.billing_details_set.first.representative|default:"-" }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {% if perms.events.crew_accreditation %}
                 <hr>
