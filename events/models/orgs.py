@@ -168,6 +168,7 @@ class EventOrgInvoice(models.Model):
         help_text=_("The invoice number or document ID. Should be unique within the issuing legal entity."),
     )
     file = models.FileField(
+        blank=True,
         upload_to=get_invoice_upload_dir,
         storage=storages["private"],
         verbose_name=_("file"),

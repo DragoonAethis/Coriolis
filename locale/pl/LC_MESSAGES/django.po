@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-10 00:12+0100\n"
-"PO-Revision-Date: 2025-02-10 00:12+0100\n"
+"POT-Creation-Date: 2025-02-14 18:12+0100\n"
+"PO-Revision-Date: 2025-02-14 18:13+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -80,18 +80,18 @@ msgstr "Status"
 
 #: events/admin/models.py:302 events/admin/models.py:365
 #: events/admin/models.py:447 templates/events/crew/list.html:14
-#: templates/events/crew/orgs/detail.html:24
-#: templates/events/crew/orgs/detail.html:79
+#: templates/events/crew/orgs/detail.html:65
+#: templates/events/crew/orgs/detail.html:120
 #: templates/events/crew/orgs/list.html:21
 #: templates/events/crew/orgs/tickets.html:14
-#: templates/events/crew/ticket.html:33 templates/events/orgs/billing.html:44
+#: templates/events/crew/ticket.html:33 templates/events/orgs/billing.html:50
 #: templates/events/tickets/details.html:25
 msgid "Name"
 msgstr "Nazwa"
 
 #: events/admin/models.py:303 events/admin/models.py:367
 #: templates/events/applications/application_details.html:30
-#: templates/events/crew/list.html:16 templates/events/crew/orgs/detail.html:26
+#: templates/events/crew/list.html:16 templates/events/crew/orgs/detail.html:67
 #: templates/events/crew/orgs/tickets.html:16
 #: templates/events/crew/ticket.html:36
 #: templates/events/emails/new_application.html:8
@@ -101,7 +101,7 @@ msgstr "Telefon"
 
 #: events/admin/models.py:304 events/admin/models.py:366
 #: templates/events/applications/application_details.html:26
-#: templates/events/crew/list.html:15 templates/events/crew/orgs/detail.html:25
+#: templates/events/crew/list.html:15 templates/events/crew/orgs/detail.html:66
 #: templates/events/crew/orgs/tickets.html:15
 #: templates/events/crew/ticket.html:34
 #: templates/events/emails/new_application.html:10
@@ -167,27 +167,28 @@ msgstr "Pobierz jako dane Manufaktury"
 msgid "Event Org"
 msgstr "Organizacja Wydarzenia"
 
-#: events/admin/models.py:448 templates/events/orgs/billing.html:45
+#: events/admin/models.py:448 templates/events/orgs/billing.html:51
 msgid "Tax ID"
 msgstr "Identyfikator podatkowy"
 
 #: events/admin/models.py:449 events/forms/orgs.py:23
-#: templates/events/orgs/billing.html:46
+#: templates/events/orgs/billing.html:52
 msgid "Address"
 msgstr "Adres"
 
 #: events/admin/models.py:450 events/forms/orgs.py:24
-#: templates/events/orgs/billing.html:47
+#: templates/events/orgs/billing.html:53
 msgid "Postcode"
 msgstr "Kod pocztowy"
 
 #: events/admin/models.py:451 events/forms/orgs.py:25
-#: templates/events/orgs/billing.html:48
+#: templates/events/orgs/billing.html:54
 msgid "City"
 msgstr "Miasto"
 
-#: events/admin/models.py:452 templates/events/crew/orgs/list.html:26
-#: templates/events/orgs/billing.html:49
+#: events/admin/models.py:452 templates/events/crew/orgs/detail.html:50
+#: templates/events/crew/orgs/list.html:26
+#: templates/events/orgs/billing.html:55
 msgid "Representative"
 msgstr "Reprezentant"
 
@@ -268,7 +269,7 @@ msgstr "Tylko kody cyfrowe, bez prefiksu."
 msgid "Search"
 msgstr "Wyszukaj"
 
-#: events/forms/crew.py:37 templates/events/crew/orgs/detail.html:14
+#: events/forms/crew.py:37 templates/events/crew/orgs/detail.html:28
 msgid "Ticket type"
 msgstr "Typ biletu"
 
@@ -404,7 +405,7 @@ msgid "Register"
 msgstr "Zarejestruj się"
 
 #: events/forms/registration.py:93 templates/events/crew/list.html:17
-#: templates/events/crew/orgs/detail.html:27
+#: templates/events/crew/orgs/detail.html:68
 #: templates/events/crew/orgs/tickets.html:17
 #: templates/events/crew/ticket.html:39
 #: templates/events/tickets/details.html:33
@@ -651,7 +652,7 @@ msgid "answers"
 msgstr "odpowiedzi"
 
 #: events/models/applications.py:135 events/models/orgs.py:91
-#: events/models/orgs.py:204 events/models/tickets.py:315
+#: events/models/orgs.py:205 events/models/tickets.py:315
 msgid "notes"
 msgstr "notatki"
 
@@ -1130,39 +1131,39 @@ msgstr ""
 "Numer faktury lub ID dokumentu. Powinno być unikalne wewnątrz wystawiającej "
 "jednostki prawnej."
 
-#: events/models/orgs.py:173
+#: events/models/orgs.py:174
 msgid "file"
 msgstr "plik"
 
-#: events/models/orgs.py:174
+#: events/models/orgs.py:175
 msgid "Downloadable file with the invoice contents."
 msgstr "Pobieralny plik z zawartością faktury."
 
-#: events/models/orgs.py:180
+#: events/models/orgs.py:181
 msgid "net value"
 msgstr "wartość netto"
 
-#: events/models/orgs.py:181
+#: events/models/orgs.py:182
 msgid "Net value on the invoice. Used for statistics."
 msgstr "Wartość netto na fakturze. Używana do statystyk."
 
-#: events/models/orgs.py:188
+#: events/models/orgs.py:189
 msgid "tax value"
 msgstr "wartość podatku"
 
-#: events/models/orgs.py:189
+#: events/models/orgs.py:190
 msgid "Tax value (VAT, etc) on the invoice. Used for statistics."
 msgstr "Wartość podatku (VAT, itp) na fakturze. Używana do statystyk."
 
-#: events/models/orgs.py:196
+#: events/models/orgs.py:197
 msgid "gross value"
 msgstr "wartość brutto"
 
-#: events/models/orgs.py:197
+#: events/models/orgs.py:198
 msgid "Gross value on the invoice. Used for statistics."
 msgstr "Wartość brutto na fakturze. Używana do statystyk."
 
-#: events/models/orgs.py:205
+#: events/models/orgs.py:206
 msgid "Additional notes visible to org owners."
 msgstr "Dodatkowe notatki widoczne dla właścicieli organizacji."
 
@@ -1911,16 +1912,20 @@ msgstr "Płatność odrzucona - spróbuj ponownie."
 msgid "Payment refunded."
 msgstr "Płatność zwrócona."
 
-#: events/views/orgs.py:98 templates/events/orgs/billing.html:57
+#: events/views/orgs.py:75
+msgid "The requested invoice is not available."
+msgstr "Żądana faktura jest niedostępna."
+
+#: events/views/orgs.py:104 templates/events/orgs/billing.html:63
 #: templates/events/orgs/billing_add.html:8
 msgid "Add billing details"
 msgstr "Dodaj dane do faktur"
 
-#: events/views/orgs.py:121
+#: events/views/orgs.py:127
 msgid "Billing details added."
 msgstr "Dane do faktur dodane."
 
-#: events/views/orgs.py:143
+#: events/views/orgs.py:149
 msgid ""
 "Ticket type is not set for this organization - please contact the event "
 "organizers."
@@ -1928,15 +1933,15 @@ msgstr ""
 "Typ biletu nie jest ustawiony dla tej organizacji - skontaktuj się z "
 "organizatorami wydarzenia."
 
-#: events/views/orgs.py:148
+#: events/views/orgs.py:154
 msgid "You have reached the maximum amount of tickets."
 msgstr "Osiągnięto maksymalną ilość biletów."
 
-#: events/views/orgs.py:163
+#: events/views/orgs.py:169
 msgid "Add ticket"
 msgstr "Dodaj bilet"
 
-#: events/views/orgs.py:204 events/views/registrations.py:201
+#: events/views/orgs.py:210 events/views/registrations.py:201
 msgid "Thank you for your registration! You can see your ticket details below."
 msgstr ""
 "Dziękujemy za rejestrację! Możesz znaleźć szczegóły swojego biletu poniżej."
@@ -2576,48 +2581,48 @@ msgstr "Istniejący bilet?"
 msgid "Need a new ticket?"
 msgstr "Potrzeba nowego biletu?"
 
-#: templates/events/crew/list.html:13 templates/events/crew/orgs/detail.html:23
+#: templates/events/crew/list.html:13 templates/events/crew/orgs/detail.html:64
 #: templates/events/crew/orgs/tickets.html:13
 msgid "Code"
 msgstr "Kod"
 
-#: templates/events/crew/orgs/detail.html:12
+#: templates/events/crew/orgs/detail.html:17
 msgid "Location tag"
 msgstr "Tag lokalizacji"
 
-#: templates/events/crew/orgs/detail.html:13
+#: templates/events/crew/orgs/detail.html:39
 #: templates/events/crew/orgs/list.html:22
 msgid "Owner"
 msgstr "Właściciel"
 
-#: templates/events/crew/orgs/detail.html:19
+#: templates/events/crew/orgs/detail.html:60
 #: templates/events/crew/orgs/list.html:24 templates/events/index.html:36
 msgid "Tickets"
 msgstr "Bilety"
 
-#: templates/events/crew/orgs/detail.html:48
+#: templates/events/crew/orgs/detail.html:89
 #: templates/events/crew/orgs/list.html:25
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/events/crew/orgs/detail.html:74
+#: templates/events/crew/orgs/detail.html:115
 msgid "There are no tasks. Add some?"
 msgstr "Nie ma żadnych zadań. Dodaj jakieś?"
 
-#: templates/events/crew/orgs/detail.html:78
+#: templates/events/crew/orgs/detail.html:119
 msgid "Add a task"
 msgstr "Dodaj zadanie"
 
-#: templates/events/crew/orgs/detail.html:82
+#: templates/events/crew/orgs/detail.html:123
 msgid "Add"
 msgstr "Dodaj"
 
-#: templates/events/crew/orgs/detail.html:89
+#: templates/events/crew/orgs/detail.html:130
 #: templates/events/orgs/billing.html:9
 msgid "Invoices"
 msgstr "Faktury"
 
-#: templates/events/crew/orgs/detail.html:91
+#: templates/events/crew/orgs/detail.html:132
 msgid "Go to invoices and billing details"
 msgstr "Idź do faktur i danych do faktur"
 
@@ -2632,13 +2637,13 @@ msgid "LOC"
 msgstr "LOC"
 
 #: templates/events/crew/orgs/list.html:26 templates/events/orgs/billing.html:4
-#: templates/events/orgs/billing.html:39
+#: templates/events/orgs/billing.html:45
 #: templates/events/orgs/billing_add.html:4
 msgid "Billing details"
 msgstr "Dane do faktur"
 
 #: templates/events/crew/orgs/list.html:68
-#: templates/events/orgs/billing.html:52
+#: templates/events/orgs/billing.html:58
 msgid "There are no billing details."
 msgstr "Nie ma żadnych danych do faktur."
 
@@ -2963,19 +2968,23 @@ msgstr "Wartość podatku (VAT)"
 msgid "Gross value"
 msgstr "Wartość brutto"
 
-#: templates/events/orgs/billing.html:25
+#: templates/events/orgs/billing.html:26
 msgid "Download invoice"
 msgstr "Pobierz fakturę"
 
-#: templates/events/orgs/billing.html:31
+#: templates/events/orgs/billing.html:30
+msgid "Invoice not available"
+msgstr "Faktura niedostępna"
+
+#: templates/events/orgs/billing.html:37
 msgid "There are no invoices."
 msgstr "Nie masz żadnych faktur."
 
-#: templates/events/orgs/billing.html:35
+#: templates/events/orgs/billing.html:41
 msgid "You don't have permissions to access invoices for this organization."
 msgstr "Nie masz uprawnień aby dostać się do faktur dla tej organizacji."
 
-#: templates/events/orgs/billing.html:60
+#: templates/events/orgs/billing.html:66
 msgid ""
 "You don't have permissions to access billing details for this organization."
 msgstr ""

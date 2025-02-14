@@ -69,8 +69,14 @@ def download_invoice(request, slug, org_id, invoice_id):
 
     invoice: EventOrgInvoice = get_object_or_404(EventOrgInvoice, event=event, id=invoice_id)
 
+    try:
+        invoice_handle = invoice.file.open("rb")
+    except (FileNotFoundError, ValueError):
+        messages.error(request, _("The requested invoice is not available."))
+        return redirect("event_org_invoices_overview", slug, org_id)
+
     return FileResponse(
-        invoice.file.open("rb"),
+        invoice_handle,
         as_attachment=True,
         filename=invoice.file.name,
         headers={"Content-Type": "application/octet-stream"},

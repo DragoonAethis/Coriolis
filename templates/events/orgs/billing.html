@@ -21,9 +21,15 @@
                             <li>{% translate "Notes" %}: <strong>{{ invoice.notes|default:"-" }}</strong></li>
                         </ul>
                         <div class="btn-toolbar btn-gaps" role="toolbar" aria-label="Toolbar with ticket actions">
-                            <a href="{% url "event_org_invoices_download" event.slug org.id invoice.id %}" class="btn btn-primary">
-                                {% translate "Download invoice" %}
-                            </a>
+                            {% if invoice.file %}
+                                <a href="{% url "event_org_invoices_download" event.slug org.id invoice.id %}" class="btn btn-primary">
+                                    {% translate "Download invoice" %}
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-outline-secondary disabled">
+                                    {% translate "Invoice not available" %}
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
