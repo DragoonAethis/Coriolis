@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-16 15:49+0100\n"
-"PO-Revision-Date: 2025-02-16 15:49+0100\n"
+"POT-Creation-Date: 2025-02-16 16:34+0100\n"
+"PO-Revision-Date: 2025-02-16 16:35+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -2678,19 +2678,24 @@ msgstr "Dane do faktur"
 msgid "There are no billing details."
 msgstr "Nie ma żadnych danych do faktur."
 
-#: templates/events/crew/orgs/list.html:86
+#: templates/events/crew/orgs/list.html:74
+msgid ""
+"Pressing Enter in the search box will click on the first link in the table."
+msgstr "Wciśnięcie Enter w wyszukiwarce kliknie na pierwszy link w tabeli."
+
+#: templates/events/crew/orgs/list.html:90
 msgid "Search..."
 msgstr "Szukaj..."
 
-#: templates/events/crew/orgs/list.html:87
+#: templates/events/crew/orgs/list.html:91
 msgid "Search within table"
 msgstr "Szukaj w tabeli"
 
-#: templates/events/crew/orgs/list.html:88
+#: templates/events/crew/orgs/list.html:92
 msgid "Nothing found"
 msgstr "Nic nie znaleziono"
 
-#: templates/events/crew/orgs/list.html:89
+#: templates/events/crew/orgs/list.html:93
 msgid "No data"
 msgstr "Brak danych"
 

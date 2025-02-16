@@ -69,6 +69,10 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <span class="form-text">
+                <i class="bi bi-info-square-fill"></i>
+                {% translate "Pressing Enter in the search box will click on the first link in the table." %}
+            </span>
         </div>
     </div>
 
@@ -112,7 +116,17 @@
         });
 
         dt.on("datatable.init", (event) => {
-            dt.wrapperDOM.getElementsByTagName("input")[0].focus();
+            var input = dt.wrapperDOM.getElementsByTagName("input")[0];
+            input.focus();
+
+            input.addEventListener("keydown", (event) => {
+                if (event.key !== "Enter") return;
+                var link = dt.containerDOM.querySelector("tbody tr a");
+                if (link != null) {
+                    link.classList.add("text-success");
+                    link.click();
+                }
+            });
         })
     </script>
 {% endblock %}
