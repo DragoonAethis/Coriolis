@@ -57,8 +57,11 @@
 
             {% if perms.events.crew_accreditation %}
                 <hr>
-                <h2>{% translate "Tickets" %} ({{ object.ticket_set.count }}/{{ object.target_ticket_count }})</h2>
-                <table class="table table-striped table-bordered table-sm table-hover">
+                <h2>
+                    {% translate "Tickets" %}
+                    ({{ object.ticket_set.count }}/{{ object.target_ticket_count }})
+                </h2>
+                <table class="table table-striped table-bordered table-sm table-hover mb-2">
                     <thead>
                     <tr class="table-light">
                         <th scope="col" class="sticky-top">{% translate "Code" %}</th>
@@ -82,6 +85,27 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                <form action="{% url "crew_orgs_tickets_generate" event.slug object.id %}" method="post" class="input-group mb-3">
+                    <span class="input-group-text" id="generate-tickets">{% translate "Generate tickets" %}:</span>
+                    <input type="number" class="form-control" name="count" placeholder="#" aria-label="#" aria-describedby="generate-tickets" value="1" min="1" max="20" required>
+                    <span class="input-group-text">x</span>
+                    <span class="input-group-text">{% translate "of type" %}:</span>
+                    <select class="form-select" name="type" aria-describedby="generate-tickets">
+                        {% for ttype in event.get_ticket_types_available_on_site %}
+                            <option value="{{ ttype.id }}" {% if org.target_ticket_type.id == ttype.id %}selected{% endif %}>{{ ttype.name }}</option>
+                        {% empty %}
+                            <option disabled>{% translate "No tickets available..." %}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" type="checkbox" name="is_of_age" value="1" aria-label="Checkbox for following text input" checked>
+                        &nbsp; 18+
+                    </div>
+                    {% csrf_token %}
+                    <button class="btn btn-primary" type="submit" id="add-task-btn">
+                        <i class="bi bi-plus"></i> {% translate "Add" %}
+                    </button>
+                </form>
             {% endif %}
 
             {% if perms.events.crew_orgs_view_tasks %}

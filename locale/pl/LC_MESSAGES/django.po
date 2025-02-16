@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-14 18:12+0100\n"
-"PO-Revision-Date: 2025-02-14 18:13+0100\n"
+"POT-Creation-Date: 2025-02-16 15:49+0100\n"
+"PO-Revision-Date: 2025-02-16 15:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -80,8 +80,8 @@ msgstr "Status"
 
 #: events/admin/models.py:302 events/admin/models.py:365
 #: events/admin/models.py:447 templates/events/crew/list.html:14
-#: templates/events/crew/orgs/detail.html:65
-#: templates/events/crew/orgs/detail.html:120
+#: templates/events/crew/orgs/detail.html:68
+#: templates/events/crew/orgs/detail.html:144
 #: templates/events/crew/orgs/list.html:21
 #: templates/events/crew/orgs/tickets.html:14
 #: templates/events/crew/ticket.html:33 templates/events/orgs/billing.html:50
@@ -91,7 +91,7 @@ msgstr "Nazwa"
 
 #: events/admin/models.py:303 events/admin/models.py:367
 #: templates/events/applications/application_details.html:30
-#: templates/events/crew/list.html:16 templates/events/crew/orgs/detail.html:67
+#: templates/events/crew/list.html:16 templates/events/crew/orgs/detail.html:70
 #: templates/events/crew/orgs/tickets.html:16
 #: templates/events/crew/ticket.html:36
 #: templates/events/emails/new_application.html:8
@@ -101,7 +101,7 @@ msgstr "Telefon"
 
 #: events/admin/models.py:304 events/admin/models.py:366
 #: templates/events/applications/application_details.html:26
-#: templates/events/crew/list.html:15 templates/events/crew/orgs/detail.html:66
+#: templates/events/crew/list.html:15 templates/events/crew/orgs/detail.html:69
 #: templates/events/crew/orgs/tickets.html:15
 #: templates/events/crew/ticket.html:34
 #: templates/events/emails/new_application.html:10
@@ -405,7 +405,7 @@ msgid "Register"
 msgstr "Zarejestruj się"
 
 #: events/forms/registration.py:93 templates/events/crew/list.html:17
-#: templates/events/crew/orgs/detail.html:68
+#: templates/events/crew/orgs/detail.html:71
 #: templates/events/crew/orgs/tickets.html:17
 #: templates/events/crew/ticket.html:39
 #: templates/events/tickets/details.html:33
@@ -456,7 +456,7 @@ msgid "Cancel ticket"
 msgstr "Anuluj bilet"
 
 #: events/models/applications.py:17 events/models/applications.py:115
-#: events/models/events.py:127 events/models/events.py:162
+#: events/models/events.py:128 events/models/events.py:178
 #: events/models/notifications.py:32 events/models/orgs.py:15
 #: events/models/orgs.py:70 events/models/orgs.py:105 events/models/orgs.py:145
 #: events/models/payments.py:26 events/models/tickets.py:30
@@ -466,8 +466,8 @@ msgid "event"
 msgstr "wydarzenie"
 
 #: events/models/applications.py:18 events/models/applications.py:124
-#: events/models/events.py:16 events/models/events.py:165
-#: events/models/events.py:201 events/models/notifications.py:35
+#: events/models/events.py:17 events/models/events.py:181
+#: events/models/events.py:217 events/models/notifications.py:35
 #: events/models/orgs.py:17 events/models/orgs.py:81 events/models/orgs.py:114
 #: events/models/orgs.py:156 events/models/tickets.py:31
 #: events/models/tickets.py:54 events/models/tickets.py:305
@@ -475,8 +475,8 @@ msgstr "wydarzenie"
 msgid "name"
 msgstr "nazwa"
 
-#: events/models/applications.py:19 events/models/events.py:19
-#: events/models/events.py:168
+#: events/models/applications.py:19 events/models/events.py:20
+#: events/models/events.py:184
 msgid "slug"
 msgstr "slug"
 
@@ -559,7 +559,7 @@ msgstr "wyświetlaj termin"
 msgid "Publicly display the application form closure date."
 msgstr "Publicznie wyświetlaj datę zamknięcia formularza zgłoszenia."
 
-#: events/models/applications.py:71 events/models/events.py:113
+#: events/models/applications.py:71 events/models/events.py:114
 #: events/models/tickets.py:34 events/models/tickets.py:56
 msgid "description"
 msgstr "opis"
@@ -616,15 +616,15 @@ msgstr "Przyjęte"
 msgid "Rejected"
 msgstr "Odrzucone"
 
-#: events/models/applications.py:111 events/models/events.py:11
-#: events/models/events.py:154 events/models/orgs.py:62
+#: events/models/applications.py:111 events/models/events.py:12
+#: events/models/events.py:170 events/models/orgs.py:62
 #: events/models/orgs.py:138 events/models/payments.py:22
 #: events/models/tickets.py:225
 msgid "created"
 msgstr "utworzono"
 
-#: events/models/applications.py:112 events/models/events.py:12
-#: events/models/events.py:155 events/models/orgs.py:63
+#: events/models/applications.py:112 events/models/events.py:13
+#: events/models/events.py:171 events/models/orgs.py:63
 #: events/models/orgs.py:139 events/models/payments.py:23
 #: events/models/tickets.py:226
 msgid "updated"
@@ -701,93 +701,93 @@ msgstr "zgłoszenia"
 msgid "%(event)s: Application '%(name)s' (new status)"
 msgstr "%(event)s: Zgłoszenie '%(name)s' (nowy status)"
 
-#: events/models/events.py:17
+#: events/models/events.py:18
 msgid "Human-readable name for the event."
 msgstr "Nazwa wydarzenia czytelna dla człowieka."
 
-#: events/models/events.py:19
+#: events/models/events.py:20
 msgid "Short name used in links."
 msgstr "Krótka nazwa używana w linkach."
 
-#: events/models/events.py:22
+#: events/models/events.py:23
 msgid "location"
 msgstr "lokalizacja"
 
-#: events/models/events.py:23
+#: events/models/events.py:24
 msgid "Physical place where the event will take place."
 msgstr "Fizyczne miejsce w którym to wydarzenie ma miejsce."
 
-#: events/models/events.py:27
+#: events/models/events.py:28
 msgid "location link"
 msgstr "link do lokalizacji"
 
-#: events/models/events.py:28
+#: events/models/events.py:29
 msgid "Link to Google Maps or OSM."
 msgstr "Link do Google Maps lub OSM."
 
-#: events/models/events.py:32
+#: events/models/events.py:33
 msgid "website link"
 msgstr "link do strony"
 
-#: events/models/events.py:33
+#: events/models/events.py:34
 msgid "Link to the main event website."
 msgstr "Link do głównej strony wydarzenia."
 
-#: events/models/events.py:37
+#: events/models/events.py:38
 msgid "contact link"
 msgstr "link do kontaktu"
 
-#: events/models/events.py:38
+#: events/models/events.py:39
 msgid "Used for the big Contact Organizers button."
 msgstr "Używany przez duży przycisk Skontaktuj się z Organizatorami."
 
-#: events/models/events.py:42
+#: events/models/events.py:43
 msgid "org mail"
 msgstr "mail orgów"
 
-#: events/models/events.py:43
+#: events/models/events.py:44
 msgid "Used as the Reply To address for e-mail notifications."
 msgstr "Używany jako adres Reply To dla powiadomień mailowych."
 
-#: events/models/events.py:46
+#: events/models/events.py:47
 msgid "date from"
 msgstr "data od"
 
-#: events/models/events.py:47
+#: events/models/events.py:48
 msgid "date to"
 msgstr "data do"
 
-#: events/models/events.py:50
+#: events/models/events.py:51
 msgid "event active"
 msgstr "wydarzenie aktywne"
 
-#: events/models/events.py:51
+#: events/models/events.py:52
 msgid "If disabled, hides this event from the front page picker."
 msgstr ""
 "Jeżeli odznaczono, ukrywa wydarzenie z wybieraczki wydarzeń na stronie "
 "głównej."
 
-#: events/models/events.py:56
+#: events/models/events.py:57
 msgid "payment enabled"
 msgstr "płatność włączona"
 
-#: events/models/events.py:57
+#: events/models/events.py:58
 msgid "Enable or disable online payments on this event."
 msgstr "Włącz lub wyłącz płatności online dla tego wydarzenia."
 
-#: events/models/events.py:61
+#: events/models/events.py:62
 msgid "emails enabled"
 msgstr "emaile włączone"
 
-#: events/models/events.py:62
+#: events/models/events.py:63
 msgid "Toggles emails for some status changes on this event."
 msgstr "Włącz maile używane dla niektórych zmian statusu na tym wydarzeniu."
 
-#: events/models/events.py:66
+#: events/models/events.py:67
 msgid "force display ticket details in crew panel"
 msgstr "wymuś wyświetlanie danych biletu w panelu zespołu"
 
-#: events/models/events.py:68
+#: events/models/events.py:69
 msgid ""
 "Force display all data for tickets, even if they cannot be acted upon. "
 "Useful for quick data lookups before the event."
@@ -795,19 +795,19 @@ msgstr ""
 "Wymuś wyświetlanie wszystkich danych dla biletów, nawet jeżeli nie można nic "
 "z nimi zrobić. Przydatne do szybkiego podglądu danych przed wydarzeniem."
 
-#: events/models/events.py:75 events/models/events.py:208
+#: events/models/events.py:76 events/models/events.py:224
 msgid "ticket renderer"
 msgstr "renderer biletów"
 
-#: events/models/events.py:78
+#: events/models/events.py:79
 msgid "System used to render the personalized ticket images."
 msgstr "System używany do generowania podglądu spersonalizowanych biletów."
 
-#: events/models/events.py:83
+#: events/models/events.py:84
 msgid "ticket renderer variants"
 msgstr "warianty renderera biletów"
 
-#: events/models/events.py:84
+#: events/models/events.py:85
 msgid ""
 "Comma-separated list of ticket variants to render. The first one will be "
 "shown to users."
@@ -815,11 +815,11 @@ msgstr ""
 "Lista wariantów do wyrenderowania rozdzielona przecinkiem. Tylko pierwszy "
 "będzie pokazany użytkownikom."
 
-#: events/models/events.py:88
+#: events/models/events.py:89
 msgid "ticket renderer help text"
 msgstr "tekst pomocy renderera biletów"
 
-#: events/models/events.py:89
+#: events/models/events.py:90
 msgid ""
 "Text to be shown under the custom image upload field (image dimensions, "
 "notices)."
@@ -827,27 +827,27 @@ msgstr ""
 "Tekst do wyświetlenia nad polem do załadowania własnego obrazka (wymiary "
 "obrazka, informacje)."
 
-#: events/models/events.py:95
+#: events/models/events.py:96
 msgid "prometheus key"
 msgstr "klucz prometheusa"
 
-#: events/models/events.py:96
+#: events/models/events.py:97
 msgid "Key used as the password for the Prometheus metrics URL"
 msgstr "Klucz używany jako hasło w URLu metryk Prometheusa"
 
-#: events/models/events.py:101
+#: events/models/events.py:102
 msgid "notice"
 msgstr "ogłoszenie"
 
-#: events/models/events.py:102
+#: events/models/events.py:103
 msgid "Notice to be shown below the event description, if set."
 msgstr "Ogłoszenie wyświetlone pod opisem wydarzenia, jeśli ustawione."
 
-#: events/models/events.py:106
+#: events/models/events.py:107
 msgid "sale closed notice"
 msgstr "ogłoszenie zamkniętej sprzedaży"
 
-#: events/models/events.py:108
+#: events/models/events.py:109
 msgid ""
 "Notice to be shown instead of the default one when the ticket sales are "
 "closed. May contain HTML."
@@ -855,105 +855,105 @@ msgstr ""
 "Ogłoszenie do wyświetlenia zamiast domyślnego, gdy sprzedaż biletów została "
 "zamknięta. Może zawierać HTML."
 
-#: events/models/events.py:114
+#: events/models/events.py:115
 msgid "Text shown on the main page. Supports Markdown."
 msgstr "Tekst wyświetlany na stronie głównej. Wspiera Markdown."
 
-#: events/models/events.py:117
+#: events/models/events.py:118
 msgid "footer content"
 msgstr "treść stopki"
 
-#: events/models/events.py:118
+#: events/models/events.py:119
 msgid "Muted text shown in the footer. Supports Markdown."
 msgstr "Przyciemniony tekst wyświetlany w stopce. Wspiera Markdown."
 
-#: events/models/events.py:122
+#: events/models/events.py:123
 msgid "ticket code length"
 msgstr "długość kodu biletu"
 
-#: events/models/events.py:128
+#: events/models/events.py:129
 msgid "events"
 msgstr "wydarzenia"
 
-#: events/models/events.py:132
+#: events/models/events.py:133
 msgid "Can access the crew accreditation panel."
 msgstr "Może otworzyć panel akredytacji."
 
-#: events/models/events.py:133
+#: events/models/events.py:134
 msgid "Can access the crew mod queue."
 msgstr "Może otworzyć kolejkę moderacji."
 
-#: events/models/events.py:134
+#: events/models/events.py:135
 msgid "Can access the crew organization lists."
 msgstr "Może otworzyć listę organizacji."
 
-#: events/models/events.py:135
+#: events/models/events.py:136
 msgid "Can access the crew organization task lists."
 msgstr "Może otworzyć listy zadań organizacji."
 
-#: events/models/events.py:136
+#: events/models/events.py:137
 msgid "Can access the org invoices from the crew panel."
 msgstr "Może otworzyć faktury organizacji z panelu organizacji."
 
-#: events/models/events.py:137
+#: events/models/events.py:138
 msgid "Can access the org billing details from the crew panel."
 msgstr "Może otworzyć dane do faktur z panelu organizacji."
 
-#: events/models/events.py:148
+#: events/models/events.py:164
 msgid "Informational"
 msgstr "Informacyjna"
 
-#: events/models/events.py:149
+#: events/models/events.py:165
 msgid "Hidden Informational"
 msgstr "Ukryta Informacyjna"
 
-#: events/models/events.py:150
+#: events/models/events.py:166
 msgid "Ticket Payment Instructions"
 msgstr "Instrukcje Płatności za Bilet"
 
-#: events/models/events.py:163
+#: events/models/events.py:179
 msgid "If not set, will be shown for all events."
 msgstr "Jeśli nie jest ustawione, będzie wyświetlane dla wszystkich wydarzeń."
 
-#: events/models/events.py:169
+#: events/models/events.py:185
 msgid "Short name used in links. Event-specific pages have precedence."
 msgstr ""
 "Krótka nazwa używana w linkach. Strony specyficzne dla wydarzeń mają "
 "priorytet."
 
-#: events/models/events.py:173
+#: events/models/events.py:189
 msgid "page type"
 msgstr "typ strony"
 
-#: events/models/events.py:176
+#: events/models/events.py:192
 msgid "What this page is going to be used for?"
 msgstr "Do czego będzie używana ta strona?"
 
-#: events/models/events.py:180
+#: events/models/events.py:196
 msgid "hidden"
 msgstr "ukryta"
 
-#: events/models/events.py:181
+#: events/models/events.py:197
 msgid "Whenever to hide this page in the page listing."
 msgstr "Decyduje o ukryciu strony w listingu stron."
 
-#: events/models/events.py:183
+#: events/models/events.py:199
 msgid "content"
 msgstr "treść"
 
-#: events/models/events.py:183
+#: events/models/events.py:199
 msgid "Page content. Supports markdown."
 msgstr "Treść strony. Wspiera Markdown."
 
-#: events/models/events.py:186
+#: events/models/events.py:202
 msgid "event page"
 msgstr "strona wydarzenia"
 
-#: events/models/events.py:187
+#: events/models/events.py:203
 msgid "event pages"
 msgstr "strony wydarzeń"
 
-#: events/models/events.py:204
+#: events/models/events.py:220
 msgid ""
 "Coriolis configuration for this renderer. See wiki/docs for more info on "
 "this."
@@ -961,7 +961,7 @@ msgstr ""
 "Konfiguracja Coriolisa dla tego renderera. Zajrzyj do wiki/dokumentacji po "
 "więcej informacji."
 
-#: events/models/events.py:209
+#: events/models/events.py:225
 msgid "ticket renderers"
 msgstr "renderery biletów"
 
@@ -1762,12 +1762,12 @@ msgstr ""
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
-#: events/views/crew/accreditation.py:54 events/views/registrations.py:60
-#: events/views/registrations.py:148
+#: events/views/crew/accreditation.py:54 events/views/crew/orgs.py:104
+#: events/views/registrations.py:60 events/views/registrations.py:148
 msgid "We ran out of these tickets."
 msgstr "Ten rodzaj biletu wyprzedał się."
 
-#: events/views/crew/accreditation.py:61
+#: events/views/crew/accreditation.py:61 events/views/crew/orgs.py:116
 msgid "Generated Ticket"
 msgstr "Wygenerowany Bilet"
 
@@ -1820,11 +1820,29 @@ msgid "Ticket depersonalized."
 msgstr "Bilet zdepersonalizowany."
 
 #: events/views/crew/mod_queue.py:101 events/views/crew/orgs.py:79
-#: events/views/crew/orgs.py:105
+#: events/views/crew/orgs.py:136 events/views/crew/orgs.py:162
 msgid "This form accepts POST requests only."
 msgstr "Ten formularz przyjmuje tylko żądania POST."
 
-#: events/views/crew/orgs.py:87
+#: events/views/crew/orgs.py:88
+msgid "How many tickets do you want to generate?"
+msgstr "Ile biletów chcesz wygenerować?"
+
+#: events/views/crew/orgs.py:92
+msgid "You're overdoing it!"
+msgstr "Przesadzasz!"
+
+#: events/views/crew/orgs.py:100
+msgid "Ticket type not found, or not valid for this event on-site!"
+msgstr ""
+"Typ biletu nie został znaleziony, albo nie jest poprawny dla tego wydarzenia "
+"na miejscu!"
+
+#: events/views/crew/orgs.py:129
+msgid "Success - tickets created: "
+msgstr "Sukces - bilety utworzone: "
+
+#: events/views/crew/orgs.py:144
 msgid "Provide a task name to add."
 msgstr "Podaj nazwę zadania do dodania."
 
@@ -2581,7 +2599,7 @@ msgstr "Istniejący bilet?"
 msgid "Need a new ticket?"
 msgstr "Potrzeba nowego biletu?"
 
-#: templates/events/crew/list.html:13 templates/events/crew/orgs/detail.html:64
+#: templates/events/crew/list.html:13 templates/events/crew/orgs/detail.html:67
 #: templates/events/crew/orgs/tickets.html:13
 msgid "Code"
 msgstr "Kod"
@@ -2595,34 +2613,47 @@ msgstr "Tag lokalizacji"
 msgid "Owner"
 msgstr "Właściciel"
 
-#: templates/events/crew/orgs/detail.html:60
+#: templates/events/crew/orgs/detail.html:61
 #: templates/events/crew/orgs/list.html:24 templates/events/index.html:36
 msgid "Tickets"
 msgstr "Bilety"
 
 #: templates/events/crew/orgs/detail.html:89
+msgid "Generate tickets"
+msgstr "Generuj bilety"
+
+#: templates/events/crew/orgs/detail.html:92
+msgid "of type"
+msgstr "typu"
+
+#: templates/events/crew/orgs/detail.html:97
+msgid "No tickets available..."
+msgstr "Brak dostępnych biletów..."
+
+#: templates/events/crew/orgs/detail.html:106
+#: templates/events/crew/orgs/detail.html:147
+msgid "Add"
+msgstr "Dodaj"
+
+#: templates/events/crew/orgs/detail.html:113
 #: templates/events/crew/orgs/list.html:25
 msgid "Tasks"
 msgstr "Zadania"
 
-#: templates/events/crew/orgs/detail.html:115
+#: templates/events/crew/orgs/detail.html:139
 msgid "There are no tasks. Add some?"
 msgstr "Nie ma żadnych zadań. Dodaj jakieś?"
 
-#: templates/events/crew/orgs/detail.html:119
+#: templates/events/crew/orgs/detail.html:143
 msgid "Add a task"
 msgstr "Dodaj zadanie"
 
-#: templates/events/crew/orgs/detail.html:123
-msgid "Add"
-msgstr "Dodaj"
-
-#: templates/events/crew/orgs/detail.html:130
+#: templates/events/crew/orgs/detail.html:154
 #: templates/events/orgs/billing.html:9
 msgid "Invoices"
 msgstr "Faktury"
 
-#: templates/events/crew/orgs/detail.html:132
+#: templates/events/crew/orgs/detail.html:156
 msgid "Go to invoices and billing details"
 msgstr "Idź do faktur i danych do faktur"
 

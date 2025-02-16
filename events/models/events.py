@@ -1,4 +1,5 @@
 import uuid
+import datetime
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
@@ -142,6 +143,21 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return reverse("event_index", kwargs={"slug": self.slug})
+
+    def get_ticket_types_available_now(self):
+        now = datetime.datetime.now()
+        return self.tickettype_set.filter(
+            on_site_registration=True,
+            registration_from__lte=now,
+            registration_to__gte=now,
+            tickets_remaining__gt=0,
+        ).order_by("display_order", "name")
+
+    def get_ticket_types_available_on_site(self):
+        return self.get_ticket_types_available_now().filter(on_site_registration=True)
+
+    def get_ticket_types_available_online(self):
+        return self.get_ticket_types_available_now().filter(self_registration=True)
 
 
 class EventPageType(models.TextChoices):

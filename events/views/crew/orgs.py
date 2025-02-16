@@ -1,14 +1,14 @@
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.db import models
-from django.db.models import Q, Prefetch
+from django.db.models import F, Q, Prefetch
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
 
-from events.models import EventOrg, Event, Ticket
-from events.utils import check_event_perms
+from events.models import EventOrg, Event, Ticket, TicketType, TicketStatus, TicketSource
+from events.utils import generate_ticket_code, check_event_perms
 from events.models import EventOrgTask
 
 
@@ -71,6 +71,63 @@ class CrewEventOrgDetailView(DetailView):
         context["org"] = self.org
         context["is_owner"] = self.org.owner == self.request.user
         return context
+
+
+@transaction.atomic
+def crew_event_org_generate_tickets(request, slug, org_id: str, *args, **kwargs):
+    if request.method != "POST":
+        messages.error(request, _("This form accepts POST requests only."))
+        return redirect("event_index", slug=slug)
+
+    event = get_object_or_404(Event, slug=slug)
+    check_event_perms(request, event, ["events.crew_accreditation"])
+
+    count = int(request.POST["count"])
+
+    if count < 1:
+        messages.error(request, _("How many tickets do you want to generate?"))
+        return redirect("crew_orgs_details", slug, org_id)
+
+    if count > 20:
+        messages.error(request, _("You're overdoing it!"))
+        return redirect("crew_orgs_details", slug, org_id)
+
+    try:
+        ttype = TicketType.objects.get(id=request.POST["type"])
+        if ttype not in event.get_ticket_types_available_on_site():
+            raise TicketType.DoesNotExist()
+    except TicketType.DoesNotExist:
+        messages.error(request, _("Ticket type not found, or not valid for this event on-site!"))
+        return redirect("crew_orgs_details", slug, org_id)
+
+    if ttype.tickets_remaining < count:
+        messages.error(request, _("We ran out of these tickets."))
+        return redirect("crew_orgs_details", slug, org_id)
+
+    is_of_age = request.POST.get("is_of_age") == "1"
+
+    codes = []
+    for i in range(count):
+        t = Ticket(
+            user=request.user,
+            event=event,
+            type=ttype,
+            org_id=org_id,
+            name=_("Generated Ticket"),
+            status=TicketStatus.USED,
+            source=TicketSource.ONSITE,
+            age_gate=is_of_age,
+            code=generate_ticket_code(event),
+        )
+
+        t.save()
+        codes.append(t.get_code())
+
+    ttype.tickets_remaining = F("tickets_remaining") - 1
+    ttype.save()
+
+    messages.success(request, _("Success - tickets created: ") + ", ".join(codes))
+    return redirect("crew_orgs_details", slug, org_id)
 
 
 @transaction.atomic
