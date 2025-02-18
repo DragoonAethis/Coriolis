@@ -32,7 +32,7 @@
                         <td class="font-monospace">{{ object.location_tag|default:"-" }}</td>
                         <td><a href="{% url 'crew_orgs_details' event.slug object.id %}">{{ object.name }}</a></td>
                         <td>{{ object.owner.email }}</td>
-                        <td>{{ object.target_ticket_type.short_name }}</td>
+                        <td style="background-color: color-mix(in oklab, {{ object.target_ticket_type.color }} 25%, #FFFFFF 75%)">{{ object.target_ticket_type.short_name }}</td>
 
                         <td class="font-monospace table-{% get_counter_bg_class object.ticket_set.count object.target_ticket_count %}">
                             {% if object.has_all_tickets_used %}
