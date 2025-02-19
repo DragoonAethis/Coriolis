@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-16 16:34+0100\n"
-"PO-Revision-Date: 2025-02-16 16:35+0100\n"
+"POT-Creation-Date: 2025-02-19 01:06+0100\n"
+"PO-Revision-Date: 2025-02-19 01:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -200,8 +200,7 @@ msgstr "BRAKUJĄCE TŁUMACZENIE!"
 msgid "Yes"
 msgstr "Tak"
 
-#: events/dynaforms/utils.py:83 events/forms/crew.py:54
-#: templates/events/crew/ticket.html:54
+#: events/dynaforms/utils.py:83 templates/events/crew/ticket.html:54
 msgid "No"
 msgstr "Nie"
 
@@ -273,19 +272,23 @@ msgstr "Wyszukaj"
 msgid "Ticket type"
 msgstr "Typ biletu"
 
-#: events/forms/crew.py:38
+#: events/forms/crew.py:38 events/forms/crew.py:39
 msgid "Is attendee of age?"
 msgstr "Czy uczestnik jest pełnoletni?"
 
-#: events/forms/crew.py:53
+#: events/forms/crew.py:54
 msgid "Yes - born before/on: "
 msgstr "Tak - urodzony przed/w dniu: "
 
-#: events/forms/crew.py:60
+#: events/forms/crew.py:55
+msgid "No - check the convention card"
+msgstr "Nie - sprawdź kartę konwentowicza"
+
+#: events/forms/crew.py:61
 msgid "Create"
 msgstr "Utwórz"
 
-#: events/forms/crew.py:70
+#: events/forms/crew.py:71
 msgid "Use"
 msgstr "Użyj"
 

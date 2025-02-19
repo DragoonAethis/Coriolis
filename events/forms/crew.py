@@ -51,7 +51,7 @@ class CrewNewTicketForm(forms.Form):
 
         self.fields["age_gate"].choices = [
             (True, _("Yes - born before/on: ") + date_of_age.date().isoformat()),
-            (False, _("No")),
+            (False, _("No - check the convention card")),
         ]
 
         self.helper = FormHelper()
