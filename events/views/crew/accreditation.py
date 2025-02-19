@@ -26,15 +26,10 @@ class CrewIndexNewView(FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
 
-        ticket_types = TicketType.objects.filter(
-            event_id=self.event.id,
-            on_site_registration=True,
-        ).order_by("display_order")
-
         kwargs.update(
             {
                 "event": self.event,
-                "types": list(ticket_types),
+                "types": self.event.get_ticket_types_available_on_site(),
             }
         )
         return kwargs
