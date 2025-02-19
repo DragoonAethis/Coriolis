@@ -83,9 +83,23 @@ def prometheus_status(request, slug, key):
             lambda x: (str(x["type_id"]), x["source"], x["status"], x["paid"]),
             ("ticket_type", "source", "status", "paid"),
         ),
+        GaugeCounter(
+            "ticket_payment_methods",
+            "Number of valid tickets by payment method.",
+            lambda x: True,  # Filtered on the query below.
+            lambda x: (str(x["type_id"]), x["payment_method"], x["status"]),
+            ("ticket_type", "payment_method", "status"),
+        ),
+        FloatGaugeCounter(
+            "tickets_value_by_payment_method",
+            "Contributed value from all tickets, grouped by payment method.",
+            lambda x: x["contributed_value"],
+            lambda x: (str(x["type_id"]), x["payment_method"]),
+            ("ticket_type", "payment_method"),
+        ),
         FloatGaugeCounter(
             "tickets_value",
-            "Contributed value from all tickets.",
+            "Contributed value from all tickets, grouped by source.",
             lambda x: x["contributed_value"],
             lambda x: (str(x["type_id"]), x["source"]),
             ("ticket_type", "source"),
@@ -95,7 +109,7 @@ def prometheus_status(request, slug, key):
     data = (
         Ticket.objects.filter(event_id=event.id)
         .filter(~Q(status=TicketStatus.CANCELLED))
-        .values("type_id", "status", "source", "paid", "contributed_value")
+        .values("type_id", "status", "source", "payment_method", "paid", "contributed_value")
     )
 
     output_metrics = []
