@@ -6,7 +6,7 @@ from payments.signals import status_changed
 
 @receiver(status_changed)
 def handle_payment_status_change(sender: type, **kwargs):
-    from events.models import Payment, Ticket, TicketStatus
+    from events.models import Payment, Ticket, TicketStatus, TicketPaymentMethod
 
     payment: Payment = kwargs.get("instance")
     if payment is None:
@@ -19,9 +19,12 @@ def handle_payment_status_change(sender: type, **kwargs):
             payment.captured_amount, payment.currency or ticket.contributed_value.currency
         )
 
-        ticket.status = TicketStatus.READY
-        ticket.status_deadline = None
-        ticket.paid = True
+        if ticket.contributed_value >= ticket.get_price():
+            ticket.status = TicketStatus.READY
+            ticket.status_deadline = None
+            ticket.paid = True
+
+        ticket.payment_method = TicketPaymentMethod.ONLINE
         ticket.save()
 
 

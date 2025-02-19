@@ -18,7 +18,7 @@ from django.views.generic import FormView
 
 from events.forms.registration import RegistrationForm, CancelRegistrationForm, UpdateTicketForm
 from events.models.events import Event
-from events.models.tickets import Ticket, TicketType, OnlinePaymentPolicy, TicketStatus, TicketSource
+from events.models.tickets import Ticket, TicketType, OnlinePaymentPolicy, TicketStatus, TicketSource, TicketPaymentMethod
 from events.tasks.ticket_renderer import render_ticket_variants
 from events.utils import (
     get_ticket_purchase_rate_limit_keys,
@@ -112,6 +112,7 @@ class RegistrationView(FormView):
             type=self.type,
             status=TicketStatus.READY,
             source=TicketSource.ONLINE,
+            payment_method=TicketPaymentMethod.OTHER,
             name=form.cleaned_data["name"],
             email=form.cleaned_data["email"],
             phone=form.cleaned_data["phone"],

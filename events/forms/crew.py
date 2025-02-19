@@ -7,7 +7,7 @@ from django import forms
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from events.models import Event, Ticket, TicketType
+from events.models import Event, Ticket, TicketType, TicketPaymentMethod
 
 
 class CrewFindTicketForm(forms.Form):
@@ -36,6 +36,7 @@ class CrewFindTicketForm(forms.Form):
 class CrewNewTicketForm(forms.Form):
     ticket_type = forms.ChoiceField(label=_("Ticket type"), widget=forms.RadioSelect)
     age_gate = forms.ChoiceField(label=_("Is attendee of age?"), widget=forms.RadioSelect)
+    payment_method = forms.ChoiceField(label=_("Payment method"), widget=forms.RadioSelect)
 
     def __init__(self, *args, event: Event, types: list[TicketType], **kwargs):
         super().__init__(*args, **kwargs)
@@ -52,6 +53,12 @@ class CrewNewTicketForm(forms.Form):
         self.fields["age_gate"].choices = [
             (True, _("Yes - born before/on: ") + date_of_age.date().isoformat()),
             (False, _("No - check the convention card")),
+        ]
+
+        self.fields["payment_method"].choices = [
+            (TicketPaymentMethod.CASH, _("Cash")),
+            (TicketPaymentMethod.CARD, _("Card")),
+            (TicketPaymentMethod.OTHER, _("Other")),
         ]
 
         self.helper = FormHelper()

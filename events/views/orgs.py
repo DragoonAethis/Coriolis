@@ -13,7 +13,8 @@ from django.http import FileResponse
 
 from events.forms.orgs import BillingDetailsForm
 from events.forms.registration import EventOrgTicketRegistrationForm
-from events.models import Event, EventOrg, EventOrgInvoice, Ticket, TicketStatus, TicketSource, EventOrgBillingDetails, User
+from events.models import Event, EventOrg, EventOrgInvoice, EventOrgBillingDetails, User
+from events.models.tickets import Ticket, TicketStatus, TicketSource, TicketPaymentMethod
 from events.tasks.ticket_renderer import render_ticket_variants
 from events.utils import generate_ticket_code
 
@@ -184,6 +185,7 @@ class EventOrgTicketCreateView(FormView):
             org=self.org,
             status=TicketStatus.READY,
             source=TicketSource.ONLINE,
+            payment_method=TicketPaymentMethod.OTHER,
             name=form.cleaned_data["name"],
             email=form.cleaned_data["email"],
             phone=form.cleaned_data["phone"],

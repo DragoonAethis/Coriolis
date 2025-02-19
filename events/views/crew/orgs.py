@@ -7,7 +7,7 @@ from django.db import transaction
 from django.shortcuts import redirect
 from django.utils.translation import gettext as _
 
-from events.models import EventOrg, Event, Ticket, TicketType, TicketStatus, TicketSource
+from events.models import EventOrg, Event, Ticket, TicketType, TicketStatus, TicketSource, TicketPaymentMethod
 from events.utils import generate_ticket_code, check_event_perms
 from events.models import EventOrgTask
 
@@ -116,6 +116,7 @@ def crew_event_org_generate_tickets(request, slug, org_id: str, *args, **kwargs)
             name=_("Generated Ticket"),
             status=TicketStatus.USED,
             source=TicketSource.ONSITE,
+            payment_method=TicketPaymentMethod.OTHER,
             age_gate=is_of_age,
             code=generate_ticket_code(event),
         )

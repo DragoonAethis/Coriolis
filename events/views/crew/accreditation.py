@@ -61,6 +61,7 @@ class CrewIndexNewView(FormView):
             name=_("Generated Ticket"),
             status=TicketStatus.USED,
             source=TicketSource.ONSITE,
+            payment_method=form.cleaned_data["payment_method"],
             age_gate=form.cleaned_data["age_gate"],
             code=generate_ticket_code(self.event),
         )

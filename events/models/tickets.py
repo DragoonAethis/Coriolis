@@ -212,6 +212,13 @@ class TicketSource(models.TextChoices):
     ONSITE = "onsite", _("On-site")
 
 
+class TicketPaymentMethod(models.TextChoices):
+    CASH = "cash", _("Cash")
+    CARD = "card", _("Card")
+    ONLINE = "online", _("Online")
+    OTHER = "other", _("Other")
+
+
 class TicketQuerySet(models.QuerySet):
     def valid_statuses_only(self):
         return self.filter(status__in=(TicketStatus.READY, TicketStatus.USED))
@@ -300,6 +307,12 @@ class Ticket(models.Model):
         verbose_name=_("source"),
         choices=TicketSource.choices,
         default=TicketSource.ADMIN,
+    )
+    payment_method = models.CharField(
+        max_length=16,
+        verbose_name=_("payment method"),
+        choices=TicketPaymentMethod.choices,
+        default='other',
     )
 
     name = models.CharField(max_length=256, blank=True, verbose_name=_("name"))
