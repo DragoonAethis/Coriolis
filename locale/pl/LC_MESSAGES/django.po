@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-19 01:23+0100\n"
-"PO-Revision-Date: 2025-02-19 01:27+0100\n"
+"POT-Creation-Date: 2025-03-29 17:07+0100\n"
+"PO-Revision-Date: 2025-03-29 17:08+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -1785,52 +1785,52 @@ msgstr ""
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
-#: events/views/crew/accreditation.py:54 events/views/crew/orgs.py:104
+#: events/views/crew/accreditation.py:49 events/views/crew/orgs.py:104
 #: events/views/registrations.py:60 events/views/registrations.py:149
 msgid "We ran out of these tickets."
 msgstr "Ten rodzaj biletu wyprzedał się."
 
-#: events/views/crew/accreditation.py:61 events/views/crew/orgs.py:116
+#: events/views/crew/accreditation.py:56 events/views/crew/orgs.py:116
 msgid "Generated Ticket"
 msgstr "Wygenerowany Bilet"
 
-#: events/views/crew/accreditation.py:74
+#: events/views/crew/accreditation.py:69
 msgid "Success - ticket created: "
 msgstr "Sukces - bilet utworzony: "
 
-#: events/views/crew/accreditation.py:114
+#: events/views/crew/accreditation.py:109
 msgid "Ticket with the provided code does not exist - searching..."
 msgstr "Bilet z podanym kodem nie istnieje - szukam..."
 
-#: events/views/crew/accreditation.py:128
+#: events/views/crew/accreditation.py:123
 msgid "No tickets found."
 msgstr "Nie znaleziono żadnych biletów."
 
-#: events/views/crew/accreditation.py:132
+#: events/views/crew/accreditation.py:127
 msgid "Found a single ticket."
 msgstr "Znaleziono jeden bilet."
 
-#: events/views/crew/accreditation.py:141
+#: events/views/crew/accreditation.py:136
 msgid "Ticket with the provided code does not exist."
 msgstr "Bilet z podanym kodem nie istnieje."
 
-#: events/views/crew/accreditation.py:161
+#: events/views/crew/accreditation.py:156
 msgid "This ticket is not valid for this event!"
 msgstr "Ten bilet nie jest ważny dla tego wydarzenia!"
 
-#: events/views/crew/accreditation.py:165
+#: events/views/crew/accreditation.py:160
 msgid "Call for the accreditation coordinator."
 msgstr "Zawołaj koordynatora akredytacji."
 
-#: events/views/crew/accreditation.py:167
+#: events/views/crew/accreditation.py:162
 msgid "This ticket has already been used."
 msgstr "Ten bilet został już użyty."
 
-#: events/views/crew/accreditation.py:169
+#: events/views/crew/accreditation.py:164
 msgid "This ticket has been cancelled."
 msgstr "Ten bilet został anulowany."
 
-#: events/views/crew/accreditation.py:171
+#: events/views/crew/accreditation.py:166
 msgid "This ticket has an invalid status: "
 msgstr "Ten bilet ma niepoprawny status: "
 
@@ -2706,21 +2706,25 @@ msgid ""
 "Pressing Enter in the search box will click on the first link in the table."
 msgstr "Wciśnięcie Enter w wyszukiwarce kliknie na pierwszy link w tabeli."
 
-#: templates/events/crew/orgs/list.html:90
+#: templates/events/crew/orgs/list.html:91
 msgid "Search..."
 msgstr "Szukaj..."
 
-#: templates/events/crew/orgs/list.html:91
+#: templates/events/crew/orgs/list.html:92
 msgid "Search within table"
 msgstr "Szukaj w tabeli"
 
-#: templates/events/crew/orgs/list.html:92
+#: templates/events/crew/orgs/list.html:93
 msgid "Nothing found"
 msgstr "Nic nie znaleziono"
 
-#: templates/events/crew/orgs/list.html:93
+#: templates/events/crew/orgs/list.html:94
 msgid "No data"
 msgstr "Brak danych"
+
+#: templates/events/crew/orgs/list.html:167
+msgid "Filter results by ALL or ANY of the entered terms."
+msgstr "Filtruj wyniki po WSZYSTKICH lub DOWOLNYCH z podanych wyrażeń."
 
 #: templates/events/crew/ticket.html:16
 msgid "Error"

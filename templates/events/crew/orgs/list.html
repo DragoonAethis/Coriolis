@@ -84,6 +84,7 @@
         let dt = new window.simpleDatatables.DataTable(document.getElementById("coriolis-orgs"), {
             paging: false,
             searchable: true,
+            searchAnd: true,
             fixedHeight: false,
             headerClass: "sticky-top",
             labels: {
@@ -113,10 +114,21 @@
                 top: "datatable-top",
                 wrapper: "datatable-wrapper",
             },
+            // simple-datatables: src/templates.ts (but cut down):
+            template: (options, dom) => `<div class='${options.classes.top}'>
+                <div class='${options.classes.search} input-group'>
+                    <input class='${options.classes.input}' placeholder='${options.labels.placeholder}' type='search' name="search" title='${options.labels.searchTitle}'${dom.id ? ` aria-controls="${dom.id}"` : ""}>
+                    <button id='toggle-search-method' type='button' class='btn btn-outline-secondary'><i id='search-method-icon' class='bi bi-intersect'></i></button>
+                </div>
+            </div>
+            <div class='${options.classes.container}'${options.scrollY.length ? ` style='height: ${options.scrollY}; overflow-Y: auto;'` : ""}></div>
+            <div class='${options.classes.bottom}'>
+                <nav class='${options.classes.pagination}'></nav>
+            </div>`
         });
 
         dt.on("datatable.init", (event) => {
-            var input = dt.wrapperDOM.getElementsByTagName("input")[0];
+            let input = dt.wrapperDOM.getElementsByTagName("input")[0];
             input.focus();
 
             input.addEventListener("keydown", (event) => {
@@ -126,6 +138,33 @@
                     link.classList.add("text-success");
                     link.click();
                 }
+            });
+
+            // Search AND/OR toggle:
+            let methodToggle = dt.wrapperDOM.querySelector("#toggle-search-method");
+            let methodIcon = dt.wrapperDOM.querySelector("#search-method-icon");
+            methodToggle.addEventListener("click", (event) => {
+                if (dt.options.searchAnd) {
+                    console.log("Switching search to OR...");
+                    dt.options.searchAnd = false;
+                    methodIcon.classList.replace("bi-intersect", "bi-union");
+                } else {
+                    console.log("Switching search to AND...");
+                    dt.options.searchAnd = true;
+                    methodIcon.classList.replace("bi-union", "bi-intersect");
+                }
+
+                // In src/datatable.ts, there's a hardcoded search handler for
+                // the main input, but no way to trigger a datatable refresh
+                // with the new search method. So let's force it like this:
+                input.dispatchEvent(new Event("input", {
+                    bubbles: true
+                }));
+            });
+
+            const popover = new bootstrap.Popover(methodToggle, {
+                trigger: 'hover focus',
+                content: '{% translate "Filter results by ALL or ANY of the entered terms." %}',
             });
         })
     </script>
