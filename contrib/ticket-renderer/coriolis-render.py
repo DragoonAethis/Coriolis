@@ -23,7 +23,7 @@ with open("render.html", "w") as f:
     f.write(template.render(template_params))
 
 with sync_playwright() as p:
-    browser = p.chromium.launch()
+    browser = p.chromium.launch(args=["--disable-web-security"])
     page = browser.new_page()
     page.set_viewport_size(
         {
