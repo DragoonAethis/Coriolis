@@ -13,6 +13,7 @@ P24_TRANSACTION_REQUEST: str = "trnRequest"
 P24_TRANSACTION_REGISTER: str = "api/v1/transaction/register"
 P24_TRANSACTION_VERIFY: str = "api/v1/transaction/verify"
 P24_TRANSACTION_GET_BY_SESSION_ID: str = "/api/v1/transaction/by/sessionId/"
+P24_REFUND_GET_BY_ORDER_ID: str = "/api/v1/refund/by/orderId/"
 
 logger = logging.getLogger(__name__)
 
