@@ -233,7 +233,7 @@ class ApplicationTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_select_related = ("event", "type", "ticket")
+    list_select_related = ("event", "type", "ticket", "ticket__event", "ticket__type", "ticket__type__event")
     list_display = ("name", "label", "event", "type_link", "status", "phone", "email", "ticket_code", "created")
     list_filter = ("event", EventContextBasedApplicationTypeFilter, "status")
     search_fields = ("name", "email", "phone")
