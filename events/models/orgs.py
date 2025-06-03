@@ -45,7 +45,7 @@ class EventOrg(models.Model):
         verbose_name_plural = _("event orgs")
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.event.name})"
 
     def has_ticket_slots_left(self):
         return self.ticket_set.count() < self.target_ticket_count
