@@ -10,7 +10,9 @@ cp -r /template/* .
 python /usr/local/bin/coriolis-render.py
 
 if [[ -f "render.png" ]]; then
-    pngquant --force --skip-if-larger --output "render-sm.png" "render.png"
+    if [[ "$OPTIMIZE_PNGQUANT" == "1" ]]; then
+        pngquant --force --skip-if-larger --output "render-sm.png" "render.png"
+    fi
 
     if [[ -f "render-sm.png" ]]; then
         mv "render-sm.png" "render.png"
