@@ -277,7 +277,7 @@ def ticket_payment(request, slug, ticket_id):
             ticket=ticket,
             billing_email=request.user.email,
             billing_country_code=settings.PAYMENT_ISO_COUNTRY,
-            variant=settings.PAYMENT_PAY_ONLINE_VARIANT,
+            variant=event.payment_method.strip() or settings.PAYMENT_PAY_ONLINE_VARIANT,
             description=f"{ticket.get_code()}: {ticket.name} ({ticket.type.name}, {ticket.event.name})",
             total=ticket.get_price().amount,
             currency=ticket.get_price().currency.code,

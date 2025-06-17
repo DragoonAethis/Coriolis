@@ -57,6 +57,11 @@ class Event(models.Model):
         verbose_name=_("payment enabled"),
         help_text=_("Enable or disable online payments on this event."),
     )
+    payment_method = models.CharField(
+        blank=True,
+        verbose_name=_("payment method"),
+        help_text=_("Payment method to use for this event. If empty, the global default is used instead."),
+    )
     emails_enabled = models.BooleanField(
         default=True,
         verbose_name=_("emails enabled"),
