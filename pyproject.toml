@@ -35,7 +35,7 @@ psycopg = { extras = ["binary", "pool"], version = "^3.2.9" }
 pillow = "^11.2.1"
 pyrage = "^1.2.5"
 Markdown = "^3.8"
-django-payments = "^2.0.0"
+django-payments = "^3.0.1"
 django-money = "^3.5.4"
 django-hijack = "^3.7.2"
 pydantic = "^2.11.5"
