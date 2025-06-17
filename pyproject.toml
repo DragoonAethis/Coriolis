@@ -51,6 +51,7 @@ pyinstrument = "^5.0.2"
 
 # Vendored due to project-specific hacks and fixes:
 #django-payments-przelewy24 = { git = "https://github.com/ar4s/django-payments-przelewy24" }
+joserfc = "^1.1.0"
 
 
 [tool.ruff]

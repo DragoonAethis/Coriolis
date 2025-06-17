@@ -80,9 +80,11 @@ PRIVATE_MEDIA_ROOT = env.str("PRIVATE_MEDIA_ROOT", BASE_DIR / "private")
 
 TICKET_RENDERER_MAX_JOBS = env.int("TICKET_RENDERER_MAX_JOBS", 3)
 
-hosts = env.str("ALLOWED_HOSTS", None)
-if hosts:
+if hosts := env.str("ALLOWED_HOSTS", None):
     ALLOWED_HOSTS = [host.strip() for host in hosts.split(",")]
+
+if csrf_origins := env.list("CSRF_TRUSTED_ORIGINS", default=None):
+    CSRF_TRUSTED_ORIGINS = csrf_origins
 
 phone_region = env.str("PHONENUMBER_REGION", None)
 if phone_region:
@@ -101,6 +103,7 @@ COOKIES_POLICY_LINK = env.str("COOKIES_POLICY_LINK", None)
 
 CUSTOM_PASSWORD_LIST = env.str("CUSTOM_PASSWORD_LIST", None)
 
+# django-payments:
 PAYMENT_HOST = env.str("PAYMENT_HOST", "localhost:8000")
 PAYMENT_USES_SSL = env.bool("PAYMENT_HTTPS", not DEBUG)  # Enforce HTTPS on production envs.
 PAYMENT_MODEL = "events.Payment"
@@ -110,8 +113,19 @@ PAYMENT_VARIANTS = {
         "payments_przelewy24.provider.Przelewy24Provider",
         {"config": Przelewy24Config.from_env()},
     ),
+    "tpay": (
+        "payments_tpay.TpayProvider",
+        {
+            "api_url": env.str("PAYMENTS_TPAY_API_URL", default=None),
+            "client_id": env.str("PAYMENTS_TPAY_CLIENT_ID", default=None),
+            "client_secret": env.str("PAYMENTS_TPAY_CLIENT_SECRET", default=None),
+            "verification_code": env.str("PAYMENTS_TPAY_VERIFICATION_CODE", default=None),
+            "test_mode": env.bool("PAYMENTS_TPAY_TEST_MODE", default=False),
+        },
+    )
 }
 
+# Coriolis payments:
 PAYMENT_MAX_ATTEMPTS = 5
 PAYMENT_ISO_COUNTRY = env.str("PAYMENT_ISO_COUNTRY", "PL")
 PAYMENT_PAY_ONLINE_VARIANT = env.str("PAYMENT_PAY_ONLINE_VARIANT", "default")
@@ -161,6 +175,7 @@ INSTALLED_APPS = [
     "djmoney",
     "payments",
     "payments_przelewy24",
+    "payments_tpay",
 
     "colorfield",
     "phonenumber_field",
