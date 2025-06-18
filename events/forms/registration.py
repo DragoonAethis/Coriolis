@@ -32,7 +32,7 @@ class RegistrationForm(forms.Form):
     )
 
     age_gate = forms.BooleanField(
-        label=_("I am at least 18 years old"),
+        label=_("I am at least 18 years old on the day of the event"),
         required=False,
         help_text=_("If not, you must take extra documents listed above to the event."),
     )
