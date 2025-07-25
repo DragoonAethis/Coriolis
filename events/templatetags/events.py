@@ -5,7 +5,11 @@ from django.forms import BaseForm
 from django.forms.widgets import PasswordInput
 from django.template import RequestContext
 from django.utils.html import mark_safe
+
+import xml.etree.ElementTree as etree
+
 from markdown import markdown
+from markdown.extensions.tables import TableExtension, TableProcessor
 
 register = template.Library()
 
@@ -18,6 +22,25 @@ MESSAGE_LEVEL_TO_CSS_CLASS = {
 }
 
 
+class CustomTableProcessor(TableProcessor):
+    def run(self, parent: etree.Element, blocks: list[str]) -> None:
+        super().run(parent, blocks)
+        if len(parent) > 0 and parent[-1].tag == "table":
+            table = parent[-1]
+            table.attrib["class"] = "table table-bordered table-striped table-hover"
+
+        print("hee-hoo")
+
+
+class CustomTableExtension(TableExtension):
+    def extendMarkdown(self, md):
+        """ Add an instance of `CustomTableProcessor` to `BlockParser`. """
+        if '|' not in md.ESCAPED_CHARS:
+            md.ESCAPED_CHARS.append('|')
+        processor = CustomTableProcessor(md.parser, self.getConfigs())
+        md.parser.blockprocessors.register(processor, 'table', 75)
+
+
 @register.simple_tag
 def level_to_bootstrap_css_class(level: int) -> str:
     return MESSAGE_LEVEL_TO_CSS_CLASS.get(level) or "primary"
@@ -25,13 +48,26 @@ def level_to_bootstrap_css_class(level: int) -> str:
 
 @register.simple_tag
 def render_markdown(content: str, strip_wrapper: bool = False) -> str:
-    text = markdown(content, output_format="html5")
+    text = markdown(content, output_format="html", extensions=[
+        "abbr",
+        "attr_list",
+        "def_list",
+        "fenced_code",
+        "footnotes",
+        "md_in_html",
+        CustomTableExtension(),
+    ]).strip()
 
     # A quick and somewhat hacky way to strip the wrapping
     # <p> element, but only if there's a single <p> in the text.
     # This is not fully compliant, but much faster than building
     # the full HTML tree, then serializing it back to text.
-    if strip_wrapper and text.startswith("<p>") and text.endswith("</p>") and text.find("</p>") == text.rfind("</p>"):
+    if (
+            strip_wrapper
+            and text.startswith("<p>")
+            and text.endswith("</p>")
+            and text.find("</p>") == text.rfind("</p>")
+    ):
         text = text[3:-4]
 
     # Disable Ruff warnings about mark_safe, since we're explicitly building HTML here:
