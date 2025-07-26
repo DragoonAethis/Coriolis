@@ -29,8 +29,6 @@ class CustomTableProcessor(TableProcessor):
             table = parent[-1]
             table.attrib["class"] = "table table-bordered table-striped table-hover"
 
-        print("hee-hoo")
-
 
 class CustomTableExtension(TableExtension):
     def extendMarkdown(self, md):
