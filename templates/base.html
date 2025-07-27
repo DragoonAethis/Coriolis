@@ -10,6 +10,40 @@
     <meta name="generator" content="Coriolis">
     <title>{% block head_title %}Coriolis{% endblock %}</title>
 
+    {% if event %}
+        <meta property="og:title" content="{{ event.name }}" />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content="{{ event.get_absolute_url }}" />
+        {% if event.cover_image %}
+            <meta property="og:image" content="{{ event.cover_image.url }}" />
+        {% endif %}
+
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Event",
+          "name": "{{ event.name }}",
+          "startDate": "{{ event.date_from.isoformat }}",
+          "endDate": "{{ event.date_to.isoformat }}",
+          "eventStatus": "https://schema.org/EventScheduled",
+
+          {% if event.cover_image %}
+            "image": ["{{ event.cover_image.url }}"],
+          {% endif %}
+
+          "location": {
+            "@type": "Place",
+            "name": "{{ event.location }}",
+            "address": {
+                "@type": "PostalAddress",
+                "name": "{{ event.location }}",
+                "url": "{{ event.location_url }}"
+            }
+          }
+        }
+        </script>
+    {% endif %}
+
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <link href="{% static 'bootstrap/5.3.5/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'bootstrap-icons/1.11.3/bootstrap-icons.min.css' %}" rel="stylesheet">
