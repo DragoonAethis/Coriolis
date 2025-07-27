@@ -104,7 +104,7 @@ class Event(models.Model):
     cover_image = models.ImageField(
         blank=True,
         verbose_name=_("cover image"),
-        help_text=_("Event cover image to be displayed on the event front page."),
+        help_text=_("Event cover image to be displayed on the event front page. Aim for 512px width and ~256px height."),
         upload_to="backgrounds",
     )
 
