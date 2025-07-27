@@ -1,3 +1,39 @@
+/* Smooth Navigation */
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+    animation: stay-visible 0.1s ease both;
+}
+
+@keyframes stay-visible {
+  from { opacity: 1; }
+  to   { opacity: 1; }
+}
+
+::view-transition-new(root) {
+  animation: fade 0.1s ease both;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Custom Fonts */
+
+:root, [data-bs-theme=light] {
+  --bs-font-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: "Space Grotesk", var(--bs-body-font-family), sans-serif;
+}
+
+/* Fixes */
+
 #div_id_remember {
     /* Fix for the auto login form styling */
     margin-bottom: 0 !important;
