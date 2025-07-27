@@ -105,6 +105,11 @@ class RegistrationView(FormView):
         context.update({"event": self.event, "ticket_type": self.type})
         return context
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["email"] = self.request.user.email
+        return initial
+
     def form_valid(self, form):
         ticket = Ticket(
             user=self.request.user,
@@ -116,6 +121,7 @@ class RegistrationView(FormView):
             name=form.cleaned_data["name"],
             email=form.cleaned_data["email"],
             phone=form.cleaned_data["phone"],
+            city=form.cleaned_data["city"],
             age_gate=form.cleaned_data["age_gate"],
             notes=form.cleaned_data.get("notes"),
         )

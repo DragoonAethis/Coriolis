@@ -30,6 +30,14 @@ class RegistrationForm(forms.Form):
             "(Add a country prefix, like +44 for the UK.)"
         ),
     )
+    city = forms.CharField(
+        label=_("City"),
+        required=False,
+        help_text=_(
+            "Optional, used for statistical purposes. "
+            "Organizers would like to know from where people visit this event."
+        ),
+    )
 
     age_gate = forms.BooleanField(
         label=_("I am at least 18 years old on the day of the event"),
@@ -72,6 +80,7 @@ class RegistrationForm(forms.Form):
                 "name",
                 "email",
                 "phone",
+                "city",
                 "age_gate",
                 "regulations",
                 "notes",

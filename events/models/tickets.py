@@ -322,6 +322,12 @@ class Ticket(models.Model):
         verbose_name=_("phone"),
         help_text=_("Optional, used for notifications before/during the event"),
     )
+    city = models.CharField(
+        max_length=256,
+        blank=True,
+        verbose_name=_("city"),
+        help_text=_("Optional city name for statistical purposes.")
+    )
     age_gate = models.BooleanField(verbose_name=_("age gate"), help_text=_("Is the attendee of age?"))
     notes = models.TextField(
         blank=True,

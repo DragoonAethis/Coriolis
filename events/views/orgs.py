@@ -189,6 +189,7 @@ class EventOrgTicketCreateView(FormView):
             name=form.cleaned_data["name"],
             email=form.cleaned_data["email"],
             phone=form.cleaned_data["phone"],
+            city=form.cleaned_data["city"],
             age_gate=form.cleaned_data["age_gate"],
             notes=form.cleaned_data.get("notes"),
         )
