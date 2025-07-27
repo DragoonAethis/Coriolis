@@ -101,6 +101,12 @@ class Event(models.Model):
         verbose_name=_("prometheus key"),
         help_text=_("Key used as the password for the Prometheus metrics URL"),
     )
+    cover_image = models.ImageField(
+        blank=True,
+        verbose_name=_("cover image"),
+        help_text=_("Event cover image to be displayed on the event front page."),
+        upload_to="backgrounds",
+    )
 
     notice = models.TextField(
         blank=True,
