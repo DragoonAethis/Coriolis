@@ -32,6 +32,8 @@ from events.models import (
     AgePublicKey,
 )
 
+from events.dynaforms.fields import Dynaform
+
 # Ensure users go through the allauth workflow when logging into admin.
 admin.site.login = staff_member_required(admin.site.login, login_url="/accounts/login")
 
@@ -274,6 +276,7 @@ class ApplicationAdmin(admin.ModelAdmin):
     @admin.action(description=_("Download as XLSX"))
     def download_as_xlsx(self, request, queryset):
         buffer, workbook, ws = create_in_memory_xlsx()
+        queryset.prefetch_related("type")
 
         attr_cols = [
             (_("ID"), lambda a: str(a.id)),
@@ -292,15 +295,27 @@ class ApplicationAdmin(admin.ModelAdmin):
 
         cur_row = 1  # 0 is for headers
         col_shift = len(attr_cols)
-        found_cols = []
+
+        found_cols: list[str] = []
+        found_types: list[ApplicationType] = []
 
         app: Application
         for app in queryset:
-            # Common data:
+            # Extract data common for all applications, regardless of the type:
             for col, (_unused_label, expr) in enumerate(attr_cols):
                 ws.write(cur_row, col, xlsx_safe_value(expr(app)))
 
-            # Application data:
+            # Extract the initial column order for each unique type:
+            if app.type not in found_types:
+                found_types.append(app.type)
+                if "fields" not in app.type.template:
+                    raise ValueError("Application type template appears to be invalid.")
+
+                dynaform = Dynaform.build(None, app.type.template)
+                new_cols = [fname for fname, fdata in dynaform.fields.items() if fdata.is_form_field()]
+                found_cols.extend(new_cols)
+
+            # Extract the specific application instance data per discovered column order:
             for key, value in app.answers.items():
                 try:
                     col = col_shift + found_cols.index(key)

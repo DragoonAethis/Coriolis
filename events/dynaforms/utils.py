@@ -8,9 +8,8 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import get_language, get_supported_language_variant
 from django.utils.translation import gettext as _
 
-from events.dynaforms.answers import ComplexAnswerUnion
+from events.dynaforms.answers import ComplexAnswerUnion, ComplexAnswerFileUpload
 from events.templatetags.events import render_markdown
-from .answers import ComplexAnswerFileUpload
 
 TextFormats = Literal["text", "html", "markdown"]
 
