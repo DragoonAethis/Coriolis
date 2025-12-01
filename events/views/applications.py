@@ -61,6 +61,9 @@ class ApplicationSubmissionView(FormView):
                     # Ignore all requirements and just...
                     return True, None
 
+            # If the key is set but did not match any secret keys, unset it:
+            self.key = None
+
         if (
             self.type.requires_valid_ticket
             and Ticket.objects.filter(event=self.event, user=self.request.user)
@@ -205,6 +208,10 @@ class ApplicationSubmissionView(FormView):
             ).model_dump()
             prefixed_answers[f"{prefix}{upload_name}"] = answers[upload_name]
 
+        form_notes = form.cleaned_data["notes"]
+        if self.key:
+            form_notes = _("[SYSTEM] Form submitted with key:") + f" {self.key}\n" + form_notes
+
         application = Application(
             user=self.request.user,
             event=self.event,
@@ -213,7 +220,7 @@ class ApplicationSubmissionView(FormView):
             name=form.cleaned_data["name"],
             email=form.cleaned_data["email"],
             phone=form.cleaned_data["phone"],
-            notes=form.cleaned_data["notes"],
+            notes=form_notes,
             answers=answers,
         )
 
