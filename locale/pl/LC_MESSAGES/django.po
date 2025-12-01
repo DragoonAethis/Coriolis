@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-27 03:19+0200\n"
-"PO-Revision-Date: 2025-07-27 03:20+0200\n"
+"POT-Creation-Date: 2025-12-02 00:26+0100\n"
+"PO-Revision-Date: 2025-12-02 00:26+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && "
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Poedit 3.6\n"
+"X-Generator: Poedit 3.8\n"
 
 #: events/admin/filters.py:25 events/models/tickets.py:185
 msgid "ticket type"
@@ -28,39 +28,39 @@ msgstr "typ biletu"
 msgid "application type"
 msgstr "typ zgłoszenia"
 
-#: events/admin/models.py:181 events/admin/models.py:255
+#: events/admin/models.py:183 events/admin/models.py:257
 #: events/models/applications.py:116 events/models/tickets.py:237
 msgid "type"
 msgstr "typ"
 
-#: events/admin/models.py:197 events/admin/models.py:263
+#: events/admin/models.py:199 events/admin/models.py:265
 #: events/models/applications.py:128 events/models/payments.py:27
 #: events/models/tickets.py:414
 msgid "ticket"
 msgstr "bilet"
 
-#: events/admin/models.py:243
+#: events/admin/models.py:245
 msgid "label"
 msgstr "etykieta"
 
-#: events/admin/models.py:274 events/admin/models.py:423
+#: events/admin/models.py:276 events/admin/models.py:438
 msgid "Download as XLSX"
 msgstr "Pobierz jako XLSX"
 
-#: events/admin/models.py:279 events/admin/models.py:426
+#: events/admin/models.py:282 events/admin/models.py:441
 msgid "ID"
 msgstr "ID"
 
-#: events/admin/models.py:280 templates/events_base/footer_admin.html:15
+#: events/admin/models.py:283 templates/events_base/footer_admin.html:15
 #: templates/events_base/footer_admin.html:31
 msgid "User"
 msgstr "Użytkownik"
 
-#: events/admin/models.py:281 templates/events_base/footer_admin.html:9
+#: events/admin/models.py:284 templates/events_base/footer_admin.html:9
 msgid "Event"
 msgstr "Wydarzenie"
 
-#: events/admin/models.py:282
+#: events/admin/models.py:285
 #: templates/events/applications/application_details.html:18
 #: templates/events/crew/ticket.html:114
 #: templates/events/emails/thank_you.html:7
@@ -68,7 +68,7 @@ msgstr "Wydarzenie"
 msgid "Type"
 msgstr "Typ"
 
-#: events/admin/models.py:283 events/admin/models.py:350
+#: events/admin/models.py:286 events/admin/models.py:365
 #: templates/events/applications/application_details.html:22
 #: templates/events/crew/ticket.html:115
 #: templates/events/emails/application_changed.html:6
@@ -78,8 +78,8 @@ msgstr "Typ"
 msgid "Status"
 msgstr "Status"
 
-#: events/admin/models.py:284 events/admin/models.py:347
-#: events/admin/models.py:429 templates/events/crew/list.html:14
+#: events/admin/models.py:287 events/admin/models.py:362
+#: events/admin/models.py:444 templates/events/crew/list.html:14
 #: templates/events/crew/orgs/detail.html:68
 #: templates/events/crew/orgs/detail.html:144
 #: templates/events/crew/orgs/list.html:21
@@ -89,7 +89,7 @@ msgstr "Status"
 msgid "Name"
 msgstr "Nazwa"
 
-#: events/admin/models.py:285 events/admin/models.py:349
+#: events/admin/models.py:288 events/admin/models.py:364
 #: templates/events/applications/application_details.html:30
 #: templates/events/crew/list.html:16 templates/events/crew/orgs/detail.html:70
 #: templates/events/crew/orgs/tickets.html:16
@@ -99,7 +99,7 @@ msgstr "Nazwa"
 msgid "Phone"
 msgstr "Telefon"
 
-#: events/admin/models.py:286 events/admin/models.py:348
+#: events/admin/models.py:289 events/admin/models.py:363
 #: templates/events/applications/application_details.html:26
 #: templates/events/crew/list.html:15 templates/events/crew/orgs/detail.html:69
 #: templates/events/crew/orgs/tickets.html:15
@@ -109,15 +109,15 @@ msgstr "Telefon"
 msgid "Email"
 msgstr "Email"
 
-#: events/admin/models.py:287 templates/events_base/footer_admin.html:18
+#: events/admin/models.py:290 templates/events_base/footer_admin.html:18
 msgid "Ticket"
 msgstr "Bilet"
 
-#: events/admin/models.py:288
+#: events/admin/models.py:291
 msgid "Ticket ID"
 msgstr "ID Biletu"
 
-#: events/admin/models.py:289 events/forms/applications.py:51
+#: events/admin/models.py:292 events/forms/applications.py:51
 #: templates/events/applications/application_details.html:42
 #: templates/events/crew/ticket.html:90
 #: templates/events/emails/application_changed.html:7
@@ -128,87 +128,87 @@ msgstr "ID Biletu"
 msgid "Notes"
 msgstr "Notatki"
 
-#: events/admin/models.py:290
+#: events/admin/models.py:293
 #: templates/events/applications/application_details.html:48
 msgid "Org Notes"
 msgstr "Notatki Organizatorów"
 
-#: events/admin/models.py:339
+#: events/admin/models.py:354
 msgid "Download the ticket list as XLSX"
 msgstr "Pobierz listę biletów jako XLSX"
 
-#: events/admin/models.py:343 events/admin/models.py:427
+#: events/admin/models.py:358 events/admin/models.py:442
 msgid "Org ID"
 msgstr "ID Organizacji"
 
-#: events/admin/models.py:344
+#: events/admin/models.py:359
 msgid "Org Name"
 msgstr "Nazwa Organizacji"
 
-#: events/admin/models.py:345 templates/events/crew/orgs/list.html:23
+#: events/admin/models.py:360 templates/events/crew/orgs/list.html:23
 #: templates/events_base/footer_admin.html:21
 #: templates/events_base/footer_admin.html:25
 msgid "Ticket Type"
 msgstr "Typ Biletu"
 
-#: events/admin/models.py:346
+#: events/admin/models.py:361
 msgid "Ticket Code"
 msgstr "Kod Biletu"
 
-#: events/admin/models.py:351 templates/events/crew/ticket.html:77
+#: events/admin/models.py:366 templates/events/crew/ticket.html:77
 msgid "Issued Identifier"
 msgstr "Nadany Identyfikator"
 
-#: events/admin/models.py:407
+#: events/admin/models.py:422
 msgid "Download as Manufaktur data"
 msgstr "Pobierz jako dane Manufaktury"
 
-#: events/admin/models.py:428
+#: events/admin/models.py:443
 msgid "Event Org"
 msgstr "Organizacja Wydarzenia"
 
-#: events/admin/models.py:430 templates/events/orgs/billing.html:51
+#: events/admin/models.py:445 templates/events/orgs/billing.html:51
 msgid "Tax ID"
 msgstr "Identyfikator podatkowy"
 
-#: events/admin/models.py:431 events/forms/orgs.py:23
+#: events/admin/models.py:446 events/forms/orgs.py:23
 #: templates/events/orgs/billing.html:52
 msgid "Address"
 msgstr "Adres"
 
-#: events/admin/models.py:432 events/forms/orgs.py:24
+#: events/admin/models.py:447 events/forms/orgs.py:24
 #: templates/events/orgs/billing.html:53
 msgid "Postcode"
 msgstr "Kod pocztowy"
 
-#: events/admin/models.py:433 events/forms/orgs.py:25
+#: events/admin/models.py:448 events/forms/orgs.py:25
 #: events/forms/registration.py:34 templates/events/orgs/billing.html:54
 msgid "City"
 msgstr "Miasto"
 
-#: events/admin/models.py:434 templates/events/crew/orgs/detail.html:50
+#: events/admin/models.py:449 templates/events/crew/orgs/detail.html:50
 #: templates/events/crew/orgs/list.html:26
 #: templates/events/orgs/billing.html:55
 msgid "Representative"
 msgstr "Reprezentant"
 
-#: events/dynaforms/utils.py:48
+#: events/dynaforms/utils.py:47
 msgid "MISSING TRANSLATION!"
 msgstr "BRAKUJĄCE TŁUMACZENIE!"
 
-#: events/dynaforms/utils.py:83 templates/events/crew/ticket.html:48
+#: events/dynaforms/utils.py:82 templates/events/crew/ticket.html:48
 msgid "Yes"
 msgstr "Tak"
 
-#: events/dynaforms/utils.py:83 templates/events/crew/ticket.html:54
+#: events/dynaforms/utils.py:82 templates/events/crew/ticket.html:54
 msgid "No"
 msgstr "Nie"
 
-#: events/dynaforms/utils.py:92
+#: events/dynaforms/utils.py:91
 msgid "file is encrypted"
 msgstr "plik jest zaszyfrowany"
 
-#: events/dynaforms/utils.py:116
+#: events/dynaforms/utils.py:115
 msgid "Unknown field"
 msgstr "Nieznane pole"
 
@@ -1760,20 +1760,20 @@ msgstr ""
 msgid "This application cannot be submitted for this event!"
 msgstr "To zgłoszenie nie może być wysłane na to wydarzenie!"
 
-#: events/views/applications.py:72
+#: events/views/applications.py:75
 msgid "You must buy a ticket for this event before submitting an application."
 msgstr "Musisz kupić bilet na to wydarzenie przed wysłaniem zgłoszenia."
 
-#: events/views/applications.py:77
+#: events/views/applications.py:80
 msgid "This application is not yet open. Come back later."
 msgstr ""
 "Formularz tego zgłoszenia nie jest jeszcze otwarty. Spróbuj ponownie później."
 
-#: events/views/applications.py:80
+#: events/views/applications.py:83
 msgid "This application submission period has ended."
 msgstr "Okres wysyłania tego zgłoszenia zakończył się."
 
-#: events/views/applications.py:86
+#: events/views/applications.py:89
 msgid ""
 "The cloned application does not exist, you cannot access it or is not valid "
 "for this form."
@@ -1781,39 +1781,43 @@ msgstr ""
 "Klonowane zgłoszenie nie istnieje, nie możesz go otworzyć lub nie jest "
 "poprawne dla tego formularza."
 
-#: events/views/applications.py:120
+#: events/views/applications.py:123
 msgid "The form was prefilled with data based on another application: "
 msgstr "Formularz został wypełniony danymi na podstawie innego zgłoszenia: "
 
-#: events/views/applications.py:151
+#: events/views/applications.py:154
 msgid "YOUR APPLICATION WAS *NOT* SUBMITTED - scroll down to see errors."
 msgstr ""
 "TWOJE ZGŁOSZENIE *NIE* ZOSTAŁO WYSŁANE - przewiń w dół aby zobaczyć błędy."
 
-#: events/views/applications.py:178
+#: events/views/applications.py:181
 #, python-format
 msgid "Public key '%s' required for encryption was not found."
 msgstr "Klucz publiczny '%s' wymagany do szyfrowania nie został znaleziony."
 
-#: events/views/applications.py:186
+#: events/views/applications.py:189
 #, python-format
 msgid "Form template invalid: No public keys found for '%s'."
 msgstr ""
 "Szablon formularza niepoprawny: Nie znaleziono kluczy publicznych dla '%s'."
 
-#: events/views/applications.py:227
+#: events/views/applications.py:213
+msgid "[SYSTEM] Form submitted with key:"
+msgstr "[SYSTEM] Formularz wysłany z kluczem:"
+
+#: events/views/applications.py:234
 #, python-format
 msgid "%(event)s: Application '%(name)s'"
 msgstr "%(event)s: Zgłoszenie '%(name)s'"
 
-#: events/views/applications.py:243
+#: events/views/applications.py:250
 msgid ""
 "Your application was submitted successfully. Orgs will be in touch soon."
 msgstr ""
 "Twoje zgłoszenie zostało wysłane pomyślnie. Organizatorzy wkrótce się z Tobą "
 "skontaktują."
 
-#: events/views/applications.py:261
+#: events/views/applications.py:268
 msgid "You don't own this application!"
 msgstr "Nie posiadasz tego zgłoszenia!"
 
