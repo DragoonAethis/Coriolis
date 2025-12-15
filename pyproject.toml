@@ -15,30 +15,30 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-ruff = "^0.13.2"
-sentry-sdk = "^2.39.0"
+ruff = "^0.14.3"
+sentry-sdk = "^2.43.0"
 Django = "^4.2.25"
-django-upgrade = "^1.28.0"
+django-upgrade = "^1.29.1"
 django-allauth = { extras = ["mfa", "openid", "socialaccount"], version = "^64.2.1" }
 django-allauth-2fa = "^0.11.1"
 fido2 = "1.2.0"  # Locked due to an older allauth version, to be removed after allauth 65.8.1
 django-environ = "^0.12.0"
-django-debug-toolbar = "^5.2.0"
-django-phonenumber-field = { extras = ["phonenumberslite"], version = "^8.1.0" }
+django-debug-toolbar = "^6.1.0"
+django-phonenumber-field = { extras = ["phonenumberslite"], version = "^8.3.0" }
 django-colorfield = "^0.14.0"
 django-crispy-forms = "^2.4"
 crispy-bootstrap5 = "^2025.4"
 gunicorn = "^23.0.0"
 whitenoise = { extras = ["brotli"], version = "^6.9.0" }
 requests = "^2.32.5"
-psycopg = { extras = ["binary", "pool"], version = "^3.2.10" }
-pillow = "^11.3.0"
+psycopg = { extras = ["binary", "pool"], version = "^3.2.12" }
+pillow = "^12.0.0"
 pyrage = "^1.2.5"
 Markdown = "^3.9"
 django-payments = "^3.1.0"
 django-money = "^3.5.4"
 django-hijack = "^3.7.4"
-pydantic = "^2.11.9"
+pydantic = "^2.12.3"
 XlsxWriter = "^3.2.9"
 django-ipware = "^7.0.1"
 dramatiq = { extras = ["watch", "redis"], version = "^1.18.0" }

@@ -1,6 +1,7 @@
 import datetime
 import os
 import uuid
+from typing import Literal
 
 import pyrage
 from django.contrib import messages
@@ -8,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.core.files.storage import storages
 from django.core.files.uploadedfile import UploadedFile
+from django.http import Http404
 from django.core.mail import EmailMessage
 from django.shortcuts import get_object_or_404, redirect
 from django.shortcuts import render
@@ -20,9 +22,22 @@ from sentry_sdk import capture_exception
 from events.dynaforms.answers import ComplexAnswerFileUpload
 from events.dynaforms.fields import FileField as DynaFileField
 from events.dynaforms.utils import get_pretty_answers
-from events.forms.applications import ApplicationDynaform
+from events.forms.applications import ApplicationDynaform, ApplicationStatusSelfServiceForm
 from events.models import Event, ApplicationType, Application, Ticket, AgePublicKey
 from events.templatetags.events import render_markdown
+
+
+def get_event_app_by_id(request, event_slug, app_id, wanted_perm='events.view_application'):
+    event = get_object_or_404(Event, slug=event_slug)
+    application = get_object_or_404(Application, id=app_id, event=event)
+
+    user_is_submitter = application.user_id == request.user.id
+    user_is_elevated = request.user.is_staff and request.user.has_perm(wanted_perm)
+
+    if not user_is_submitter and not user_is_elevated:
+        raise Http404(_("You don't own this application!"))
+
+    return event, application
 
 
 class ApplicationSubmissionView(FormView):
@@ -256,18 +271,63 @@ class ApplicationSubmissionView(FormView):
         return redirect("event_index", self.event.slug)
 
 
+class ApplicationStatusSelfServiceView(FormView):
+    flow: str
+    event: Event
+    application: Application
+
+    form_class = ApplicationStatusSelfServiceForm
+    template_name = "events/applications/application_self_service_status.html"
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.flow = kwargs["flow"]
+        if self.flow not in ("approve", "reject"):
+            raise Http404("No such application self-service flow, try again?")
+
+        self.event, self.application = get_event_app_by_id(
+            request,
+            kwargs["slug"],
+            kwargs["app_id"],
+            'events.change_application'
+        )
+
+        if not self.application.can_handle_self_service_status_change():
+            raise Http404(_("Applications of this type/status do not allow applicants to change the status by themselves."))
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_supercontext(self):
+        return {
+            "event": self.event,
+            "application": self.application,
+            "flow": self.flow,
+        }
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs) | self.get_supercontext()
+
+    def get_form_kwargs(self):
+        return super().get_form_kwargs() | self.get_supercontext()
+
+    def form_valid(self, form):
+        if self.flow == "approve":
+            self.application.status = Application.ApplicationStatus.APPROVED
+            messages.info(self.request, _("Application approved."))
+        elif self.flow == "reject":
+            self.application.status = Application.ApplicationStatus.REJECTED
+            messages.warning(self.request, _("Application rejected."))
+
+        self.application.save()
+        return redirect("application_details", slug=self.event.slug, app_id=self.application.id)
+
+
 @login_required
 def application_details(request, slug, app_id):
     from events.dynaforms.fields import Dynaform
     from events.dynaforms.utils import get_pretty_answers
 
-    event = get_object_or_404(Event, slug=slug)
-    application = get_object_or_404(Application, id=app_id, event=event)
-
-    if not application.user_id == request.user.id:
-        messages.error(request, _("You don't own this application!"))
-        return redirect("event_index", event.slug)
-
+    event, application = get_event_app_by_id(request, slug, app_id, 'events.view_application')
     dynaform = Dynaform.build(None, application.type.template)
 
     pretty_answers = {}

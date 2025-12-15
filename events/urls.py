@@ -1,6 +1,6 @@
 from django.urls import path
 
-from events.views.applications import ApplicationSubmissionView, application_details
+from events.views.applications import ApplicationSubmissionView, ApplicationStatusSelfServiceView, application_details
 from events.views.crew.accreditation import CrewIndexNewView, CrewExistingTicketView, CrewFindTicketView
 from events.views.crew.mod_queue import (
     TicketModQueueListView,
@@ -102,6 +102,18 @@ urlpatterns = [
         "event/<slug:slug>/application/<uuid:app_id>",
         application_details,
         name="application_details",
+    ),
+    path(
+        "event/<slug:slug>/application/<uuid:app_id>/approve",
+        ApplicationStatusSelfServiceView.as_view(),
+        kwargs={"flow": "approve"},
+        name="application_self_service_approve",
+    ),
+    path(
+        "event/<slug:slug>/application/<uuid:app_id>/reject",
+        ApplicationStatusSelfServiceView.as_view(),
+        kwargs={"flow": "reject"},
+        name="application_self_service_reject",
     ),
     path(
         "event/<slug:slug>/crew",

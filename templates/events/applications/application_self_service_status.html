@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags events humanize %}
+
+{% block head_title %}{% translate "Applications" %} - {{ event.name }}{% endblock %}
+{% block brand_title %}{{ event.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ event.name }}: {{ application.name }}</h1>
+    {% if application.banner %}
+        {% render_markdown application.banner strip_wrapper=True %}
+    {% endif %}
+    {% crispy form %}
+{% endblock %}

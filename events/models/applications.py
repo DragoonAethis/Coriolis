@@ -66,6 +66,13 @@ class ApplicationType(models.Model):
         verbose_name=_("display deadline"),
         help_text=_("Publicly display the application form closure date."),
     )
+    self_service_waiting_for_applicant = models.BooleanField(
+        default=False,
+        verbose_name=_("self-service waiting for applicant"),
+        help_text=_("When an application has the 'Waiting for Applicant' status, "
+                    "enabling this adds Approve/Reject buttons for the user to "
+                    "switch the status to Approved/Rejected on their own."),
+    )
 
     description = models.TextField(
         verbose_name=_("description"),
@@ -103,6 +110,7 @@ class Application(models.Model):
     class ApplicationStatus(models.TextChoices):
         CANCELLED = "CNCL", _("Cancelled")
         WAITING = "WAIT", _("Waiting for Organizers")
+        WAITING_FOR_APPLICANT = "WAPL", _("Waiting for Applicant")
         RESERVE = "RSVE", _("On Reserve List")
         APPROVED = "APRV", _("Accepted")
         REJECTED = "REJD", _("Rejected")
@@ -188,6 +196,12 @@ class Application(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._original_status = self.status
+
+    def can_handle_self_service_status_change(self):
+        return (
+                self.status == Application.ApplicationStatus.WAITING_FOR_APPLICANT
+                and self.type.self_service_waiting_for_applicant
+        )
 
     def get_org_emails(self) -> list[str]:
         if self.type.org_emails:

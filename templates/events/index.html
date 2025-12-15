@@ -155,6 +155,12 @@
                                     {% endif %}
                                     <div class="btn-toolbar" role="toolbar"
                                          aria-label="Toolbar with application actions">
+                                        {% if application.can_handle_self_service_status_change %}
+                                            <a href="{% url 'application_self_service_approve' event.slug application.id %}"
+                                               class="btn btn-success me-2">{% translate "Approve" %}</a>
+                                            <a href="{% url 'application_self_service_reject' event.slug application.id %}"
+                                               class="btn btn-danger me-2">{% translate "Reject" %}</a>
+                                        {% endif %}
                                         <a href="{% url 'application_details' event.slug application.id %}"
                                            class="btn btn-primary me-2">{% translate "Details" %}</a>
                                         <a href="{% url 'application_form' event.slug application.type_id %}?clone_application={{ application.id }}"
