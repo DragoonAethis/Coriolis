@@ -120,7 +120,6 @@
             </div>
 
             {% if other_tickets %}
-
                 <div class="card mb-2">
                     <div class="card-header">
                         {% translate "This attendee has registered other tickets" %}:
@@ -134,6 +133,35 @@
                                 </li>
                             {% endfor %}
                         </ul>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if user.is_staff %}
+                <div class="card mb-2">
+                    <div class="card-header bg-warning">
+                        <i class="bi bi-wrench me-2 me-lg-0"></i> {% translate "Staff Zone" %}
+                    </div>
+                    <div class="card-body">
+                        <h4>{% translate "Payments" %}</h4>
+                        <ul class="mb-0">
+                            {% for payment in ticket.payment_set.all %}
+                                <li>
+                                    <a href="{% url 'admin:events_payment_change' payment.id %}">
+                                        {{ payment.id }} @ {{ payment.created }}
+                                    </a><br>
+                                    <span class="badge rounded-pill text-bg-primary">{{ payment.get_status_display }}</span>
+                                    {{ payment.variant }} &middot;
+                                    TrID <code>{{ payment.transaction_id|default:"N/A" }}</code> &middot;
+                                    {{ payment.captured_amount }}/{{ payment.total }} {{ payment.currency }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                        <hr>
+                        <a href="{{ ticket.get_absolute_url }}" class="btn btn-primary">
+                            <i class="bi bi-wrench me-1"></i> {% translate "User ticket page" %}
+                        </a>
                     </div>
                 </div>
             {% endif %}
