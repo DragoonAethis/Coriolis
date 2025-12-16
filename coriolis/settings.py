@@ -43,7 +43,7 @@ if not DEBUG and dsn:
         dsn=dsn,
         environment=ENVIRONMENT,
         integrations=[
-            DjangoIntegration(),
+            DjangoIntegration(middleware_spans=True),
             DramatiqIntegration(),
         ],
         send_default_pii=env.bool("SENTRY_SEND_PII", True),  # Send user details, etc?
