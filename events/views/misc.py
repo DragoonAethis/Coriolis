@@ -40,6 +40,7 @@ def event_index(request, slug):
         user_tickets = (
             Ticket.objects.filter(event=event, user=request.user)
             .not_onsite()
+            .prefetch_related("event", "type", "type__event", "org")
             .order_by('id')
         )
 
@@ -49,13 +50,20 @@ def event_index(request, slug):
         context["applications"] = (
             Application.objects.filter(event=event)
             .filter(user=request.user)
+            .prefetch_related("event", "type", "type__event")
             .order_by("id")
         )
 
         context["orgs"] = (
             EventOrg.objects.filter(event=event)
             .filter(owner=request.user)
-            .prefetch_related("ticket_set")
+            .prefetch_related(
+                "ticket_set",
+                "ticket_set__type",
+                "ticket_set__event",
+                "ticket_set__type__event",
+                "target_ticket_type"
+            )
             .order_by("name")
         )
 
