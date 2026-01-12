@@ -24,7 +24,7 @@ if you are on an older version first.
 Requirements:
 
 - Developed and tested on Linux (any distro - run under a Linux VM on other OSes).
-- You'll need Python 3.12+ with [Poetry](https://python-poetry.org/).
+- You'll need Python 3.14+ with [uv](https://docs.astral.sh/uv).
 - For the database, you'll need PostgreSQL 14+.
 - For the cache and background task queues, you'll need Redis 6.0+.
 - For the ticket generation, you'll need a working Docker or Podman installation.
@@ -35,11 +35,9 @@ Setting up the environment:
 - Clone this repo and copy `.env.dist` into a new file for your dev/prod environment.
 - Configure your environment per instructions in that environment file.
 - Set the `ENV_PATH` path to your newly-created `.env` file or load its contents as environment variables.
-- Optional: To create the `.venv` in the project directory, run `poetry config virtualenvs.in-project true`.
-- Run `poetry install` to create a virtualenv with all project dependencies.
-- Run `poetry shell` to enter the virtualenv (whenever it's in the repo or the Poetry venv cache).
-- Run `./manage.py migrate` to set up the database for the first time.
-- Run `./manage.py createsuperuser` to set up your first user account.
+- Run `uv sync` to create a virtualenv with all project dependencies.
+- Run `uv run manage.py migrate` to set up the database for the first time.
+- Run `uv run manage.py createsuperuser` to set up your first user account.
 
 You're now ready to run the development server:
 
@@ -64,8 +62,8 @@ Common development tasks:
 - Set up the `.env` with non-debug, production values as noted on the Django Checklist.
 - Set up your PostgreSQL database with backups and no access from the internet.
 - Get credentials for a proper production SMTP server to send mails from.
-- Set up the virtualenv with `...in-project true`, `poetry install`, `poetry shell`.
-- Run `./manage.py` commands: `collectstatic`, `migrate` and `createsuperuser`.
+- Set up the virtualenv with `uv sync`.
+- Run `uv run manage.py` commands: `collectstatic`, `migrate` and `createsuperuser`.
 - Deploy Django with Gunicorn: https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/gunicorn/
 - Run a reverse proxy with Nginx: https://docs.gunicorn.org/en/latest/deploy.html
 - Set up a 2nd domain for user uploads (MEDIA_URL) and expose the MEDIA_ROOT contents there.

@@ -35,13 +35,11 @@ sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y install \
 sudo gpasswd -a $USER docker
 sudo gpasswd -a www-data docker
 
-# Installing Poetry from repos gives you 1.1 (too old).
-# Installing from pip causes it to get very confused.
-# Just use the nasty install script...
-curl -sSL https://install.python-poetry.org | python3 -
-echo "export PATH=\"/home/$USER/.local/bin:\$PATH\"" > ~/.bashrc
+# Just use the nasty uv install script...
+curl -LsSf https://astral.sh/uv/install.sh | sh
+echo "export PATH=\"$HOME/.local/bin:\$PATH\"" > ~/.bashrc
 
-# Make sure we have Poetry in our PATH now:
+# Make sure we have uv in our PATH now:
 # shellcheck disable=SC1090
 source ~/.bashrc
 
@@ -56,8 +54,7 @@ mkdir -p "$INSTALL_DIR/public" "$INSTALL_DIR/media"
 ln -s "$INSTALL_DIR/static" "$INSTALL_DIR/public/static"
 
 # Configure the virtualenv:
-poetry config virtualenvs.in-project true
-poetry install
+uv sync
 
 # Configure the app:
 cp .env.dist .env
@@ -81,12 +78,12 @@ GRANT ALL ON SCHEMA public TO coriolis;
 # It's also systemctl enabled out of the box - as is PostgreSQL.
 
 # Finish database setup, generate resources:
-poetry run python manage.py migrate
-poetry run python manage.py collectstatic
-poetry run python manage.py compilemessages
+uv run manage.py migrate
+uv run manage.py collectstatic
+uv run manage.py compilemessages
 
 # Make sure we have at least one superuser:
-poetry run python manage.py createsuperuser
+uv run manage.py createsuperuser
 
 # Make upgrades less annoying:
 git config --global --add safe.directory /app
@@ -117,7 +114,7 @@ sudo ln -s /etc/nginx/sites-available/coriolis /etc/nginx/sites-enabled/coriolis
 sudo rm /etc/nginx/sites-enabled/default
 
 # Set up the ticket renderer container image:
-docker build -t r2023-renderer:latest /app/contrib/ticket-renderer
+#docker build -t r2023-renderer:latest /app/contrib/ticket-renderer
 
 # Start the app:
 sudo systemctl daemon-reload

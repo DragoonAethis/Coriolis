@@ -36,7 +36,7 @@ services:
     init: true
     env_file: .env
     restart: on-failure
-    entrypoint: "/usr/local/bin/poetry run"
+    entrypoint: "/usr/local/bin/uv run"
     command: "python --version"
   init-db:
     extends:

@@ -18,7 +18,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     && apt-get install -y curl gettext \
     && adduser --system --uid 1000 --group --shell /bin/bash --home ${APP_HOME} django \
     && pip install --upgrade pip \
-    && pip install poetry==1.8.3
+    && pip install uv
 
 USER django
 WORKDIR ${APP_HOME}
@@ -26,13 +26,12 @@ WORKDIR ${APP_HOME}
 # --- Dependencies ---
 
 COPY --chown=django:django \
-    pyproject.toml poetry.lock \
+    pyproject.toml uv.lock \
     ${APP_HOME}
 
 RUN --mount=type=cache,target=${APP_HOME}/.cache,uid=1000,gid=1000 \
   echo "Creating the virtualenv and installing Python dependencies..." \
-  && poetry config virtualenvs.in-project true \
-  && poetry install --no-root --no-directory
+  && uv sync
 
 # --- Application ---
 
@@ -45,7 +44,7 @@ COPY --chown=django:django \
 
 RUN --mount=type=cache,target=${APP_HOME}/.cache \
   echo "Installing Coriolis and creating static files..." \
-  && poetry install \
-  && poetry run python manage.py collectstatic --noinput
+  && uv sync \
+  && uv run manage.py collectstatic --noinput
 
 ENTRYPOINT ["/bin/bash"]
