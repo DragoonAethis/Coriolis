@@ -43,13 +43,13 @@ class NotificationChannel(models.Model):
     source = models.CharField(
         max_length=32,
         verbose_name=_("source"),
-        choices=NotificationChannelSource.choices,
+        choices=NotificationChannelSource,
         help_text=_("Which events to send to this channel?"),
     )
     target = models.CharField(
         max_length=16,
         verbose_name=_("target"),
-        choices=NotificationChannelTarget.choices,
+        choices=NotificationChannelTarget,
         help_text=_("Where to send events from this channel?"),
     )
     configuration = models.JSONField(

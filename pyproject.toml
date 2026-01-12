@@ -3,7 +3,7 @@ name = "coriolis"
 version = "0.1.0"
 description = "Small event ticketing and management tool"
 authors = [{ name = "Ryszard Knop", email = "rk@dragonic.eu" }]
-requires-python = ">=3.12,<4"
+requires-python = ">=3.14,<4"
 readme = "README.md"
 license = "AGPL-3.0-or-later"
 classifiers = [
@@ -15,7 +15,7 @@ classifiers = [
 dependencies = [
     "ruff>=0.14.11,<0.15",
     "sentry-sdk>=2.49.0,<3",
-    "Django>=4.2.27,<5",
+    "Django>=5.2.10,<6",
     "django-upgrade>=1.29.1,<2",
     "django-allauth[mfa, openid, socialaccount]>=64.2.1,<65",
     "joserfc>=1.3.4,<2",

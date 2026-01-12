@@ -198,7 +198,7 @@ class EventPage(models.Model):
     page_type = models.CharField(
         max_length=32,
         verbose_name=_("page type"),
-        choices=EventPageType.choices,
+        choices=EventPageType,
         default=EventPageType.INFO,
         help_text=_("What this page is going to be used for?"),
     )

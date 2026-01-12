@@ -129,7 +129,7 @@ class TicketType(models.Model):
     )
     online_payment_policy = models.IntegerField(
         verbose_name=_("online payment policy"),
-        choices=OnlinePaymentPolicy.choices,
+        choices=OnlinePaymentPolicy,
         default=OnlinePaymentPolicy.ENABLED,
     )
     online_payment_window = models.PositiveIntegerField(
@@ -282,7 +282,7 @@ class Ticket(models.Model):
     status = models.CharField(
         max_length=4,
         verbose_name=_("status"),
-        choices=TicketStatus.choices,
+        choices=TicketStatus,
         default=TicketStatus.WAITING,
     )
     status_deadline = models.DateTimeField(
@@ -305,13 +305,13 @@ class Ticket(models.Model):
     source = models.CharField(
         max_length=16,
         verbose_name=_("source"),
-        choices=TicketSource.choices,
+        choices=TicketSource,
         default=TicketSource.ADMIN,
     )
     payment_method = models.CharField(
         max_length=16,
         verbose_name=_("payment method"),
-        choices=TicketPaymentMethod.choices,
+        choices=TicketPaymentMethod,
         default='other',
     )
 

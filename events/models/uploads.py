@@ -28,7 +28,7 @@ class AgePublicKey(models.Model):
     )
     kind = models.CharField(
         verbose_name=_("kind"),
-        choices=AgePublicKeyType.choices,
+        choices=AgePublicKeyType,
     )
     pubkey = models.CharField(
         verbose_name=_("pubkey"),
