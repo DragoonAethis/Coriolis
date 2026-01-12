@@ -4,9 +4,9 @@ set -euxo pipefail
 sudo systemctl stop nginx.service coriolis.service coriolis.socket coriolis-crontab.service coriolis-dramatiq.service
 sudo chown -R $USER:$USER .
 git pull
-poetry install
-poetry run python manage.py migrate
-poetry run python manage.py compilemessages
-poetry run python manage.py collectstatic --no-input
+uv sync
+uv run manage.py migrate
+uv run manage.py compilemessages
+uv run manage.py collectstatic --no-input
 sudo chown -R www-data:www-data .
 sudo systemctl restart nginx.service coriolis.service coriolis-crontab.service coriolis-dramatiq.service
