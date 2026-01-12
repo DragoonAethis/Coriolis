@@ -75,8 +75,8 @@ class Command(BaseCommand):
     ) -> EventOrgInvoice:
         try:
             org = orgs[row["org_id"]]
-        except KeyError:
-            raise ValueError(f"Cannot find EventOrg by ID: {row}")
+        except KeyError as e:
+            raise ValueError(f"Cannot find EventOrg by ID: {row}") from e
 
         invoice = EventOrgInvoice(
             event=event,
@@ -102,8 +102,8 @@ class Command(BaseCommand):
         try:
             event = Event.objects.get(slug=slug)
             self.stderr.write(f"Found event: {event}")
-        except Event.DoesNotExist:
-            raise ValueError(f"Requested event '{slug}' not found, bailing out!")
+        except Event.DoesNotExist as e:
+            raise ValueError(f"Requested event '{slug}' not found, bailing out!") from e
 
         orgs: dict[str, EventOrg] = {str(o.id): o for o in event.eventorg_set.all()}
 

@@ -188,11 +188,11 @@ class TicketType(models.Model):
     def __str__(self):
         return f"{self.name} ({self.event.name})"
 
-    def get_absolute_url(self):
-        return reverse("registration_form", kwargs={"slug": self.event.slug, "id": self.id})
-
     def __repr__(self):
         return f"{self.name} ({self.event.name}, {self.id})"
+
+    def get_absolute_url(self):
+        return reverse("registration_form", kwargs={"slug": self.event.slug, "id": self.id})
 
     def is_past_personalization_date(self):
         return datetime.datetime.now() > self.personalization_to
@@ -420,8 +420,15 @@ class Ticket(models.Model):
             models.Index(fields=["event", "email"]),
         ]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._original_status = self.status
+
     def __str__(self):
         return f"{self.get_code()}: {self.name}"
+
+    def __repr__(self):
+        return f"{str(self)} ({self.id})"
 
     def save(self, *args, **kwargs):
         new_ticket = self.id is None
@@ -447,13 +454,6 @@ class Ticket(models.Model):
 
     def get_absolute_url(self):
         return reverse("ticket_details", kwargs={"slug": self.event.slug, "ticket_id": self.id})
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._original_status = self.status
-
-    def __repr__(self):
-        return f"{str(self)} ({self.id})"
 
     def get_flags(self) -> set[TicketFlag]:
         return set(self.type.flags.all()) | set(self.flags.all())

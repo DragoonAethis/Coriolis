@@ -107,7 +107,7 @@ def crew_event_org_generate_tickets(request, slug, org_id: str, *args, **kwargs)
     is_of_age = request.POST.get("is_of_age") == "1"
 
     codes = []
-    for i in range(count):
+    for _ticket_no in range(count):
         t = Ticket(
             user=request.user,
             event=event,

@@ -159,13 +159,17 @@ class Application(models.Model):
         help_text=_("Banner/MOTD (uses Markdown), visible to users on the front page and in the application details"),
     )
 
+    # Non-database fields:
+    _original_status: str | None = None
+
     class Meta:
         verbose_name = _("application")
         verbose_name_plural = _("applications")
         indexes = [models.Index(fields=["event", "user"])]
 
-    # Non-database fields:
-    _original_status: str | None = None
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._original_status = self.status
 
     def __str__(self):
         return f"{self.name} ({self.status}, {self.id})"
@@ -192,10 +196,6 @@ class Application(models.Model):
 
     def get_absolute_url(self):
         return reverse("application_details", kwargs={"slug": self.event.slug, "app_id": self.id})
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._original_status = self.status
 
     def can_handle_self_service_status_change(self):
         return (

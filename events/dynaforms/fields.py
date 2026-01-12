@@ -293,7 +293,7 @@ class Dynaform(BaseModel):
     @field_validator("fields")
     @classmethod
     def check_encrypted_pubkeys(cls, v: dict[str, DynaformFieldUnion]):
-        for name, field in v.items():
+        for _name, field in v.items():
             if not isinstance(field, FileField):
                 continue
 

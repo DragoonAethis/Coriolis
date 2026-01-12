@@ -84,7 +84,7 @@ def get_ticket_purchase_rate_limit_keys(request: HttpRequest, ticket_type: "even
 
 def get_ticket_preview_path(instance: "events.models.TicketType", filename: str):
     """This function is deprecated but kept for migration backwards compatibility."""
-    return "/tmp/DEPRECATED-DO-NOT-USE"
+    return "/tmp/DEPRECATED-DO-NOT-USE"  # noqa: S108
 
 
 def delete_ticket_image(instance: "events.models.Ticket"):

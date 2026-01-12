@@ -1,7 +1,6 @@
 import datetime
 import os
 import uuid
-from typing import Literal
 
 import pyrage
 from django.contrib import messages
