@@ -164,11 +164,6 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.discord",
 
-    "django_otp",
-    "django_otp.plugins.otp_totp",
-    "django_otp.plugins.otp_static",
-    "allauth_2fa",
-
     "hijack",
     "hijack.contrib.admin",
 
@@ -205,8 +200,6 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
-    #"allauth_2fa.middleware.AllauthTwoFactorMiddleware",
     #"events.middleware.RequireSuperuser2FAMiddleware",
 
     "django.contrib.messages.middleware.MessageMiddleware",
