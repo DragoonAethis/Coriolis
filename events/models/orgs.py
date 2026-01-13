@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.core.files.storage import storages
+from django.shortcuts import reverse
 
 from djmoney.money import Money
 from djmoney.models.fields import MoneyField
@@ -46,6 +47,9 @@ class EventOrg(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.event.name})"
+
+    def get_absolute_url(self):
+        return reverse("crew_orgs_details", kwargs={"slug": self.event.slug, "org_id": self.id})
 
     def has_ticket_slots_left(self):
         return self.ticket_set.count() < self.target_ticket_count
