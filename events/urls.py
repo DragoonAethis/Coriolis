@@ -10,6 +10,8 @@ from events.views.crew.mod_queue import (
 from events.views.crew.orgs import (
     CrewEventOrgListView,
     CrewEventOrgDetailView,
+    CrewAttachTicketsSearchView,
+    crew_attach_existing_tickets,
     crew_event_org_generate_tickets,
     crew_event_org_add_task,
     crew_event_org_update_task,
@@ -144,6 +146,16 @@ urlpatterns = [
         ":event/<slug:slug>/crew/orgs/<uuid:org_id>/tickets/generate",
         crew_event_org_generate_tickets,
         name="crew_orgs_tickets_generate"
+    ),
+    path(
+        "event/<slug:slug>/crew/orgs/<uuid:org_id>/tickets/search",
+         CrewAttachTicketsSearchView.as_view(),
+        name="crew_attach_tickets_search",
+    ),
+    path(
+        "event/<slug:slug>/crew/orgs/<uuid:org_id>/tickets/attach",
+         crew_attach_existing_tickets,
+        name="crew_attach_tickets_attach",
     ),
     path(
         "event/<slug:slug>/crew/orgs/<uuid:org_id>/tasks",

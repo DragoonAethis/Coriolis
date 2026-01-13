@@ -1,5 +1,7 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView
+import re
+
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import ListView, DetailView, FormView
 from django.db import models
 from django.db.models import F, Q, Prefetch
 from django.contrib import messages
@@ -10,6 +12,7 @@ from django.utils.translation import gettext as _
 from events.models import EventOrg, Event, Ticket, TicketType, TicketStatus, TicketSource, TicketPaymentMethod
 from events.utils import generate_ticket_code, check_event_perms
 from events.models import EventOrgTask
+from events.forms.orgs import OrgAttachTicketForm
 
 
 class CrewEventOrgListView(ListView):
@@ -71,6 +74,81 @@ class CrewEventOrgDetailView(DetailView):
         context["org"] = self.org
         context["is_owner"] = self.org.owner == self.request.user
         return context
+
+
+class CrewAttachTicketsSearchView(FormView):
+    event: Event
+
+    form_class = OrgAttachTicketForm
+    template_name = "events/crew/orgs/attach.html"
+
+    def dispatch(self, *args, **kwargs):
+        self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
+        check_event_perms(self.request, self.event, ["events.crew_accreditation", "events.change_ticket"])
+
+        self.org = get_object_or_404(EventOrg, id=self.kwargs["org_id"])
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data() | {
+            "event": self.event,
+            "org": self.org,
+        }
+
+    def get_form_kwargs(self):
+        return super().get_form_kwargs() | {
+            "event": self.event,
+            "org": self.org,
+        }
+
+    def form_valid(self, form):
+        query = form.cleaned_data["query"]
+        codes = [int(c) for c in re.findall("\\d+", query)]
+        tickets = Ticket.objects.filter(event=self.event, code__in=codes).prefetch_related("event", "type", "type__event")
+
+        if tickets.count() == 0:
+            messages.error(self.request, _("No tickets found."))
+
+        return render(
+            self.request,
+            "events/crew/orgs/attach.html",
+            {"event": self.event, "org": self.org, "form": form, "tickets": tickets},
+        )
+
+
+@transaction.atomic
+def crew_attach_existing_tickets(request, slug, org_id: str, *args, **kwargs):
+    if request.method != "POST":
+        messages.error(request, _("This form accepts POST requests only."))
+        return redirect("event_index", slug=slug)
+
+    event = get_object_or_404(Event, slug=slug)
+    org = get_object_or_404(EventOrg, id=org_id)
+    check_event_perms(request, event, ["events.crew_accreditation", "events.change_ticket"])
+
+    ticket_ids = [v for k, v in request.POST.items() if k.startswith("attach-")]
+    tickets: list[Ticket] = (
+        Ticket.objects
+        .filter(event__slug=slug, id__in=ticket_ids)
+        .prefetch_related("event", "type", "type__event")
+    )
+
+    for t in tickets:
+        t.original_type = t.type
+        t.type = org.target_ticket_type
+        t.org = org
+
+        if t.status in ('WAIT', 'WPAY'):
+            t.status = 'OKNP'
+
+        if t.contributed_value <= t.get_price():
+            t.paid = True
+
+        t.save()
+
+    messages.info(request, _("Tickets attached."))
+    return redirect("crew_orgs_details", slug, org_id)
 
 
 @transaction.atomic

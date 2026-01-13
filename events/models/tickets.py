@@ -515,6 +515,9 @@ class Ticket(models.Model):
     def is_paid_for(self):
         return self.paid or self.get_price().amount == decimal.Decimal(0)
 
+    def is_overpaid(self):
+        return self.contributed_value > self.get_price()
+
     def is_cancelled(self) -> bool:
         return self.status == TicketStatus.CANCELLED
 

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load i18n crispy_forms_tags %}
+
+{% block head_title %}{% translate "Attach existing tickets" %} - {{ org.name }}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1><i class="bi bi-arrow-through-heart"></i> {% trans "Attach tickets to:" %} {{ org.name }}</h1>
+            {% crispy form %}
+            <form action="{% url "crew_attach_tickets_attach" event.slug org.id %}" method="post">
+                <table class="table table-striped table-bordered table-sm table-hover">
+                    <thead>
+                    <tr class="table-light">
+                        <th scope="col" class="sticky-top"><i class="bi bi-arrow-through-heart"></i></th>
+                        <th scope="col" class="sticky-top">{% translate "Code" %}</th>
+                        <th scope="col" class="sticky-top">{% translate "Name" %}</th>
+                        <th scope="col" class="sticky-top bg-light">{% translate "Email" %}</th>
+                        <th scope="col" class="sticky-top bg-light">{% translate "Type" %}</th>
+                        <th scope="col" class="sticky-top bg-light">{% translate "Notes" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ticket in tickets %}
+                        <tr>
+                            <td><input type="checkbox" class="form-check-input" name="attach-{{ ticket.id }}" value="{{ ticket.id }}" checked></td>
+                            <th scope="row" class="table-{{ ticket.get_status_css_class }} font-monospace">
+                                {{ ticket.get_code }} <i class="bi bi-{{ ticket.get_status_icon }}"></i>
+                            </th>
+                            <td><a href="{% url 'crew_existing_ticket' event.slug ticket.id %}">{{ ticket.name }}</a></td>
+                            <td>{{ ticket.email }}</td>
+                            <td>{{ ticket.type.name }}</td>
+                            <td>{{ ticket.notes }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <ul>
+                    <li>{% trans "Tickets with status 'Waiting for Orgs/Payments' will become 'Ready'." %}</li>
+                    <li>{% trans "Ticket types will change to:" %} {{ org.target_ticket_type.name }}</li>
+                    <li>{% trans "If contributed value <= the new price, tickets will be marked as paid." %}</li>
+                </ul>
+                <input type="submit" name="submit" value="{% trans "Attach" %}" class="btn btn-primary btn btn-lg btn-primary" id="submit-id-submit">
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        addEventListener("DOMContentLoaded", (event) => {
+            var ticketPicker = document.getElementById('id_query');
+            if (ticketPicker) {
+                ticketPicker.focus();
+            }
+        });
+    </script>
+{% endblock %}

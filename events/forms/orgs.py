@@ -1,8 +1,39 @@
 import re
 
 from django import forms
+from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
+from crispy_forms.bootstrap import FieldWithButtons
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout
+
+from events.models import Event, EventOrg, Ticket, TicketType
+
+
+class OrgAttachTicketForm(forms.Form):
+    query = forms.CharField(
+        widget=forms.Textarea,
+        label=_("Ticket codes to attach"),
+        max_length=4096,
+        required=True,
+        help_text=_("Numeric codes only, without the prefix."),
+    )
+
+    def __init__(self, *args, event: Event, org: EventOrg, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            FieldWithButtons(
+                "query",
+                Submit("submit", _("Search"), css_class="btn btn-lg btn-primary"),
+            )
+        )
+
+        self.helper.form_action = "post"
+        self.helper.form_action = reverse("crew_attach_tickets_search", kwargs={"slug": event.slug, "org_id": org.id})
 
 
 class BillingDetailsForm(forms.Form):
