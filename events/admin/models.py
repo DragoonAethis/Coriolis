@@ -350,6 +350,7 @@ class EventOrgAdmin(admin.ModelAdmin):
     search_fields = ("name", "owner__email", "source_application__name")
     autocomplete_fields = ("owner", "source_application", "target_ticket_type")
     actions = ("download_ticket_list_xlsx",)
+    save_as = True
 
     @admin.action(description=_("Download the ticket list as XLSX"))
     def download_ticket_list_xlsx(self, request, queryset):
