@@ -44,6 +44,12 @@
         </a>
     {% endif %}
 
+    {% if org and perms.events.view_eventorg %}
+        <a href="{% url 'admin:events_eventorg_change' org.id %}" class="btn btn-warning">
+            <i class="bi bi-file-earmark-text-fill me-1"></i> {% translate "Event Org" %}
+        </a>
+    {% endif %}
+
     {% if event_page and perms.events.view_eventpage %}
         <a href="{% url 'admin:events_eventpage_change' event_page.id %}" class="btn btn-warning">
             <i class="bi bi-file-earmark-text-fill me-1"></i> {% translate "Event Page" %}
