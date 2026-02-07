@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.db.models import Q, F
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.utils.translation import gettext as _
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 
 from events.forms.crew import CrewNewTicketForm, CrewFindTicketForm, CrewUseTicketForm
 from events.models import Event, Ticket, TicketType, TicketStatus, TicketSource
@@ -66,8 +66,8 @@ class CrewIndexNewView(FormView):
         ticket_type.tickets_remaining = F("tickets_remaining") - 1
         ticket_type.save()
 
-        messages.success(self.request, _("Success - ticket created: ") + t.get_code())
-        return redirect("crew_index", self.event.slug)
+        #messages.success(self.request, _("Success - ticket created: ") + t.get_code())
+        return redirect(reverse("crew_created_ticket", args=(self.event.slug, ), query={"ticket_ids": str(t.id)}))
 
 
 class CrewFindTicketView(FormView):
@@ -203,3 +203,26 @@ class CrewExistingTicketView(FormView):
             )
 
         return redirect("crew_index", self.event.slug)
+
+
+class CrewTicketCreatedView(TemplateView):
+    event: Event
+    tickets: list[Ticket]
+    template_name = "events/crew/created.html"
+
+    def dispatch(self, *args, **kwargs):
+        self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
+        check_event_perms(self.request, self.event, ["events.crew_accreditation"])
+
+        ticket_ids = self.request.GET.get("ticket_ids").split(",")
+        self.tickets = Ticket.objects.filter(user=self.request.user, event=self.event, id__in=ticket_ids)
+        total_price = sum(t.price for t in self.tickets)
+
+        return super().dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs) | {
+            "event": self.event,
+            "tickets": self.tickets,
+            "total_price": sum(t.price for t in self.tickets)
+        }
