@@ -155,7 +155,7 @@ class TicketAdmin(admin.ModelAdmin):
         "nickname",
         "created",
     )
-    list_filter = ("event", EventContextBasedTicketTypeFilter, "status", "source", "created")
+    list_filter = ("event", EventContextBasedTicketTypeFilter, "status", "source", "payment_method", "created")
     search_fields = ("code", "name", "email", "phone", "nickname", "notes", "private_notes", "accreditation_notes")
     autocomplete_fields = ("user", "org", "original_type", "customization_approved_by")
     formfield_overrides = {
