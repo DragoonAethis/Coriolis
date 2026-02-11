@@ -171,7 +171,11 @@ class CrewExistingTicketView(FormView):
         context: dict = super().get_context_data(**kwargs) or {}
 
         other_user_tickets = list(
-            Ticket.objects.filter(user_id=self.ticket.user.id).filter(event_id=self.event.id).exclude(id=self.ticket.id)
+            Ticket.objects
+                .filter(user_id=self.ticket.user.id)
+                .filter(event_id=self.event.id)
+                .not_onsite()
+                .exclude(id=self.ticket.id)
         )
 
         context.update(
