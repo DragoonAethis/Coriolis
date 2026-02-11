@@ -23,7 +23,19 @@
                 </a>
             {% endif %}
 
-            {% if event.force_display_ticket_details_in_crew_panel or not horrible_error %}
+            {# https://docs.djangoproject.com/en/5.2/ref/templates/builtins/#boolean-operators -> (X and Y) or Z #}
+            {% if event.force_display_ticket_details_in_crew_panel and perms.events.view_ticket or not horrible_error %}
+                {% if ticket.accreditation_notes %}
+                    <div class="card mb-2 text-bg-warning">
+                        <div class="card-header">
+                            {% translate "Accreditation Notes" %}:
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0">{{ ticket.accreditation_notes }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+
                 <div class="card mb-2 text-bg-warning">
                     <div class="card-header">
                         {% translate "Confirm identity" %}:
@@ -71,29 +83,22 @@
                     </div>
                 {% endif %}
 
-                {% if ticket.issued_identifier %}
-                    <div class="card mb-2 text-bg-warning">
-                        <div class="card-header">
-                            {% translate "Issued Identifier" %}:
-                        </div>
-                        <div class="card-body">
-                            <h4 class="mb-0">
+                <div class="card mb-2 text-bg-warning">
+                    <div class="card-header">
+                        {% translate "Issued Identifier" %}:
+                    </div>
+                    <div class="card-body">
+                        <h4 class="mb-0">
+                            {% if ticket.issued_identifier %}
                                 {{ ticket.issued_identifier }}
-                            </h4>
-                        </div>
+                            {% elif ticket.type.short_name %}
+                                {% translate "Blank" %} - {{ ticket.type.short_name }}
+                            {% else %}
+                                ???
+                            {% endif %}
+                        </h4>
                     </div>
-                {% endif %}
-
-                {% if ticket.accreditation_notes %}
-                    <div class="card mb-2 text-bg-warning">
-                        <div class="card-header">
-                            {% translate "Notes" %}:
-                        </div>
-                        <div class="card-body">
-                            <pre class="mb-0">{{ ticket.accreditation_notes }}</pre>
-                        </div>
-                    </div>
-                {% endif %}
+                </div>
 
                 {% if not horrible_error %}
                     <hr>
