@@ -35,33 +35,30 @@ def validate_multiple_emails(value: str):
         validate_email(mail.strip())
 
 
-def generate_ticket_code(event: "events.models.Event") -> int:
+def generate_ticket_codes(event: "events.model.Event", how_many: int) -> list[int]:
     from events.models import Ticket
 
     # Now for the nasty part: Get ALL the ticket numbers we already
     # have in the database and generate a new one that does not
     # conflict with any existing ones.
-    maximum_tickets = 10**event.ticket_code_length
-    numbers = set(Ticket.objects.filter(event_id=event.id).values_list("code", flat=True))
+    maximum_tickets = 10 ** event.ticket_code_length
+    existing_codes = set(Ticket.objects.filter(event_id=event.id).values_list("code", flat=True))
 
-    if len(numbers) >= maximum_tickets:
+    if len(existing_codes) >= maximum_tickets:
         # Yeah, we're not even gonna try.
         raise ValueError(_("MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."))
 
-    # Try to generate a new code - scale the maximum number of attempts
-    # with the current ticket code count to avoid the slow path:
-    for _unused in range(100):
-        generated_code = random.randint(0, maximum_tickets - 1)  # noqa: S311
-        if generated_code not in numbers:
-            return generated_code  # We've got a unique code, good!
-
     # Okay, do it the hard way. This is VERY slow with long codes.
-    possible_numbers = set(range(maximum_tickets - 1)) - numbers
-    if len(possible_numbers) <= 0:
+    possible_numbers = set(range(maximum_tickets - 1)) - existing_codes
+    if len(possible_numbers) < how_many:
         raise ValueError(_("MAXIMUM TICKET CODES REACHED! Contact event organizers with this message."))
 
     # This 100% gets us any valid remaining ticket code.
-    return random.choice(list(possible_numbers))  # noqa: S311
+    return random.sample(sorted(possible_numbers), how_many)  # noqa: S311
+
+
+def generate_ticket_code(event: "events.models.Event") -> int:
+    return generate_ticket_codes(event, 1)[0]
 
 
 def get_ticket_purchase_rate_limit_keys(request: HttpRequest, ticket_type: "events.models.TicketType") -> list[str]:

@@ -34,6 +34,7 @@ class CrewFindTicketForm(forms.Form):
 
 
 class CrewNewTicketForm(forms.Form):
+    how_many = forms.IntegerField(label=_("How many?"), initial=1, min_value=1, max_value=100)
     ticket_type = forms.ChoiceField(label=_("Ticket type"), widget=forms.RadioSelect)
     age_gate = forms.ChoiceField(label=_("Is attendee of age?"), widget=forms.RadioSelect)
     payment_method = forms.ChoiceField(label=_("Payment method"), widget=forms.RadioSelect)
@@ -41,7 +42,7 @@ class CrewNewTicketForm(forms.Form):
     def __init__(self, *args, event: Event, types: list[TicketType], **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["ticket_type"].choices = [
-            (str(t.id), f"{t.name} ({t.price}, {t.tickets_remaining}/{t.max_tickets})") for t in types
+            (str(t.id), f"{t.name} - {t.price}") for t in types
         ]
 
         today = datetime.today()

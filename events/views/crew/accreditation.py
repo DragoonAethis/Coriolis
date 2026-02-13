@@ -8,7 +8,7 @@ from events.forms.crew import CrewNewTicketForm, CrewFindTicketForm, CrewUseTick
 from events.models import Event, Ticket, TicketType, TicketStatus, TicketSource
 from events.models.notifications import NotificationChannelSource
 from events.tasks.notifications import notify_channel
-from events.utils import generate_ticket_code, check_event_perms
+from events.utils import generate_ticket_code, generate_ticket_codes, check_event_perms
 
 
 class CrewIndexNewView(FormView):
@@ -45,29 +45,39 @@ class CrewIndexNewView(FormView):
         type_id = form.cleaned_data["ticket_type"]
         ticket_type = TicketType.objects.get(id=int(type_id))
 
+        how_many = int(form.cleaned_data["how_many"])
+        if not 1 <= form.cleaned_data["how_many"] <= 100:
+            messages.error(self.request, _("Invalid ticket quantity."))
+            return redirect("crew_index", self.event.slug)
+
         if ticket_type.tickets_remaining <= 0:
             messages.error(self.request, _("We ran out of these tickets."))
             return redirect("crew_index", self.event.slug)
 
-        t = Ticket(
-            user=self.request.user,
-            event=self.event,
-            type=ticket_type,
-            name=_("Generated Ticket"),
-            status=TicketStatus.USED,
-            source=TicketSource.ONSITE,
-            payment_method=form.cleaned_data["payment_method"],
-            age_gate=form.cleaned_data["age_gate"],
-            code=generate_ticket_code(self.event),
-        )
+        codes = generate_ticket_codes(self.event, how_many)
+        tickets = []
 
-        t.save()
+        for i in range(how_many):
+            tickets.append(Ticket(
+                user=self.request.user,
+                event=self.event,
+                type=ticket_type,
+                name=_("Generated Ticket"),
+                status=TicketStatus.USED,
+                source=TicketSource.ONSITE,
+                payment_method=form.cleaned_data["payment_method"],
+                age_gate=form.cleaned_data["age_gate"],
+                code=codes[i],
+            ))
 
-        ticket_type.tickets_remaining = F("tickets_remaining") - 1
+        created_tickets = Ticket.objects.bulk_create(tickets)
+        ticket_ids = ",".join(str(t.id) for t in created_tickets)
+
+        ticket_type.tickets_remaining = F("tickets_remaining") - how_many
         ticket_type.save()
 
         #messages.success(self.request, _("Success - ticket created: ") + t.get_code())
-        return redirect(reverse("crew_created_ticket", args=(self.event.slug, ), query={"ticket_ids": str(t.id)}))
+        return redirect(reverse("crew_created_ticket", args=(self.event.slug, ), query={"ticket_ids": ticket_ids}))
 
 
 class CrewFindTicketView(FormView):

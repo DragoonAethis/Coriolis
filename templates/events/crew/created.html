@@ -6,12 +6,18 @@
 {% block content %}
     <div class="row">
         <div class="col-12 col-lg-8 offset-lg-2">
-            <h1>Bilety</h1>
+            <h1>{% translate "Tickets" %} - <span class="text-muted">{% translate "Total" %}:</span> {{ total_price }}</h1>
             {% for ticket in tickets %}
-                <h2>{{ ticket.get_code }} - {{ ticket.type.short_name }}</h2>
-                <i class="bi bi-receipt"></i> PLU <span class="badge text-bg-primary">1</span> - Cena <span class="badge text-bg-primary">{{ ticket.get_price }}</span> - Ilość <span class="badge text-bg-primary">1</span>
+                <div class="card mb-1">
+                  <div class="card-body">
+                    <h2>{{ ticket.get_code }} - {{ ticket.type.short_name }}</h2>
+                    <i class="bi bi-receipt"></i>
+                      PLU <span class="badge text-bg-primary">1</span> -
+                      {% translate "Price" %} <span class="badge text-bg-primary">{{ ticket.get_price }}</span> -
+                      {% translate "Quantity" %} <span class="badge text-bg-primary">1</span>
+                  </div>
+                </div>
             {% endfor %}
-            <h2><span class="text-muted">Razem:</span> {{ total_price }}</h2>
 
             <a href="{% url 'crew_index' slug=event.slug %}" class="btn btn-lg btn-primary w-100">Powrót do panelu</a>
         </div>
