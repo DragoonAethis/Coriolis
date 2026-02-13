@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n crispy_forms_tags %}
 
-{% block head_title %}{% translate "Crew Panel" %}{% endblock %}
+{% block head_title %}{{ ticket.get_code }} {{ ticket.status }} {{ ticket.name }} | {% translate "Crew Panel" %}{% endblock %}
 
 {% block content %}
     <div class="row">
