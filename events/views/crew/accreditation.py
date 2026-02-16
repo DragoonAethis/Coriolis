@@ -230,7 +230,6 @@ class CrewTicketCreatedView(TemplateView):
 
         ticket_ids = self.request.GET.get("ticket_ids").split(",")
         self.tickets = Ticket.objects.filter(user=self.request.user, event=self.event, id__in=ticket_ids)
-        total_price = sum(t.price for t in self.tickets)
 
         return super().dispatch(*args, **kwargs)
 
@@ -238,5 +237,5 @@ class CrewTicketCreatedView(TemplateView):
         return super().get_context_data(**kwargs) | {
             "event": self.event,
             "tickets": self.tickets,
-            "total_price": sum(t.price for t in self.tickets)
+            "total_price": sum(t.get_price() for t in self.tickets)
         }
