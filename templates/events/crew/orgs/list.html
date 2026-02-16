@@ -54,7 +54,15 @@
                             </a>
                         </td>
 
-                        <td>Ukryte na czas wydarzenia</td>
+                        <td class="table-{% get_counter_bg_class object.billing_details_set.count 1 %}">
+                            <a class="link-{% get_counter_bg_class object.billing_details_set.count 1 %}"
+                               href="{% url 'event_org_invoices_overview' event.slug object.id %}">
+                                {{ object.billing_details_set.count }}
+                                {% if object.billing_details_set.count > 0 %}
+                                    <span>({{ object.billing_details_set.first.representative }})</span>
+                                {% endif %}
+                            </a>
+                        </td>
                     </tr>
                 {% empty %}
                     <li class="list-group-item">{% translate "There are no billing details." %}</li>
