@@ -160,7 +160,7 @@ def generate_bulk_refunds(
         event: "events.models.Event",
         ticket_types: "tuple[events.models.TicketType | int]",
         statuses: tuple[str] = ("OKNP", "USED"),
-        amount: Decimal | None = None,
+        target_refund_amount: Decimal | None = None,
         title: str | None = None,
 ):
     from events.models import Ticket, RefundRequest
@@ -194,15 +194,16 @@ def generate_bulk_refunds(
             faulty_tickets.append(ticket)
             continue
 
-        if amount is None:
-            amount = ticket.contributed_value.amount
+        refund_amount = target_refund_amount
+        if refund_amount is None:
+            refund_amount = ticket.contributed_value.amount
 
-        if amount > ticket.contributed_value.amount:
+        if refund_amount > ticket.contributed_value.amount:
             logging.error(f"[{ticket.id}] Ticket has lower total contributed value than the requested refund!")
             faulty_tickets.append(ticket)
             continue
 
-        if amount > best_payment.captured_amount:
+        if refund_amount > best_payment.captured_amount:
             logging.error(f"[{ticket.id}] Determined best payment {best_payment.id} has lower captured amount than the requested refund!")
             faulty_tickets.append(ticket)
             continue
@@ -210,7 +211,7 @@ def generate_bulk_refunds(
         rr = RefundRequest(
             approved=True,
             payment=best_payment,
-            amount=amount,
+            amount=refund_amount,
             title=title,
         )
 
