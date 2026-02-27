@@ -195,7 +195,7 @@ def generate_bulk_refunds(
             continue
 
         if amount is None:
-            amount = ticket.contributed_value
+            amount = ticket.contributed_value.amount
 
         if amount > ticket.contributed_value.amount:
             logging.error(f"[{ticket.id}] Ticket has lower total contributed value than the requested refund!")
