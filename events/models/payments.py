@@ -85,7 +85,7 @@ class RefundRequest(models.Model):
         self.payment.refund(amount=self.amount)
 
         if self.payment.ticket:
-            self.payment.ticket.contributed_value -= self.amount
+            self.payment.ticket.contributed_value.amount -= self.amount
             self.payment.ticket.save(update_fields=["contributed_value"])
 
         self.executed = datetime.now()
