@@ -7,7 +7,7 @@ from events.models import RefundRequest
 
 @dramatiq.actor
 def execute_single_refund(refund_id: str):
-    refund = RefundRequest.objects.get(refund_id)
+    refund = RefundRequest.objects.get(id=refund_id)
     refund.execute()
 
 
