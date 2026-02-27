@@ -115,7 +115,7 @@ class Przelewy24API:
             response.status_code,
             response.content.decode("utf-8"),
         )
-        if response.status_code != 200:
+        if response.status_code not in (200, 201):
             raise RuntimeError(f"Przelewy24 returns {response.status_code} instead of 200: {response.content}")
         return response.json()
 

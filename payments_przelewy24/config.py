@@ -12,6 +12,7 @@ P24_TEST_CONNECTION: str = "api/v1/testAccess"
 P24_TRANSACTION_REQUEST: str = "trnRequest"
 P24_TRANSACTION_REGISTER: str = "api/v1/transaction/register"
 P24_TRANSACTION_VERIFY: str = "api/v1/transaction/verify"
+P24_TRANSACTION_REFUND: str = "api/v1/transaction/refund"
 P24_TRANSACTION_GET_BY_SESSION_ID: str = "/api/v1/transaction/by/sessionId/"
 P24_REFUND_GET_BY_ORDER_ID: str = "/api/v1/refund/by/orderId/"
 
@@ -24,7 +25,9 @@ class Endpoints:
     transactionRequest: str
     transactionRegister: str
     transactionVerify: str
+    transactionRefund: str
     transactionGetBySessionId: str
+    refundGetByOrderId: str
 
 
 @dataclass(init=False)
@@ -51,7 +54,9 @@ class Przelewy24Config:
             transactionRequest=f"{base_url}{P24_TRANSACTION_REQUEST}",
             transactionRegister=f"{base_url}{P24_TRANSACTION_REGISTER}",
             transactionVerify=f"{base_url}{P24_TRANSACTION_VERIFY}",
+            transactionRefund=f"{base_url}{P24_TRANSACTION_REFUND}",
             transactionGetBySessionId=f"{base_url}{P24_TRANSACTION_GET_BY_SESSION_ID}",
+            refundGetByOrderId=f"{base_url}{P24_REFUND_GET_BY_ORDER_ID}",
         )
 
     def generate_sign(self, **kwargs) -> str:

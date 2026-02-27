@@ -26,6 +26,9 @@ class Payment(BasePayment):
     event = models.ForeignKey(Event, on_delete=models.RESTRICT, verbose_name=_("event"))
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, verbose_name=_("ticket"))
 
+    refund_title = models.CharField(max_length=64, verbose_name=_("refund title"), blank=True)
+    refund_data = models.JSONField(verbose_name=_("refund data"), blank=True, default=dict)
+
     def __str__(self):
         if self.transaction_id:
             return f"{self.variant} ({self.id}, {self.transaction_id})"

@@ -1,5 +1,6 @@
 import json
 import logging
+from uuid import uuid4
 from decimal import Decimal
 
 import requests
@@ -92,3 +93,28 @@ class Przelewy24Provider(BasicProvider):
 
             return HttpResponseBadRequest("Failed")
         return HttpResponse("OK")
+
+    def refund(self, payment, amount=None):
+        if amount is None:
+            amount = payment.captured_amount
+
+        integer_amount = int(amount * 100)
+        payment_id = str(payment.id)
+
+        p24_data = self._api.get_by_session_id(session_id=payment_id)
+        order_id = p24_data['data']['orderId']
+
+        payload = {
+            "requestId": str(uuid4()),
+            "refundsUuid": str(uuid4()),
+            "refunds": [{
+                "orderId": order_id,
+                "sessionId": payment_id,
+                "amount": integer_amount,
+                "description": (payment.refund_title or "Zwrot środków").strip(),
+            }],
+        }
+
+        response = self._api._do("POST", self._config.endpoints.transactionRefund, payload)
+        payment.refund_data = response
+        return amount
