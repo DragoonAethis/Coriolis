@@ -23,6 +23,7 @@ from events.models import (
     TicketType,
     Ticket,
     Payment,
+    RefundRequest,
     Application,
     ApplicationType,
     EventOrg,
@@ -194,6 +195,7 @@ class PaymentAdmin(admin.ModelAdmin):
     list_select_related = ("user", "event", "ticket", "ticket__type")
     list_display = ("id", "transaction_id", "total", "status", "event", "ticket_link")
     list_filter = ("event", "status")
+    search_fields = ("description", "transaction_id")
     autocomplete_fields = ("user", "ticket")
 
     @admin.display(description=_("ticket"))
@@ -204,6 +206,14 @@ class PaymentAdmin(admin.ModelAdmin):
             obj.ticket.get_code(),
             obj.ticket.name,
         )
+
+
+@admin.register(RefundRequest)
+class RefundRequestAdmin(admin.ModelAdmin):
+    list_select_related = ("payment", "payment__ticket", "payment__ticket__type", "payment__ticket__event")
+    list_display = ("id", "created", "approved", "executed", "payment", "amount", "title")
+    list_filter = ("approved", )
+    autocomplete_fields = ("payment", )
 
 
 @admin.register(AgePublicKey)

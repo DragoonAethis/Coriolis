@@ -1,8 +1,9 @@
 import uuid
+from datetime import datetime
 from collections.abc import Iterable
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from payments import PurchasedItem
@@ -54,3 +55,34 @@ class Payment(BasePayment):
             price=self.ticket.get_price().amount,
             currency=self.ticket.get_price().currency,
         )
+
+
+class RefundRequest(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created = models.DateTimeField(auto_now_add=True, verbose_name=_("created"))
+    updated = models.DateTimeField(auto_now=True, verbose_name=_("updated"))
+
+    approved = models.BooleanField(verbose_name=_("approved"), default=False)
+    scheduled = models.DateTimeField(verbose_name=_("scheduled"), blank=True, null=True)
+    executed = models.DateTimeField(verbose_name=_("executed"), blank=True, null=True)
+
+    payment = models.ForeignKey(Payment, on_delete=models.CASCADE, verbose_name=_("payment"))
+    amount = models.DecimalField(max_digits=9, decimal_places=2, default="0.00")
+    title = models.CharField(max_length=64, verbose_name=_("refund title"), blank=True)
+
+    @transaction.atomic
+    def execute(self):
+        if not self.approved:
+            raise RuntimeError("Refund request was not approved.")
+
+        if self.executed:
+            raise RuntimeError("Refund request was already executed.")
+
+        if self.amount > self.payment.captured_amount:
+            raise RuntimeError("Refund request cannot refund more money than was initially paid.")
+
+        self.payment.refund_title = self.title
+        self.payment.refund(amount=self.amount)
+
+        self.executed = datetime.now()
+        self.save()
