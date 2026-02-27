@@ -2,6 +2,7 @@ import hashlib
 import logging
 import os
 import random
+from decimal import Decimal
 
 from PIL import Image
 from django.conf import settings
@@ -153,3 +154,71 @@ def save_ticket_image(request: HttpRequest, instance: "events.models.Ticket", im
 
     instance.image = new_image_path
     instance.save()
+
+
+def generate_bulk_refunds(
+        event: "events.models.Event",
+        ticket_types: "tuple[events.models.TicketType | int]",
+        statuses: tuple[str] = ("OKNP", "USED"),
+        amount: Decimal | None = None,
+        title: str | None = None,
+):
+    from events.models import Ticket, RefundRequest
+
+    tickets = Ticket.objects.filter(
+        event=event,
+        type_id__in=set(i if isinstance(i, int) else i.id for i in ticket_types),
+        status__in=statuses,
+        contributed_value__gt=0
+    ).prefetch_related("payment_set")
+
+    print(f"Tickets to refund: {len(tickets)}")
+    created_refunds = []
+    faulty_tickets = []
+
+    for ticket in tickets:
+        # Determine the best payment for a ticket:
+        best_payment = None
+        for payment in ticket.payment_set.all():
+            if payment.status != 'confirmed':
+                continue
+
+            if best_payment is None:
+                best_payment = payment
+
+            if payment.captured_amount > best_payment.captured_amount:
+                best_payment = payment
+
+        if best_payment is None:
+            logging.error(f"[{ticket.id}] Ticket is missing a valid target payment to refund!")
+            faulty_tickets.append(ticket)
+            continue
+
+        if amount is None:
+            amount = ticket.contributed_value
+
+        if amount > ticket.contributed_value.amount:
+            logging.error(f"[{ticket.id}] Ticket has lower total contributed value than the requested refund!")
+            faulty_tickets.append(ticket)
+            continue
+
+        if amount > best_payment.captured_amount:
+            logging.error(f"[{ticket.id}] Determined best payment {best_payment.id} has lower captured amount than the requested refund!")
+            faulty_tickets.append(ticket)
+            continue
+
+        rr = RefundRequest(
+            approved=True,
+            payment=best_payment,
+            amount=amount,
+            title=title,
+        )
+
+        created_refunds.append(rr)
+
+    print(f"About to create {len(created_refunds)} refunds...")
+    RefundRequest.objects.bulk_create(created_refunds)
+
+    print(f"Faulty tickets:")
+    for t in faulty_tickets:
+        print(f"{t.id};{t.get_code()};{t.name};{t.contributed_value}")
