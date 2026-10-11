@@ -2,8 +2,6 @@
 
 A small event management and ticketing utility.
 
-If you run an instance, join the [User Group on Telegram](https://t.me/coriolisusergroup)!
-
 **Warning:** The project is currently being migrated to a containerized deployment and development environment.
 **New deployments are currently not recommended.** The current `main` branch hosts the classic environment on a
 Python 3.12 host. Please upgrade to [Caelondia](https://github.com/DragoonAethis/Coriolis/releases/tag/caelondia)
