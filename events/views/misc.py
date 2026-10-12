@@ -172,6 +172,7 @@ def ticket_details(request, slug, ticket_id):
                 ticket=ticket,
                 initial={
                     "nickname": ticket.nickname,
+                    "organization": ticket.user_organization,
                     "shirt_size": ticket.shirt_size,
                 },
             ),

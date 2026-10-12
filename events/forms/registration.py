@@ -104,6 +104,12 @@ class UpdateTicketForm(forms.Form):
         required=False,
         help_text=_("Optional, your nickname to be printed on your ticket."),
     )
+    organization = forms.CharField(
+        label=_("Organization"),
+        max_length=64,
+        required=False,
+        help_text=_("Optional, organization name to be printed on your ticket."),
+    )
     shirt_size = forms.TypedChoiceField(
         label=_("Shirt Size"),
         required=True,
@@ -132,6 +138,9 @@ class UpdateTicketForm(forms.Form):
 
     def __init__(self, *args, event, ticket, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if not ticket.type.can_specify_organization:
+            del self.fields["organization"]
 
         if not ticket.type.can_specify_shirt_size:
             del self.fields["shirt_size"]

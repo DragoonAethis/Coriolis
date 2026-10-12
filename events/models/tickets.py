@@ -108,6 +108,11 @@ class TicketType(models.Model):
         verbose_name=_("personalization to"),
         help_text=_("Until when the ticket can be personalized?"),
     )
+    can_specify_organization = models.BooleanField(
+        default=False,
+        verbose_name=_("can specify organization"),
+        help_text=_("Determines if a organization name on the identifier can be personalized."),
+    )
     can_specify_shirt_size = models.BooleanField(
         default=False,
         verbose_name=_("can specify shirt size"),
@@ -370,6 +375,12 @@ class Ticket(models.Model):
         blank=True,
         verbose_name=_("nickname"),
         help_text=_("Printed on the customized ticket"),
+    )
+    user_organization = models.CharField(
+        max_length=256,
+        blank=True,
+        verbose_name=_("user organization"),
+        help_text=_("Organization name provided by the attendee."),
     )
     shirt_size = models.CharField(
         max_length=4,

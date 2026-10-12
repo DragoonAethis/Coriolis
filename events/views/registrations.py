@@ -330,6 +330,9 @@ class UpdateTicketView(FormView):
             if form.cleaned_data["image"]:
                 save_ticket_image(self.request, self.ticket, form.cleaned_data["image"])
 
+        if organization := form.cleaned_data.get("organization"):
+            self.ticket.user_organization = organization
+
         if shirt_size := form.cleaned_data.get("shirt_size"):
             self.ticket.shirt_size = shirt_size
 

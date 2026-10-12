@@ -133,6 +133,7 @@ def render_ticket_variants(ticket_id: str, variants: list[str] | None = None, sa
             "prefixed_code": ticket.get_code(),
             "flags": [f.name for f in ticket.get_flags()],
             "nickname": ticket.nickname,
+            "user_organization": ticket.user_organization,
             "age_gate": ticket.age_gate,
             "name": ticket.name,
             "email": ticket.email,
