@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.translation import gettext as _
 from django.views.generic import FormView, ListView
+from django.core.exceptions import PermissionDenied
 
 from events.forms.mod_queue import TicketModQueueDepersonalizeForm
 from events.models import Event, Ticket, TicketStatus
@@ -25,6 +26,9 @@ class TicketModQueueListView(ListView):
     def dispatch(self, *args, **kwargs):
         self.event = get_object_or_404(Event, slug=self.kwargs["slug"])
         check_event_perms(self.request, self.event, ["events.crew_mod_queue"])
+
+        if not self.event.active and not self.request.user.is_superuser:
+            raise PermissionDenied
 
         self.show_all_tickets = self.request.GET.get("all") == "1"
         return super().dispatch(*args, **kwargs)
