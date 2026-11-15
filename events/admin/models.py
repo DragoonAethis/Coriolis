@@ -162,6 +162,7 @@ class TicketAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.ManyToManyField: {"widget": CheckboxSelectMultiple},
     }
+    actions = ["regenerate_id_preview"]
 
     def get_fields(self, request, obj=None):
         fields = list(super().get_fields(request, obj))
@@ -188,6 +189,13 @@ class TicketAdmin(admin.ModelAdmin):
             mark_safe(reverse("admin:events_tickettype_change", args=(obj.type_id,))),  # noqa: S308
             obj.type.name,
         )
+
+    @admin.action(permissions=["view"], description=_("Regenerate ID preview image"))
+    def regenerate_id_preview(self, request, queryset):
+        from events.tasks.ticket_renderer import render_ticket_variants
+
+        for t in queryset:
+            render_ticket_variants.send(str(t.id))
 
 
 @admin.register(Payment)
