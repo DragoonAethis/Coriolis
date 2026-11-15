@@ -18,6 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.views.generic import RedirectView
 
 handler400 = "events.views.errors.error_400"
 handler403 = "events.views.errors.error_403"
@@ -37,5 +38,7 @@ urlpatterns = [
     path("hijack/", include("hijack.urls")),
     path("payments/", include("payments.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
+
+    path(".well-known/change-password", RedirectView.as_view(pattern_name="account_change_password")),
     path("", include("events.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
